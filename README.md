@@ -14,6 +14,12 @@ their own repos, and the scheduled task writes there, not here:
 | `masaladeutsch/SOURCE_REGISTER.md` | `~/masaladeutsch-archive/docs/SOURCE_REGISTER.md` |
 | `masaladeutsch/COMMISSION_QUEUE.md` | `~/masaladeutsch-archive/docs/COMMISSION_QUEUE.md` |
 | `masaladeutsch/LITERATURE_SURVEY.md` | `~/masaladeutsch-archive/docs/LITERATURE_SURVEY.md` |
+| `task/literature-review-daily.SKILL.md` | `~/.claude/scheduled-tasks/literature-review-daily/SKILL.md` |
+
+`task/` holds the scheduled task's own definition. It is mirrored here because
+`~/.claude/` is gitignored in the `$HOME` repo (`.gitignore:49`) — deliberately, and that
+repo is public — so this is the only version history the task instructions have. Track C
+of the task keeps it current; it is never force-added into the `$HOME` repo.
 
 ## The two tracks
 
