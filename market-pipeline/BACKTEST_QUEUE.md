@@ -143,6 +143,27 @@ when it's been run; do not delete history.
     (alongside `signal_tracker.py` and item 10's walk-forward gap). Found incidentally
     while grep-verifying item 12 on 2026-08-25.
 
+15. **Limit-locked / untradable-bar guard beyond KR** — `_flag_stale_halted_days()` at
+    `factorial_screener_test_KR.py:119` exists only in the KR screener
+    (`grep -rln '_flag_stale_halted_days' --include='*.py'` → one file), yet India is
+    the market with statutory daily price bands (±5/10/20%). 2507.07107 measures what
+    this costs on a limit-band market: computing factors over closes nobody could
+    transact at inflates IC by **18%** and cuts realized Sharpe by **0.44**. Concrete
+    test, cheap and data-free: from the existing IN OHLCV panel, flag bars where
+    (a) `Volume == 0`, or (b) `High == Low` (limit-locked, zero intraday range), or
+    (c) `|Close/prev_Close - 1|` sits within ~0.3% of 5/10/20%. Count the flagged share
+    per market, then re-run one settled screener backtest twice — once as-is, once with
+    flagged bars excluded from signal formation — and report the IC and Sharpe delta.
+    Falsifiable prediction: if Du's mechanism transfers, IN shows the largest degradation
+    and US/EU (no daily bands) show ~none, which would also tell us whether the
+    India-only edge in the validated-edge registry is partly this artefact. Secondary,
+    one-line fix regardless of outcome: `backtest_liquidity_forward.py:74` filters
+    `Volume >= 0` where `cost_vs_edge.py:130`, `backtest_piotroski_plus.py:77` and
+    `daily_breakout_combo_us.py:82` all use `Volume > 0` — make it consistent.
+    Motivated by: 2507.07107 (Du). Independent of items 1/3/9/12 (factor redundancy)
+    and of items 6/10/14 (purge+embargo) — this is a data-hygiene item, not a
+    validation-protocol one.
+
 ## Done
 
 (none yet)

@@ -199,3 +199,61 @@ re-deriving each day:
 
 Items 5–14 of that list remain open. A daily run should prefer a genuinely new source
 over restating one of these.
+
+---
+
+## Added 2026-08-26 (Wednesday theme: energy and gas)
+
+The energy beat is the blog's second-heaviest: a manifest grep for
+`gas|energy|ethanol|lpg|petrol|diesel|crude|electric|power|solar|coal|refin|pngrb|cgd|blend|pipeline|fuel`
+matches **60 of 211 posts**, with ethanol alone accounting for roughly fifteen. Every
+candidate today failed the third grading question — the blog has covered it — and the
+day's one real result is a dedup finding, not a new source.
+
+### 🔴 Corpus-survey Tier-1 item 2 ("ethanol feedstock balance against the E20 target") is CLOSED
+Not a new source — a correction to this register's own standing backlog. The item, and
+the matching COMMISSION_QUEUE entry "Does India have the feedstock for E20?", were both
+logged 2026-08-22 against an AERR paper whose latest listed issue is Vol. 37 No. 1 (2024).
+The blog then **answered the question itself the following day**:
+`india-hit-e20-on-maize-and-rice-not`, published **2026-08-23**, 23,234 bytes, labels
+Ethanol & Biofuels · Agriculture & Fertilisers · Energy & Fuels · India.
+- The post names the AERR paper by its title ("does India have enough feedstock to meet
+  its E20 targets by 2025?") and treats it as the question being answered, which is
+  precisely the framing the queue item proposed.
+- It runs on ESY 2025-26 allocation data, not the 2024 AERR vintage: ~1,048 crore litres
+  allocated against 1,776 crore litres offered (a 59% allocation rate); grain 72.5% of
+  allocation vs cane 27.5%; maize alone 45.7%, up from 6.2% in ESY 2022-23; surplus FCI
+  rice 22.3%, i.e. more than direct sugarcane juice.
+- **Consequence:** do not commission that item. Anything further on E20 feedstock must
+  be a genuinely new angle, not the balance question. The only obvious remaining one is
+  the *food-security* side the post states but does not develop — a fifth of the petrol
+  blend coming out of the public foodgrain stock, against FCI's own stocking norms — and
+  that would need the FCI stock series, not an ethanol series. Related published posts
+  to dedup against first: `fci-grain-flow-procurement-storage`,
+  `fci-storage-scenario-capacity-stock-and`, `7186-litre-why-maize-is-indias-priciest`,
+  `sugar-at-5570-kilo-why-cane-acreage`.
+
+### Weak — logged, not actioned (2026-08-26)
+- **ESY 2025-26 ethanol allocation figures** (via press aggregation of DFPD/MoPNG; PIB
+  factsheet "Ethanol Blending in India", `static.pib.gov.in/.../doc202675912001.pdf`,
+  July 2026) — the underlying primary is real and free, but every headline figure is
+  already in a post three days old (see above). WEAK on dedup, not on quality. The PDF
+  itself did not text-extract on fetch (415 KB, compressed streams); the PIB HTML
+  factsheet route `FactsheetDetails.aspx?id=150699` returned **403** to a plain fetcher —
+  consistent with this register's standing note that PIB needs a browser user-agent.
+- **ORF Middle East, "A $6 LNG Window: Mapping India's Short-Term Gas Demand Potential"**
+  (Parul Bakshi, 9 Dec 2025) — fetched and read. Fails grading question 1: no downloadable
+  dataset, table or appendix; the numbers are the author's own contribution to an OIES
+  report, not a released official series. Fails question 3 as well — the gas-competitiveness
+  thesis is already the published `thermal-parity-is-dead-what-85-oil-and`. Its one
+  usable figure is a hedge, not a finding: demand "roughly 5–10 percent above the PNGRB
+  Good-to-Go baseline", explicitly called "incremental rather than transformative".
+  BACKGROUND at best.
+- **OIES, "The Global Outlook for Gas Demand in a $6 World"** — could not be assessed:
+  `oxfordenergy.org` returned **403** to the fetcher, so nothing about it was verified
+  first-hand and nothing is claimed here. Modelled projections with no released dataset
+  would be BACKGROUND even if fetched. Re-probe with a browser user-agent if the gas beat
+  is revisited.
+- **ORF, "A $6 LNG Window: Mapping India's Long-Term Gas Demand Potential"** — companion
+  piece to the above, same author and same data profile. Not separately fetched; assumed
+  nothing about it beyond that. Not registered.

@@ -559,3 +559,106 @@ and it was not previously named there. Queued as item 14.
   Discard on both counts.
 - **2405.07294** (Factor Strength Estimation in Vector and Matrix Time Series) —
   econometric estimation theory, no trading evaluation of any kind. Off-scope.
+
+## Added 2026-08-26 (daily task, Wednesday gap query: learning-to-rank cross-sectional equity returns)
+
+Citation-following from hub 2605.19337 again returned **no new candidates** — Semantic
+Scholar still lists the same 3 citing papers (2607.19453, 2607.04958, 2606.08285), all
+already registered. Third consecutive quiet day on that edge. Whole yield from the
+weekday gap query. 1809.09441 (RSR) already covers the deep-learning-ranker branch of
+this literature, so triage biased toward the *evaluation* and *data-hygiene* branches.
+
+### 2507.07107 — Machine Learning Enhanced Multi-Factor Quantitative Trading: A Cross-Sectional Portfolio Optimization Approach with Bias Correction (Yimin Du, v1 2025-06-02, v2 2026-05-09)
+Chinese A-share rolling-window factor pipeline. The paper's real contribution is not
+the model — it is a named data-contamination mechanism. A-shares have price limits;
+on a limit-locked day the printed close is a price **nobody could transact at**.
+Standard pipelines compute factors over those closes and only filter for tradability
+afterwards. Du calls this *upstream contamination* and quantifies it: it inflates the
+information coefficient by **18%** while cutting realized Sharpe by **0.44**. The fix
+is a "mask-first" design that threads the tradability constraint through every
+operation rather than applying it at the end. Reports annualized Sharpe 2.05 synthetic
+/ 1.63 real (deflated 0.978), 3,000-stock synthetic universe, 2022–2024 real backtest.
+- **EVIDENCE-GRADE: medium.** Headline is Sharpe, not MAPE/RMSE, and it reports a
+  *deflated* Sharpe — a rare and honest touch. Marked down because the real panel is
+  proprietary A-share (unreproducible), the window is a short 2022–2024, and explicit
+  transaction costs are not disclosed on the abs page. Graded mostly on mechanism
+  transfer, which is direct: India runs ±5/10/20% circuit bands, so the exact hazard
+  exists in this repo's largest market.
+- Doing-right (verified): the repo is **already mask-first on liquidity**.
+  `liquidity.py:5` states the design intent outright ("expensive strategy logic only
+  runs on TRADABLE names"), the gate is `liquid_symbols()` at `liquidity.py:548`, and
+  it is applied *before* scoring at `screener_kit.py:92-93` and
+  `run_existing_screeners_fixed.py:66`. Turnover itself excludes untraded days —
+  `liquidity.py:139` (`ok = ret.notna() & (dvol > 0) & dvol.notna()`), with the
+  reasoning spelled out at `:128`. This is precisely the discipline Du argues for,
+  arrived at independently.
+- Doing-right (verified): the KR screener already implements the *stale-print* half.
+  `factorial_screener_test_KR.py:119` `_flag_stale_halted_days()` exists because of a
+  concrete find — `:128` records `Volume==0` stretches on `000300.KS` in a 200-symbol
+  smoke test — and `:134` gives the exact rationale ("nobody could trade a Volume=0
+  print").
+- **Gap (verified, not assumed): that guard is KR-only.**
+  `grep -rln '_flag_stale_halted_days' --include='*.py'` returns exactly one file,
+  `factorial_screener_test_KR.py`. No India, US, EU or JP screener has an equivalent,
+  and India is the one market with statutory daily price bands. Zero-volume handling is
+  also inconsistent rather than absent: `cost_vs_edge.py:130`,
+  `backtest_piotroski_plus.py:77` and `daily_breakout_combo_us.py:82` all filter
+  `Volume > 0`, but `backtest_liquidity_forward.py:74` uses `Volume >= 0` and so admits
+  untradable prints into a forward-return study.
+- **Gap: no limit-locked-bar detection anywhere.** `grep -rniE 'circuit|price_limit'`
+  over `--include='*.py'` returns only a portfolio drawdown kill-switch
+  (`risk_management.py:5`), an unrelated retry helper (`iter_utils.py:48`), and prose in
+  `quick_reference.py`. Nothing inspects a bar's range against a band.
+- Action queued: item 15.
+
+### 2605.00501 — LambdaRankIC: Directly Optimizing Rank IC for Financial Prediction (Yan Lin, Yihong Su, Yi Yang, 2026-05-01)
+Argues the standard mismatch: models are *judged* on Rank IC (Spearman corr of
+prediction with realized return) but *trained* on regression or NDCG-style losses that
+do not align with it. Derives a closed-form lambda gradient for the pairwise rank swaps
+so Rank IC can be optimized directly inside the LambdaRank framework, proves it
+optimizes an upper bound on Rank IC, and ships it as a **custom XGBoost objective** —
+i.e. CPU, no GPU. Out-of-sample it wins on Rank IC, ICIR, monthly return and Sharpe;
+in simulation it beats regression and NDCG baselines specifically under low
+signal-to-noise and heavy-tailed noise.
+- **EVIDENCE-GRADE: medium.** Evaluated on finance metrics including Sharpe, not on
+  MAPE/RMSE, and the low-SNR/heavy-tail simulation is the right stress test for equity
+  returns. Marked down hard because the abs page discloses **neither the universe nor
+  the date range** for the "real market data" experiments, and transaction costs are
+  not mentioned at all.
+- Doing-right (verified): the repo already evaluates by rank IC, and does it *better*
+  than the paper's own summary statistic. `backtest_ccc.py:258` builds a per-month
+  Spearman IC series; the comment at `:255-257` gives the reason for preferring
+  full-cross-section IC over a quintile spread ("a quintile spread throws away the
+  middle 60%"). `pead_liquidity_study.py:222,226` computes and reports rank IC with a
+  t-stat. Crucially, `backtest_ccc.py:288-300` reports mean IC **with a
+  non-overlap-corrected t-stat, independent-sample count and hit rate** — strictly
+  more informative than the paper's ICIR, since ICIR ≈ t/√n and hides both n and the
+  overlap correction. No action needed here; the register should not log this as a gap.
+- **Gap, but NOT actionable at this scale.** The training half has no target: the repo
+  has no learned cross-sectional ranker to re-fit — its scores are rule-based
+  (Piotroski/Darvas/Coffee-Can composites), and the one learned component,
+  `factor_learning.py:88`, is a `LassoCV` regression on factor returns, not a
+  stock-level ranker. Adopting LambdaRankIC would mean *building* an ML ranker first,
+  which is a different project from a rule-based EOD screener. Logged for the record;
+  nothing queued.
+- Action queued: none.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+- **2604.20204** (Li & Zhang, "ACT: Anti-Crosstalk Learning for Cross-Sectional Stock
+  Ranking") — graph deep learning with a temporal-decomposition encoder on CSI300/CSI500;
+  headline is a bare "up to 74.25% improvement" with no cost modelling and no disclosed
+  date range, and it needs GPU training the pipeline does not have. Off-scope on compute
+  and universe both; 1809.09441 already occupies this branch of the register.
+- **2510.14156** (Kwiatkowski & Chudziak, "On Evaluating Loss Functions for Stock
+  Ranking") — legitimate benchmark of pointwise/pairwise/listwise losses on S&P 500, and
+  it is judged on ranking rather than MAPE/RMSE, but every finding is a *training-loss*
+  choice and this repo trains no neural ranker. No transferable mechanism; abs page also
+  discloses no date range and no cost treatment.
+- **2503.09647** (Leveraging LLMs for Top-Down Sector Allocation) — surfaced by the
+  ranking query but is an LLM-agent sector-allocation paper; per-query LLM spend profile
+  this register has already rejected twice (2412.20138, 2603.16365). Discard.
+- **"Building Cross-Sectional Systematic Strategies by Learning to Rank"** (Poh et al.,
+  *Journal of Financial Data Science*, pm-research.com) — paywalled, no free preprint
+  reachable from the search result, so it could not be verified against the
+  no-fabrication rule. Not registered; note it as a possible re-check if an open version
+  appears.

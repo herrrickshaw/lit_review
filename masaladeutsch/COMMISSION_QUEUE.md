@@ -117,3 +117,23 @@ Format:
 
 - [x] What a farm labourer earns, and why it stopped tracking output
       Published 2026-08-22 as "A 17% Rural Pay Rise That Nobody Received".
+
+---
+
+## Notes appended by the daily task
+
+*(This file is append-only, so a superseded item is annotated here rather than edited or
+moved above. Read this section before picking anything from Open.)*
+
+- **2026-08-26 — "Does India have the feedstock for E20?" is superseded. Do not commission.**
+  The blog answered it in `india-hit-e20-on-maize-and-rice-not`, published 2026-08-23 —
+  after that queue item was logged on 2026-08-22. The post cites the same AERR paper by
+  title and answers it on ESY 2025-26 data (grain 72.5% of allocation, cane 27.5%, maize
+  45.7%, FCI rice 22.3%, ~1,048 of 1,776 crore litres allocated), which is a newer vintage
+  than the AERR Vol. 37 No. 1 (2024) source the item was resting on. The residual angle,
+  if one is wanted, is the food-security side the post states but does not develop — a
+  fifth of the petrol blend drawn from the public foodgrain stock, tested against FCI's
+  own stocking norms — and that needs the FCI stock series, not an ethanol series. Dedup
+  first against `fci-grain-flow-procurement-storage` and
+  `fci-storage-scenario-capacity-stock-and`.
+  Logged from the 2026-08-26 register entry.
