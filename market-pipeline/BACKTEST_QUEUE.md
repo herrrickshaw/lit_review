@@ -164,6 +164,58 @@ when it's been run; do not delete history.
     and of items 6/10/14 (purge+embargo) — this is a data-hygiene item, not a
     validation-protocol one.
 
+16. **Is momentum's net-of-cost failure a premium problem or a churn problem?** —
+    Baldi-Lanfranchi (2024) shows TCU momentum (full rebalance to target every period)
+    earns 0.64%/mo gross, pays 63bps/mo in costs, and nets 0.01%/mo — while the *same*
+    signal traded at an optimized partial intensity pays 30bps/mo and nets 22x more,
+    lifting annualized net Sharpe by 0.19. This repo measured momentum 12-1 at -14.11%
+    vs bench (IN, n=3,541) and -15.08% (US, n=17,606) on 2026-08-23 and filed it as "no
+    edge". That test used the full-rebalance form. Concrete, cheap test that does NOT
+    require building a portfolio-construction layer: re-run the existing momentum 12-1
+    backtest with a **hold-through rule** — once a name is in the top decile, keep it
+    until it falls below a wider exit band (e.g. top 30%) instead of re-forming the
+    basket from scratch each period — and report gross return, realized turnover, and
+    net return for the standard form vs each of 2-3 band widths. Falsifiable prediction:
+    if the paper's mechanism transfers, gross return falls modestly while turnover (and
+    hence the cost drag at the repo's 0.2% round-trip, `backtest_screeners.py:176`) falls
+    much faster, so the net gap to benchmark narrows. If net barely moves, momentum's
+    failure here is a genuinely absent premium and the question is settled — which is a
+    useful result either way. Explicitly OUT of scope: implementing TCA factors properly
+    (needs a weight vector and an optimizer over trading intensity; this repo is
+    signal-only with no execution layer). Related: the watchlist mailer's >5-session
+    eviction rule is the repo's existing frequency heuristic and is the natural second
+    place to apply the same measurement.
+    Motivated by: Baldi-Lanfranchi (2024), Transaction-cost-aware Factors.
+
+17. **Full-sample winsorization thresholds in the factorial-screener OLS** —
+    2604.07880 quantifies what full-sample filtering thresholds do to a factor zoo: the
+    6-month bond momentum premium of 0.30%/mo is *entirely* an artifact of ex-post
+    winsorization, and across 432 specifications only 26 (6.0%) survive BH-FDR
+    correction. This repo already gets it right in the two places that matter most —
+    entry is the next bar, not the signal bar (`backtest_screeners.py:293`), which
+    structurally prevents the correlated errors-in-variables half; and `rloo_rescore.py:291`
+    `winsorize_xs()` clips within each day's own cross-section (`axis=1` at `:309-310`).
+    But three sites still compute clip bounds from the whole pooled sample:
+    `factorial_screener_analysis.py:97-107` (live at `:111`, feeding the OLS),
+    `train_ppo_factor_weights.py:132-133`, and `factor_zscore_panel.py:45-46` (which
+    explicitly adopts the same convention). Concrete test: re-fit
+    `fit_factorial()` twice — once as-is, once with the clip bounds computed
+    **within each formation year's own cross-section** (the `rloo_rescore.py:291` pattern,
+    which already exists and is tested) — and report the coefficient, HC3 standard error
+    and BH-adjusted p-value for every screener x horizon under both. Falsifiable
+    prediction: if the effect is real, coefficients move within noise; if any screener's
+    significance depends on pooled-sample bounds, that screener's effect is partly an
+    artifact and should be re-graded. NOTE — do not overstate this: the repo's
+    winsorization is **symmetric** (1/99 both tails), while the paper's fatal case is
+    **asymmetric** filtering. The hazard being tested is the full-sample threshold alone,
+    which is the milder member of the same family. Cheap: no new data, no fetch, one
+    changed function and a re-fit. Secondary: `train_ppo_factor_weights.py:132` sits
+    upstream of an RL training run, so a pooled bound there leaks across the
+    chronological split made just below it at `:141`.
+    Motivated by: 2604.07880 (Dickerson, Robotti & Rossetti). Independent of items
+    6/10/14 (purge+embargo) and 15 (untradable bars) — this is a threshold-provenance
+    item, adjacent to 15's data-hygiene family.
+
 ## Done
 
 (none yet)

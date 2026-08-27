@@ -32,6 +32,51 @@ source for a claim, the claim does not go in an article.
 
 ## Commissionable
 
+### PPV&FR Authority registration data (Protection of Plant Varieties and Farmers' Rights Authority, MoA&FW)
+India's plant-variety-rights registry. The homepage carries a live certificate counter
+with a crop-category breakdown, **verified by direct fetch on 2026-08-27**: **10,802
+certificates issued as of 31.07.2026** — Cereals 6,246, Vegetables 1,367, Fibre Crops 989,
+Legumes 866, Oilseeds 577, Fruits 425, Spices 151, Sugar Crops 93, Trees/Forest 43,
+Flowers 36, Cash crops 5, Medicinal & Aromatic plants 4.
+- **Data**: Annual Report 2024-25 — free PDF, **no login, no payment**, 22.77 MB, at
+  `plantauthority.gov.in/sites/default/files/annual-report-2024-25-english.pdf` (link
+  verified on the report's landing page). Also free and public: the *Plant Variety
+  Journal* (monthly, latest Vol. 20 No. 07, July 2026), the *Compendium of Varieties
+  Registered under PPV&FR Act, 2001*, Gazette Notifications, and Public Notices
+  2007-2025. Login is required only for PARV, the online **application** system — not
+  for any of the published data. Gazette Notification G.S.R. 483(E) of 4 July 2025
+  (PPVFR Amendment Regulations 2025) is the most recent rule change.
+- **Finding**: the distribution is extraordinarily lopsided. Cereals alone hold **6,246
+  of 10,802 certificates — 57.8% of every plant-variety right India has ever granted**.
+  Against that, spices have 151 and medicinal & aromatic plants have 4. The blog has
+  already published that spices are a **$4.45 billion export book across eight crops in
+  eight states** (`indias-445-billion-spice-export-book-is`); that entire export book
+  rests on 151 registered varieties. The juxtaposition is the piece, and both halves are
+  primary-sourced — one from this registry, one from the blog's own prior work.
+- **Blog fit**: opens the **confirmed zero-coverage seeds / plant-variety-rights /
+  agricultural-IP area**. Dedup was run against `meta/manifest.json` (217 posts,
+  snapshot 2026-08-27T04:20): a regex for seed/variety/germplasm/breed/PPVFR/patent/
+  ICAR/hybrid/cotton/plant returned **2 hits, both false positives** —
+  `the-cbg-incentive-stack-every-leg-of` and `india-will-finance-waste-to-energy`, where
+  "plant" means an industrial facility. Coverage of this subject is genuinely zero.
+  It extends the existing crop-economics beat, whose nearest published neighbours are
+  `379-kilos-hectare-in-punjab-44-in` (input use mapped by crop and state) and
+  `indias-445-billion-spice-export-book-is`.
+- **Caveat**: four things need checking before publication. (1) The homepage counter is
+  a **live figure with no vintage archive** — it must be screenshotted or cross-read
+  against the Annual Report PDF, and dated in the piece, or it becomes unverifiable
+  later. (2) A widely-repeated split — 19,888 applications filed, 9,210 certificates, of
+  which **4,847 (52.6%) registered by farmers** rather than companies — appeared only in
+  a search-result snippet and **was NOT verified against any page fetched today**. It is
+  the more striking claim of the two and must be confirmed from the Annual Report PDF
+  before it is used at all. (3) "Certificates issued" is not "varieties commercially
+  sold" — registration is a legal act, not a market outcome, and the piece must not
+  elide them. (4) The crop-category counts sum to 10,802 exactly, so the breakdown is
+  complete, but the categories are the Authority's own and their boundaries are
+  undefined on the homepage.
+- **Grade: COMMISSIONABLE.**
+
+
 ### Defence Positive Indigenisation Lists (DDP, Ministry of Defence)
 Four PILs notified for DPSUs covering Line Replacement Units, sub-systems, spares and
 components: 1st 2,851 items, 2nd 107, 3rd 780, 4th 928 — **4,666 items** total (arithmetic
@@ -257,3 +302,18 @@ Ethanol & Biofuels · Agriculture & Fertilisers · Energy & Fuels · India.
 - **ORF, "A $6 LNG Window: Mapping India's Long-Term Gas Demand Potential"** — companion
   piece to the above, same author and same data profile. Not separately fetched; assumed
   nothing about it beyond that. Not registered.
+
+### Weak / background — logged, not actioned (2026-08-27)
+- **Lakshmi Prasanna, Subba Rao, Hari Prasad, Waris & Arun Kumar (2023), "Essentially
+  derived variety concept in plant variety rights protection system: underlying economic
+  theories, and issues in implementation", *Agricultural Economics Research Review*
+  36(1): 77-86, `epubs.icar.org.in/index.php/AERR/article/view/143786`** — fetched and
+  read. Open access, free PDF, and squarely in the Thursday beat, but it fails grading
+  question 1: the abstract describes a review that "trace[s] theories underlying, and
+  rationale behind [the] EDV concept by reviewing economic models of innovation" and
+  "documented some challenges in implementation". No released dataset, no appendix, and
+  the article page carries no quantified finding of any kind. **BACKGROUND** — the right
+  citation to sit *inside* a piece built on the PPV&FR registry data above, explaining
+  what an essentially derived variety is and why the boundary is contested, but not a
+  piece on its own.
+

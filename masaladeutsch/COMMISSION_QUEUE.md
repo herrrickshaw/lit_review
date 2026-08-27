@@ -21,6 +21,38 @@ Format:
 
 ## Open
 
+- [ ] 57.8% of India's plant-variety rights are cereals. Spices get 151.
+      Source: PPV&FR Authority registry — homepage certificate counter with crop-category
+      breakdown, 10,802 certificates as of 31.07.2026 (verified by direct fetch
+      2026-08-27: Cereals 6,246 · Vegetables 1,367 · Fibre 989 · Legumes 866 · Oilseeds
+      577 · Fruits 425 · Spices 151 · Sugar 93 · Trees 43 · Flowers 36 · Cash crops 5 ·
+      Medicinal & Aromatic 4). Annual Report 2024-25 free PDF, no login, 22.77 MB,
+      plantauthority.gov.in/sites/default/files/annual-report-2024-25-english.pdf.
+      Supporting: Plant Variety Journal (monthly, free), Compendium of Registered
+      Varieties. Concept citation: AERR 36(1):77-86 (2023) on essentially derived
+      varieties, open access.
+      Argument: India's plant-breeders'-rights system has granted 10,802 certificates and
+      more than half of them — 6,246 — are cereals, while the eight-crop, $4.45 billion
+      spice export book the blog has already mapped rests on 151 registered varieties and
+      the entire medicinal-and-aromatic-plants category has four. Legal protection has
+      followed the crops the public breeding system already worked on, not the crops
+      India actually earns from.
+      Checks needed: (1) the homepage counter is live with no vintage archive — date it
+      in the piece and cross-read it against the Annual Report PDF before publishing;
+      (2) the widely-repeated "4,847 of 9,210 certificates (52.6%) went to farmers, not
+      companies" split came ONLY from a search snippet and is NOT yet verified — confirm
+      from the Annual Report PDF or drop it entirely, do not repeat it on snippet
+      authority; (3) do not equate "certificates issued" with "varieties commercially
+      sold"; (4) the crop categories are the Authority's own and undefined on the
+      homepage — state that. Cross-link to indias-445-billion-spice-export-book-is and
+      379-kilos-hectare-in-punjab-44-in in the blog's own house style (cite the earlier
+      post as reporting, never as confirmation).
+      Logged: 2026-08-27 from the PPV&FR Authority registration-data register entry
+      Opens: the confirmed zero-coverage seeds / plant-variety-rights / agricultural-IP
+      area (manifest dedup: 217 posts, 2 regex hits, both false positives on "plant" =
+      industrial facility).
+
+
 - [ ] 4,666 items on the defence indigenisation lists, ₹2,570 crore of substitution
       Source: DDP Positive Indigenisation Lists 1–4 (2,851 + 107 + 780 + 928 items);
       DPSU-wise indigenised lists published as PDFs on srijandefence.gov.in (verified

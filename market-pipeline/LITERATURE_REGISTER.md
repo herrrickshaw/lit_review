@@ -662,3 +662,128 @@ signal-to-noise and heavy-tailed noise.
   reachable from the search result, so it could not be verified against the
   no-fabrication rule. Not registered; note it as a possible re-check if an open version
   appears.
+
+## Added 2026-08-27 (daily task, Thursday gap query: transaction-cost-aware factor evaluation)
+
+Citation-following from hub 2605.19337 returned **no new candidates** for the fourth
+consecutive day — Semantic Scholar still lists exactly 3 citing papers (2607.19453,
+2607.04958, 2606.08285), all already registered. Entire day's yield from the weekday
+gap query. Note for future runs: this edge has been dry since 2026-08-24; consider
+demoting it to a weekly check rather than a daily one.
+
+### Baldi-Lanfranchi (2024) — Transaction-cost-aware Factors (EPFL / Swiss Finance Institute, 17 May 2024)
+Not on arXiv; fetched as PDF from afajof.org (AFA submission copy). Standard factors
+are transaction-cost-*unaware* (TCU): they rebalance fully to the target weights each
+period regardless of cost. TCA factors instead rebalance only *partially* toward the
+target at an optimized trading intensity τ — a weighted average of last period's
+allocation and the target factor. Trading intensity is factor-specific, driven by
+characteristic persistence, characteristic/cost correlation, and risk-premium decay rate.
+- **EVIDENCE-GRADE: medium-strong.** Headline metric is the net squared Sharpe ratio
+  (Barillas–Shanken Sh² criterion), costs are the entire subject rather than an
+  afterthought, and results are reported both in-sample and out-of-sample with
+  factor-level spanning regressions. Marked down from strong because the pages fetched
+  disclose neither the sample period nor the asset universe — that is a limit of what
+  was read, not a claim the paper omits them.
+- Numbers, verbatim from the fetched pages: net Sh² improves 28%–150% (abstract says
+  "up to a factor of 2.5") switching TCU→TCA within a model. All 11 TCA factors produce
+  positive net alphas on their TCU counterparts, 6 significant; TCU factors leave
+  negative or insignificant intercepts on the TCA versions. Momentum is the worked case:
+  gross premium 0.64%/mo (highest of the set), TCU trading costs 63bps/mo, net premium
+  0.01%/mo — i.e. costs eat essentially all of it. TCA momentum incurs 30bps/mo,
+  raising net return **22-fold** and annualized net Sharpe by 0.19. The Barillas–Shanken
+  six-factor model has the highest gross Sh² (2.25) but its Sh² **drops 80% after costs**,
+  ranking second-worst; TCA construction nearly doubles its net Sh².
+- **Directly relevant to this repo's own result.** The 2026-08-23 round measured
+  momentum 12-1 at **-14.11% vs bench (IN, n=3,541)** and **-15.08% (US, n=17,606)** and
+  logged it as "no live edge." This paper is the specific claim that a chunk of
+  momentum's net-of-cost failure is a *construction* artifact rather than an absent
+  premium — TCU momentum is exactly the full-rebalance form the repo tested.
+- Doing-right (verified): the repo does deduct costs rather than report gross —
+  `walk_forward_backtest.py:156` (`TRANSACTION_COST = 0.002`, "0.2% round-trip
+  (STT + brokerage)") and `backtest_screeners.py:176` (`TRANSACTION_COST_PCT = 0.002`),
+  with net returns computed at `backtest_screeners.py:266`. Per-market round-trip bps
+  are modelled separately at `confusion_matrix_eval.py:33`. So the repo is on the *net*
+  side of the paper's four-way split, not the gross side it criticises.
+- **Gap (verified): no trading-intensity or partial-rebalancing concept exists.**
+  `grep -rniE 'trading_intensity|partial.rebal|rebalance_intensity|turnover_penalt|turnover.aware|cost.aware' --include='*.py'`
+  over `code/python_files/` returns **zero non-vendored hits** (the only matches are
+  inside `.venv/.../torch/fx/experimental/`). The repo's sole cost-mitigation mechanism
+  is a *rebalancing-frequency* heuristic — the watchlist mailer's >5-session eviction /
+  >15-session purge — which is precisely the alternative footnote 1 of this paper argues
+  is dominated by intensity optimization, on the grounds that frequency reduction throws
+  away higher-frequency characteristic changes while intensity optimization keeps the
+  full information set and only damps the speed of adjustment.
+- **Scope honesty: mostly NOT actionable as written.** TCA factors require a portfolio
+  weight vector and an optimizer over τ. This repo is a signal-only, long-only EOD
+  screener with no portfolio-construction or execution layer, so "implement TCA factors"
+  is out of scope. What *is* in scope is the reduced form — measuring how much of the
+  momentum screen's gross-to-net gap is churn rather than absent premium.
+- Action queued: item 16 (scoped to the reduced form, not the full method).
+
+### 2604.07880 — The Corporate Bond Factor Replication Crisis (Dickerson, Robotti & Rossetti, 2026-04-09)
+Applies a bias-correction framework to a 108-signal "factor zoo" across nine thematic
+clusters, Aug 2002 – Dec 2024 (269 months). Two named inflation sources: (i) a
+**correlated errors-in-variables bias** — the same noisy transaction price enters both
+the sorting signal and the return denominator, creating mechanical correlation; and
+(ii) **asymmetric ex-post return filtering** — winsorization/filtering thresholds
+computed from the *full sample* rather than from data available at portfolio formation.
+- **EVIDENCE-GRADE: strong on method, medium on transfer.** Long disclosed period,
+  disclosed universe, and — rare — a Benjamini-Hochberg FDR correction across all
+  specifications rather than per-factor t-stats. Of 432 specifications, 119 had
+  nominally significant premia (t>1.96); after correction only **26 (6.0%)** survive.
+  Open-source artifacts released (Open Bond Asset Pricing, error-corrected TRACE).
+  Downgraded on transfer only because the universe is corporate bonds — but both
+  mechanisms are properties of *noisy prices*, not of bonds, so they carry to illiquid
+  equities, which is where this repo's one validated edge lives.
+- Quantified magnitudes: short-term reversal's premium falls from **−0.99% to −0.09%
+  monthly** (>90% of the documented effect is bias). Value factors carry 36–45bps of
+  bias, spread-based factors 15–18bps/month. The 6-month momentum premium of 0.30%/mo
+  is **entirely** attributable to asymmetric ex-post winsorization — zero without it.
+- **Doing-right #1, and it is the structural defence against mechanism (i):**
+  `backtest_screeners.py:293` sets `entry_idx = signal_idx + 1` — entry is the close of
+  the bar *after* the signal, with the signal-bar close preserved separately as
+  `signal_price` (`:312-313`). The rationale is spelled out at `:275-285` (the 2026-08-22
+  look-ahead fix). Because the sorting signal and the return denominator are drawn from
+  **different bars**, the mechanical price-noise correlation the paper describes cannot
+  form in this repo's screener backtests. This is a genuinely stronger position than the
+  bond literature the paper indicts, and it was reached for a different stated reason
+  (fill obtainability), which makes it a real independent convergence rather than luck.
+- **Doing-right #2, against mechanism (ii):** `rloo_rescore.py:291` `winsorize_xs()`
+  clips to **each day's own cross-section** — `np.nanpercentile(..., axis=1, keepdims=True)`
+  at `:309-310` — and the docstring at `:301-303` records that it is applied identically
+  to picks and peers so it "cannot move the advantage in a chosen direction." That is
+  the point-in-time, symmetric form the paper says the bond literature failed to use.
+- **Gap (verified): full-sample winsorization thresholds survive in three other places.**
+  `factorial_screener_analysis.py:97-107` `winsorize()` takes `s.quantile(0.01), s.quantile(0.99)`
+  over the **entire pooled series**, and it is still live at `:111`
+  (`y = winsorize(df[horizon])`) feeding the OLS at the heart of the factorial screener
+  analysis. Its own docstring at `:13-17` records that the primary split defence moved
+  upstream into `factorial_screener_test.py` (exclusion, not winsorization), leaving this
+  as "a light secondary guard" — but light or not, the thresholds are computed from data
+  the formation date would not have had. Same pattern at
+  `train_ppo_factor_weights.py:132-133` (`out["ret"].quantile([0.01, 0.99])` pooled, then
+  `.clip()`), and `factor_zscore_panel.py:45-46` states outright that it adopts the
+  "same convention as factorial_screener_analysis.py's winsorize()".
+- **Precision caveat, stated so it is not overread later:** the repo's winsorization is
+  *symmetric* (1st and 99th percentile both clipped), whereas the paper's fatal case is
+  *asymmetric* filtering. The repo therefore has the milder member of the same family.
+  The transferable hazard is the **full-sample threshold**, not the asymmetry, and the
+  queued test should be read as measuring that and nothing more.
+- Action queued: item 17.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+- **2602.00080** (Sheppert, "The GT-Score") — composite objective blending performance,
+  significance, consistency and downside risk; but the headline metric is a
+  "generalization ratio" (validation return / training return) on only **50 S&P 500
+  names**, cost treatment undisclosed, and `deflated_sharpe.py` already gives this repo
+  the multiple-testing half properly. Not deep-read.
+- **2507.17211** (EFS: Evolutionary Factor Searching with LLMs) — does apply 0.1%/0.2%
+  cost settings, but carries the per-query LLM spend profile this register has now
+  rejected four times (2412.20138, 2603.16365, 2604.26747, 2503.09647). Discard.
+- **2606.00060** (ML Bitcoin trading under transaction costs) — genuinely cost-aware and
+  walk-forward, but crypto; same off-scope universe verdict as 2607.19453. Discard.
+- **2603.21672** (Mislearning of Factor Risk Premia under Structural Breaks) — misspecified
+  Bayesian learning framework; theoretical, no traded strategy and no cost treatment.
+  Off-scope for technique extraction.
+- **2601.10279** (Feng, Lan, Wang & Zhang) — resurfaced by today's query; **already
+  registered 2026-08-25**, dedup hit, not re-triaged.
