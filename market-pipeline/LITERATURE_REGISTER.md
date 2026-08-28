@@ -787,3 +787,85 @@ computed from the *full sample* rather than from data available at portfolio for
   Off-scope for technique extraction.
 - **2601.10279** (Feng, Lan, Wang & Zhang) — resurfaced by today's query; **already
   registered 2026-08-25**, dedup hit, not re-triaged.
+
+## Added 2026-08-28 (daily task, Friday gap query: point-in-time fundamentals / survivorship bias)
+
+Citation-following from hub 2605.19337 returned **no new candidates for the fifth
+consecutive day** — Semantic Scholar still lists exactly 3 citing papers (2607.19453,
+2607.04958, 2606.08285), all already registered. **Acting on yesterday's note: this
+edge should now be checked weekly (Mondays), not daily.** It has been dry since
+2026-08-24 and costs a fetch every run for nothing.
+
+**No paper was deep-read today and nothing was queued.** Three genuine search attempts
+returned six candidates, every one of which fails triage — five of them because the
+Friday query's 2026 literature on "point-in-time" has been almost entirely captured by
+the LLM-benchmarking community, which is off-scope here for a reason worth recording
+once (below) so future Friday runs stop re-triaging the same branch.
+
+### Structural finding: the LLM look-ahead branch has zero surface area in this repo
+The register has now rejected LLM-centric papers six times (2412.20138, 2603.16365,
+2604.26747, 2503.09647, 2507.17211, and today's batch), but always on the **cost**
+profile. Today's query surfaced a different sub-literature — *parametric* look-ahead
+bias, i.e. an LLM trained after the fact already knowing how the period turned out
+(2605.24564, 2601.13770). That hazard is not about cost at all, so it deserved a real
+check rather than the standing cost rejection.
+- **Verified, not assumed: there is no LLM anywhere in the signal path.** The only
+  natural-language component is `sentiment_pipeline.py`, and it scores with VADER plus
+  a hand-edited finance lexicon — `:66-67` instantiates `SentimentIntensityAnalyzer`,
+  `:68-79` patches the lexicon, `:134` documents the scoring contract ("VADER with
+  finance lexicon boost"). A fixed lexicon has no training corpus and therefore no
+  future knowledge to leak. `grep -niE 'openai|anthropic|claude|gpt-|llm|llama'` over
+  that file returns zero hits.
+- The two learned components are fit on this repo's own panels (`factor_learning.py:88`
+  LassoCV, `train_ppo_factor_weights.py`), so their leakage risk is the ordinary
+  temporal-split kind already tracked as queue items 6/10/14 — not the parametric kind.
+- **Verdict: not a gap, and not merely "too expensive" — structurally inapplicable.**
+  Future runs should skip this branch on sight unless an LLM enters the signal path.
+
+### Doing-right confirmation: survivorship (the other half of the Friday query)
+Checked directly rather than trusted from the hub entry's one-line summary. The repo
+does not merely disclose survivorship, it **bounds** it:
+- `band_sip_backtest.py:20` — "DELISTING IS MODELLED, NOT DROPPED, AND IT DECIDES THE
+  ANSWER", with 31.9% of the relevant names affected, and `:186` reports the SIP
+  outcome under **both survivorship bounds** rather than picking one.
+- `price_band_migration.py:23` — "SURVIVORSHIP IS REPORTED, NOT SILENTLY DROPPED."
+- `backtest_liquidity_forward.py:172-175` — delisting-aware exit: a stock with no bar
+  at t+63 exits at its last real close and is flagged `delisted_in_window`, rather than
+  being inner-joined out of existence (`:43-45` gives the rationale).
+- `sweep_piotroski_plus.py:40-45` — states the *residual* limitation honestly
+  (screener.in serves listed companies only, so that particular route is an upper bound).
+Nothing to queue: this is a stronger position than the papers surfaced today assume of
+a personal pipeline.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+- **2601.13770** (Benhenda, "Look-Ahead-Bench: a Standardized Benchmark of Look-ahead
+  Bias in Point-in-Time LLMs for Finance", 2026-01-20) — best-matched paper to today's
+  query and it does release code (github.com/benstaf/lookaheadbench), but the abs page
+  discloses neither universe nor date range, no cost treatment, and the hazard it
+  measures cannot exist here per the VADER verification above. Not deep-read.
+- **2605.24564** (Li, Wang & Ma, "Summoning the Oracle to Slay It", 2026-05-23) —
+  proposes FinCAD, an inference-time Context-Aware Decoding fix for parametric
+  look-ahead. Judged on returns/Sharpe/Spearman rather than MAPE, which is to its
+  credit, but the universe is **five mega-cap equities**, costs are unmentioned, and
+  the mechanism requires an LLM to decode from. Same inapplicability verdict.
+- **2606.29771** (Qu & Chen, "CLQT", v1 2026-06-29 / v2 2026-08-02) — genuinely
+  cost-aware (transaction *and* financing costs are a named pillar) and its diagnostic
+  claim is real: the capability leader is not the Sharpe leader, because "the market
+  path dominates a period's return." But it benchmarks **LLM portfolio-management
+  agents**, and its transferable point — evaluate across distinct regimes rather than
+  on one path — is already this repo's practice (`build_regimes.py`,
+  `regime_tag_panel.py`, `strategy_regime_survival.py`, and the vs-benchmark reporting
+  in the 2026-08-23 round). PDF fetch returned unparseable binary, so the universe,
+  date range and cost figures could not be verified; graded on the abs page alone and
+  **not** written up as though the full text had been read.
+- **2605.30464** (Noguer i Alonso, "Distributional Portfolio Optimization", 2026-05-28)
+  — surfaced for its point-in-time reconstitution record, but the abs page carries no
+  detail on it, the backtest is K=25 DJIA, costs are unmentioned, and its own headline
+  is a **negative** result (equal-weight, no-view Black-Litterman and Ledoit-Wolf
+  shrinkage all beat every distributional method on Sharpe). Portfolio-construction
+  scope this signal-only pipeline does not have. Discard.
+- **2605.31201** (Point-in-Time Financial RAG with Frozen LLMs) — LLM retrieval
+  architecture; same structural inapplicability, plus per-query spend. Discard.
+- **2604.09060** ("Taming the Black Swan", momentum-gated hierarchical optimisation) —
+  surfaced by the first query but off today's theme entirely; left untriaged for budget,
+  not assessed. Noted here only so it is not counted as reviewed.

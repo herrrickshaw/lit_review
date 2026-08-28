@@ -155,6 +155,73 @@ Jan 2025 to cover rural areas quarterly, not just urban. Both fetched and read d
 
 ---
 
+### Minor Irrigation Census, 6th round (Ministry of Jal Shakti, DoWR-RD&GR) + AERR irrigation-recovery paper
+Paired source: one census that counts who actually owns India's irrigation, one
+peer-reviewed paper that measures what the public money bought. Neither is on the blog.
+- **Data**: **free, no login, no payment — all verified by direct download 2026-08-28.**
+  The census document portal `mowr.nic.in/irrigationcensus/` returns HTTP 200 and links
+  direct PDFs under `Documents/MI-Census/Reports/`: `6-MI-Report-All-India-Vol-I.pdf`
+  and `6-MI-Report-State-Wise-Vol-II.pdf` both fetch as real PDFs (ranged GET returned
+  HTTP 206, `application/pdf`, valid PDF 1.6). Every earlier round is there too —
+  `Files/5th-MICensusReport.pdf`, `4thmicensusreport.pdf`, `Third-MI-report.pdf`, the
+  2nd in six parts — so a **six-census series from reference year 1986-87 to 2017-18**
+  is obtainable, which is what makes a trend argument possible rather than a snapshot.
+  The primary release is PIB PRID **1952480**, Ministry of Jal Shakti, **26 Aug 2023**,
+  fetched in full 2026-08-28 (needs a browser user-agent; plain fetchers get 403 —
+  consistent with this register's standing PIB note).
+  The AERR paper is **Seema Bathla, Elumalai Kannan & Gautam Kumar Das, "Public
+  investment in irrigation across the Indian states: Financial recovery and governance",
+  *Agricultural Economics Research Review* 37(1), pp. 93-112, 2024**
+  (`epubs.icar.org.in/index.php/AERR/article/view/154839`). ⚠️ Abstract is public but
+  **the full-text PDF is NOT freely downloadable** — the article page exposes only
+  BibTeX/RIS citation exports, no PDF galley link, and the issue page redirects to a
+  login screen. Treat it as a **concept citation**, not a data source.
+- **Finding**: the census numbers, verbatim from the release. India has **23.14 million
+  minor irrigation schemes; 21.93 million (94.8%) are groundwater** and only 1.21 million
+  (5.2%) surface water. **96.6% of all MI schemes are under private ownership** — 98.3%
+  of groundwater schemes, 64.2% of surface water. Of schemes with a single source of
+  finance (60.2% of the total), **79.5% are financed by the individual farmer's own
+  savings**. 97.0% are 'in use'. 18.1% of individually-owned schemes are owned by women
+  (collected for the first time in this round). Growth over the 5th census: +1.42 million
+  schemes, groundwater +6.9%, surface water +1.2%.
+  Set against that, AERR's abstract reports that across **20 states, 1981-82 to 2019-20**,
+  "increasing public capital formation in irrigation has **barely corresponded** with the
+  outcomes in terms of net irrigated area, potential utilised, and rate of financial
+  recovery" — while agriculturally advanced states spend *more*, not less. The census
+  explains why the two can both be true: the state is capitalising the 5% of schemes it
+  owns, and the country irrigates itself off the other 95%, out of pocket.
+- **Blog fit**: opens the **confirmed zero-coverage "irrigation investment and
+  governance" area** (LITERATURE_SURVEY §3), and puts a second post in the "water"
+  band, which the survey scored at 2 hits in 192 titles. Dedup run against
+  `meta/manifest.json` (**219 posts, snapshot 2026-08-28T07:27**): a regex for
+  water/irrigat/soil/groundwater/aquifer/canal/drip/watershed/borewell/tubewell/
+  reservoir/rain returned **8 title hits, none about irrigation**. Nearest published post
+  is `tamil-nadus-water-infrastructure-runs` (25 Aug 2026) — checked by reading the post
+  body, not by title: it is **urban municipal** water finance (KfW SMIF-TN tranches, tank
+  desilting) and contains **zero** occurrences of irrigation, groundwater, tubewell or
+  dugwell. It is a strong cross-link rather than an overlap, because it makes the same
+  shape of argument — the headline water number not matching the money underneath.
+  Others in the 8: `the-water-bill-nobody-mentions-what` (Taiwan fabs),
+  `price-is-wire-how-gcam-actually-links` (GCAM modelling),
+  `guar-gum-indias-35-billion-export-peak` ("poor soil" in the title only).
+- **Caveat**: 🔴 **vintage — a 7th census exists and is partly published.** The 6th
+  census reference year is **2017-18** (released Aug 2023), so the headline figures are
+  eight years stale on the ground. `7-MI-Report-State-Wise-Vol-II-Part-1.pdf` fetches
+  (HTTP 206, valid PDF) but `7-MI-Report-All-India-Vol-I.pdf` returns **404**, and the
+  7th MI Census is running jointly with the 2nd Census of Water Bodies, 1st Census of
+  Major & Medium Irrigation Projects and 1st Census of Springs at
+  `wrcensus.mowr.gov.in` — i.e. still in progress. Any piece must date the 6th-census
+  figures explicitly and check the 7th before publication; the all-India 7th totals
+  were **not** obtainable today and must not be guessed at.
+  Second caveat: the **village-level microdata is not confirmed obtainable**. The
+  data.gov.in catalog page is JS-rendered with no resource hrefs in the HTML, and the
+  catalog-level API id (`35a18274-b04c-4db6-b732-b23ff68a359b`) returned
+  `{"message":"Meta not found"}` against the public sample key — per-resource ids are
+  needed and were not found today. Do not promise village or district granularity.
+  Third: "schemes" are not "farmers" and not "hectares" — one owner can hold several,
+  and the census counts structures, not irrigated area. State that rather than sliding
+  between units.
+
 ## Background only
 
 ### DPIIT Year End Review — PLI aggregate outcomes (PIB, Ministry of Commerce & Industry)
@@ -210,6 +277,23 @@ browser user-agent).
 ---
 
 ## Weak — logged, not actioned
+
+- **data.gov.in "6th Minor Irrigation Census — Village Schedule, Ground Water / Surface
+  Water Schemes"** — the obvious route to village-level microdata, but not obtainable as
+  fetched 2026-08-28: the catalog page is JS-rendered with zero `/resource/` hrefs in the
+  served HTML, and the catalog-level API id `35a18274-b04c-4db6-b732-b23ff68a359b`
+  returned `{"message":"Meta not found"}` against the public sample key. Not a permanent
+  dead end — per-resource ids would need harvesting from the rendered page first. Re-probe
+  before promising any sub-state granularity. Logged 2026-08-28.
+- **jalshakti-dowr.gov.in `/document/...` report pages** — the route PIB itself links for
+  the 6th MI Census reports, but it is a Next.js SPA: HTTP 200, 7,256 bytes, and the only
+  hrefs served are CSS/JS bundles and the favicon. Use `mowr.nic.in/irrigationcensus/`
+  instead, which serves direct PDF paths. Logged 2026-08-28.
+- **7th Minor Irrigation Census all-India totals** — not published yet.
+  `7-MI-Report-State-Wise-Vol-II-Part-1.pdf` fetches, `7-MI-Report-All-India-Vol-I.pdf`
+  returns 404, and the round is still running jointly with the 2nd Census of Water Bodies
+  at `wrcensus.mowr.gov.in`. Do not cite a 7th-census national figure from any secondary
+  source until the all-India volume appears. Logged 2026-08-28.
 
 - India's simple average tariff rising 12% (FY2011) to 14.3% (FY2021) — sourced only to a
   commercial tariff-aggregator site, and the blog already runs heavy tariff coverage across

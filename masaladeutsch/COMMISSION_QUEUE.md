@@ -145,6 +145,54 @@ Format:
       (Indiastat is paywalled; agrijob.in's ₹1.92 lakh crore contradicts the primary).
       Logged: 2026-08-25 from the PMFBY register entry
 
+
+- [ ] India irrigates itself. 96.6% of its irrigation is privately owned, and 79.5% of it
+      was paid for out of farmers' own savings.
+      Source: 6th Minor Irrigation Census, Ministry of Jal Shakti (DoWR-RD&GR), reference
+      year **2017-18**, released 26 Aug 2023. Primary release PIB PRID 1952480 (fetched in
+      full 2026-08-28; needs a browser user-agent, plain fetchers get 403). Reports as free
+      direct PDFs, verified by ranged GET 2026-08-28 (HTTP 206, valid PDF, no login):
+      `mowr.nic.in/irrigationcensus/Documents/MI-Census/Reports/6-MI-Report-All-India-Vol-I.pdf`
+      and `...6-MI-Report-State-Wise-Vol-II.pdf`. Earlier rounds at
+      `mowr.nic.in/irrigationcensus/Files/` (5th, 4th, 3rd, 2nd) give a six-census series
+      back to reference year 1986-87. Concept citation (abstract only, PDF NOT free):
+      Bathla, Kannan & Das, "Public investment in irrigation across the Indian states:
+      Financial recovery and governance", AERR 37(1):93-112, 2024.
+      Argument: India has 23.14 million minor irrigation schemes and 21.93 million of them
+      — 94.8% — are groundwater, not canals. 96.6% of all schemes are privately owned
+      (98.3% of groundwater ones), and of the schemes with a single source of finance,
+      79.5% were funded by the individual farmer's own savings. Meanwhile the peer-reviewed
+      measurement of the public half, across 20 states and four decades, is that rising
+      public capital formation in irrigation "has barely corresponded" with net irrigated
+      area, potential utilised, or financial recovery. The country's irrigation is
+      overwhelmingly a private, self-financed, groundwater system that the public
+      irrigation budget neither built nor recovers from — which is the opposite of how
+      irrigation policy is usually discussed.
+      Checks needed: (1) 🔴 VINTAGE — the 6th census reference year is 2017-18 and a **7th
+      census is partly published**: `7-MI-Report-State-Wise-Vol-II-Part-1.pdf` fetches but
+      `7-MI-Report-All-India-Vol-I.pdf` 404s, and the round is still running with the 2nd
+      Census of Water Bodies at `wrcensus.mowr.gov.in`. Date every figure to 2017-18 and
+      re-check for the 7th all-India volume before publishing; do NOT take a 7th-census
+      national number from a secondary source. (2) Units — the census counts *schemes*, not
+      farmers and not hectares; one owner can hold several. Never slide between the three.
+      (3) The 79.5% own-savings figure applies only to the 60.2% of schemes with a *single*
+      source of finance — quote it with that denominator attached, not as "79.5% of all
+      schemes". (4) Village/district microdata is NOT confirmed obtainable (data.gov.in
+      catalog is JS-rendered, catalog-level API id returns "Meta not found") — do not
+      promise sub-state granularity until re-probed. (5) The AERR full text is paywalled;
+      use the abstract's own wording or find the ResearchGate copy, and do not attribute
+      numbers to it that the abstract does not state. (6) Groundwater ownership being
+      private is not the same as groundwater being unsubsidised — power subsidy is the
+      obvious rejoinder and the piece should meet it rather than ignore it.
+      Cross-link in house style (cite as reporting, never as confirmation):
+      `tamil-nadus-water-infrastructure-runs` — same shape of argument, headline water
+      number not matching the money underneath — and `379-kilos-hectare-in-punjab-44-in`.
+      Logged: 2026-08-28 from the Minor Irrigation Census + AERR register entry
+      Opens: the confirmed zero-coverage irrigation-investment-and-governance area, and
+      only the 4th substantive water post in 219 (manifest dedup 2026-08-28: 8 title hits,
+      none on irrigation; nearest post read in full and contains zero irrigation mentions).
+
+
 ## Done
 
 - [x] What a farm labourer earns, and why it stopped tracking output
