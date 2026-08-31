@@ -216,6 +216,76 @@ when it's been run; do not delete history.
     6/10/14 (purge+embargo) and 15 (untradable bars) — this is a threshold-provenance
     item, adjacent to 15's data-hygiene family.
 
+18. **Raw sample covariance in both optimisers — no eigenvalue treatment** —
+    `portfolio_builder.py:217` computes `cov = R.cov().values * TRADING_DAYS` and feeds it
+    unfiltered into `port_var = lambda w: w @ cov @ w` at `:222`; `mutual_fund_theorem.py:107`
+    does the identical thing. The repo's only shrinkage is on *expected returns*
+    (`_expected_returns()`, `portfolio_builder.py:190-200`, James-Stein toward the
+    cross-sectional mean) — Sigma is never touched. `mutual_fund_theorem.py:156` already
+    prints "without shrinkage (Ledoit-Wolf) or hard position constraints" as a warning when
+    half-sample turnover exceeds 0.5, so this is a self-diagnosed gap that was never closed.
+    Concrete test: re-run `optimise()` three ways on the same panel — raw `R.cov()` as-is,
+    `sklearn.covariance.LedoitWolf` linear shrinkage, and a frozen-eigenvalue estimator
+    (spectrum estimated once on the earliest third of the sample and held fixed for the
+    rest, the paper's "Average Oracle") — and report, for each, out-of-sample realized
+    volatility, max drawdown, Sharpe **and turnover**. Falsifiable prediction: if the
+    warning at `:156` is right, raw-sample min-variance weights should show materially
+    higher out-of-sample realized volatility and turnover than either shrunk version; if
+    they do not, the warning is over-cautious and should be re-worded. 🔴 Turnover is not
+    optional in this comparison — 2507.01918's own neural estimator wins on variance
+    (Sharpe 1.011 vs QIS 0.942) while running 112% turnover per 5 days against QIS's 44%,
+    which is how a lower-variance estimator loses money net of cost. Cheap: no new data,
+    no fetch, no training; sklearn is already a dependency and the frozen-eigenvalue
+    variant is ~15 lines of numpy. Note the standing caution from 2605.30464 (logged
+    2026-08-28), whose headline negative result was that plain Ledoit-Wolf shrinkage beat
+    every distributional method it tested — consistent with, not duplicative of, this item.
+    Motivated by: 2507.01918 (Bongiorno, Manolakis & Mantegna). Independent of item 9
+    (spectral descriptors as a *regime signal*) — this is Sigma-as-optimiser-input, a
+    different use of the same matrix.
+
+19. **Minimum Track Record Length — is the existing DSR gate resting on enough history?** —
+    `deflated_sharpe.py:52` computes the deflated Sharpe and `:81` gates it at
+    `survives = d >= 0.95`, writing `✅ real` / `⚠️ fragile` verdicts into
+    `reports/deflated_sharpe.md` (`:104-107`). But `T` at `:77` is just `best["n"]`,
+    formation weeks, passed straight into the DSR and never itself checked. DSR answers
+    "did the winner beat the best-of-N benchmark"; it does not answer "is this sample long
+    enough for that comparison to be stable." MTRL (Bailey & López de Prado) is the
+    companion statistic and is about ten lines of the arithmetic already sitting in this
+    file: `MTRL = 1 + [1 - skew*SR + (kurt-1)/4 * SR^2] * (Z_alpha / SR)^2`, i.e. the same
+    bracket already computed as `denom**2` at `deflated_sharpe.py:57`. Concrete test:
+    compute MTRL per market x regime, put it next to the `T_weeks` column already written
+    to `reports/deflated_sharpe.csv` (`:82`), and flag every row whose DSR passed on fewer
+    observations than its own MTRL requires. Falsifiable prediction: bear-regime rows have
+    materially fewer formation weeks than bull rows, so if any bear cell currently carries
+    `✅ real` while T_weeks < MTRL, that label is unearned and the report's verdict column
+    is overstating its own evidence. Cheap: no new data, no fetch, no refit — one function
+    and one extra column. Motivated by: 2608.23808 (Santoni, Jouanne & Scullin), whose
+    MTRL gate is one of the three the repo lacks entirely.
+
+20. **`overfitting_report()` is labelled PBO but computes Sharpe decay — replace it with
+    real CSCV, or fix the citation** — `walk_forward_backtest.py:1086` cites "Bailey et al.
+    (2014) — 'Probability of Backtest Overfitting'" on a function (`:1082`) that computes
+    `decay = (train - val)/abs(train)*100` from per-split mean Sharpe (`:1094-1096`) and
+    buckets it at hardcoded 50%/20% thresholds (`:1111-1116`). PBO is a different
+    statistic: split the trial matrix into S even blocks, and over the C(S, S/2)
+    train/test partitions record the out-of-sample rank of whichever configuration was
+    best in-sample; PBO is the fraction of partitions where that rank falls below the
+    median. The repo already has the required input — the market x regime x factor
+    info-ratio matrix in `reports/profitability_optimizer.csv`, the same file
+    `deflated_sharpe.py:65` reads. At S=8 that is C(8,4)=70 partitions, ~30 lines with
+    `itertools.combinations`, no new data. Concrete test: compute real PBO on that matrix
+    and compare its verdict against the existing `Overfit_Risk` HIGH/MEDIUM/LOW labels —
+    if they disagree, the current thresholds are miscalibrated and the strategy matrix at
+    `:1120` is selecting on a decay number that does not mean what its docstring claims.
+    While in this function, also add **fold-level profitability** (share of splits with
+    positive return) beside the mean-Sharpe columns — 2512.12924 reports 41% (14 of 34
+    folds) next to its aggregate Sharpe 0.33, and the pair is far more informative than
+    either alone. 🔴 Minimum acceptable outcome even if CSCV is not built: detach the
+    Bailey citation from a function that does not implement it. Cheap: no new data, no
+    fetch. Motivated by: 2608.23808 (Santoni, Jouanne & Scullin) for the gate, 2512.12924
+    (Deep, Deep & Lamptey) for the fold-level metric. Independent of item 6 (purge+embargo,
+    which is about leakage into the split); this is about grading what comes out of it.
+
 ## Done
 
 (none yet)

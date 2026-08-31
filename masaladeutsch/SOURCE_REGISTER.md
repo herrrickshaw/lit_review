@@ -401,3 +401,187 @@ Ethanol & Biofuels · Agriculture & Fertilisers · Energy & Fuels · India.
   what an essentially derived variety is and why the boundary is contested, but not a
   piece on its own.
 
+
+---
+
+## Added 2026-08-29 (Saturday theme: trade, tariffs and industrial policy)
+
+🔴 **File-loss note.** This file and `COMMISSION_QUEUE.md` were both missing from
+`masaladeutsch-archive/docs/` at the start of today's run. Neither was ever committed to
+git (`git log --all --diff-filter=AD` returns nothing for either path), so when something
+reset the repo's working tree on 2026-08-28 (docs/ mtime 14:14) they were wiped as
+untracked files, taking six days of Track B output with them. Both were restored from the
+Track C mirror at `/Users/Shared/lit_review/masaladeutsch/` (synced 2026-08-28 07:48).
+The restore is trustworthy: `LITERATURE_SURVEY.md`, which *is* tracked, is byte-identical
+between the repo and the mirror, and the restored queue has 9 open items, matching the
+count the 2026-08-28 log recorded. Content after 2026-08-28 07:48 — if any — is not
+recoverable. **These two files need committing to git; the mirror is the only copy.**
+
+### Defence Positive Indigenisation Lists — 5th and 6th PIL primaries (DDP, Ministry of Defence)
+
+Follow-up to the 2026-08-22 entry above, which closed with "The 6th PIL needs its own
+release verified." It is now verified, from its own release, and the trip turned up a
+second primary that contradicts the figure the blog has already published.
+
+- **Data**: two PIB releases, both fetched in full today. **PRID 2300723** (18 Aug 2026,
+  11:15AM, Ministry of Defence) and **PRID 2033571** (16 Jul 2024, 12:29PM). Free, no
+  login. 🔴 PIB 403s plain fetchers — a browser User-Agent is required, and
+  `PressReleaseDetail.aspx` returns a shell with no body; use
+  `PressReleasePage.aspx?PRID=<id>`, which returns the full text.
+
+- **Finding 1 — the published post's declared floor can now be closed.** The post
+  `5071-items-you-cannot-import-and-rs` (23 Aug 2026) states plainly that "a fifth list
+  exists in the sequence but its item count is not established in the sources used here,
+  so it is excluded rather than estimated — the 5,071 total is therefore a floor, not the
+  full count." PRID 2033571 establishes it: the **5th PIL is 346 items, import-substitution
+  value ₹1,048 crore**. The full six-list DPSU total is therefore **5,417**, not 5,071.
+  This reconciles exactly against the other primary: PRID 2300723 states "5,012 items
+  notified under the first five Positive Indigenisation Lists", and 4,666 + 346 = 5,012.
+  Two independent PIB releases agree to the item.
+
+- **Finding 2 🔴 — the ₹2,570 crore figure the blog published is contradicted by an
+  *earlier* ministry release.** PRID 2033571 (July 2024) says of the same PIL 1–4 scope:
+  "four PILs comprising 4,666 items were notified by the DDP for DPSUs, of which **2,972**,
+  having import substitution value worth **Rs 3,400 crore**, have already been
+  indigenised." The register entry above, and the published post, carry **2,736 items /
+  ₹2,570 crore** for that same scope. A cumulative indigenisation count cannot fall from
+  2,972 to 2,736, nor its value from ₹3,400 cr to ₹2,570 cr, between 2024 and 2026 — so
+  the two are different vintages or different scopes, and the post's headline arithmetic
+  (**₹94 lakh per item**) rests on the smaller pair. On the 2024 primary the same
+  calculation gives **₹114 lakh per item** across a *larger* base. The direction of the
+  post's argument survives; the specific number does not.
+
+- **Finding 3 — the series the post explicitly set aside is quantified.** The post notes
+  the Department of Military Affairs runs "a different series and are not counted above."
+  PRID 2033571 gives it: "five positive indigenisation lists of **509 items** notified by
+  the Department of Military Affairs (DMA)." Both series together = 5,417 + 509 = **5,926**.
+
+- **Finding 4 — the PIL lists are a small slice of the actual programme.** PRID 2300723:
+  more than **33,000** items offered on SRIJAN by DPSUs and SHQs up to June 2026, of which
+  the 5,012 PIL items are a subset; more than **15,700** indigenised for an estimated
+  import-substitution value of about **₹9,000 crore over the last five years**; and DPSU
+  procurement orders on domestic vendors of about **₹10,000 crore** up to March 2026.
+  ₹9,000 cr ÷ 15,700 ≈ **₹57 lakh an item** — the same shape as the post's finding (long
+  list, small money) at four times the scale, but on a *different denominator*.
+
+- **Blog fit**: this does not open a beat — it **materially updates a published post**,
+  `5071-items-you-cannot-import-and-rs` (23 Aug 2026, labels Industrial Policy · Import
+  Substitution · Manufacturing · India). Manifest dedup: snapshot 2026-08-29T06:04, 224
+  posts, 15 title hits on the defence/indigenisation/import-substitution regex; that slug
+  is the only one on the PILs, and it was read in full rather than judged by title.
+
+- **Caveat**: 🔴 the SRIJAN "items offered" total went **down** — over 36,000 by June 2024
+  (PRID 2033571) against more than 33,000 by June 2026 (PRID 2300723). A cumulative offer
+  count cannot shrink, so the series has been re-based or de-duplicated at some point and
+  neither release says so. Do not build a trend on it, and do not present the two as
+  comparable. Same caution applies to "indigenised": 12,300 in three years (2024) vs
+  15,700 in five years (2026) are different windows, not a delta. And "import substitution
+  value" remains the ministry's own undefined term throughout.
+
+- Grade: **COMMISSIONABLE** — as a correction-and-update piece, not a new subject.
+
+### Weak / background — logged, not actioned (2026-08-29)
+
+- **DGCI&S publication activity** (dgciskol.gov.in) — surfaced by the second Saturday
+  query: Laspeyres trade indices for Apr–May 2026 on both 2012-13 and 2022-23 bases, a
+  committee report on base-year revision for merchandise trade indices, and a quarterly
+  merchandise-trade review for Oct–Dec 2025. Not fetched, so nothing is asserted about
+  contents. Noted only because a **base-year revision** is the kind of thing that silently
+  breaks a published index series, and the blog runs trade-data pieces off this portal;
+  worth a proper look on a future Saturday. BACKGROUND, pending verification.
+
+---
+
+## Added 2026-08-31 (Monday theme: agricultural labour and rural incomes)
+
+**Dedup finding that reframes the theme, recorded first because it changes the brief.**
+`LITERATURE_SURVEY.md` §3 lists agricultural labour and rural incomes as a zero-coverage
+area. That is now **stale**. The published post `a-17-rural-pay-rise-that-nobody-received`
+(22 Aug 2026) was read in full today, and it does not merely touch the beat — it covers
+the Labour Bureau's CPI-AL/CPI-RL base revision from 1986-87 to 2019=100 and the
+undisclosed village-sample swap underneath the headline 17-18% wage jump; the
+break-adjusted 4.3% versus the old-sample 6.23%; the fact that CPI-AL sets wages under
+the central rural employment guarantee and anchors state minimum wages for agricultural
+and rural labour; **MGNREGA's repeal** by the VB-G RAM G Act 2025 (assent 21 Dec 2025, in
+force 1 Jul 2026), with a side-by-side of the two schemes' guaranteed days (100 -> 125)
+and work-availability windows; early VB-G RAM G person-days (30 crore approved April 2026
+-> 43 crore May); and PM-KISAN's landholding targeting as the reason it exerts no pressure
+on the agricultural wage. **MGNREGA and rural wage indexation should be treated as a
+covered subject from now on, not a gap.** Manifest dedup: snapshot 2026-08-31T07:39,
+237 posts; regex `wage|labour|labor|employ|mgnrega|rural|migrant|income|job|worker` over
+titles returns 4 hits, of which this is the only one on the beat.
+
+Two sub-angles the post explicitly declines and leaves open: (a) VB-G RAM G's own
+performance, which the post refuses on the ground that the scheme was "nine weeks old at
+the time of writing" — still true, it is nine days older today, so hold it; (b) the
+occupation-level anomalies in the Labour Bureau's own tables, for which the post notes
+"no occupation-level explanation has been offered".
+
+**Open-item check (step 1, which outranks new candidates).** The E20 feedstock item and
+the Minor Irrigation item both carry AERR citations pinned to "latest listed issue is
+Vol. 37 No. 1 (2024)". Re-checked today at `epubs.icar.org.in/index.php/AERR/issue/archive`:
+the archive still ends at **Vol. 37 No. 1 (2024)**, twelve issues back to Vol. 31 No. 2
+(2018). No newer issue, so neither item is unblocked and both caveats stand unchanged.
+
+### NSS 77th Round — Situation Assessment of Agricultural Households (NSSO / MoSPI)
+
+**Data**: PIB PRID 1753856, MoSPI, "NSS REPORT NO. 587: Situation Assessment of
+Agricultural Households and Land and Livestock Holdings of Households in Rural India,
+2019", posted 10 Sep 2021 — fetched in full 2026-08-31. 🔴 PIB 302-redirects plain
+requests to `?PRID=<id>&reg=48&lang=2`; follow redirects (`curl -L`) **and** send a
+browser user-agent, or you get a 174-byte "Object moved" stub. Reference year is the
+agricultural year **July 2018 – June 2019**; fieldwork Jan–Dec 2019 in two visits.
+Sample stated in the release: 5,950 FSUs allotted, 5,940 surveyed in visit 1, 58,035
+households, of which 45,714 agricultural households (44,770 in visit 2). Free, no login.
+Companion release for the comparison year: PIB PRID 2003180 (MoA&FW, 6 Feb 2024).
+
+**Finding**: for the household India's farm-income policy is actually measured on,
+**wages are the largest single source of income, not crops**. Table 6, paid-out-expenses
+basis, average monthly income per agricultural household: wages **₹4,063**, net receipt
+from crop production **₹3,798**, farming of animals ₹1,582, non-farm business ₹641,
+leasing out land ₹134 — total **₹10,218**. On the fuller basis that also charges imputed
+expenses, the gap roughly doubles: wages ₹4,063 (unchanged, since imputation hits farm
+costs) against crop production **₹3,058** and animals **₹441**, total **₹8,337** — wages
+are then **49%** of household income and crop production **37%**.
+
+And the survey reaches that result on a population **defined to exclude the rural workers
+most dependent on wages**. The release states in terms: "households which were entirely
+agricultural labour households and households receiving income entirely from coastal
+fishing, activity of rural artisans and agricultural services were not considered as
+agricultural households and they were kept outside the scope of the survey." Qualifying
+required more than ₹4,000 of agricultural produce value plus a member self-employed in
+agriculture. Landless share within the surveyed population: 8.2%; average area owned
+0.512 ha. Indebtedness: 50.2% of agricultural households, ₹74,121 average outstanding.
+
+**Blog fit**: extends the beat `a-17-rural-pay-rise-that-nobody-received` opened, from
+the opposite side. That post is about the index that sets what agricultural labourers are
+paid; this is the official survey that measures farm household income and leaves pure
+agricultural-labour households out of the frame entirely — while still finding that the
+wage beats the crop inside the households it does count. Nearest published post by slug:
+`a-17-rural-pay-rise-that-nobody-received`. Also adjacent to
+`annadata-to-urjadata-farmer-income-case` (4 Aug 2026), which argues a farmer-income case
+without this income decomposition. Dedup on bodies, not just titles: `grep -rliE
+'situation assessment|77th round|NSS 587|agricultural household' posts/` returns two files
+(`the-price-of-grain-msp-msv-and`, `tamil-nadus-water-infrastructure-runs`) and the phrase
+"agricultural households" appears exactly **once** across the whole corpus — incidental,
+not a treatment. The income composition is uncovered.
+
+**Caveat**: 🔴 **vintage is the whole risk here.** Reference year 2018-19, published 2021,
+and it is *still* the current official figure — PIB PRID 2003180 (MoA&FW, 6 Feb 2024) is a
+Lok Sabha reply that gives the government's own latest answer as the 77th round, tabulating
+only 2012-13 (70th round, NSS Report 576) at ₹6,426 and 2018-19 (77th round) at ₹10,218.
+So the number is seven years stale by reference year and there is no newer round to cite —
+that is a fact about the data, not a defect in the source, but every figure must be dated
+in the piece and no "farmers today earn" phrasing is defensible. Second caveat: the two
+expense bases are not interchangeable, and the ₹6,426 comparison figure's basis was not
+established today — do not compute a 2012-13 → 2018-19 growth rate until both are
+confirmed to be on the same basis. Third: "agricultural household" is a survey construct
+with a ₹4,000 threshold, not a synonym for "farmer" — the piece must define it early.
+
+### Weak / background — logged, not actioned (2026-08-31)
+
+- **ICAR e-publications, *Agricultural Economics Research Review* archive
+  (`epubs.icar.org.in/index.php/AERR/issue/archive`)** — re-fetched today only as the
+  open-item vintage check described above. Still ends at Vol. 37 No. 1 (2024). Not a
+  candidate in itself; logged so the next Monday/Friday run does not re-fetch it hoping
+  for a new issue. Re-check no sooner than a month out.

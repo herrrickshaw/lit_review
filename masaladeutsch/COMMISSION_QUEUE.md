@@ -193,6 +193,83 @@ Format:
       none on irrigation; nearest post read in full and contains zero irrigation mentions).
 
 
+- [ ] The fifth list was 346 items. Three numbers in the defence indigenisation post need correcting.
+      Source: PIB PRID 2033571 (16 Jul 2024, MoD) and PIB PRID 2300723 (18 Aug 2026, MoD),
+      both fetched in full 2026-08-29. Note PIB 403s plain fetchers — browser UA required,
+      and use `PressReleasePage.aspx?PRID=<id>`, not `PressReleaseDetail.aspx`, which
+      returns a body-less shell.
+      Argument: the published post `5071-items-you-cannot-import-and-rs` said its 5,071
+      total was "a floor, not the full count" because the 5th PIL's size was not
+      established. It was 346 items (₹1,048 crore), making the six-list DPSU total 5,417 —
+      confirmed independently by the 2026 release's own "5,012 items notified under the
+      first five" (4,666 + 346). The same 2024 release also states that of the 4,666 items
+      in PILs 1-4, 2,972 worth ₹3,400 crore were already indigenised — larger on both
+      counts than the 2,736 / ₹2,570 crore the post published for that scope two years
+      later, which a cumulative count cannot do. And the DMA series the post set aside is
+      509 items across five lists. The post's thesis (long list, small money) holds; three
+      of its numbers do not.
+      Checks needed: (1) establish which vintage/scope the ₹2,570 crore pair actually
+      belongs to before printing either pair — do not simply swap in the 2024 figures, and
+      do not present ₹94 lakh and ₹114 lakh an item as a trend; (2) 🔴 the SRIJAN "items
+      offered" total falls from over 36,000 (June 2024) to more than 33,000 (June 2026),
+      which is impossible for a cumulative count — the series was re-based or de-duplicated
+      and neither release admits it; treat as a data-quality caveat, never as a decline;
+      (3) "12,300 indigenised in three years" and "15,700 in five years" are different
+      windows, not a delta; (4) "import substitution value" is the ministry's own undefined
+      term in every release — state that; (5) the 33,000-item SRIJAN pool and the 5,012-item
+      PIL pool are different denominators, so ₹9,000 cr ÷ 15,700 (₹57 lakh/item) is not
+      comparable with the PIL-only per-item figure. House style: cite the earlier post as
+      the blog's own reporting, never as confirmation.
+      Logged: 2026-08-29 from the 5th/6th PIL primaries register entry
+      Updates: the published post `5071-items-you-cannot-import-and-rs` (23 Aug 2026).
+      Supersedes the open item "4,666 items on the defence indigenisation lists, ₹2,570
+      crore of substitution" logged 2026-08-22 — that item's headline figures are the ones
+      now in question, and its "verify the 6th PIL against its own release" check is done.
+
+- [ ] The wage beats the crop, in the survey that leaves the wage-earners out
+      Source: NSS 77th Round Situation Assessment of Agricultural Households, NSSO/MoSPI
+      — PIB PRID 1753856 (10 Sep 2021), fetched in full 2026-08-31. 🔴 PIB 302-redirects
+      to `?PRID=<id>&reg=48&lang=2`; you need `curl -L` **and** a browser user-agent or
+      you get a 174-byte "Object moved" stub. Vintage companion: PIB PRID 2003180
+      (MoA&FW, 6 Feb 2024), the Lok Sabha reply confirming the 77th round is still the
+      government's own latest figure. Underlying reports: NSS Report No. 587 (2018-19)
+      and No. 576 (2012-13); microdata catalogued at microdata.gov.in (NOT probed today —
+      do not promise unit-level cuts until it is).
+      Argument: India's official measure of farm household income finds that wages are
+      the largest single source — ₹4,063 a month against ₹3,798 from crop production on
+      the paid-out basis, and ₹4,063 against ₹3,058 once imputed costs are charged, where
+      wages are 49% of the ₹8,337 total and crops 37%. It reaches that result on a
+      population the survey defines to *exclude* the households most dependent on wages:
+      "households which were entirely agricultural labour households ... were kept
+      outside the scope of the survey." The measure that anchors farm-income policy is
+      therefore built on a sample tilted toward cultivation, and the wage still wins.
+      Pairs with the published wage-index piece as its mirror image: that post is about
+      the index setting what agricultural labourers are paid; this is the income survey
+      that does not count them.
+      Checks needed: (1) 🔴 VINTAGE — reference year is July 2018-June 2019 and there is
+      no newer round; date every figure and never write "farmers today earn". (2) The two
+      expense bases (paid-out only vs paid-out plus imputed) are different measures —
+      never mix them in one sentence, and do NOT compute a 2012-13 → 2018-19 growth rate
+      from ₹6,426 → ₹10,218 until the ₹6,426 figure's basis is confirmed from NSS Report
+      576 itself, which was not checked. (3) "Agricultural household" is a survey
+      construct — more than ₹4,000 of produce value plus a member self-employed in
+      agriculture — not a synonym for "farmer"; define it in the first third of the piece.
+      (4) The exclusion clause also removes coastal fishing, rural artisan and
+      agricultural-services households; quote it whole rather than presenting it as an
+      agricultural-labour exclusion alone. (5) Wages here are wage/salary income from any
+      employment, farm or not — do not read ₹4,063 as farm wages. (6) The 8.2% landless
+      figure is landlessness *within the surveyed population*, so it is not India's rural
+      landlessness rate; attach the denominator.
+      House style: cite `a-17-rural-pay-rise-that-nobody-received` as the blog's own
+      earlier reporting, never as confirmation; `annadata-to-urjadata-farmer-income-case`
+      is the other natural cross-link.
+      Logged: 2026-08-31 from the NSS 77th Round register entry
+      Opens: farm-household income *composition* — uncovered on bodies as well as titles
+      (manifest 2026-08-31, 237 posts; the phrase "agricultural households" appears once
+      in the entire corpus, incidentally). Note the survey's separate finding that 50.2%
+      of agricultural households are indebted, ₹74,121 average outstanding, which is a
+      second piece, not this one.
+
 ## Done
 
 - [x] What a farm labourer earns, and why it stopped tracking output

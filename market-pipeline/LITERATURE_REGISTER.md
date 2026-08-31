@@ -869,3 +869,192 @@ a personal pipeline.
 - **2604.09060** ("Taming the Black Swan", momentum-gated hierarchical optimisation) —
   surfaced by the first query but off today's theme entirely; left untriaged for budget,
   not assessed. Noted here only so it is not counted as reviewed.
+
+---
+
+## Added 2026-08-29 (daily task, Saturday gap query: correlation-matrix eigenvalues / regime / effective dimension)
+
+Note on dedup: the Saturday theme was already mined hard on 2026-08-23 (2604.17251 ORCA,
+2608.09641 lower spectrum) with three weak entries (2601.06090, 2601.08571, 2507.14325).
+Today's search returned those four again plus three genuinely new IDs. Only one passed.
+
+### 2507.01918 — End-to-End Large Portfolio Optimization for Variance Minimization with Neural Networks through Covariance Cleaning (Bongiorno, Manolakis & Mantegna, v1 2025-07-02, v2 fetched)
+
+Passed triage on evidence hygiene, which is the best in today's batch: out-of-sample
+Jan-2000–Dec-2024, up to 1,000 US equities, headline metrics are Sharpe / realized
+volatility / max drawdown (not MAPE), and the execution layer explicitly models market
+orders at the auctions, empirical slippage, exchange fees and leverage financing.
+
+**Doing-right:** the paper reports turnover next to variance — its own NN runs ~112%
+turnover per 5 days at 2.9x gross leverage against QIS's 44% — i.e. it publishes the
+number that would kill it net of cost rather than burying it. That is the standard this
+repo's own estimator comparisons should meet.
+
+**Gap (verified):** the repo builds its covariance matrices from the raw sample
+estimator with no eigenvalue treatment at all. `portfolio_builder.py:217` is
+`cov = R.cov().values * TRADING_DAYS`, fed straight into `port_var = lambda w: w @ cov @ w`
+at `:222`; `mutual_fund_theorem.py:107` is the same line. Shrinkage in this repo is
+applied only to *expected returns* — `_expected_returns()` at `portfolio_builder.py:190-200`
+is James-Stein toward the cross-sectional mean — never to Σ. `mutual_fund_theorem.py:156`
+already prints a warning naming the exact missing piece ("without shrinkage (Ledoit-Wolf)
+or hard position constraints") when half-sample turnover exceeds 0.5, so the gap is one
+the repo has already diagnosed on itself and not yet closed.
+
+**Not adoptable:** the neural estimator itself. 240 independently trained BiLSTMs
+(10 runs x 24 years, 100 epochs x 500 steps), and its edge over QIS is Sharpe 1.011 vs
+0.942 frictionless — bought with 2.5x the turnover. No GPU here, and a long-only EOD
+screener cannot pay that churn. The transferable content is the paper's *baseline table*,
+not its model.
+
+**Action queued:** item 18 — swap raw `R.cov()` for Ledoit-Wolf/QIS shrinkage at the two
+sites above and measure, with turnover reported alongside realized volatility. The paper's
+own "Average Oracle" baseline (eigenvalues estimated once on 1990–2000, frozen across the
+whole 2000–2024 test window) reaches Sharpe 0.907 against QIS's 0.942 — within 4% at zero
+re-estimation cost, which is the shape of thing this pipeline can actually run.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2608.26990** (DSA: Evidence-Aware LLM-Agent Orchestration for Multi-Market Stock
+  Research, Zhu & Shi, 2026-08-27; surfaced by citation-following from hub 2605.19337) —
+  architecturally the closest thing yet published to this repo (six regional market paths,
+  fifteen bundled strategy skills), but the authors state plainly that their 1,457 passing
+  contract tests establish "implementation conformance for the tested software contracts,
+  not superior report quality, forecasting accuracy, or investment returns." No returns,
+  no Sharpe, no date range, no costs. Zero evidence content by this register's bar; of
+  interest as a design comparison only, never as a citation. Not deep-read.
+- **2608.26128** (Gómez Morales, "Analysis of the Principal Components of Correlation
+  Matrices of S&P 500 Financial Data from an Econophysics Perspective", 2026-06-23) —
+  430 S&P 500 names, k-Means over the largest eigenvalue and dominant-eigenvector entries,
+  transition matrices and inverse participation ratios. Self-described as "descriptive
+  rather than predictive": no trading evaluation, no costs, no returns. Every mechanism it
+  offers is already covered by 2604.17251's spectral descriptors and queue item 9. Discard.
+- **1102.1339** ("Correlation of financial markets in times of crisis", 2011) — surfaced by
+  the same query; pre-dates all three spectral papers already logged and adds no mechanism
+  they lack. Not fetched, so nothing is asserted about its contents beyond the title;
+  logged here only so it is not re-surfaced as unreviewed.
+
+## Added 2026-08-31 (daily task, Monday gap query: CPCV / purging / embargo)
+
+Dedup note: this theme already had a dedicated four-agent round on 2026-08-23 (see
+"CPCV / embargo — dedicated research round"), so the query was re-aimed at the adjacent
+question that round left open — *how do you grade a backtest after the purging is done*.
+Citation-following from hub 2605.19337 returned exactly four citing papers
+(2608.26990, 2607.19453, 2607.04958, 2606.08285), **all four already in the register**;
+it produced no new candidates today. Both arXiv APIs (Semantic Scholar, export.arxiv.org)
+returned HTTP 429 for the whole session, so search fell back to WebSearch + direct abs
+fetches.
+
+### 2608.23808 — Equity Strategy Backtesting: Luck or Edge? The MinervaScore as a Statistical Robustness Grade (Santoni, Jouanne & Scullin, v1 2026-08-24, v2 2026-08-26, q-fin.ST)
+
+Passed triage on the strength of what it does with its own negative result. The paper
+proposes a composite post-selection grade over five gates — Deflated Sharpe Ratio,
+Probability of Backtest Overfitting, Superior Predictive Ability, Minimum Track Record
+Length, and a regime-stability diagnostic — calibrated on 359,062 production backtest
+records, and then reports that on pre-registered unseen real-market data the score
+**showed no significant forward relationship** (Spearman rho_s = 0.013, one-sided
+permutation p = 0.40). It also states that its improvement over a corrected DSR-alone
+baseline is "modest".
+
+**Doing-right:** it pre-registers the real-market test, publishes the null, and refuses
+the obvious overclaim — the authors present the score "as an auditable validation and
+reporting layer, rather than as evidence of demonstrated real-market predictability."
+The AUROC 0.989 headline is explicitly confined to synthetic data with known ground truth.
+That separation of synthetic-discrimination from real-market-prediction is the exact
+discipline the weak entries in this register fail.
+
+**Gap (verified, and the reason this entry exists):** of the five gates, this repo
+implements one, mislabels a second, and has none of the other three.
+- DSR — **real.** `deflated_sharpe.py:42` (`expected_max_sr`, López de Prado E[max SR])
+  and `:52` (`dsr`, with skew/kurtosis denominator). Driven at `:61-93` over
+  `reports/profitability_optimizer.csv` per market x regime, gate at DSR >= 0.95.
+- PBO — **cited but not implemented.** `walk_forward_backtest.py:1086` carries the
+  citation "Source: Bailey et al. (2014) — 'Probability of Backtest Overfitting.'", but
+  the function it documents, `overfitting_report()` at `:1082`, computes
+  `decay = (train - val)/abs(train)*100` from mean Sharpe per split (`:1094-1096`) and
+  buckets it with hardcoded thresholds — HIGH >50%, MEDIUM >20% (`:1111-1116`). That is a
+  Sharpe-decay heuristic. PBO is the CSCV quantity: the fraction of train/test partitions
+  in which the in-sample-best configuration ranks below the out-of-sample median. The two
+  are not the same statistic and the citation should not be attached to this function.
+- SPA (Hansen), MTRL, regime-stability gate — **absent.** Grep over `*.py` for
+  `superior predictive ability|minimum track record|min_trl|track_record|hansen` returns
+  no implementation; the only `PBO`/`SPA` string hits are `cite_check.py:58` (an acronym
+  allowlist) and `smallcap_screener.py:259` (an unrelated single-page-app error string).
+
+**Second verified weakness, found while checking the above:** the trial count fed to the
+DSR is the narrow one. `deflated_sharpe.py:70` builds `trials_sr` from only the rows of
+`profitability_optimizer.csv` matching that market x regime — the generated report at
+`:100` describes it as "best of 10 factors" — while `T` at `:77` is `best["n"]`, formation
+weeks. Neither number accounts for configuration choices made elsewhere in the pipeline,
+and nothing anywhere checks that `T` is large enough for the estimate to mean anything.
+MinervaScore's opening sentence is precisely this failure: standard summaries "do not
+record how many candidates were tried... or whether the available history is long enough
+to support the result."
+
+**Not adoptable:** the composite score itself. It is calibrated on 359k proprietary
+backtest records this repo does not have, its component weights are fitted to that
+population, and its own real-market test came back null — adopting the 0-100 display
+would import a number with no demonstrated forward content. The transferable content is
+the **gate list**, not the aggregation.
+
+**Action queued:** items 19 (MTRL as a gate on the existing DSR verdicts) and 20 (replace
+the mislabelled Sharpe-decay heuristic with real CSCV PBO, and fix the citation either way).
+
+### 2512.12924 — Interpretable Hypothesis-Driven Trading: A Rigorous Walk-Forward Validation Framework for Market Microstructure Signals (Gagan Deep, Akash Deep & William Lamptey, 2025-12-15, q-fin.TR)
+
+Passed triage as a **negative result worth keeping**, not as a technique source. 100 US
+equities, 2015-2024 (2,475 days), walk-forward W=252 / H=63 / step=63 giving K=34 folds,
+explicit cost model (`$1` fixed commission + 5 bps slippage, execution at next day's open).
+Result: 140 trades, 0.55% annualized return, Sharpe 0.33, max drawdown -2.76%, beta 0.058,
+aggregate p = 0.34, and 14 of 34 folds profitable.
+
+**Doing-right:** publishes the null in the abstract, declines to dress it up, and states
+that it reports all tests "without adjusting for multiple comparisons to maintain
+transparency about statistical limitations" rather than quietly omitting the adjustment.
+It also reports **fold-level profitability (41%)** next to aggregate Sharpe — a per-period
+hit rate that survives a lucky single fold, which aggregate Sharpe does not.
+
+**Relevance (verified):** four of the five hypothesis families it tests map directly onto
+signals this repo already computes in `strategy_regime_survival.py:137-142` — `revert`
+(mean reversion), `breakout`, `mom_st`/`mom126` (flow momentum), `trend`. The paper's
+conclusion is that these patterns, derived from **daily OHLCV**, lack the information
+arrival to pay: "daily OHLCV-based microstructure signals require elevated information
+arrival and trading activity." This repo is a daily EOD OHLCV pipeline. The read-across is
+direct, and the honest use of the paper is as a prior against expanding the
+microstructure-signal family, not as a recipe.
+
+**Its own weaknesses, stated plainly:** it computes no deflated Sharpe (it cites Bailey &
+López de Prado in the literature review and then reports a raw Sharpe), applies no
+multiple-testing correction across 5 hypothesis types x 100 securities, and its
+walk-forward has **no purge or embargo gap** between the 252-day train and 63-day test
+windows — the same omission already tracked here as queue item 6. So it is a useful null,
+not a methodological exemplar.
+
+**Action queued:** none. The actionable content is a do-not-build prior plus the
+fold-level-profitability reporting habit, which is folded into item 20 rather than queued
+separately.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2511.12490** (Mainak Singha, "Discovery of a 13-Sharpe OOS Factor: Drift Regimes
+  Unlock Hidden Cross-Sectional Predictability", 2025-11-16) — EVIDENCE-GRADE: weak, and a
+  near-perfect specimen of the disease 2608.23808 describes. Claims out-of-sample Sharpe
+  "above 13" and 158.6% annualized at 12.0% volatility on S&P 500 names 2004-2024, with
+  R-squared below 3% to standard risk factors. The abs page **does not disclose how many
+  signal variants were searched** before this combination (value + short-term reversal,
+  activated only when a stock shows >60% positive days in a trailing 63-day window) was
+  selected — and a regime gate defined by a threshold on a trailing window is exactly the
+  kind of parameter that gets tuned. The 1,000 randomization trials it does report test
+  the sampling distribution of the chosen rule, not the selection process that produced it.
+  A Sharpe of 13 on daily US equities is not a finding, it is a diagnostic. Not deep-read;
+  logged here as the worked example for items 19-20.
+- **2606.09025** (Zheli Xiong, "Continuous Cash-Overlay Filters for a Static
+  Growth-Defensive Risk Sleeve", 2026-06-08, rev 2026-06-14) — 2 allocations (a risky ETF
+  sleeve vs cash) over 2017-2026, headline 18.83% CAGR vs 16.62% buy-and-hold with max
+  drawdown cut from -33.59% to -18.05%. No transaction-cost model stated. A single-sleeve
+  tactical overlay on a 9-year window that contains one crash; the walk-forward label in
+  the title does not offset a 2-asset universe. Off-scope for a cross-sectional screener.
+- **2607.06117** (Zheli Xiong, "Relief-Gated Relative Rotation for QQQ-DIA Allocation",
+  2026-07-07) — same author, same shape: **2 ETFs**, Sharpe 0.94 (2018 start) / 0.87
+  (2022 start), and to its credit it does model 10 bps one-way cost — which is how you can
+  see that it runs **354-506% annualized turnover**. Two instruments and a five-fold churn
+  rate is not a result this pipeline can use. Off-scope.
