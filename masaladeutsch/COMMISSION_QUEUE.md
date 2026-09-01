@@ -270,6 +270,42 @@ Format:
       of agricultural households are indebted, ₹74,121 average outstanding, which is a
       second piece, not this one.
 
+- [ ] The 4% every Indian insurance policy pays to one state reinsurer
+      Source: IRDAI's annual obligatory-cession notification for FY 1 Apr 2025 – 31 Mar
+      2026, quoted verbatim in Reinsurance News (fetched 2026-09-01) — "The percentage
+      cession of the sum insured on each General Insurance Policy to be reinsured with the
+      Indian Re-insurer(s) shall be 4% (four percent)...". Backing data: IRDAI Annual
+      Report 2024-25 (free PDF, no login — 74 registered insurers/reinsurers as at
+      31.03.2025, industry AUM ₹74.43 lakh crore). Segment data for the general-insurance
+      side: General Insurance Council statistics (Flash Figures, Segmentwise Report, GIC
+      Year Book 2024-25 PDF, all free, no login) — see the separate BACKGROUND entry.
+      Argument: every general insurance policy written in India carries a compulsory 4%
+      cession of sum insured to a single state-owned reinsurer, GIC Re — held at 4% for
+      three consecutive years, down from 5%, with statutory minimums running to 15% on
+      most classes. But the recipient's dependence on the mandate has moved sharply while
+      the rate sat still: obligatory business was 30% of GIC Re's revenue in FY21, 43% the
+      year before last, and 39% across April–October FY25. A compulsory transfer is
+      usually reported as a fixed arrangement; the rate is fixed and the thing it does is
+      not.
+      Checks needed: (1) 🔴 pull the notification from irdai.gov.in itself — this reached
+      the register through a trade publication quoting it, and the register's rule is that
+      press attribution is not primary; (2) do NOT repeat the 5%→4% history until the year
+      of that change is sourced, the article does not give it; (3) 43%→39% is an
+      April–October part-year figure — never present it as a full-year share; (4) 4%
+      cession is 4% of *sum insured per policy*, not 4% of industry premium — do not
+      convert without the Annual Report's own tables; (5) source GIC Re's revenue split
+      from GIC Re's own disclosures, not from the same article.
+      Logged: 2026-09-01 from the IRDAI obligatory-cession register entry
+      Opens: the wholesale/plumbing end of the near-empty *Insurance & Reinsurance* beat.
+      Manifest dedup run 2026-09-01 (238 posts): `insur|reinsur|irdai|ifsca|gift.?city|
+      solvency|actuar` returns exactly ONE post, `premium-now-claim-later-float-indias`
+      (motor float — the retail side of the same balance sheet, and the natural
+      cross-link). `irdai`, `ifsca`, `gift city`, `solvency`, `actuar`: zero hits each.
+      Structural sibling: `who-collects-indias-gst-and-who`, same who-pays-vs-who-receives
+      framing applied to a mandated transfer instead of a tax. Cite both as reporting,
+      never as confirmation.
+
+
 ## Done
 
 - [x] What a farm labourer earns, and why it stopped tracking output

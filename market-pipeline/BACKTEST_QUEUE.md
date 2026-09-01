@@ -286,6 +286,50 @@ when it's been run; do not delete history.
     (Deep, Deep & Lamptey) for the fold-level metric. Independent of item 6 (purge+embargo,
     which is about leakage into the split); this is about grading what comes out of it.
 
+21. **The factor-redundancy measurement and the factor model are both linear — neither
+    can see a square or a product** — `research/factor_redundancy.py:15-16` reports
+    participation ratio 4.92/10 (IN) and 4.53/10 (US) from a *Pearson* correlation of
+    the 10-factor matrix, and `factor_learning.py:43` `build_xy()` hands `LassoCV`
+    (`:88`) those same 10 raw columns and nothing else. Two factors that are linearly
+    near-orthogonal but related through f_i^2 or f_i*f_j are therefore invisible to the
+    diagnosis AND unavailable to the model — the identical blind spot on both sides, so
+    4.92 is an *upper* bound on independence, not a lower one. Apply 2503.23501's
+    procedure to the repo's own set: from the 10 `FACTORS` (`factor_learning.py:37`)
+    build 10 squares + 45 pairwise products = 55 candidates (the paper builds 57 from
+    6 base factors), then forward-select by whichever candidate most raises the
+    Fama-MacBeth second-stage cross-sectional R-squared, stopping at the paper's
+    <1 percentage point rule. Falsifiable prediction: if any raw factor `LassoCV`
+    currently keeps (`:119` logs which) loses its weight once its own square or one of
+    its products is admitted, that factor was never carrying independent information and
+    the kept-factor count in `factor_learning.md` overstates the model's breadth. Grade
+    the result on the repo's existing harness — OOS info ratio via
+    `factor_learning.py:62 ls_book_ir` — not on R-squared alone. Cheap: no new data, no
+    fetch, no new panel; `build_xy` already returns the matrix. 🔴 Note the repo has
+    **no Fama-MacBeth implementation at all** (`grep -rniE 'fama_macbeth|FamaMacBeth'`
+    = 0; `paper_claim_audit.py:26` is a citation string only), so this builds one — keep
+    it in `research/`, not in the nightly path. Motivated by: 2503.23501 (Borri,
+    Chetverikov, Liu & Tsyvinski), with 2404.08129 as background. Extends item 1, which
+    measured the linear half of this question and is marked DONE.
+
+22. **No closed-form max-Sharpe baseline sits between the Lasso and the PPO** — factor
+    weights are produced either by `LassoCV` (`factor_learning.py:88`, an MSE fit that
+    optimises nothing the book is graded on) or by PPO
+    (`train_ppo_factor_weights.py`), with nothing cheap in between;
+    `grep -rniE 'ridge|tangency|britten'` finds ridge only as a per-stock price ML
+    engine (`full_us_market_scan.py:83`) and `fund_implementability.py:18` explicitly
+    declines the tangency question. Add the ridge-penalised Britten-Jones (1999)
+    estimator 2602.20856 uses: regress a vector of ones on the matrix of the 10 factor
+    returns, cross-validate the shrinkage lambda, read off closed-form tangency weights.
+    Concrete test: run it against both incumbents on the same `ls_book_ir`
+    (`factor_learning.py:62`) OOS info ratio. Cheap and diagnostic either way — if a
+    ~20-line closed form matches the PPO, the PPO's training cost is unearned; if it
+    loses badly, that is the first evidence the repo has that the RL formulation is
+    buying something. 🔴 Take the estimator, NOT the paper's numbers: its 2.21/3.32
+    out-of-sample Sharpes are gross, on leverage-two long-short books rebalanced
+    monthly, with no turnover figure and no cost deduction reported anywhere — the exact
+    quantity item 16 exists to interrogate. Motivated by: 2602.20856 (Avramov & He).
+
+
 ## Done
 
 (none yet)

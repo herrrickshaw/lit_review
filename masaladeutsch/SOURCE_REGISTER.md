@@ -585,3 +585,97 @@ with a ₹4,000 threshold, not a synonym for "farmer" — the piece must define 
   open-item vintage check described above. Still ends at Vol. 37 No. 1 (2024). Not a
   candidate in itself; logged so the next Monday/Friday run does not re-fetch it hoping
   for a new issue. Re-check no sooner than a month out.
+
+---
+
+## Added 2026-09-01 (Tuesday theme: insurance, reinsurance and financial plumbing)
+
+Dedup baseline for this whole section, run 2026-09-01 against `meta/manifest.json`
+(snapshot 2026-08-31, **238 posts**): a regex for `insur|reinsur|irdai|ifsca|gift.?city|
+solvency|actuar` over the full manifest returns **exactly one post** —
+`premium-now-claim-later-float-indias` ("Premium Now, Claim Later: The Float India's Car
+Boom Is Building", 2026-08-22, labels incl. *Insurance & Reinsurance*), which is motor
+float. `irdai`, `ifsca`, `gift city`, `solvency` and `actuar` return **zero**. The beat is
+as empty as the survey said.
+
+### IRDAI obligatory cession to GIC Re, held at 4% for FY 2025-26 (third consecutive year)
+
+IRDAI's annual cession notification for the financial year 1 April 2025 – 31 March 2026,
+as reported and quoted by Reinsurance News (fetched 2026-09-01, HTTP 200).
+
+- **Data**: the notification text itself is quoted verbatim — "The percentage cession of
+  the sum insured on each General Insurance Policy to be reinsured with the Indian
+  Re-insurer(s) shall be 4% (four percent) in respect of insurance attaching during the
+  financial year beginning from 1st April, 2025 to 31st March, 2026." The backing
+  dataset is the **IRDAI Annual Report 2024-25** (free PDF, no login — a copy is served
+  at `lifeinscouncil.org/component/IRDAI%20Annual%20Report%202024-25.pdf`; source it from
+  `irdai.gov.in` before publication), which carries 74 registered insurers and reinsurers
+  as at 31 March 2025 and industry AUM of ₹74.43 lakh crore. Minimum commission floors by
+  line are also stated: 5% motor TP and oil & energy, 10% group health, 7.5% crop, 15% all
+  other classes.
+- **Finding**: every general insurance policy written in India carries a **compulsory 4%
+  cession to a single state-owned reinsurer**, GIC Re — held at 4% for the third year
+  running, down from 5% earlier. The interesting number is on the receiving side: GIC Re's
+  obligatory business fell from **43% of total revenue to 39%** (April–October FY25), and
+  was 30% in FY21. So the mandate is being *held constant* while the recipient's
+  dependence on it moves — up sharply from FY21, then down again. A compulsory transfer
+  whose share of the beneficiary's book is not stable is not the settled arrangement it is
+  usually described as.
+- **Blog fit**: opens the near-empty **Insurance & Reinsurance** beat from the
+  wholesale/plumbing end rather than the retail end. Nearest published post is
+  `premium-now-claim-later-float-indias` (motor float — the retail side of the same
+  balance sheet). The structural sibling is `who-collects-indias-gst-and-who`: identical
+  who-pays-vs-who-receives framing, applied to a mandated transfer instead of a tax.
+- **Caveat**: the 4% and the quoted sentence reached this register **through a trade
+  publication quoting the notification**, not from `irdai.gov.in` directly — pull the
+  notification itself before publishing, and do not repeat the 5%-to-4% history until the
+  year of that change is sourced (the article does not give it). The 43%→39% figure is a
+  **part-year** number (April–October FY25) and must not be presented as a full-year
+  share. Finally, "4% cession" is 4% of *sum insured on each policy*, not 4% of industry
+  premium — do not convert one into the other without the Annual Report's own tables.
+- Grade: **COMMISSIONABLE**. Logged 2026-09-01.
+
+### General Insurance Council industry statistics (Flash Figures, Segmentwise Report, GIC Year Book 2024-25)
+
+`gicouncil.in/statistics/industry-statistics/`, fetched 2026-09-01.
+
+- **Data**: four published series — **Flash Figures**, **Segmentwise Report**, **Financial
+  Highlights**, and **Yearbook Archives**, latest edition **GIC Year Book 2024-25**, served
+  as a PDF at `/Year-Book/GIC_Yearbook_2024-25.pdf`. Free, no login, no paywall on the
+  statistics pages. Segments covered: fire, marine, motor, health, aviation, liability,
+  personal accident, crop, engineering, property, miscellaneous. This is the segment-level
+  premium data the blog would need for any general-insurance piece, and it is the natural
+  primary behind the existing motor-float post.
+- **Finding (NOT yet primary-verified)**: the statistics page surfaces **₹94,247.6 crore in
+  total health claims settled in 2024-25, with cashless-only admissions at 66.4% of
+  volume**. Both fetches placed this figure inside a **news item on the page**, not in a
+  data table — so it is trade-press-on-a-trade-body-site, which is not the same thing as
+  the Council's own statistics.
+- **Blog fit**: the dataset, not the figure, is what earns the entry — it is the missing
+  primary under the whole *Insurance & Reinsurance* label, and it would let a future piece
+  put the motor float of `premium-now-claim-later-float-indias` next to the other ten
+  segments instead of standing alone.
+- **Caveat**: periodicity and year-coverage of Flash Figures and the Segmentwise Report
+  were **not** resolvable from the fetched pages — confirm both before building anything
+  time-series on them. The health-claims figure above must be re-sourced from the Year Book
+  PDF or dropped; do not publish it on the page-snippet's authority. Note also that the GI
+  Council is an **industry body**, not the regulator — cross-read anything load-bearing
+  against IRDAI.
+- Grade: **BACKGROUND** (obtainable primary data confirmed; no verified finding yet).
+  Logged 2026-09-01.
+
+### Weak / not deep-read, one line each
+
+- **GIFT City IIO premiums "quadruple to $648.7 million in FY26"** (Business Standard,
+  4 June 2026) — the most striking number of the day and a confirmed zero-coverage area,
+  but the **primary could not be located**: the Business Standard article 403s,
+  `ifsca.gov.in/Publication` 404s, and the IFSCA Bulletin listing
+  (`ReportPublication/index/wF6kttc1JR8=`) renders an **empty table**. IFSCA's own homepage
+  publishes a differently-scoped counter — **"USD 334 Mn+ premium transacted by insurance
+  entities (IIOs & IIIOs)" for Q4 2025-26** — which includes intermediary offices and so
+  cannot be reconciled with the press figure without the underlying release. A quadrupling
+  off a $162.10 mn base is also a small-base artefact as much as a finding. Re-try when the
+  **IFSCA Annual Report 2025-26** appears; do not commission on press attribution alone.
+- **NCAER, "Making the IFSC a Re-insurance Hub"** (hosted on ifsca.gov.in,
+  `ncaer-report20042022032732.pdf`, dated 2022) — a commissioned advocacy report, four years
+  stale, and its numbers are projections rather than released data. Background at best.

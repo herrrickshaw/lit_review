@@ -1058,3 +1058,100 @@ separately.
   (2022 start), and to its credit it does model 10 bps one-way cost — which is how you can
   see that it runs **354-506% annualized turnover**. Two instruments and a five-fold churn
   rate is not a result this pipeline can use. Off-scope.
+
+---
+
+## Added 2026-09-01 (daily task, Tuesday gap query: factor redundancy / spanning tests)
+
+Citation-following from hub 2605.19337 returned the same four citing papers as the last
+two runs (2608.26990, 2607.19453, 2607.04958, 2606.08285), **all already in the
+register** — the hub's citation graph is exhausted for now. The Tuesday query was last
+run 2026-08-25 (2601.10279, 2111.05072), so it was re-aimed from *which factor model
+wins a spanning test* to *are my factors redundant through terms a correlation matrix
+cannot see*. Five new candidates, two deep-read.
+
+### 2503.23501 — Higher-Order Asset Pricing Factors via Forward Selection Fama-MacBeth Regression (Borri, Chetverikov, Liu & Tsyvinski, v1 2025-03-30, v2 2026-03-24)
+
+EVIDENCE-GRADE: strong. 555 months (1973-10 to 2019-12), 484 characteristic-managed
+portfolios, plus 148 zoo factors from Jensen, Kelly & Pedersen (2023) as the comparison
+set. Metric is cross-sectional R-squared reported **both in- and out-of-sample**, not a
+price-level error. No transaction-cost model, but it is an asset-pricing test rather than
+a strategy backtest, so cost is not the load-bearing omission it would be for a signal.
+
+Method: from 6 base factors (FF5 + momentum) build 57 candidates — 6 squares, 6 cubes,
+15 pairwise products f_i·f_j, 30 mixed f_i·f_j². Forward-select by whichever candidate
+most raises the Fama-MacBeth second-stage cross-sectional R², stopping when the next
+addition buys less than 1 percentage point. Seven terms are selected (2 squares,
+5 interactions). In-sample R² rises 31.2% → 58.7%; out-of-sample 8.9% → 14.8%. Only
+**7 of 148 zoo factors stay significant at 5%** once the higher-order terms are in.
+
+- Doing-right: nothing here yet — this is a clean gap.
+- Gap (verified): the repo's redundancy diagnosis is **linear-only, on both sides**.
+  `research/factor_redundancy.py:15-16` takes a *Pearson* correlation of the 10-factor
+  matrix and eigendecomposes it, reporting participation ratio 4.92/10 (IN) and 4.53/10
+  (US). The model that consumes those factors is equally linear: `factor_learning.py:43`
+  `build_xy()` stacks the 10 raw `FACTORS` (`:37`) and nothing else, and `:88` fits
+  `LassoCV` on that matrix. So a pair that is linearly near-orthogonal but related
+  through a square or a product is invisible to the measurement *and* unavailable to the
+  model — the same blind spot twice. `grep -rniE 'fama_macbeth|FamaMacBeth'` over the
+  repo returns **zero implementations**; the only hit is a citation string in
+  `paper_claim_audit.py:26`.
+- Why it matters here specifically: the repo's 10 factors all come off ONE weekly close
+  panel (`factor_learning.py:43` → `factor_library(close)`), which is exactly the
+  condition under which the paper's result bites — a small base set whose apparent
+  variety is higher-order structure, not new information. A PR of 4.92 measured
+  linearly is an *upper* bound on independence, not a lower one.
+- Action queued: item 21.
+
+### 2602.20856 — Stochastic Discount Factors with Cross-Asset Spillovers (Avramov & He, 2026-02-24)
+
+EVIDENCE-GRADE: mixed — excellent disclosure, unusable headline. Monthly CRSP
+NYSE/AMEX/NASDAQ, 1963-01 to 2023-12, out-of-sample from 1973-02 on rolling 10-year
+(120-month) windows, 138 firm-level signals across 13 themes from Jensen et al. (2023),
+tested on 138 spread and 544 bivariate-sorted portfolios. Period, universe and window
+are all stated — better than most of what this register sees.
+
+Then the headline: annualised out-of-sample Sharpe **2.21** (spread) and **3.32**
+(bivariate) versus 0.60 for self-predictive benchmarks, moderating to 1.58/2.21
+post-2000. These are **gross**. The paper implements zero-cost leverage-two long-short
+books rebalanced monthly and reports no turnover figure and no cost deduction anywhere.
+A 3.32 Sharpe on monthly-rebalanced 544-portfolio long-short with costs unmeasured is
+not a number this pipeline can borrow; the *method* is still worth taking.
+
+Method worth taking: the estimation is not a neural net. It recasts max-Sharpe as a
+managed-portfolio problem and solves it as a **ridge-penalised Britten-Jones (1999)
+regression** — regress a vector of ones on the managed-portfolio return matrix, with λ
+chosen by cross-validation — giving closed-form tangency weights.
+
+- Gap (verified): the repo has no tangency/max-Sharpe factor combination at all.
+  `grep -rniE 'ridge|tangency|britten'` finds ridge used only as a per-stock price
+  ML engine (`full_us_market_scan.py:83`), and `fund_implementability.py:18` explicitly
+  disclaims the tangency question. Factor weights come from `LassoCV`
+  (`factor_learning.py:88`, an IR-agnostic MSE fit) and from PPO
+  (`train_ppo_factor_weights.py`), with **no closed-form baseline between them**.
+- Doing-right: the repo's own cost discipline is ahead of this paper's — queue item 16
+  already treats net-of-cost churn as the question, which is precisely what a 3.32 gross
+  Sharpe hides.
+- Action queued: item 22 (the baseline, not the Sharpe claim).
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2604.04430** (Dickerson, Julliard & Mueller, "The Co-Pricing Factor Zoo",
+  2026-04-06) — genuinely strong (Bayesian Model Averaging over "18 quadrillion models",
+  out-of-sample Sharpe 1.5-1.8), but it prices **corporate bonds** jointly with stocks
+  and needs Treasury term-structure controls and a BMA apparatus this pipeline has
+  neither the data nor the reason to build. Same lead author as 2604.07880, already in
+  the register. Off-scope, not weak.
+- **2404.08129** (Borri, Chetverikov, Liu & Tsyvinski, "One Factor to Bind the
+  Cross-Section of Returns", 2024-04-11) — the same team's precursor to 2503.23501: a
+  non-linear single-factor model r_it = h(f_t·λ_i) + ε_it estimated by sieve, justified
+  via Kolmogorov-Arnold. Only **171 assets** across mixed asset classes, and a
+  nonparametric link function is a heavier lift than the forward-selection procedure for
+  the same underlying insight. Logged as background to item 21; the successor is the
+  actionable one.
+- **2004.02670** (Arvanitis, Scaillet & Topaloglou, "Spanning analysis of stock market
+  anomalies under Prospect Stochastic Dominance", 2020-04-06) — a subsampling +
+  linear-programming test for whether anomalies expand the opportunity set *for
+  prospect-theory investors*. The abs page discloses no universe, period or metric, and
+  the prospect-utility framing does not map onto a screener that ranks on returns.
+  Off-scope.
