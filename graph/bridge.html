@@ -202,15 +202,15 @@ footer{
 <div class="wrap">
 
 <header class="mast">
-  <div class="eyebrow"><span>Knowledge graph rebuild</span><span>1 September 2026</span><span>69 repos</span></div>
+  <div class="eyebrow"><span>Knowledge graph rebuild</span><span>1 September 2026</span><span>63 repos</span></div>
   <h1>Register to <em>Repo</em></h1>
   <p class="standfirst">The daily literature review writes prose. The code graph holds structure.
   Neither knew the other existed — until you notice the register was already citing the
   repo by <span class="mono">file:line</span>, on every claim, by rule.</p>
 
   <div class="strip">
-    <div class="stat c"><div class="n">137,848</div><div class="k">code nodes</div></div>
-    <div class="stat c"><div class="n">161,269</div><div class="k">code edges</div></div>
+    <div class="stat c"><div class="n">134,094</div><div class="k">code nodes</div></div>
+    <div class="stat c"><div class="n">155,819</div><div class="k">code edges</div></div>
     <div class="stat l"><div class="n">167</div><div class="k">literature nodes</div></div>
     <div class="stat b"><div class="n">161</div><div class="k">bridge edges</div></div>
     <div class="stat b"><div class="n">60</div><div class="k">code targets hit</div></div>
@@ -334,16 +334,81 @@ footer{
 
   <div class="note">
     <div class="t">Read the top row with suspicion</div>
-    <p><span class="mono">CBSE_paper_patterns</span> is <b>70.1%</b> of every node in the 69-repo graph.
+    <p><span class="mono">CBSE_paper_patterns</span> is <b>72.1%</b> of every node in the 63-repo graph.
     It is a question corpus, not a codebase, so any graph-wide statistic — community structure, degree
-    distribution, "most connected symbol" — is really a statement about it. The 8,475 cross-repo shared
-    symbols are similarly soft: the top one is <span class="mono">README.md</span>, in 65 repos.
+    distribution, "most connected symbol" — is really a statement about it. The 5,604 cross-repo shared
+    symbols are similarly soft: the top one is <span class="mono">README.md</span>, in 59 repos.
     Useful for navigation, not for inference.</p>
   </div>
 </section>
 
 <section>
-  <div class="shead"><div class="snum">05</div><h2>Rebuilding it</h2></div>
+  <div class="shead"><div class="snum">05</div><h2>Turning the graph on the other repos</h2></div>
+  <p class="lede">The same comparison that caught the market-pipeline stub, run across all 63 repos.
+  It found the bug twice — and the second time the first fix was not enough.</p>
+
+  <p>Fingerprinting each repo by its set of <span class="mono">(filename, symbol)</span> pairs and
+  comparing every pair produced five repo pairs at <b>100% overlap</b>. Three of them turned out
+  not to be duplicates at all: they were <em>one</em> GitHub repo counted twice, because the local
+  checkout sits in a directory named differently from its own remote.</p>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Local checkout</th><th>Counted again as</th><th>Shared remote</th></tr></thead>
+      <tbody>
+        <tr><td class="f">~/BazaarTalks-cpp</td><td class="f">Bazartalks_Py2Cplus</td><td class="f">Bazartalks_Py2Cplus.git</td></tr>
+        <tr><td class="f">~/masaladeutsch-archive</td><td class="f">blogger_writeups_code</td><td class="f">blogger_writeups_code.git</td></tr>
+        <tr><td class="f">~/omc-retail-profitability-model</td><td class="f">india-omc-fuel-fleet-model</td><td class="f">india-omc-fuel-fleet-model.git</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <div class="t">Keying on the name was not enough — key on the remote</div>
+    <p>The first fix deduplicated by directory basename, which cannot see these: the two names
+    genuinely differ. Re-keying the merge on the normalised <span class="mono">origin</span> URL
+    collapsed them. The graph dropped from 69 repos to <b>63</b>, and from 137,848 nodes to
+    <b>134,094</b> — but the sharper correction is the reuse index, which fell from 8,475 shared
+    symbols to <b>5,604</b>. Roughly a third of the cross-repo "code reuse" signal was a repo
+    being compared against itself.</p>
+  </div>
+
+  <p>Collapsing the aliases leaves the finding that actually matters standing — two pairs of
+  <em>genuinely distinct</em> GitHub repos holding identical code:</p>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Repo pair (separate remotes)</th><th style="width:150px">Identical symbols</th><th style="width:120px">Last commit</th></tr></thead>
+      <tbody>
+        <tr><td class="f">BazaarTalks &nbsp;~&nbsp; global-market-scanners</td><td class="num">848 / 848</td><td class="num">2026-08-02</td></tr>
+        <tr><td class="f">bms-battery-management &nbsp;~&nbsp; ev-battery-management-sim</td><td class="num">290 / 290</td><td class="num">2026-07-22</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Below that sits a family that is <em>partly</em> shared rather than forked — the market
+  repos, where consolidation is a design question rather than a cleanup:
+  <span class="mono">global-market-data</span> ~ <span class="mono">global-stock-screener</span>
+  at 70.9%, ~ <span class="mono">stock-screener-platform</span> at 58.4%, ~
+  <span class="mono">market-pipeline</span> at 52.1%. The shared surface is concrete and named:
+  <span class="mono">is_trading_day()</span>, <span class="mono">trading_days()</span>,
+  <span class="mono">turnover()</span>, <span class="mono">z_score_normalise()</span>,
+  <span class="mono">load_universe()</span> — a market-calendar and factor-primitives layer that
+  exists five times.</p>
+
+  <div class="note">
+    <div class="t">Two things the scan did not justify</div>
+    <p><b>Orphaned code is not a problem here.</b> Unreferenced definitions run under 1.2% in every
+    repo above 60 symbols — there is no dead-code cleanup worth doing.</p>
+    <p><b>The "god file" list is mostly a false positive.</b> Its top two entries are
+    <span class="mono">REPO_INDEX.json</span> at 215 "definitions" — a data file being counted as
+    code. The real ones are test files and
+    <span class="mono">market-pipeline/…/specifications.py</span> at 56.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><div class="snum">06</div><h2>Rebuilding it</h2></div>
   <p class="lede">All extraction is local tree-sitter parsing — no API tokens, no network.
   Only the bridge step reads both graphs together.</p>
 <pre><span class="c"># 1. per-repo AST graphs (44/48 repos built, ~19,700 nodes)</span>
@@ -352,15 +417,18 @@ python3 ~/.ruflo/scripts/graphify_all_repos.py
 <span class="c"># 2. market-pipeline is not its own git repo — graph it explicitly</span>
 graphify update ~/market-pipeline --no-cluster
 
-<span class="c"># 3. union into the cross-repo map (local checkout beats gh-clone)</span>
+<span class="c"># 3. union into the cross-repo map (dedup by REMOTE, local beats clone)</span>
 python3 ~/.ruflo/scripts/graphify_merge_direct.py
 
 <span class="c"># 4. parse the registers and resolve file:line into the code graph</span>
-python3 /Users/Shared/lit_review/tools/build_lit_graph.py</pre>
+python3 /Users/Shared/lit_review/tools/build_lit_graph.py
+
+<span class="c"># 5. turn the graph on the repos themselves (stubs, twins, god files, orphans)</span>
+python3 /Users/Shared/lit_review/tools/diagnose.py</pre>
 </section>
 
 <footer>
-  <span>Code graph · ~/.graphify/global-graph.json · 108.7 MB</span>
+  <span>Code graph · ~/.graphify/global-graph.json · 105.3 MB</span>
   <span>Literature graph · ~/.graphify/literature-graph.json</span>
   <span>Corpus · /Users/Shared/lit_review</span>
 </footer>
