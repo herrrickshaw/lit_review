@@ -1,0 +1,2669 @@
+{
+ "directed": true,
+ "nodes": [
+  {
+   "id": "paper::2605.19337",
+   "kind": "paper",
+   "label": "2605.19337",
+   "title": "Agentic Trading: When LLM Agents Meet Financial Markets",
+   "grade": "strong",
+   "section": "Strong evidence, high relevance",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "paper::2607.15414",
+   "kind": "paper",
+   "label": "2607.15414",
+   "title": "AI Trading: Evaluating LLMs for Technical Market Analysis",
+   "grade": "strong",
+   "section": "Strong evidence, high relevance",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_build_mailer_rationale_420",
+   "kind": "code",
+   "label": "Strategy-level convergence: which screens pick names the news covers.      The n",
+   "file": "code/python_files/build_mailer.py",
+   "line": 420,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2602.00196",
+   "kind": "paper",
+   "label": "2602.00196",
+   "title": "Generative AI for Stock Selection (Rasekhschaffe)",
+   "grade": "strong",
+   "section": "Strong evidence, high relevance",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_factor_learning",
+   "kind": "code",
+   "label": "factor_learning.py",
+   "file": "code/python_files/factor_learning.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::1809.09441",
+   "kind": "paper",
+   "label": "1809.09441",
+   "title": "Temporal Relational Ranking for Stock Prediction (RSR)",
+   "grade": "strong",
+   "section": "Strong evidence, high relevance",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_build_mailer_news_rows",
+   "kind": "code",
+   "label": "_news_rows()",
+   "file": "code/python_files/build_mailer.py",
+   "line": 214,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2607.19005",
+   "kind": "paper",
+   "label": "2607.19005",
+   "title": "Observable Matrix Dynamics of Stocks (Halperin)",
+   "grade": "strong",
+   "section": "Strong evidence, high relevance",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_market_regime_compute",
+   "kind": "code",
+   "label": "_compute()",
+   "file": "code/python_files/market_regime.py",
+   "line": 56,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2603.19286",
+   "kind": "paper",
+   "label": "2603.19286",
+   "title": "Generalized Stock Price Prediction w/ News Fusion",
+   "grade": "strong",
+   "section": "Strong evidence, high relevance",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_sentiment_pipeline_rationale_399",
+   "kind": "code",
+   "label": "Match feed entries by COMPANY NAME (preferred) rather than ticker.          If a",
+   "file": "code/python_files/sentiment_pipeline.py",
+   "line": 399,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2506.16746",
+   "kind": "paper",
+   "label": "2506.16746",
+   "title": "SSPT: Pre-training Time Series Models with Stock Data Customization",
+   "grade": "strong",
+   "section": "Strong evidence, high relevance",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "paper::2604.17251",
+   "kind": "paper",
+   "label": "2604.17251",
+   "title": "ORCA: Online Regime Correlation Analyzer (Kriuk & Kriuk, 2026-04-19)",
+   "grade": "strong",
+   "section": "Added 2026-08-23 (daily task)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_market_correlation_scan_rationale_161",
+   "kind": "code",
+   "label": "Returns (correlation_matrix, clusters) where clusters is a list of sets     of s",
+   "file": "code/python_files/market_correlation_scan.py",
+   "line": 161,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_walk_forward_backtest",
+   "kind": "code",
+   "label": "walk_forward_backtest.py",
+   "file": "code/python_files/walk_forward_backtest.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_market_correlation_scan_run",
+   "kind": "code",
+   "label": "run()",
+   "file": "code/python_files/market_correlation_scan.py",
+   "line": 257,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2608.09641",
+   "kind": "paper",
+   "label": "2608.09641",
+   "title": "Lower Spectrum of Financial Correlation Matrices (Grassi, Pastorino, Uberti, 2026-08-10)",
+   "grade": "medium",
+   "section": "Added 2026-08-23 (daily task)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "paper::2607.04958",
+   "kind": "paper",
+   "label": "2607.04958",
+   "title": "Look-Ahead-Freedom as Temporal Non-Interference (Fonseca, 2026-07-06)",
+   "grade": "n/a",
+   "section": "Added 2026-08-23 (daily task)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_pe_bands_connect",
+   "kind": "code",
+   "label": "connect()",
+   "file": "code/python_files/pe_bands.py",
+   "line": 65,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2606.08285",
+   "kind": "paper",
+   "label": "2606.08285",
+   "title": "Beyond Agent Architecture: Execution Assumptions and Reproducibility in LLM-Based Trading Systems (Yao & Zheng, 2026-06-06)",
+   "grade": "unstated",
+   "section": "Added 2026-08-24 (daily task, citation-following from hub 2605.19337)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_adaptive_liquidity_retier",
+   "kind": "code",
+   "label": "retier()",
+   "file": "code/python_files/adaptive_liquidity.py",
+   "line": 236,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_backtest_piotroski_plus",
+   "kind": "code",
+   "label": "backtest_piotroski_plus.py",
+   "file": "code/python_files/backtest_piotroski_plus.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_backtest_screeners",
+   "kind": "code",
+   "label": "backtest_screeners.py",
+   "file": "code/python_files/backtest_screeners.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
+   "kind": "code",
+   "label": "build()",
+   "file": "code/python_files/backtest_liquidity_forward.py",
+   "line": 69,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_backtest_pe_anomalies_pit_eps_panel",
+   "kind": "code",
+   "label": "pit_eps_panel()",
+   "file": "code/python_files/backtest_pe_anomalies.py",
+   "line": 157,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_backtest_ccc_pit_panel",
+   "kind": "code",
+   "label": "pit_panel()",
+   "file": "code/python_files/backtest_ccc.py",
+   "line": 134,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2601.10279",
+   "kind": "paper",
+   "label": "2601.10279",
+   "title": "Selecting and Testing Asset Pricing Models: A Stepwise Approach (Feng, Lan, Wang & Zhang, 2026-01-15)",
+   "grade": "medium",
+   "section": "Added 2026-08-25 (daily task, Tuesday gap query: factor redundancy / spanning tests)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_factor_learning_main",
+   "kind": "code",
+   "label": "main()",
+   "file": "code/python_files/factor_learning.py",
+   "line": 77,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2111.05072",
+   "kind": "paper",
+   "label": "2111.05072",
+   "title": "The Evolving Causal Structure of Equity Risk Factors (D'Acunto, Bajardi, Bonchi & De Francisci Morales, 2021-11-09)",
+   "grade": "medium",
+   "section": "Added 2026-08-25 (daily task, Tuesday gap query: factor redundancy / spanning tests)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::research_correlation_regime_spectrum",
+   "kind": "code",
+   "label": "correlation_regime_spectrum.py",
+   "file": "research/correlation_regime_spectrum.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::research_factor_redundancy_spectral_stats",
+   "kind": "code",
+   "label": "spectral_stats()",
+   "file": "research/factor_redundancy.py",
+   "line": 42,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::research_factor_redundancy_main",
+   "kind": "code",
+   "label": "main()",
+   "file": "research/factor_redundancy.py",
+   "line": 56,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2507.07107",
+   "kind": "paper",
+   "label": "2507.07107",
+   "title": "Machine Learning Enhanced Multi-Factor Quantitative Trading: A Cross-Sectional Portfolio Optimization Approach with Bias Correction (Yimin Du, v1 2025-06-02, v2 2026-05-09)",
+   "grade": "medium",
+   "section": "Added 2026-08-26 (daily task, Wednesday gap query: learning-to-rank cross-sectional equity returns)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_cost_vs_edge_rationale_124",
+   "kind": "code",
+   "label": "Amihud ILLIQ: price impact per $1M traded (scaled), per symbol.",
+   "file": "code/python_files/cost_vs_edge.py",
+   "line": 124,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_run_existing_screeners_fixed_rationale_56",
+   "kind": "code",
+   "label": "fn is detect_darvas_signals or detect_golden_cross_signals -- the real     produ",
+   "file": "code/python_files/run_existing_screeners_fixed.py",
+   "line": 56,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_risk_management",
+   "kind": "code",
+   "label": "risk_management.py",
+   "file": "code/python_files/risk_management.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_screener_kit_rationale_81",
+   "kind": "code",
+   "label": "{symbol: OHLCV} for a market, from the live cache or committed seed.      min_tu",
+   "file": "code/python_files/screener_kit.py",
+   "line": 81,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_daily_breakout_combo_us_main",
+   "kind": "code",
+   "label": "main()",
+   "file": "code/python_files/daily_breakout_combo_us.py",
+   "line": 73,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_liquidity_rationale_126",
+   "kind": "code",
+   "label": "Amihud ILLIQ (price impact per USD1m traded). None when unmeasurable.      Days",
+   "file": "code/python_files/liquidity.py",
+   "line": 126,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_backtest_piotroski_plus_liquid_universe",
+   "kind": "code",
+   "label": "liquid_universe()",
+   "file": "code/python_files/backtest_piotroski_plus.py",
+   "line": 73,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_iter_utils_with_circuit_breaker",
+   "kind": "code",
+   "label": "with_circuit_breaker()",
+   "file": "code/python_files/iter_utils.py",
+   "line": 48,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_factorial_screener_test_kr_flag_stale_halted_days",
+   "kind": "code",
+   "label": "_flag_stale_halted_days()",
+   "file": "code/python_files/factorial_screener_test_KR.py",
+   "line": 119,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_liquidity_liquid_symbols",
+   "kind": "code",
+   "label": "liquid_symbols()",
+   "file": "code/python_files/liquidity.py",
+   "line": 548,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_liquidity",
+   "kind": "code",
+   "label": "liquidity.py",
+   "file": "code/python_files/liquidity.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2605.00501",
+   "kind": "paper",
+   "label": "2605.00501",
+   "title": "LambdaRankIC: Directly Optimizing Rank IC for Financial Prediction (Yan Lin, Yihong Su, Yi Yang, 2026-05-01)",
+   "grade": "medium",
+   "section": "Added 2026-08-26 (daily task, Wednesday gap query: learning-to-rank cross-sectional equity returns)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_confusion_matrix_eval",
+   "kind": "code",
+   "label": "confusion_matrix_eval.py",
+   "file": "code/python_files/confusion_matrix_eval.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_backtest_screeners_rationale_263",
+   "kind": "code",
+   "label": "Compute net percentage returns at each horizon, deducting round-trip     transac",
+   "file": "code/python_files/backtest_screeners.py",
+   "line": 263,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_backtest_ccc_main",
+   "kind": "code",
+   "label": "main()",
+   "file": "code/python_files/backtest_ccc.py",
+   "line": 202,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_pead_liquidity_study_main",
+   "kind": "code",
+   "label": "main()",
+   "file": "code/python_files/pead_liquidity_study.py",
+   "line": 126,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2604.07880",
+   "kind": "paper",
+   "label": "2604.07880",
+   "title": "The Corporate Bond Factor Replication Crisis (Dickerson, Robotti & Rossetti, 2026-04-09)",
+   "grade": "strong",
+   "section": "Added 2026-08-27 (daily task, Thursday gap query: transaction-cost-aware factor evaluation)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_price_band_migration",
+   "kind": "code",
+   "label": "price_band_migration.py",
+   "file": "code/python_files/price_band_migration.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_rloo_rescore_winsorize_xs",
+   "kind": "code",
+   "label": "winsorize_xs()",
+   "file": "code/python_files/rloo_rescore.py",
+   "line": 291,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_backtest_liquidity_forward_rationale_151",
+   "kind": "code",
+   "label": "Quarterly rebalance dates, stopping HOLD_BARS before data end.",
+   "file": "code/python_files/backtest_liquidity_forward.py",
+   "line": 151,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_factorial_screener_analysis_winsorize",
+   "kind": "code",
+   "label": "winsorize()",
+   "file": "code/python_files/factorial_screener_analysis.py",
+   "line": 97,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_band_sip_backtest",
+   "kind": "code",
+   "label": "band_sip_backtest.py",
+   "file": "code/python_files/band_sip_backtest.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_sweep_piotroski_plus",
+   "kind": "code",
+   "label": "sweep_piotroski_plus.py",
+   "file": "code/python_files/sweep_piotroski_plus.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_backtest_screeners_rationale_290",
+   "kind": "code",
+   "label": "Compute Nifty 50 / S&P 500 buy-and-hold returns over the same horizons     start",
+   "file": "code/python_files/backtest_screeners.py",
+   "line": 290,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_factor_zscore_panel",
+   "kind": "code",
+   "label": "factor_zscore_panel.py",
+   "file": "code/python_files/factor_zscore_panel.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_train_ppo_factor_weights_compute_excess_columns",
+   "kind": "code",
+   "label": "compute_excess_columns()",
+   "file": "code/python_files/train_ppo_factor_weights.py",
+   "line": 129,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2507.01918",
+   "kind": "paper",
+   "label": "2507.01918",
+   "title": "End-to-End Large Portfolio Optimization for Variance Minimization with Neural Networks through Covariance Cleaning (Bongiorno, Manolakis & Mantegna, v1 2025-07-02, v2 fetched)",
+   "grade": "unstated",
+   "section": "Added 2026-08-29 (daily task, Saturday gap query: correlation-matrix eigenvalues / regime / effective dimension)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_portfolio_builder_rationale_206",
+   "kind": "code",
+   "label": "Long-only mean-variance optimisation with:       \u2022 shrinkage expected returns (r",
+   "file": "code/python_files/portfolio_builder.py",
+   "line": 206,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_portfolio_builder_port_perf",
+   "kind": "code",
+   "label": "_port_perf()",
+   "file": "code/python_files/portfolio_builder.py",
+   "line": 184,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_mutual_fund_theorem_main",
+   "kind": "code",
+   "label": "main()",
+   "file": "code/python_files/mutual_fund_theorem.py",
+   "line": 96,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2608.23808",
+   "kind": "paper",
+   "label": "2608.23808",
+   "title": "Equity Strategy Backtesting: Luck or Edge? The MinervaScore as a Statistical Robustness Grade (Santoni, Jouanne & Scullin, v1 2026-08-24, v2 2026-08-26, q-fin.ST)",
+   "grade": "unstated",
+   "section": "Added 2026-08-31 (daily task, Monday gap query: CPCV / purging / embargo)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_cite_check_rationale_34",
+   "kind": "code",
+   "label": "Lowercase + strip accents, so cited 'P\u00e1stor' matches bib 'Pastor'.",
+   "file": "code/python_files/cite_check.py",
+   "line": 34,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_walk_forward_backtest_rationale_1083",
+   "kind": "code",
+   "label": "Check for overfitting: compare Sharpe ratio across TRAIN / TEST / VAL.     A dra",
+   "file": "code/python_files/walk_forward_backtest.py",
+   "line": 1083,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_deflated_sharpe_main",
+   "kind": "code",
+   "label": "main()",
+   "file": "code/python_files/deflated_sharpe.py",
+   "line": 61,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_deflated_sharpe_expected_max_sr",
+   "kind": "code",
+   "label": "expected_max_sr()",
+   "file": "code/python_files/deflated_sharpe.py",
+   "line": 42,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_smallcap_screener_screen",
+   "kind": "code",
+   "label": "screen()",
+   "file": "code/python_files/smallcap_screener.py",
+   "line": 247,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2512.12924",
+   "kind": "paper",
+   "label": "2512.12924",
+   "title": "Interpretable Hypothesis-Driven Trading: A Rigorous Walk-Forward Validation Framework for Market Microstructure Signals (Gagan Deep, Akash Deep & William Lamptey, 2025-12-15, q-fin.TR)",
+   "grade": "weak",
+   "section": "Added 2026-08-31 (daily task, Monday gap query: CPCV / purging / embargo)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_strategy_regime_survival_signals",
+   "kind": "code",
+   "label": "signals()",
+   "file": "code/python_files/strategy_regime_survival.py",
+   "line": 123,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2503.23501",
+   "kind": "paper",
+   "label": "2503.23501",
+   "title": "Higher-Order Asset Pricing Factors via Forward Selection Fama-MacBeth Regression (Borri, Chetverikov, Liu & Tsyvinski, v1 2025-03-30, v2 2026-03-24)",
+   "grade": "strong",
+   "section": "Added 2026-09-01 (daily task, Tuesday gap query: factor redundancy / spanning tests)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_paper_claim_audit",
+   "kind": "code",
+   "label": "paper_claim_audit.py",
+   "file": "code/python_files/paper_claim_audit.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_factor_learning_build_xy",
+   "kind": "code",
+   "label": "build_xy()",
+   "file": "code/python_files/factor_learning.py",
+   "line": 43,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::research_factor_redundancy_py_research_factor_redundancy",
+   "kind": "code",
+   "label": "factor_redundancy.py",
+   "file": "research/factor_redundancy.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2602.20856",
+   "kind": "paper",
+   "label": "2602.20856",
+   "title": "Stochastic Discount Factors with Cross-Asset Spillovers (Avramov & He, 2026-02-24)",
+   "grade": "mixed",
+   "section": "Added 2026-09-01 (daily task, Tuesday gap query: factor redundancy / spanning tests)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_fund_implementability",
+   "kind": "code",
+   "label": "fund_implementability.py",
+   "file": "code/python_files/fund_implementability.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_full_us_market_scan",
+   "kind": "code",
+   "label": "full_us_market_scan.py",
+   "file": "code/python_files/full_us_market_scan.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "queue::1",
+   "kind": "queue_item",
+   "label": "#1",
+   "title": "Factor redundancy measurement",
+   "status": "done",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::2",
+   "kind": "queue_item",
+   "label": "#2",
+   "title": "Ranking reformulation",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_factor_learning_ls_book_ir",
+   "kind": "code",
+   "label": "ls_book_ir()",
+   "file": "code/python_files/factor_learning.py",
+   "line": 62,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "queue::3",
+   "kind": "queue_item",
+   "label": "#3",
+   "title": "Regime gate via correlation spectrum",
+   "status": "done",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::4",
+   "kind": "queue_item",
+   "label": "#4",
+   "title": "Wire execution_cost_model.py in",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::5",
+   "kind": "queue_item",
+   "label": "#5",
+   "title": "Fundamental screens on `public.global_fundamentals`",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::6",
+   "kind": "queue_item",
+   "label": "#6",
+   "title": "Purge+embargo function \u2014 NOT full CPCV",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::7",
+   "kind": "queue_item",
+   "label": "#7",
+   "title": "chop+HIGH-vol regime gate",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::8",
+   "kind": "queue_item",
+   "label": "#8",
+   "title": "Sentiment relevance scoring, not gating",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::9",
+   "kind": "queue_item",
+   "label": "#9",
+   "title": "Spectral descriptors from the nightly correlation matrix",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::10",
+   "kind": "queue_item",
+   "label": "#10",
+   "title": "Anti-leakage gap in the walk-forward split",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::11",
+   "kind": "queue_item",
+   "label": "#11",
+   "title": "Availability-time vs reference-time column annotation",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::12",
+   "kind": "queue_item",
+   "label": "#12",
+   "title": "Factor spanning test on the 10-factor set",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::13",
+   "kind": "queue_item",
+   "label": "#13",
+   "title": "Rolling factor redundancy \u2014 is 4.92/10 stable or a two-regime average?",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::14",
+   "kind": "queue_item",
+   "label": "#14",
+   "title": "Third purge+embargo site: `LassoCV(cv=5)` at `factor_learning.py:88`",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::15",
+   "kind": "queue_item",
+   "label": "#15",
+   "title": "Limit-locked / untradable-bar guard beyond KR",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::16",
+   "kind": "queue_item",
+   "label": "#16",
+   "title": "Is momentum's net-of-cost failure a premium problem or a churn problem?",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::17",
+   "kind": "queue_item",
+   "label": "#17",
+   "title": "Full-sample winsorization thresholds in the factorial-screener OLS",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::18",
+   "kind": "queue_item",
+   "label": "#18",
+   "title": "Raw sample covariance in both optimisers \u2014 no eigenvalue treatment",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::19",
+   "kind": "queue_item",
+   "label": "#19",
+   "title": "Minimum Track Record Length \u2014 is the existing DSR gate resting on enough history?",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_deflated_sharpe_rationale_53",
+   "kind": "code",
+   "label": "Deflated Sharpe: P(true SR > E[max SR]) for the selected strategy.",
+   "file": "code/python_files/deflated_sharpe.py",
+   "line": 53,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_deflated_sharpe_dsr",
+   "kind": "code",
+   "label": "dsr()",
+   "file": "code/python_files/deflated_sharpe.py",
+   "line": 52,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "queue::22",
+   "kind": "queue_item",
+   "label": "#22",
+   "title": "No closed-form max-Sharpe baseline sits between the Lasso and the PPO",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "run::2026-08-23",
+   "kind": "run",
+   "label": "2026-08-23",
+   "side": "both"
+  },
+  {
+   "id": "run::2026-08-24",
+   "kind": "run",
+   "label": "2026-08-24",
+   "side": "both"
+  },
+  {
+   "id": "run::2026-08-25",
+   "kind": "run",
+   "label": "2026-08-25",
+   "side": "both"
+  },
+  {
+   "id": "run::2026-08-26",
+   "kind": "run",
+   "label": "2026-08-26",
+   "side": "both"
+  },
+  {
+   "id": "run::2026-08-27",
+   "kind": "run",
+   "label": "2026-08-27",
+   "side": "both"
+  },
+  {
+   "id": "run::2026-08-28",
+   "kind": "run",
+   "label": "2026-08-28",
+   "side": "both"
+  },
+  {
+   "id": "run::2026-08-29",
+   "kind": "run",
+   "label": "2026-08-29",
+   "side": "both"
+  },
+  {
+   "id": "run::2026-08-31",
+   "kind": "run",
+   "label": "2026-08-31",
+   "side": "both"
+  },
+  {
+   "id": "run::2026-09-01",
+   "kind": "run",
+   "label": "2026-09-01",
+   "side": "both"
+  },
+  {
+   "id": "source::PPV&FR Authority registration data (Protection of Plant Vari",
+   "kind": "source",
+   "label": "PPV&FR Authority registration data (Protection of Plant Varieties and ",
+   "grade": "unstated",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::379-kilos-hectare-in-punjab-44-in",
+   "kind": "post",
+   "label": "379-kilos-hectare-in-punjab-44-in",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::india-will-finance-waste-to-energy",
+   "kind": "post",
+   "label": "india-will-finance-waste-to-energy",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::indias-445-billion-spice-export-book-is",
+   "kind": "post",
+   "label": "indias-445-billion-spice-export-book-is",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::the-cbg-incentive-stack-every-leg-of",
+   "kind": "post",
+   "label": "the-cbg-incentive-stack-every-leg-of",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::Defence Positive Indigenisation Lists (DDP, Ministry of Defe",
+   "kind": "source",
+   "label": "Defence Positive Indigenisation Lists (DDP, Ministry of Defence)",
+   "grade": "commissionable",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::chemical-import-substitution-hsn-8-registry",
+   "kind": "post",
+   "label": "chemical-import-substitution-hsn-8-registry",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::quarterly-reportage-4034-scheme",
+   "kind": "post",
+   "label": "quarterly-reportage-4034-scheme",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::jai-kisan-jai-javan-fci-based-military",
+   "kind": "post",
+   "label": "jai-kisan-jai-javan-fci-based-military",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::top-15-chemicals-for-import",
+   "kind": "post",
+   "label": "top-15-chemicals-for-import",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::The 1,272-product, $189 billion import-substitution list (ce",
+   "kind": "source",
+   "label": "The 1,272-product, $189 billion import-substitution list (centre-state",
+   "grade": "commissionable",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::half-of-indias-import-bill-is",
+   "kind": "post",
+   "label": "half-of-indias-import-bill-is",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::PLFS Quarterly Bulletin, January\u2013March 2026 and April\u2013June 2",
+   "kind": "source",
+   "label": "PLFS Quarterly Bulletin, January\u2013March 2026 and April\u2013June 2026 (NSO, ",
+   "grade": "commissionable",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::Minor Irrigation Census, 6th round (Ministry of Jal Shakti, ",
+   "kind": "source",
+   "label": "Minor Irrigation Census, 6th round (Ministry of Jal Shakti, DoWR-RD&GR",
+   "grade": "unstated",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::35a18274-b04c-4db6-b732-b23ff68a359b",
+   "kind": "post",
+   "label": "35a18274-b04c-4db6-b732-b23ff68a359b",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::price-is-wire-how-gcam-actually-links",
+   "kind": "post",
+   "label": "price-is-wire-how-gcam-actually-links",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::tamil-nadus-water-infrastructure-runs",
+   "kind": "post",
+   "label": "tamil-nadus-water-infrastructure-runs",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::the-water-bill-nobody-mentions-what",
+   "kind": "post",
+   "label": "the-water-bill-nobody-mentions-what",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::guar-gum-indias-35-billion-export-peak",
+   "kind": "post",
+   "label": "guar-gum-indias-35-billion-export-peak",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::DPIIT Year End Review \u2014 PLI aggregate outcomes (PIB, Ministr",
+   "kind": "source",
+   "label": "DPIIT Year End Review \u2014 PLI aggregate outcomes (PIB, Ministry of Comme",
+   "grade": "background",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::pli-medical-devices-coverage-and-gaps",
+   "kind": "post",
+   "label": "pli-medical-devices-coverage-and-gaps",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::PMFBY premium-sharing structure and cumulative claims (PIB E",
+   "kind": "source",
+   "label": "PMFBY premium-sharing structure and cumulative claims (PIB Explainer 1",
+   "grade": "unstated",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::premium-now-claim-later-float-indias",
+   "kind": "post",
+   "label": "premium-now-claim-later-float-indias",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::who-collects-indias-gst-and-who",
+   "kind": "post",
+   "label": "who-collects-indias-gst-and-who",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::\ud83d\udd34 Corpus-survey Tier-1 item 2 (\"ethanol feedstock balance ag",
+   "kind": "source",
+   "label": "\ud83d\udd34 Corpus-survey Tier-1 item 2 (\"ethanol feedstock balance against the ",
+   "grade": "unstated",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::india-hit-e20-on-maize-and-rice-not",
+   "kind": "post",
+   "label": "india-hit-e20-on-maize-and-rice-not",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::fci-storage-scenario-capacity-stock-and",
+   "kind": "post",
+   "label": "fci-storage-scenario-capacity-stock-and",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::7186-litre-why-maize-is-indias-priciest",
+   "kind": "post",
+   "label": "7186-litre-why-maize-is-indias-priciest",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::sugar-at-5570-kilo-why-cane-acreage",
+   "kind": "post",
+   "label": "sugar-at-5570-kilo-why-cane-acreage",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::fci-grain-flow-procurement-storage",
+   "kind": "post",
+   "label": "fci-grain-flow-procurement-storage",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::Weak \u2014 logged, not actioned (2026-08-26)",
+   "kind": "source",
+   "label": "Weak \u2014 logged, not actioned (2026-08-26)",
+   "grade": "unstated",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::thermal-parity-is-dead-what-85-oil-and",
+   "kind": "post",
+   "label": "thermal-parity-is-dead-what-85-oil-and",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::Weak / background \u2014 logged, not actioned (2026-08-27)",
+   "kind": "source",
+   "label": "Weak / background \u2014 logged, not actioned (2026-08-27)",
+   "grade": "unstated",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::Defence Positive Indigenisation Lists \u2014 5th and 6th PIL prim",
+   "kind": "source",
+   "label": "Defence Positive Indigenisation Lists \u2014 5th and 6th PIL primaries (DDP",
+   "grade": "commissionable",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::5071-items-you-cannot-import-and-rs",
+   "kind": "post",
+   "label": "5071-items-you-cannot-import-and-rs",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::Weak / background \u2014 logged, not actioned (2026-08-29)",
+   "kind": "source",
+   "label": "Weak / background \u2014 logged, not actioned (2026-08-29)",
+   "grade": "unstated",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::a-17-rural-pay-rise-that-nobody-received",
+   "kind": "post",
+   "label": "a-17-rural-pay-rise-that-nobody-received",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::NSS 77th Round \u2014 Situation Assessment of Agricultural Househ",
+   "kind": "source",
+   "label": "NSS 77th Round \u2014 Situation Assessment of Agricultural Households (NSSO",
+   "grade": "unstated",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::annadata-to-urjadata-farmer-income-case",
+   "kind": "post",
+   "label": "annadata-to-urjadata-farmer-income-case",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::the-price-of-grain-msp-msv-and",
+   "kind": "post",
+   "label": "the-price-of-grain-msp-msv-and",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::Weak / background \u2014 logged, not actioned (2026-08-31)",
+   "kind": "source",
+   "label": "Weak / background \u2014 logged, not actioned (2026-08-31)",
+   "grade": "unstated",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::IRDAI obligatory cession to GIC Re, held at 4% for FY 2025-2",
+   "kind": "source",
+   "label": "IRDAI obligatory cession to GIC Re, held at 4% for FY 2025-26 (third c",
+   "grade": "commissionable",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::General Insurance Council industry statistics (Flash Figures",
+   "kind": "source",
+   "label": "General Insurance Council industry statistics (Flash Figures, Segmentw",
+   "grade": "background",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::Weak / not deep-read, one line each",
+   "kind": "source",
+   "label": "Weak / not deep-read, one line each",
+   "grade": "unstated",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "commission::57.8% of India's plant-variety rights are cereals. Spices ge",
+   "kind": "commission",
+   "label": "57.8% of India's plant-variety rights are cereals. Spices get 151.",
+   "status": "open",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "commission::4,666 items on the defence indigenisation lists, \u20b92,570 cror",
+   "kind": "commission",
+   "label": "4,666 items on the defence indigenisation lists, \u20b92,570 crore of substitution",
+   "status": "open",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "commission::Rebuilding the $189 billion substitution list from public tr",
+   "kind": "commission",
+   "label": "Rebuilding the $189 billion substitution list from public trade data",
+   "status": "open",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "commission::Does India have the feedstock for E20?",
+   "kind": "commission",
+   "label": "Does India have the feedstock for E20?",
+   "status": "open",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "commission::Nano-urea: does it substitute for anything?",
+   "kind": "commission",
+   "label": "Nano-urea: does it substitute for anything?",
+   "status": "open",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "commission::Does a tomato price in Kolar reach Delhi?",
+   "kind": "commission",
+   "label": "Does a tomato price in Kolar reach Delhi?",
+   "status": "open",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "commission::Rural India's fastest quarter off the farm",
+   "kind": "commission",
+   "label": "Rural India's fastest quarter off the farm",
+   "status": "open",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "commission::India's largest crop insurer pays out \u20b91.83 lakh crore. Farm",
+   "kind": "commission",
+   "label": "India's largest crop insurer pays out \u20b91.83 lakh crore. Farmers funded about 2% ",
+   "status": "open",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "commission::India irrigates itself. 96.6% of its irrigation is privately",
+   "kind": "commission",
+   "label": "India irrigates itself. 96.6% of its irrigation is privately owned, and 79.5% of",
+   "status": "open",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "commission::The fifth list was 346 items. Three numbers in the defence i",
+   "kind": "commission",
+   "label": "The fifth list was 346 items. Three numbers in the defence indigenisation post n",
+   "status": "open",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "commission::The wage beats the crop, in the survey that leaves the wage-",
+   "kind": "commission",
+   "label": "The wage beats the crop, in the survey that leaves the wage-earners out",
+   "status": "open",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "commission::The 4% every Indian insurance policy pays to one state reins",
+   "kind": "commission",
+   "label": "The 4% every Indian insurance policy pays to one state reinsurer",
+   "status": "open",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "commission::What a farm labourer earns, and why it stopped tracking outp",
+   "kind": "commission",
+   "label": "What a farm labourer earns, and why it stopped tracking output",
+   "status": "done",
+   "side": "masaladeutsch"
+  }
+ ],
+ "edges": [
+  {
+   "source": "paper::2607.15414",
+   "target": "market-pipeline::code_python_files_build_mailer_rationale_420",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2602.00196",
+   "target": "market-pipeline::code_python_files_factor_learning",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::1809.09441",
+   "target": "market-pipeline::code_python_files_build_mailer_news_rows",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2607.19005",
+   "target": "market-pipeline::code_python_files_market_regime_compute",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2603.19286",
+   "target": "market-pipeline::code_python_files_sentiment_pipeline_rationale_399",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.17251",
+   "target": "market-pipeline::code_python_files_market_correlation_scan_rationale_161",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.17251",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.17251",
+   "target": "market-pipeline::code_python_files_market_correlation_scan_run",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.17251",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2607.04958",
+   "target": "market-pipeline::code_python_files_pe_bands_connect",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "market-pipeline::code_python_files_adaptive_liquidity_retier",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "market-pipeline::code_python_files_backtest_piotroski_plus",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "market-pipeline::code_python_files_backtest_screeners",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "market-pipeline::code_python_files_backtest_pe_anomalies_pit_eps_panel",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "market-pipeline::code_python_files_backtest_ccc_pit_panel",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2601.10279",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2111.05072",
+   "target": "market-pipeline::research_correlation_regime_spectrum",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2111.05072",
+   "target": "market-pipeline::research_factor_redundancy_spectral_stats",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2111.05072",
+   "target": "market-pipeline::research_factor_redundancy_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2111.05072",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "market-pipeline::code_python_files_cost_vs_edge_rationale_124",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "market-pipeline::code_python_files_run_existing_screeners_fixed_rationale_56",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "market-pipeline::code_python_files_risk_management",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "market-pipeline::code_python_files_screener_kit_rationale_81",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "market-pipeline::code_python_files_daily_breakout_combo_us_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "market-pipeline::code_python_files_liquidity_rationale_126",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "market-pipeline::code_python_files_backtest_piotroski_plus_liquid_universe",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "market-pipeline::code_python_files_iter_utils_with_circuit_breaker",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "market-pipeline::code_python_files_factorial_screener_test_kr_flag_stale_halted_days",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "market-pipeline::code_python_files_liquidity_liquid_symbols",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "market-pipeline::code_python_files_liquidity",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.00501",
+   "target": "market-pipeline::code_python_files_confusion_matrix_eval",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.00501",
+   "target": "market-pipeline::code_python_files_backtest_screeners_rationale_263",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.00501",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.00501",
+   "target": "market-pipeline::code_python_files_backtest_ccc_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.00501",
+   "target": "market-pipeline::code_python_files_backtest_screeners",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.00501",
+   "target": "market-pipeline::code_python_files_pead_liquidity_study_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.00501",
+   "target": "market-pipeline::code_python_files_backtest_ccc_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.00501",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_price_band_migration",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_rloo_rescore_winsorize_xs",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_rationale_151",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_factorial_screener_analysis_winsorize",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_band_sip_backtest",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_sweep_piotroski_plus",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_backtest_screeners_rationale_290",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_factor_zscore_panel",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_train_ppo_factor_weights_compute_excess_columns",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.01918",
+   "target": "market-pipeline::code_python_files_portfolio_builder_rationale_206",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.01918",
+   "target": "market-pipeline::code_python_files_portfolio_builder_port_perf",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.01918",
+   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.01918",
+   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2608.23808",
+   "target": "market-pipeline::code_python_files_cite_check_rationale_34",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2608.23808",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest_rationale_1083",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2608.23808",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2608.23808",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_expected_max_sr",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2608.23808",
+   "target": "market-pipeline::code_python_files_smallcap_screener_screen",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2512.12924",
+   "target": "market-pipeline::code_python_files_strategy_regime_survival_signals",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2503.23501",
+   "target": "market-pipeline::code_python_files_paper_claim_audit",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2503.23501",
+   "target": "market-pipeline::code_python_files_factor_learning_build_xy",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2503.23501",
+   "target": "market-pipeline::research_factor_redundancy_py_research_factor_redundancy",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2602.20856",
+   "target": "market-pipeline::code_python_files_fund_implementability",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2602.20856",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2602.20856",
+   "target": "market-pipeline::code_python_files_full_us_market_scan",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::2",
+   "target": "market-pipeline::code_python_files_factor_learning_ls_book_ir",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::2",
+   "target": "market-pipeline::code_python_files_build_mailer_news_rows",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::1809.09441",
+   "target": "queue::2",
+   "kind": "motivates"
+  },
+  {
+   "source": "queue::5",
+   "target": "market-pipeline::code_python_files_pe_bands_connect",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.19337",
+   "target": "queue::6",
+   "kind": "motivates"
+  },
+  {
+   "source": "paper::2604.17251",
+   "target": "queue::6",
+   "kind": "motivates"
+  },
+  {
+   "source": "queue::7",
+   "target": "market-pipeline::code_python_files_build_mailer_rationale_420",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2607.15414",
+   "target": "queue::7",
+   "kind": "motivates"
+  },
+  {
+   "source": "queue::8",
+   "target": "market-pipeline::code_python_files_sentiment_pipeline_rationale_399",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2603.19286",
+   "target": "queue::8",
+   "kind": "motivates"
+  },
+  {
+   "source": "paper::2608.09641",
+   "target": "queue::9",
+   "kind": "motivates"
+  },
+  {
+   "source": "paper::2604.17251",
+   "target": "queue::9",
+   "kind": "motivates"
+  },
+  {
+   "source": "paper::2607.19005",
+   "target": "queue::9",
+   "kind": "motivates"
+  },
+  {
+   "source": "paper::2604.17251",
+   "target": "queue::10",
+   "kind": "motivates"
+  },
+  {
+   "source": "queue::11",
+   "target": "market-pipeline::code_python_files_pe_bands_connect",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2607.04958",
+   "target": "queue::11",
+   "kind": "motivates"
+  },
+  {
+   "source": "queue::12",
+   "target": "market-pipeline::code_python_files_factor_learning",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::12",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2601.10279",
+   "target": "queue::12",
+   "kind": "motivates"
+  },
+  {
+   "source": "queue::13",
+   "target": "market-pipeline::research_factor_redundancy_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2111.05072",
+   "target": "queue::13",
+   "kind": "motivates"
+  },
+  {
+   "source": "queue::15",
+   "target": "market-pipeline::code_python_files_cost_vs_edge_rationale_124",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::15",
+   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::15",
+   "target": "market-pipeline::code_python_files_daily_breakout_combo_us_main",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::15",
+   "target": "market-pipeline::code_python_files_backtest_piotroski_plus_liquid_universe",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::15",
+   "target": "market-pipeline::code_python_files_factorial_screener_test_kr_flag_stale_halted_days",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "queue::15",
+   "kind": "motivates"
+  },
+  {
+   "source": "queue::16",
+   "target": "market-pipeline::code_python_files_backtest_screeners",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::17",
+   "target": "market-pipeline::code_python_files_rloo_rescore_winsorize_xs",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::17",
+   "target": "market-pipeline::code_python_files_factorial_screener_analysis_winsorize",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::17",
+   "target": "market-pipeline::code_python_files_backtest_screeners_rationale_290",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::17",
+   "target": "market-pipeline::code_python_files_factor_zscore_panel",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::17",
+   "target": "market-pipeline::code_python_files_train_ppo_factor_weights_compute_excess_columns",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "queue::17",
+   "kind": "motivates"
+  },
+  {
+   "source": "queue::18",
+   "target": "market-pipeline::code_python_files_portfolio_builder_rationale_206",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::18",
+   "target": "market-pipeline::code_python_files_portfolio_builder_port_perf",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::18",
+   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::18",
+   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.01918",
+   "target": "queue::18",
+   "kind": "motivates"
+  },
+  {
+   "source": "queue::19",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_rationale_53",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::19",
+   "target": "market-pipeline::code_python_files_factor_learning_ls_book_ir",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::19",
+   "target": "market-pipeline::code_python_files_factor_learning",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::19",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest_rationale_1083",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::19",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_main",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::19",
+   "target": "market-pipeline::code_python_files_paper_claim_audit",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::19",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_dsr",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::19",
+   "target": "market-pipeline::code_python_files_factor_learning_build_xy",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::19",
+   "target": "market-pipeline::research_factor_redundancy_py_research_factor_redundancy",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2512.12924",
+   "target": "queue::19",
+   "kind": "motivates"
+  },
+  {
+   "source": "paper::2503.23501",
+   "target": "queue::19",
+   "kind": "motivates"
+  },
+  {
+   "source": "paper::2608.23808",
+   "target": "queue::19",
+   "kind": "motivates"
+  },
+  {
+   "source": "queue::22",
+   "target": "market-pipeline::code_python_files_fund_implementability",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::22",
+   "target": "market-pipeline::code_python_files_factor_learning_ls_book_ir",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::22",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::22",
+   "target": "market-pipeline::code_python_files_full_us_market_scan",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2602.20856",
+   "target": "queue::22",
+   "kind": "motivates"
+  },
+  {
+   "source": "paper::2605.19337",
+   "target": "run::2026-08-23",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2604.17251",
+   "target": "run::2026-08-23",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2607.04958",
+   "target": "run::2026-08-23",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "run::2026-08-23",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2608.09641",
+   "target": "run::2026-08-23",
+   "kind": "logged_in"
+  },
+  {
+   "source": "run::2026-08-23",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-23",
+   "target": "market-pipeline::code_python_files_market_correlation_scan_run",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-23",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-23",
+   "target": "market-pipeline::code_python_files_pe_bands_connect",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "run::2026-08-24",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2605.19337",
+   "target": "run::2026-08-24",
+   "kind": "logged_in"
+  },
+  {
+   "source": "run::2026-08-24",
+   "target": "market-pipeline::code_python_files_backtest_piotroski_plus",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-24",
+   "target": "market-pipeline::code_python_files_backtest_screeners",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-24",
+   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-24",
+   "target": "market-pipeline::code_python_files_backtest_pe_anomalies_pit_eps_panel",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-24",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-24",
+   "target": "market-pipeline::code_python_files_backtest_ccc_pit_panel",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.19337",
+   "target": "run::2026-08-25",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2607.04958",
+   "target": "run::2026-08-25",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "run::2026-08-25",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2601.10279",
+   "target": "run::2026-08-25",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2608.09641",
+   "target": "run::2026-08-25",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2111.05072",
+   "target": "run::2026-08-25",
+   "kind": "logged_in"
+  },
+  {
+   "source": "run::2026-08-25",
+   "target": "market-pipeline::research_correlation_regime_spectrum",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-25",
+   "target": "market-pipeline::research_factor_redundancy_main",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-25",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.19337",
+   "target": "run::2026-08-26",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2607.04958",
+   "target": "run::2026-08-26",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "run::2026-08-26",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "run::2026-08-26",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2605.00501",
+   "target": "run::2026-08-26",
+   "kind": "logged_in"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_risk_management",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_run_existing_screeners_fixed_rationale_56",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_cost_vs_edge_rationale_124",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_screener_kit_rationale_81",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_daily_breakout_combo_us_main",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_liquidity_rationale_126",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_backtest_piotroski_plus_liquid_universe",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_iter_utils_with_circuit_breaker",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_factorial_screener_test_kr_flag_stale_halted_days",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_liquidity_liquid_symbols",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_backtest_ccc_main",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_liquidity",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.19337",
+   "target": "run::2026-08-27",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2607.04958",
+   "target": "run::2026-08-27",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "run::2026-08-27",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "run::2026-08-27",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2601.10279",
+   "target": "run::2026-08-27",
+   "kind": "logged_in"
+  },
+  {
+   "source": "run::2026-08-27",
+   "target": "market-pipeline::code_python_files_rloo_rescore_winsorize_xs",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-27",
+   "target": "market-pipeline::code_python_files_factorial_screener_analysis_winsorize",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-27",
+   "target": "market-pipeline::code_python_files_backtest_screeners",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-27",
+   "target": "market-pipeline::code_python_files_backtest_screeners_rationale_290",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-27",
+   "target": "market-pipeline::code_python_files_factor_zscore_panel",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-27",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-27",
+   "target": "market-pipeline::code_python_files_train_ppo_factor_weights_compute_excess_columns",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.19337",
+   "target": "run::2026-08-28",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2607.04958",
+   "target": "run::2026-08-28",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "run::2026-08-28",
+   "kind": "logged_in"
+  },
+  {
+   "source": "run::2026-08-28",
+   "target": "market-pipeline::code_python_files_price_band_migration",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-28",
+   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_rationale_151",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-28",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-28",
+   "target": "market-pipeline::code_python_files_band_sip_backtest",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-28",
+   "target": "market-pipeline::code_python_files_sweep_piotroski_plus",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.19337",
+   "target": "run::2026-08-29",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2604.17251",
+   "target": "run::2026-08-29",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2607.04958",
+   "target": "run::2026-08-29",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "run::2026-08-29",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2608.09641",
+   "target": "run::2026-08-29",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2507.01918",
+   "target": "run::2026-08-29",
+   "kind": "logged_in"
+  },
+  {
+   "source": "run::2026-08-29",
+   "target": "market-pipeline::code_python_files_portfolio_builder_rationale_206",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-29",
+   "target": "market-pipeline::code_python_files_portfolio_builder_port_perf",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-29",
+   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-29",
+   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.19337",
+   "target": "run::2026-08-31",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2608.23808",
+   "target": "run::2026-08-31",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2607.04958",
+   "target": "run::2026-08-31",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "run::2026-08-31",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2512.12924",
+   "target": "run::2026-08-31",
+   "kind": "logged_in"
+  },
+  {
+   "source": "run::2026-08-31",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_rationale_53",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-31",
+   "target": "market-pipeline::code_python_files_cite_check_rationale_34",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-31",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest_rationale_1083",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-31",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_main",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-31",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_expected_max_sr",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-31",
+   "target": "market-pipeline::code_python_files_smallcap_screener_screen",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-31",
+   "target": "market-pipeline::code_python_files_strategy_regime_survival_signals",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.19337",
+   "target": "run::2026-09-01",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2607.04958",
+   "target": "run::2026-09-01",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2602.20856",
+   "target": "run::2026-09-01",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "run::2026-09-01",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2503.23501",
+   "target": "run::2026-09-01",
+   "kind": "logged_in"
+  },
+  {
+   "source": "run::2026-09-01",
+   "target": "market-pipeline::code_python_files_fund_implementability",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-01",
+   "target": "market-pipeline::code_python_files_factor_learning_ls_book_ir",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-01",
+   "target": "market-pipeline::code_python_files_full_us_market_scan",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-01",
+   "target": "market-pipeline::code_python_files_paper_claim_audit",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-01",
+   "target": "market-pipeline::code_python_files_factor_learning_build_xy",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-01",
+   "target": "market-pipeline::research_factor_redundancy_py_research_factor_redundancy",
+   "kind": "cites"
+  },
+  {
+   "source": "source::PPV&FR Authority registration data (Protection of Plant Vari",
+   "target": "post::379-kilos-hectare-in-punjab-44-in",
+   "kind": "covers"
+  },
+  {
+   "source": "source::PPV&FR Authority registration data (Protection of Plant Vari",
+   "target": "post::india-will-finance-waste-to-energy",
+   "kind": "covers"
+  },
+  {
+   "source": "source::PPV&FR Authority registration data (Protection of Plant Vari",
+   "target": "post::indias-445-billion-spice-export-book-is",
+   "kind": "covers"
+  },
+  {
+   "source": "source::PPV&FR Authority registration data (Protection of Plant Vari",
+   "target": "post::the-cbg-incentive-stack-every-leg-of",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Defence Positive Indigenisation Lists (DDP, Ministry of Defe",
+   "target": "post::chemical-import-substitution-hsn-8-registry",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Defence Positive Indigenisation Lists (DDP, Ministry of Defe",
+   "target": "post::quarterly-reportage-4034-scheme",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Defence Positive Indigenisation Lists (DDP, Ministry of Defe",
+   "target": "post::jai-kisan-jai-javan-fci-based-military",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Defence Positive Indigenisation Lists (DDP, Ministry of Defe",
+   "target": "post::top-15-chemicals-for-import",
+   "kind": "covers"
+  },
+  {
+   "source": "source::The 1,272-product, $189 billion import-substitution list (ce",
+   "target": "post::chemical-import-substitution-hsn-8-registry",
+   "kind": "covers"
+  },
+  {
+   "source": "source::The 1,272-product, $189 billion import-substitution list (ce",
+   "target": "post::half-of-indias-import-bill-is",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Minor Irrigation Census, 6th round (Ministry of Jal Shakti, ",
+   "target": "post::35a18274-b04c-4db6-b732-b23ff68a359b",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Minor Irrigation Census, 6th round (Ministry of Jal Shakti, ",
+   "target": "post::price-is-wire-how-gcam-actually-links",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Minor Irrigation Census, 6th round (Ministry of Jal Shakti, ",
+   "target": "post::tamil-nadus-water-infrastructure-runs",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Minor Irrigation Census, 6th round (Ministry of Jal Shakti, ",
+   "target": "post::the-water-bill-nobody-mentions-what",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Minor Irrigation Census, 6th round (Ministry of Jal Shakti, ",
+   "target": "post::guar-gum-indias-35-billion-export-peak",
+   "kind": "covers"
+  },
+  {
+   "source": "source::DPIIT Year End Review \u2014 PLI aggregate outcomes (PIB, Ministr",
+   "target": "post::pli-medical-devices-coverage-and-gaps",
+   "kind": "covers"
+  },
+  {
+   "source": "source::PMFBY premium-sharing structure and cumulative claims (PIB E",
+   "target": "post::35a18274-b04c-4db6-b732-b23ff68a359b",
+   "kind": "covers"
+  },
+  {
+   "source": "source::PMFBY premium-sharing structure and cumulative claims (PIB E",
+   "target": "post::premium-now-claim-later-float-indias",
+   "kind": "covers"
+  },
+  {
+   "source": "source::PMFBY premium-sharing structure and cumulative claims (PIB E",
+   "target": "post::who-collects-indias-gst-and-who",
+   "kind": "covers"
+  },
+  {
+   "source": "source::\ud83d\udd34 Corpus-survey Tier-1 item 2 (\"ethanol feedstock balance ag",
+   "target": "post::india-hit-e20-on-maize-and-rice-not",
+   "kind": "covers"
+  },
+  {
+   "source": "source::\ud83d\udd34 Corpus-survey Tier-1 item 2 (\"ethanol feedstock balance ag",
+   "target": "post::fci-storage-scenario-capacity-stock-and",
+   "kind": "covers"
+  },
+  {
+   "source": "source::\ud83d\udd34 Corpus-survey Tier-1 item 2 (\"ethanol feedstock balance ag",
+   "target": "post::7186-litre-why-maize-is-indias-priciest",
+   "kind": "covers"
+  },
+  {
+   "source": "source::\ud83d\udd34 Corpus-survey Tier-1 item 2 (\"ethanol feedstock balance ag",
+   "target": "post::sugar-at-5570-kilo-why-cane-acreage",
+   "kind": "covers"
+  },
+  {
+   "source": "source::\ud83d\udd34 Corpus-survey Tier-1 item 2 (\"ethanol feedstock balance ag",
+   "target": "post::fci-grain-flow-procurement-storage",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Weak \u2014 logged, not actioned (2026-08-26)",
+   "target": "post::thermal-parity-is-dead-what-85-oil-and",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Defence Positive Indigenisation Lists \u2014 5th and 6th PIL prim",
+   "target": "post::5071-items-you-cannot-import-and-rs",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Weak / background \u2014 logged, not actioned (2026-08-29)",
+   "target": "post::a-17-rural-pay-rise-that-nobody-received",
+   "kind": "covers"
+  },
+  {
+   "source": "source::NSS 77th Round \u2014 Situation Assessment of Agricultural Househ",
+   "target": "post::annadata-to-urjadata-farmer-income-case",
+   "kind": "covers"
+  },
+  {
+   "source": "source::NSS 77th Round \u2014 Situation Assessment of Agricultural Househ",
+   "target": "post::a-17-rural-pay-rise-that-nobody-received",
+   "kind": "covers"
+  },
+  {
+   "source": "source::NSS 77th Round \u2014 Situation Assessment of Agricultural Househ",
+   "target": "post::the-price-of-grain-msp-msv-and",
+   "kind": "covers"
+  },
+  {
+   "source": "source::NSS 77th Round \u2014 Situation Assessment of Agricultural Househ",
+   "target": "post::tamil-nadus-water-infrastructure-runs",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Weak / background \u2014 logged, not actioned (2026-08-31)",
+   "target": "post::premium-now-claim-later-float-indias",
+   "kind": "covers"
+  },
+  {
+   "source": "source::IRDAI obligatory cession to GIC Re, held at 4% for FY 2025-2",
+   "target": "post::premium-now-claim-later-float-indias",
+   "kind": "covers"
+  },
+  {
+   "source": "source::IRDAI obligatory cession to GIC Re, held at 4% for FY 2025-2",
+   "target": "post::who-collects-indias-gst-and-who",
+   "kind": "covers"
+  },
+  {
+   "source": "source::General Insurance Council industry statistics (Flash Figures",
+   "target": "post::premium-now-claim-later-float-indias",
+   "kind": "covers"
+  },
+  {
+   "source": "commission::Rural India's fastest quarter off the farm",
+   "target": "post::who-collects-indias-gst-and-who",
+   "kind": "covers"
+  },
+  {
+   "source": "commission::India's largest crop insurer pays out \u20b91.83 lakh crore. Farm",
+   "target": "post::who-collects-indias-gst-and-who",
+   "kind": "covers"
+  },
+  {
+   "source": "commission::The fifth list was 346 items. Three numbers in the defence i",
+   "target": "post::5071-items-you-cannot-import-and-rs",
+   "kind": "covers"
+  },
+  {
+   "source": "commission::The 4% every Indian insurance policy pays to one state reins",
+   "target": "post::premium-now-claim-later-float-indias",
+   "kind": "covers"
+  },
+  {
+   "source": "commission::What a farm labourer earns, and why it stopped tracking outp",
+   "target": "post::india-hit-e20-on-maize-and-rice-not",
+   "kind": "covers"
+  },
+  {
+   "source": "commission::What a farm labourer earns, and why it stopped tracking outp",
+   "target": "post::fci-storage-scenario-capacity-stock-and",
+   "kind": "covers"
+  },
+  {
+   "source": "commission::What a farm labourer earns, and why it stopped tracking outp",
+   "target": "post::fci-grain-flow-procurement-storage",
+   "kind": "covers"
+  }
+ ],
+ "meta": {
+  "nodes": 167,
+  "edges": 264,
+  "node_kinds": {
+   "paper": 21,
+   "code": 60,
+   "queue_item": 20,
+   "run": 9,
+   "source": 17,
+   "post": 27,
+   "commission": 13
+  },
+  "edge_kinds": {
+   "cites": 161,
+   "motivates": 19,
+   "logged_in": 42,
+   "covers": 42
+  },
+  "bridge_edges": 161,
+  "distinct_code_targets": 60,
+  "citations_resolved": 161,
+  "citations_unresolved": [
+   "y_finance.py:274"
+  ],
+  "most_cited_files": [
+   [
+    "code/python_files/factor_learning.py",
+    4
+   ],
+   [
+    "code/python_files/deflated_sharpe.py",
+    4
+   ],
+   [
+    "code/python_files/backtest_screeners.py",
+    3
+   ],
+   [
+    "research/factor_redundancy.py",
+    3
+   ],
+   [
+    "code/python_files/liquidity.py",
+    3
+   ],
+   [
+    "code/python_files/build_mailer.py",
+    2
+   ],
+   [
+    "code/python_files/market_correlation_scan.py",
+    2
+   ],
+   [
+    "code/python_files/walk_forward_backtest.py",
+    2
+   ],
+   [
+    "code/python_files/backtest_piotroski_plus.py",
+    2
+   ],
+   [
+    "code/python_files/backtest_liquidity_forward.py",
+    2
+   ],
+   [
+    "code/python_files/backtest_ccc.py",
+    2
+   ],
+   [
+    "code/python_files/portfolio_builder.py",
+    2
+   ],
+   [
+    "code/python_files/market_regime.py",
+    1
+   ],
+   [
+    "code/python_files/sentiment_pipeline.py",
+    1
+   ],
+   [
+    "code/python_files/pe_bands.py",
+    1
+   ]
+  ]
+ }
+}

@@ -1,0 +1,495 @@
+<title>Register to Repo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap">
+
+<style>
+:root{
+  --paper:#F1F4F6; --surface:#FFFFFF; --sunk:#E5EBEE;
+  --ink:#13202A; --ink2:#43535F; --ink3:#71828E;
+  --rule:#C9D5DA; --rule2:#DCE4E8;
+  --code:#1B6675;      /* code graph */
+  --lit:#A04A2B;       /* literature graph */
+  --brass:#8E6A18;     /* the bridge */
+  --ok:#2C6549; --warn:#8A5312;
+  --shadow:0 1px 2px rgba(19,32,42,.06),0 8px 24px -12px rgba(19,32,42,.18);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E151A; --surface:#151E25; --sunk:#1B252D;
+    --ink:#E3EAEE; --ink2:#A5B5BF; --ink3:#788994;
+    --rule:#293640; --rule2:#202B33;
+    --code:#5CB6C6; --lit:#E38C64; --brass:#D6AC55;
+    --ok:#63B892; --warn:#D9A257;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E151A; --surface:#151E25; --sunk:#1B252D;
+  --ink:#E3EAEE; --ink2:#A5B5BF; --ink3:#788994;
+  --rule:#293640; --rule2:#202B33;
+  --code:#5CB6C6; --lit:#E38C64; --brass:#D6AC55;
+  --ok:#63B892; --warn:#D9A257;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.62; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px; margin:0 auto; padding:0 28px 96px}
+h1,h2,h3{text-wrap:balance; margin:0}
+code,.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* ---------- masthead ---------- */
+.mast{padding:64px 0 26px; border-bottom:1px solid var(--rule)}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--ink3); display:flex; gap:14px; flex-wrap:wrap;
+}
+.eyebrow span::before{content:"·"; margin-right:14px; color:var(--rule)}
+.eyebrow span:first-child::before{content:""; margin:0}
+h1{
+  font-family:Newsreader,Georgia,serif; font-weight:500; font-size:clamp(38px,6.2vw,64px);
+  line-height:1.03; letter-spacing:-.018em; margin:18px 0 0;
+}
+h1 em{font-style:italic; color:var(--lit)}
+.standfirst{
+  font-family:Newsreader,Georgia,serif; font-size:clamp(17px,2.2vw,21px); line-height:1.55;
+  color:var(--ink2); max-width:60ch; margin:16px 0 0;
+}
+
+/* ---------- stat strip ---------- */
+.strip{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(148px,1fr));
+  gap:0; border:1px solid var(--rule); border-radius:3px; overflow:hidden;
+  background:var(--surface); margin:30px 0 0;
+}
+.stat{padding:16px 18px; border-right:1px solid var(--rule2)}
+.stat:last-child{border-right:0}
+.stat .n{
+  font-family:"IBM Plex Mono",monospace; font-size:26px; font-weight:600;
+  letter-spacing:-.02em; font-variant-numeric:tabular-nums; line-height:1.1;
+}
+.stat .k{
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--ink3); margin-top:5px;
+}
+.stat.c .n{color:var(--code)} .stat.l .n{color:var(--lit)} .stat.b .n{color:var(--brass)}
+
+/* ---------- sections ---------- */
+section{padding-top:60px}
+.shead{display:flex; align-items:baseline; gap:14px; margin-bottom:6px}
+.snum{
+  font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.14em;
+  color:var(--ink3); padding-top:6px;
+}
+h2{
+  font-family:Newsreader,Georgia,serif; font-weight:500;
+  font-size:clamp(25px,3.4vw,33px); letter-spacing:-.012em; line-height:1.18;
+}
+.lede{color:var(--ink2); max-width:66ch; margin:10px 0 24px}
+p{margin:0 0 15px; max-width:68ch}
+
+/* ---------- graph ---------- */
+.figure{
+  border:1px solid var(--rule); border-radius:3px; background:var(--surface);
+  box-shadow:var(--shadow); overflow:hidden;
+}
+.figbar{
+  display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+  padding:11px 16px; border-bottom:1px solid var(--rule2); background:var(--sunk);
+}
+.legend{display:flex; gap:15px; flex-wrap:wrap; font-family:"IBM Plex Mono",monospace; font-size:11px}
+.legend b{display:flex; align-items:center; gap:6px; font-weight:400; color:var(--ink2)}
+.dot{width:9px; height:9px; border-radius:50%; flex:none}
+.figbar .spacer{flex:1}
+button{
+  font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.08em;
+  text-transform:uppercase; padding:6px 12px; border:1px solid var(--rule);
+  background:var(--surface); color:var(--ink2); border-radius:2px; cursor:pointer;
+}
+button:hover{border-color:var(--brass); color:var(--brass)}
+button:focus-visible{outline:2px solid var(--brass); outline-offset:2px}
+#cv{display:block; width:100%; height:520px; touch-action:none}
+.figcap{
+  padding:11px 16px; border-top:1px solid var(--rule2); background:var(--sunk);
+  font-size:13px; color:var(--ink3); min-height:44px;
+}
+.figcap b{color:var(--ink); font-weight:500}
+.figcap .mono{font-size:12px; color:var(--code)}
+
+/* ---------- before / after ---------- */
+.ba{display:grid; grid-template-columns:1fr auto 1fr; gap:0; align-items:stretch; margin:8px 0 24px}
+.ba .cell{
+  border:1px solid var(--rule); background:var(--surface); padding:20px 22px; border-radius:3px;
+}
+.ba .arrow{
+  display:flex; align-items:center; justify-content:center; padding:0 18px;
+  font-family:"IBM Plex Mono",monospace; color:var(--brass); font-size:20px;
+}
+.ba .lab{
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--ink3);
+}
+.ba .big{
+  font-family:"IBM Plex Mono",monospace; font-size:34px; font-weight:600;
+  font-variant-numeric:tabular-nums; letter-spacing:-.02em; margin:6px 0 2px;
+}
+.ba .cell.was .big{color:var(--ink3)}
+.ba .cell.now .big{color:var(--code)}
+.ba .sub{font-size:13px; color:var(--ink2)}
+@media(max-width:680px){.ba{grid-template-columns:1fr}.ba .arrow{padding:10px 0; transform:rotate(90deg)}}
+
+/* ---------- tables ---------- */
+.scroll{overflow-x:auto; border:1px solid var(--rule); border-radius:3px; background:var(--surface)}
+table{border-collapse:collapse; width:100%; font-size:13.5px; min-width:520px}
+th,td{padding:9px 16px; text-align:left; border-bottom:1px solid var(--rule2)}
+th{
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--ink3); font-weight:500; background:var(--sunk);
+  position:sticky; top:0;
+}
+tbody tr:last-child td{border-bottom:0}
+td.num{text-align:right; font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums}
+td.f{font-family:"IBM Plex Mono",monospace; font-size:12.5px}
+.bar{height:5px; border-radius:3px; background:var(--code); opacity:.85; min-width:2px}
+.bar.l{background:var(--lit)}
+.bar.b{background:var(--brass)}
+
+/* ---------- callout ---------- */
+.note{
+  border-left:2px solid var(--brass); background:var(--surface); border-radius:0 3px 3px 0;
+  padding:16px 20px; margin:22px 0; box-shadow:var(--shadow);
+}
+.note .t{
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--brass); margin-bottom:7px;
+}
+.note p:last-child{margin-bottom:0}
+
+/* ---------- two-col facts ---------- */
+.cols{display:grid; grid-template-columns:repeat(auto-fit,minmax(268px,1fr)); gap:20px; margin-top:6px}
+.card{border:1px solid var(--rule); background:var(--surface); border-radius:3px; padding:18px 20px}
+.card h3{
+  font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--ink3); font-weight:500; margin-bottom:12px;
+}
+.kv{display:flex; justify-content:space-between; gap:12px; padding:5px 0; border-bottom:1px solid var(--rule2); font-size:13.5px}
+.kv:last-child{border-bottom:0}
+.kv .v{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; color:var(--ink)}
+.pill{
+  display:inline-block; padding:1px 7px; border-radius:2px; font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; border:1px solid currentColor;
+}
+.pill.s{color:var(--ok)} .pill.w{color:var(--warn)} .pill.o{color:var(--code)}
+
+pre{
+  background:var(--surface); border:1px solid var(--rule); border-radius:3px;
+  padding:14px 16px; overflow-x:auto; font-family:"IBM Plex Mono",monospace;
+  font-size:12.5px; line-height:1.65; color:var(--ink2); margin:0;
+}
+pre .c{color:var(--ink3)}
+footer{
+  margin-top:70px; padding-top:22px; border-top:1px solid var(--rule);
+  font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ink3);
+  display:flex; gap:20px; flex-wrap:wrap;
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <div class="eyebrow"><span>Knowledge graph rebuild</span><span>1 September 2026</span><span>69 repos</span></div>
+  <h1>Register to <em>Repo</em></h1>
+  <p class="standfirst">The daily literature review writes prose. The code graph holds structure.
+  Neither knew the other existed — until you notice the register was already citing the
+  repo by <span class="mono">file:line</span>, on every claim, by rule.</p>
+
+  <div class="strip">
+    <div class="stat c"><div class="n">137,848</div><div class="k">code nodes</div></div>
+    <div class="stat c"><div class="n">161,269</div><div class="k">code edges</div></div>
+    <div class="stat l"><div class="n">167</div><div class="k">literature nodes</div></div>
+    <div class="stat b"><div class="n">161</div><div class="k">bridge edges</div></div>
+    <div class="stat b"><div class="n">60</div><div class="k">code targets hit</div></div>
+  </div>
+</header>
+
+<section>
+  <div class="shead"><div class="snum">01</div><h2>The bridge, drawn</h2></div>
+  <p class="lede">Every node below is real. Papers, queue items and daily runs on the left;
+  the market-pipeline functions they cite on the right. Drag a node, or hover to read it.</p>
+
+  <div class="figure">
+    <div class="figbar">
+      <div class="legend">
+        <b><i class="dot" style="background:#A04A2B"></i>paper</b>
+        <b><i class="dot" style="background:#C2703F"></i>queue item</b>
+        <b><i class="dot" style="background:#8E6A18"></i>run</b>
+        <b><i class="dot" style="background:#1B6675"></i>code</b>
+        <b><i class="dot" style="background:#5A8B6B"></i>source</b>
+        <b><i class="dot" style="background:#7B6BA0"></i>commission</b>
+        <b><i class="dot" style="background:#96A3AB"></i>post</b>
+      </div>
+      <div class="spacer"></div>
+      <button id="re">Re-settle</button>
+    </div>
+    <canvas id="cv"></canvas>
+    <div class="figcap" id="cap">Hover a node to inspect it. The two clusters are pulled apart
+      deliberately — the threads crossing the gap are the citations.</div>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><div class="snum">02</div><h2>What the rebuild found</h2></div>
+  <p class="lede">The bridge could not have worked before today. The repo every citation points
+  into was 0.4% present in the graph.</p>
+
+  <div class="ba">
+    <div class="cell was">
+      <div class="lab">market-pipeline, before</div>
+      <div class="big">13</div>
+      <div class="sub">nodes — a 180&nbsp;KB shallow GitHub clone, <span class="mono">--depth 1</span>,
+      LFS skipped. A stub.</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="cell now">
+      <div class="lab">market-pipeline, after</div>
+      <div class="big">7,670</div>
+      <div class="sub">nodes / 14,706 edges — the real local checkout, 469 source files,
+      re-extracted today.</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <div class="t">Root cause</div>
+    <p><span class="mono">market-pipeline</span> is not its own git repo — it is a directory inside
+    the <span class="mono">$HOME</span> repo, which the batch driver deliberately skips (107&nbsp;GB).
+    So it never entered the graph the normal way. It entered as a <em>GitHub clone</em> instead, and the
+    merge script keyed graphs by path, appending both. The 13-node clone silently shadowed the
+    3,223-node local graph that had been sitting on disk since 27 July.</p>
+    <p>Fixed in <span class="mono">graphify_merge_direct.py</span> by keying on repo <em>name</em> with an
+    explicit priority — a local checkout always beats a shallow clone — plus a hook for local trees that
+    are not their own repo.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><div class="snum">03</div><h2>Where the literature points</h2></div>
+  <p class="lede">161 of 162 <span class="mono">file:line</span> citations resolved to a real AST node.
+  Each is matched to the definition that most tightly encloses the cited line.</p>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>File in market-pipeline</th><th style="width:130px">Citations</th><th style="width:44%"></th></tr></thead>
+      <tbody id="tb"></tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <div class="t">The one that did not resolve</div>
+    <p><span class="mono">y_finance.py:274-282</span> — cited in the register's <em>Rejected adoptions</em>
+    verdict on TradingAgents. It resolves to nothing because it is not a market-pipeline file at all:
+    it describes the <em>third-party</em> repo being rejected. The resolver declining to invent a match
+    is the correct outcome, not a miss.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><div class="snum">04</div><h2>What each graph is made of</h2></div>
+  <div class="cols">
+    <div class="card">
+      <h3>Literature — market-pipeline side</h3>
+      <div class="kv"><span>Papers registered</span><span class="v">21</span></div>
+      <div class="kv"><span>&nbsp;&nbsp;<span class="pill s">strong</span></span><span class="v">10</span></div>
+      <div class="kv"><span>&nbsp;&nbsp;<span class="pill o">medium</span> / mixed</span><span class="v">6</span></div>
+      <div class="kv"><span>&nbsp;&nbsp;<span class="pill w">weak</span> / n-a / unstated</span><span class="v">5</span></div>
+      <div class="kv"><span>Backtest queue — open</span><span class="v">18</span></div>
+      <div class="kv"><span>Backtest queue — done</span><span class="v">2</span></div>
+      <div class="kv"><span>Daily runs logged</span><span class="v">9</span></div>
+    </div>
+    <div class="card">
+      <h3>Literature — masaladeutsch side</h3>
+      <div class="kv"><span>Sources assessed</span><span class="v">17</span></div>
+      <div class="kv"><span>&nbsp;&nbsp;commissionable</span><span class="v">5</span></div>
+      <div class="kv"><span>&nbsp;&nbsp;background</span><span class="v">2</span></div>
+      <div class="kv"><span>Commission queue — open</span><span class="v">12</span></div>
+      <div class="kv"><span>Commission queue — done</span><span class="v">1</span></div>
+      <div class="kv"><span>Posts referenced by slug</span><span class="v">27</span></div>
+      <div class="kv"><span>Bridge into code</span><span class="v">none</span></div>
+    </div>
+    <div class="card">
+      <h3>Code graph — top repos by node</h3>
+      <div class="kv"><span>CBSE_paper_patterns</span><span class="v">96,639</span></div>
+      <div class="kv"><span>market-pipeline</span><span class="v">7,670</span></div>
+      <div class="kv"><span>stock-screener-platform</span><span class="v">5,865</span></div>
+      <div class="kv"><span>global-stock-screener</span><span class="v">3,808</span></div>
+      <div class="kv"><span>global-market-data</span><span class="v">3,166</span></div>
+      <div class="kv"><span>BazaarTalks</span><span class="v">1,742</span></div>
+      <div class="kv"><span>masaladeutsch-archive</span><span class="v">1,317</span></div>
+    </div>
+  </div>
+
+  <div class="note">
+    <div class="t">Read the top row with suspicion</div>
+    <p><span class="mono">CBSE_paper_patterns</span> is <b>70.1%</b> of every node in the 69-repo graph.
+    It is a question corpus, not a codebase, so any graph-wide statistic — community structure, degree
+    distribution, "most connected symbol" — is really a statement about it. The 8,475 cross-repo shared
+    symbols are similarly soft: the top one is <span class="mono">README.md</span>, in 65 repos.
+    Useful for navigation, not for inference.</p>
+  </div>
+</section>
+
+<section>
+  <div class="shead"><div class="snum">05</div><h2>Rebuilding it</h2></div>
+  <p class="lede">All extraction is local tree-sitter parsing — no API tokens, no network.
+  Only the bridge step reads both graphs together.</p>
+<pre><span class="c"># 1. per-repo AST graphs (44/48 repos built, ~19,700 nodes)</span>
+python3 ~/.ruflo/scripts/graphify_all_repos.py
+
+<span class="c"># 2. market-pipeline is not its own git repo — graph it explicitly</span>
+graphify update ~/market-pipeline --no-cluster
+
+<span class="c"># 3. union into the cross-repo map (local checkout beats gh-clone)</span>
+python3 ~/.ruflo/scripts/graphify_merge_direct.py
+
+<span class="c"># 4. parse the registers and resolve file:line into the code graph</span>
+python3 /Users/Shared/lit_review/tools/build_lit_graph.py</pre>
+</section>
+
+<footer>
+  <span>Code graph · ~/.graphify/global-graph.json · 108.7 MB</span>
+  <span>Literature graph · ~/.graphify/literature-graph.json</span>
+  <span>Corpus · /Users/Shared/lit_review</span>
+</footer>
+</div>
+
+<script id="gd" type="application/json">{"nodes":[{"k":"paper","l":"Agentic Trading: When LLM Agents Meet Financial Markets","s":"2605.19337","g":"strong","f":""},{"k":"paper","l":"AI Trading: Evaluating LLMs for Technical Market Analysis","s":"2607.15414","g":"strong","f":""},{"k":"code","l":"Strategy-level convergence: which screens pick names the n","s":"Strategy-level convergence: which screens pick names the news covers.      The n","g":"","f":"code/python_files/build_mailer.py"},{"k":"paper","l":"Generative AI for Stock Selection (Rasekhschaffe)","s":"2602.00196","g":"strong","f":""},{"k":"code","l":"factor_learning.py","s":"factor_learning.py","g":"","f":"code/python_files/factor_learning.py"},{"k":"paper","l":"Temporal Relational Ranking for Stock Prediction (RSR)","s":"1809.09441","g":"strong","f":""},{"k":"code","l":"_news_rows()","s":"_news_rows()","g":"","f":"code/python_files/build_mailer.py"},{"k":"paper","l":"Observable Matrix Dynamics of Stocks (Halperin)","s":"2607.19005","g":"strong","f":""},{"k":"code","l":"_compute()","s":"_compute()","g":"","f":"code/python_files/market_regime.py"},{"k":"paper","l":"Generalized Stock Price Prediction w/ News Fusion","s":"2603.19286","g":"strong","f":""},{"k":"code","l":"Match feed entries by COMPANY NAME (preferred) rather than","s":"Match feed entries by COMPANY NAME (preferred) rather than ticker.          If a","g":"","f":"code/python_files/sentiment_pipeline.py"},{"k":"paper","l":"SSPT: Pre-training Time Series Models with Stock Data Cust","s":"2506.16746","g":"strong","f":""},{"k":"paper","l":"ORCA: Online Regime Correlation Analyzer (Kriuk & Kriuk, 2","s":"2604.17251","g":"strong","f":""},{"k":"code","l":"Returns (correlation_matrix, clusters) where clusters is a","s":"Returns (correlation_matrix, clusters) where clusters is a list of sets     of s","g":"","f":"code/python_files/market_correlation_scan.py"},{"k":"code","l":"walk_forward_backtest.py","s":"walk_forward_backtest.py","g":"","f":"code/python_files/walk_forward_backtest.py"},{"k":"code","l":"run()","s":"run()","g":"","f":"code/python_files/market_correlation_scan.py"},{"k":"paper","l":"Lower Spectrum of Financial Correlation Matrices (Grassi, ","s":"2608.09641","g":"medium","f":""},{"k":"paper","l":"Look-Ahead-Freedom as Temporal Non-Interference (Fonseca, ","s":"2607.04958","g":"n/a","f":""},{"k":"code","l":"connect()","s":"connect()","g":"","f":"code/python_files/pe_bands.py"},{"k":"paper","l":"Beyond Agent Architecture: Execution Assumptions and Repro","s":"2606.08285","g":"unstated","f":""},{"k":"code","l":"retier()","s":"retier()","g":"","f":"code/python_files/adaptive_liquidity.py"},{"k":"code","l":"backtest_piotroski_plus.py","s":"backtest_piotroski_plus.py","g":"","f":"code/python_files/backtest_piotroski_plus.py"},{"k":"code","l":"backtest_screeners.py","s":"backtest_screeners.py","g":"","f":"code/python_files/backtest_screeners.py"},{"k":"code","l":"build()","s":"build()","g":"","f":"code/python_files/backtest_liquidity_forward.py"},{"k":"code","l":"pit_eps_panel()","s":"pit_eps_panel()","g":"","f":"code/python_files/backtest_pe_anomalies.py"},{"k":"code","l":"pit_panel()","s":"pit_panel()","g":"","f":"code/python_files/backtest_ccc.py"},{"k":"paper","l":"Selecting and Testing Asset Pricing Models: A Stepwise App","s":"2601.10279","g":"medium","f":""},{"k":"code","l":"main()","s":"main()","g":"","f":"code/python_files/factor_learning.py"},{"k":"paper","l":"The Evolving Causal Structure of Equity Risk Factors (D'Ac","s":"2111.05072","g":"medium","f":""},{"k":"code","l":"correlation_regime_spectrum.py","s":"correlation_regime_spectrum.py","g":"","f":"research/correlation_regime_spectrum.py"},{"k":"code","l":"spectral_stats()","s":"spectral_stats()","g":"","f":"research/factor_redundancy.py"},{"k":"code","l":"main()","s":"main()","g":"","f":"research/factor_redundancy.py"},{"k":"paper","l":"Machine Learning Enhanced Multi-Factor Quantitative Tradin","s":"2507.07107","g":"medium","f":""},{"k":"code","l":"Amihud ILLIQ: price impact per $1M traded (scaled), per sy","s":"Amihud ILLIQ: price impact per $1M traded (scaled), per symbol.","g":"","f":"code/python_files/cost_vs_edge.py"},{"k":"code","l":"fn is detect_darvas_signals or detect_golden_cross_signals","s":"fn is detect_darvas_signals or detect_golden_cross_signals -- the real     produ","g":"","f":"code/python_files/run_existing_screeners_fixed.py"},{"k":"code","l":"risk_management.py","s":"risk_management.py","g":"","f":"code/python_files/risk_management.py"},{"k":"code","l":"{symbol: OHLCV} for a market, from the live cache or commi","s":"{symbol: OHLCV} for a market, from the live cache or committed seed.      min_tu","g":"","f":"code/python_files/screener_kit.py"},{"k":"code","l":"main()","s":"main()","g":"","f":"code/python_files/daily_breakout_combo_us.py"},{"k":"code","l":"Amihud ILLIQ (price impact per USD1m traded). None when un","s":"Amihud ILLIQ (price impact per USD1m traded). None when unmeasurable.      Days","g":"","f":"code/python_files/liquidity.py"},{"k":"code","l":"liquid_universe()","s":"liquid_universe()","g":"","f":"code/python_files/backtest_piotroski_plus.py"},{"k":"code","l":"with_circuit_breaker()","s":"with_circuit_breaker()","g":"","f":"code/python_files/iter_utils.py"},{"k":"code","l":"_flag_stale_halted_days()","s":"_flag_stale_halted_days()","g":"","f":"code/python_files/factorial_screener_test_KR.py"},{"k":"code","l":"liquid_symbols()","s":"liquid_symbols()","g":"","f":"code/python_files/liquidity.py"},{"k":"code","l":"liquidity.py","s":"liquidity.py","g":"","f":"code/python_files/liquidity.py"},{"k":"paper","l":"LambdaRankIC: Directly Optimizing Rank IC for Financial Pr","s":"2605.00501","g":"medium","f":""},{"k":"code","l":"confusion_matrix_eval.py","s":"confusion_matrix_eval.py","g":"","f":"code/python_files/confusion_matrix_eval.py"},{"k":"code","l":"Compute net percentage returns at each horizon, deducting ","s":"Compute net percentage returns at each horizon, deducting round-trip     transac","g":"","f":"code/python_files/backtest_screeners.py"},{"k":"code","l":"main()","s":"main()","g":"","f":"code/python_files/backtest_ccc.py"},{"k":"code","l":"main()","s":"main()","g":"","f":"code/python_files/pead_liquidity_study.py"},{"k":"paper","l":"The Corporate Bond Factor Replication Crisis (Dickerson, R","s":"2604.07880","g":"strong","f":""},{"k":"code","l":"price_band_migration.py","s":"price_band_migration.py","g":"","f":"code/python_files/price_band_migration.py"},{"k":"code","l":"winsorize_xs()","s":"winsorize_xs()","g":"","f":"code/python_files/rloo_rescore.py"},{"k":"code","l":"Quarterly rebalance dates, stopping HOLD_BARS before data ","s":"Quarterly rebalance dates, stopping HOLD_BARS before data end.","g":"","f":"code/python_files/backtest_liquidity_forward.py"},{"k":"code","l":"winsorize()","s":"winsorize()","g":"","f":"code/python_files/factorial_screener_analysis.py"},{"k":"code","l":"band_sip_backtest.py","s":"band_sip_backtest.py","g":"","f":"code/python_files/band_sip_backtest.py"},{"k":"code","l":"sweep_piotroski_plus.py","s":"sweep_piotroski_plus.py","g":"","f":"code/python_files/sweep_piotroski_plus.py"},{"k":"code","l":"Compute Nifty 50 / S&P 500 buy-and-hold returns over the s","s":"Compute Nifty 50 / S&P 500 buy-and-hold returns over the same horizons     start","g":"","f":"code/python_files/backtest_screeners.py"},{"k":"code","l":"factor_zscore_panel.py","s":"factor_zscore_panel.py","g":"","f":"code/python_files/factor_zscore_panel.py"},{"k":"code","l":"compute_excess_columns()","s":"compute_excess_columns()","g":"","f":"code/python_files/train_ppo_factor_weights.py"},{"k":"paper","l":"End-to-End Large Portfolio Optimization for Variance Minim","s":"2507.01918","g":"unstated","f":""},{"k":"code","l":"Long-only mean-variance optimisation with:       \u2022 shrinka","s":"Long-only mean-variance optimisation with:       \u2022 shrinkage expected returns (r","g":"","f":"code/python_files/portfolio_builder.py"},{"k":"code","l":"_port_perf()","s":"_port_perf()","g":"","f":"code/python_files/portfolio_builder.py"},{"k":"code","l":"main()","s":"main()","g":"","f":"code/python_files/mutual_fund_theorem.py"},{"k":"paper","l":"Equity Strategy Backtesting: Luck or Edge? The MinervaScor","s":"2608.23808","g":"unstated","f":""},{"k":"code","l":"Lowercase + strip accents, so cited 'P\u00e1stor' matches bib '","s":"Lowercase + strip accents, so cited 'P\u00e1stor' matches bib 'Pastor'.","g":"","f":"code/python_files/cite_check.py"},{"k":"code","l":"Check for overfitting: compare Sharpe ratio across TRAIN /","s":"Check for overfitting: compare Sharpe ratio across TRAIN / TEST / VAL.     A dra","g":"","f":"code/python_files/walk_forward_backtest.py"},{"k":"code","l":"main()","s":"main()","g":"","f":"code/python_files/deflated_sharpe.py"},{"k":"code","l":"expected_max_sr()","s":"expected_max_sr()","g":"","f":"code/python_files/deflated_sharpe.py"},{"k":"code","l":"screen()","s":"screen()","g":"","f":"code/python_files/smallcap_screener.py"},{"k":"paper","l":"Interpretable Hypothesis-Driven Trading: A Rigorous Walk-F","s":"2512.12924","g":"weak","f":""},{"k":"code","l":"signals()","s":"signals()","g":"","f":"code/python_files/strategy_regime_survival.py"},{"k":"paper","l":"Higher-Order Asset Pricing Factors via Forward Selection F","s":"2503.23501","g":"strong","f":""},{"k":"code","l":"paper_claim_audit.py","s":"paper_claim_audit.py","g":"","f":"code/python_files/paper_claim_audit.py"},{"k":"code","l":"build_xy()","s":"build_xy()","g":"","f":"code/python_files/factor_learning.py"},{"k":"code","l":"factor_redundancy.py","s":"factor_redundancy.py","g":"","f":"research/factor_redundancy.py"},{"k":"paper","l":"Stochastic Discount Factors with Cross-Asset Spillovers (A","s":"2602.20856","g":"mixed","f":""},{"k":"code","l":"fund_implementability.py","s":"fund_implementability.py","g":"","f":"code/python_files/fund_implementability.py"},{"k":"code","l":"full_us_market_scan.py","s":"full_us_market_scan.py","g":"","f":"code/python_files/full_us_market_scan.py"},{"k":"queue_item","l":"Factor redundancy measurement","s":"#1","g":"done","f":""},{"k":"queue_item","l":"Ranking reformulation","s":"#2","g":"open","f":""},{"k":"code","l":"ls_book_ir()","s":"ls_book_ir()","g":"","f":"code/python_files/factor_learning.py"},{"k":"queue_item","l":"Regime gate via correlation spectrum","s":"#3","g":"done","f":""},{"k":"queue_item","l":"Wire execution_cost_model.py in","s":"#4","g":"open","f":""},{"k":"queue_item","l":"Fundamental screens on `public.global_fundamentals`","s":"#5","g":"open","f":""},{"k":"queue_item","l":"Purge+embargo function \u2014 NOT full CPCV","s":"#6","g":"open","f":""},{"k":"queue_item","l":"chop+HIGH-vol regime gate","s":"#7","g":"open","f":""},{"k":"queue_item","l":"Sentiment relevance scoring, not gating","s":"#8","g":"open","f":""},{"k":"queue_item","l":"Spectral descriptors from the nightly correlation matrix","s":"#9","g":"open","f":""},{"k":"queue_item","l":"Anti-leakage gap in the walk-forward split","s":"#10","g":"open","f":""},{"k":"queue_item","l":"Availability-time vs reference-time column annotation","s":"#11","g":"open","f":""},{"k":"queue_item","l":"Factor spanning test on the 10-factor set","s":"#12","g":"open","f":""},{"k":"queue_item","l":"Rolling factor redundancy \u2014 is 4.92/10 stable or a two-reg","s":"#13","g":"open","f":""},{"k":"queue_item","l":"Third purge+embargo site: `LassoCV(cv=5)` at `factor_learn","s":"#14","g":"open","f":""},{"k":"queue_item","l":"Limit-locked / untradable-bar guard beyond KR","s":"#15","g":"open","f":""},{"k":"queue_item","l":"Is momentum's net-of-cost failure a premium problem or a c","s":"#16","g":"open","f":""},{"k":"queue_item","l":"Full-sample winsorization thresholds in the factorial-scre","s":"#17","g":"open","f":""},{"k":"queue_item","l":"Raw sample covariance in both optimisers \u2014 no eigenvalue t","s":"#18","g":"open","f":""},{"k":"queue_item","l":"Minimum Track Record Length \u2014 is the existing DSR gate res","s":"#19","g":"open","f":""},{"k":"code","l":"Deflated Sharpe: P(true SR > E[max SR]) for the selected s","s":"Deflated Sharpe: P(true SR > E[max SR]) for the selected strategy.","g":"","f":"code/python_files/deflated_sharpe.py"},{"k":"code","l":"dsr()","s":"dsr()","g":"","f":"code/python_files/deflated_sharpe.py"},{"k":"queue_item","l":"No closed-form max-Sharpe baseline sits between the Lasso ","s":"#22","g":"open","f":""},{"k":"run","l":"2026-08-23","s":"2026-08-23","g":"","f":""},{"k":"run","l":"2026-08-24","s":"2026-08-24","g":"","f":""},{"k":"run","l":"2026-08-25","s":"2026-08-25","g":"","f":""},{"k":"run","l":"2026-08-26","s":"2026-08-26","g":"","f":""},{"k":"run","l":"2026-08-27","s":"2026-08-27","g":"","f":""},{"k":"run","l":"2026-08-28","s":"2026-08-28","g":"","f":""},{"k":"run","l":"2026-08-29","s":"2026-08-29","g":"","f":""},{"k":"run","l":"2026-08-31","s":"2026-08-31","g":"","f":""},{"k":"run","l":"2026-09-01","s":"2026-09-01","g":"","f":""},{"k":"source","l":"PPV&FR Authority registration data (Protection of Plant Va","s":"PPV&FR Authority registration data (Protection of Plant Varieties and ","g":"unstated","f":""},{"k":"post","l":"379-kilos-hectare-in-punjab-44-in","s":"379-kilos-hectare-in-punjab-44-in","g":"","f":""},{"k":"post","l":"india-will-finance-waste-to-energy","s":"india-will-finance-waste-to-energy","g":"","f":""},{"k":"post","l":"indias-445-billion-spice-export-book-is","s":"indias-445-billion-spice-export-book-is","g":"","f":""},{"k":"post","l":"the-cbg-incentive-stack-every-leg-of","s":"the-cbg-incentive-stack-every-leg-of","g":"","f":""},{"k":"source","l":"Defence Positive Indigenisation Lists (DDP, Ministry of De","s":"Defence Positive Indigenisation Lists (DDP, Ministry of Defence)","g":"commissionable","f":""},{"k":"post","l":"chemical-import-substitution-hsn-8-registry","s":"chemical-import-substitution-hsn-8-registry","g":"","f":""},{"k":"post","l":"quarterly-reportage-4034-scheme","s":"quarterly-reportage-4034-scheme","g":"","f":""},{"k":"post","l":"jai-kisan-jai-javan-fci-based-military","s":"jai-kisan-jai-javan-fci-based-military","g":"","f":""},{"k":"post","l":"top-15-chemicals-for-import","s":"top-15-chemicals-for-import","g":"","f":""},{"k":"source","l":"The 1,272-product, $189 billion import-substitution list (","s":"The 1,272-product, $189 billion import-substitution list (centre-state","g":"commissionable","f":""},{"k":"post","l":"half-of-indias-import-bill-is","s":"half-of-indias-import-bill-is","g":"","f":""},{"k":"source","l":"PLFS Quarterly Bulletin, January\u2013March 2026 and April\u2013June","s":"PLFS Quarterly Bulletin, January\u2013March 2026 and April\u2013June 2026 (NSO, ","g":"commissionable","f":""},{"k":"source","l":"Minor Irrigation Census, 6th round (Ministry of Jal Shakti","s":"Minor Irrigation Census, 6th round (Ministry of Jal Shakti, DoWR-RD&GR","g":"unstated","f":""},{"k":"post","l":"35a18274-b04c-4db6-b732-b23ff68a359b","s":"35a18274-b04c-4db6-b732-b23ff68a359b","g":"","f":""},{"k":"post","l":"price-is-wire-how-gcam-actually-links","s":"price-is-wire-how-gcam-actually-links","g":"","f":""},{"k":"post","l":"tamil-nadus-water-infrastructure-runs","s":"tamil-nadus-water-infrastructure-runs","g":"","f":""},{"k":"post","l":"the-water-bill-nobody-mentions-what","s":"the-water-bill-nobody-mentions-what","g":"","f":""},{"k":"post","l":"guar-gum-indias-35-billion-export-peak","s":"guar-gum-indias-35-billion-export-peak","g":"","f":""},{"k":"source","l":"DPIIT Year End Review \u2014 PLI aggregate outcomes (PIB, Minis","s":"DPIIT Year End Review \u2014 PLI aggregate outcomes (PIB, Ministry of Comme","g":"background","f":""},{"k":"post","l":"pli-medical-devices-coverage-and-gaps","s":"pli-medical-devices-coverage-and-gaps","g":"","f":""},{"k":"source","l":"PMFBY premium-sharing structure and cumulative claims (PIB","s":"PMFBY premium-sharing structure and cumulative claims (PIB Explainer 1","g":"unstated","f":""},{"k":"post","l":"premium-now-claim-later-float-indias","s":"premium-now-claim-later-float-indias","g":"","f":""},{"k":"post","l":"who-collects-indias-gst-and-who","s":"who-collects-indias-gst-and-who","g":"","f":""},{"k":"source","l":"\ud83d\udd34 Corpus-survey Tier-1 item 2 (\"ethanol feedstock balance ","s":"\ud83d\udd34 Corpus-survey Tier-1 item 2 (\"ethanol feedstock balance against the ","g":"unstated","f":""},{"k":"post","l":"india-hit-e20-on-maize-and-rice-not","s":"india-hit-e20-on-maize-and-rice-not","g":"","f":""},{"k":"post","l":"fci-storage-scenario-capacity-stock-and","s":"fci-storage-scenario-capacity-stock-and","g":"","f":""},{"k":"post","l":"7186-litre-why-maize-is-indias-priciest","s":"7186-litre-why-maize-is-indias-priciest","g":"","f":""},{"k":"post","l":"sugar-at-5570-kilo-why-cane-acreage","s":"sugar-at-5570-kilo-why-cane-acreage","g":"","f":""},{"k":"post","l":"fci-grain-flow-procurement-storage","s":"fci-grain-flow-procurement-storage","g":"","f":""},{"k":"source","l":"Weak \u2014 logged, not actioned (2026-08-26)","s":"Weak \u2014 logged, not actioned (2026-08-26)","g":"unstated","f":""},{"k":"post","l":"thermal-parity-is-dead-what-85-oil-and","s":"thermal-parity-is-dead-what-85-oil-and","g":"","f":""},{"k":"source","l":"Weak / background \u2014 logged, not actioned (2026-08-27)","s":"Weak / background \u2014 logged, not actioned (2026-08-27)","g":"unstated","f":""},{"k":"source","l":"Defence Positive Indigenisation Lists \u2014 5th and 6th PIL pr","s":"Defence Positive Indigenisation Lists \u2014 5th and 6th PIL primaries (DDP","g":"commissionable","f":""},{"k":"post","l":"5071-items-you-cannot-import-and-rs","s":"5071-items-you-cannot-import-and-rs","g":"","f":""},{"k":"source","l":"Weak / background \u2014 logged, not actioned (2026-08-29)","s":"Weak / background \u2014 logged, not actioned (2026-08-29)","g":"unstated","f":""},{"k":"post","l":"a-17-rural-pay-rise-that-nobody-received","s":"a-17-rural-pay-rise-that-nobody-received","g":"","f":""},{"k":"source","l":"NSS 77th Round \u2014 Situation Assessment of Agricultural Hous","s":"NSS 77th Round \u2014 Situation Assessment of Agricultural Households (NSSO","g":"unstated","f":""},{"k":"post","l":"annadata-to-urjadata-farmer-income-case","s":"annadata-to-urjadata-farmer-income-case","g":"","f":""},{"k":"post","l":"the-price-of-grain-msp-msv-and","s":"the-price-of-grain-msp-msv-and","g":"","f":""},{"k":"source","l":"Weak / background \u2014 logged, not actioned (2026-08-31)","s":"Weak / background \u2014 logged, not actioned (2026-08-31)","g":"unstated","f":""},{"k":"source","l":"IRDAI obligatory cession to GIC Re, held at 4% for FY 2025","s":"IRDAI obligatory cession to GIC Re, held at 4% for FY 2025-26 (third c","g":"commissionable","f":""},{"k":"source","l":"General Insurance Council industry statistics (Flash Figur","s":"General Insurance Council industry statistics (Flash Figures, Segmentw","g":"background","f":""},{"k":"source","l":"Weak / not deep-read, one line each","s":"Weak / not deep-read, one line each","g":"unstated","f":""},{"k":"commission","l":"57.8% of India's plant-variety rights are cereals. Spices ","s":"57.8% of India's plant-variety rights are cereals. Spices get 151.","g":"open","f":""},{"k":"commission","l":"4,666 items on the defence indigenisation lists, \u20b92,570 cr","s":"4,666 items on the defence indigenisation lists, \u20b92,570 crore of substitution","g":"open","f":""},{"k":"commission","l":"Rebuilding the $189 billion substitution list from public ","s":"Rebuilding the $189 billion substitution list from public trade data","g":"open","f":""},{"k":"commission","l":"Does India have the feedstock for E20?","s":"Does India have the feedstock for E20?","g":"open","f":""},{"k":"commission","l":"Nano-urea: does it substitute for anything?","s":"Nano-urea: does it substitute for anything?","g":"open","f":""},{"k":"commission","l":"Does a tomato price in Kolar reach Delhi?","s":"Does a tomato price in Kolar reach Delhi?","g":"open","f":""},{"k":"commission","l":"Rural India's fastest quarter off the farm","s":"Rural India's fastest quarter off the farm","g":"open","f":""},{"k":"commission","l":"India's largest crop insurer pays out \u20b91.83 lakh crore. Fa","s":"India's largest crop insurer pays out \u20b91.83 lakh crore. Farmers funded about 2% ","g":"open","f":""},{"k":"commission","l":"India irrigates itself. 96.6% of its irrigation is private","s":"India irrigates itself. 96.6% of its irrigation is privately owned, and 79.5% of","g":"open","f":""},{"k":"commission","l":"The fifth list was 346 items. Three numbers in the defence","s":"The fifth list was 346 items. Three numbers in the defence indigenisation post n","g":"open","f":""},{"k":"commission","l":"The wage beats the crop, in the survey that leaves the wag","s":"The wage beats the crop, in the survey that leaves the wage-earners out","g":"open","f":""},{"k":"commission","l":"The 4% every Indian insurance policy pays to one state rei","s":"The 4% every Indian insurance policy pays to one state reinsurer","g":"open","f":""},{"k":"commission","l":"What a farm labourer earns, and why it stopped tracking ou","s":"What a farm labourer earns, and why it stopped tracking output","g":"done","f":""}],"links":[{"s":1,"t":2,"k":"cites"},{"s":3,"t":4,"k":"cites"},{"s":5,"t":6,"k":"cites"},{"s":7,"t":8,"k":"cites"},{"s":9,"t":10,"k":"cites"},{"s":12,"t":13,"k":"cites"},{"s":12,"t":14,"k":"cites"},{"s":12,"t":15,"k":"cites"},{"s":12,"t":14,"k":"cites"},{"s":17,"t":18,"k":"cites"},{"s":19,"t":20,"k":"cites"},{"s":19,"t":21,"k":"cites"},{"s":19,"t":22,"k":"cites"},{"s":19,"t":23,"k":"cites"},{"s":19,"t":24,"k":"cites"},{"s":19,"t":14,"k":"cites"},{"s":19,"t":25,"k":"cites"},{"s":26,"t":27,"k":"cites"},{"s":28,"t":29,"k":"cites"},{"s":28,"t":30,"k":"cites"},{"s":28,"t":31,"k":"cites"},{"s":28,"t":27,"k":"cites"},{"s":32,"t":33,"k":"cites"},{"s":32,"t":34,"k":"cites"},{"s":32,"t":23,"k":"cites"},{"s":32,"t":35,"k":"cites"},{"s":32,"t":36,"k":"cites"},{"s":32,"t":37,"k":"cites"},{"s":32,"t":38,"k":"cites"},{"s":32,"t":39,"k":"cites"},{"s":32,"t":40,"k":"cites"},{"s":32,"t":41,"k":"cites"},{"s":32,"t":42,"k":"cites"},{"s":32,"t":43,"k":"cites"},{"s":44,"t":45,"k":"cites"},{"s":44,"t":46,"k":"cites"},{"s":44,"t":27,"k":"cites"},{"s":44,"t":47,"k":"cites"},{"s":44,"t":22,"k":"cites"},{"s":44,"t":48,"k":"cites"},{"s":44,"t":47,"k":"cites"},{"s":44,"t":14,"k":"cites"},{"s":49,"t":50,"k":"cites"},{"s":49,"t":51,"k":"cites"},{"s":49,"t":52,"k":"cites"},{"s":49,"t":27,"k":"cites"},{"s":49,"t":53,"k":"cites"},{"s":49,"t":54,"k":"cites"},{"s":49,"t":55,"k":"cites"},{"s":49,"t":56,"k":"cites"},{"s":49,"t":57,"k":"cites"},{"s":49,"t":58,"k":"cites"},{"s":59,"t":60,"k":"cites"},{"s":59,"t":61,"k":"cites"},{"s":59,"t":62,"k":"cites"},{"s":59,"t":62,"k":"cites"},{"s":63,"t":64,"k":"cites"},{"s":63,"t":65,"k":"cites"},{"s":63,"t":66,"k":"cites"},{"s":63,"t":67,"k":"cites"},{"s":63,"t":68,"k":"cites"},{"s":69,"t":70,"k":"cites"},{"s":71,"t":72,"k":"cites"},{"s":71,"t":73,"k":"cites"},{"s":71,"t":74,"k":"cites"},{"s":75,"t":76,"k":"cites"},{"s":75,"t":27,"k":"cites"},{"s":75,"t":77,"k":"cites"},{"s":79,"t":80,"k":"cites"},{"s":79,"t":6,"k":"cites"},{"s":5,"t":79,"k":"motivates"},{"s":83,"t":18,"k":"cites"},{"s":0,"t":84,"k":"motivates"},{"s":12,"t":84,"k":"motivates"},{"s":85,"t":2,"k":"cites"},{"s":1,"t":85,"k":"motivates"},{"s":86,"t":10,"k":"cites"},{"s":9,"t":86,"k":"motivates"},{"s":16,"t":87,"k":"motivates"},{"s":12,"t":87,"k":"motivates"},{"s":7,"t":87,"k":"motivates"},{"s":12,"t":88,"k":"motivates"},{"s":89,"t":18,"k":"cites"},{"s":17,"t":89,"k":"motivates"},{"s":90,"t":4,"k":"cites"},{"s":90,"t":27,"k":"cites"},{"s":26,"t":90,"k":"motivates"},{"s":91,"t":31,"k":"cites"},{"s":28,"t":91,"k":"motivates"},{"s":93,"t":33,"k":"cites"},{"s":93,"t":23,"k":"cites"},{"s":93,"t":37,"k":"cites"},{"s":93,"t":39,"k":"cites"},{"s":93,"t":41,"k":"cites"},{"s":32,"t":93,"k":"motivates"},{"s":94,"t":22,"k":"cites"},{"s":95,"t":51,"k":"cites"},{"s":95,"t":53,"k":"cites"},{"s":95,"t":56,"k":"cites"},{"s":95,"t":57,"k":"cites"},{"s":95,"t":58,"k":"cites"},{"s":49,"t":95,"k":"motivates"},{"s":96,"t":60,"k":"cites"},{"s":96,"t":61,"k":"cites"},{"s":96,"t":62,"k":"cites"},{"s":96,"t":62,"k":"cites"},{"s":59,"t":96,"k":"motivates"},{"s":97,"t":98,"k":"cites"},{"s":97,"t":80,"k":"cites"},{"s":97,"t":4,"k":"cites"},{"s":97,"t":65,"k":"cites"},{"s":97,"t":66,"k":"cites"},{"s":97,"t":72,"k":"cites"},{"s":97,"t":99,"k":"cites"},{"s":97,"t":73,"k":"cites"},{"s":97,"t":74,"k":"cites"},{"s":69,"t":97,"k":"motivates"},{"s":71,"t":97,"k":"motivates"},{"s":63,"t":97,"k":"motivates"},{"s":100,"t":76,"k":"cites"},{"s":100,"t":80,"k":"cites"},{"s":100,"t":27,"k":"cites"},{"s":100,"t":77,"k":"cites"},{"s":75,"t":100,"k":"motivates"},{"s":0,"t":101,"k":"logged_in"},{"s":12,"t":101,"k":"logged_in"},{"s":17,"t":101,"k":"logged_in"},{"s":19,"t":101,"k":"logged_in"},{"s":16,"t":101,"k":"logged_in"},{"s":101,"t":14,"k":"cites"},{"s":101,"t":15,"k":"cites"},{"s":101,"t":14,"k":"cites"},{"s":101,"t":18,"k":"cites"},{"s":19,"t":102,"k":"logged_in"},{"s":0,"t":102,"k":"logged_in"},{"s":102,"t":21,"k":"cites"},{"s":102,"t":22,"k":"cites"},{"s":102,"t":23,"k":"cites"},{"s":102,"t":24,"k":"cites"},{"s":102,"t":14,"k":"cites"},{"s":102,"t":25,"k":"cites"},{"s":0,"t":103,"k":"logged_in"},{"s":17,"t":103,"k":"logged_in"},{"s":19,"t":103,"k":"logged_in"},{"s":26,"t":103,"k":"logged_in"},{"s":16,"t":103,"k":"logged_in"},{"s":28,"t":103,"k":"logged_in"},{"s":103,"t":29,"k":"cites"},{"s":103,"t":31,"k":"cites"},{"s":103,"t":27,"k":"cites"},{"s":0,"t":104,"k":"logged_in"},{"s":17,"t":104,"k":"logged_in"},{"s":19,"t":104,"k":"logged_in"},{"s":32,"t":104,"k":"logged_in"},{"s":44,"t":104,"k":"logged_in"},{"s":104,"t":35,"k":"cites"},{"s":104,"t":34,"k":"cites"},{"s":104,"t":33,"k":"cites"},{"s":104,"t":23,"k":"cites"},{"s":104,"t":27,"k":"cites"},{"s":104,"t":36,"k":"cites"},{"s":104,"t":37,"k":"cites"},{"s":104,"t":38,"k":"cites"},{"s":104,"t":39,"k":"cites"},{"s":104,"t":40,"k":"cites"},{"s":104,"t":41,"k":"cites"},{"s":104,"t":42,"k":"cites"},{"s":104,"t":47,"k":"cites"},{"s":104,"t":43,"k":"cites"},{"s":0,"t":105,"k":"logged_in"},{"s":17,"t":105,"k":"logged_in"},{"s":19,"t":105,"k":"logged_in"},{"s":49,"t":105,"k":"logged_in"},{"s":26,"t":105,"k":"logged_in"},{"s":105,"t":51,"k":"cites"},{"s":105,"t":53,"k":"cites"},{"s":105,"t":22,"k":"cites"},{"s":105,"t":56,"k":"cites"},{"s":105,"t":57,"k":"cites"},{"s":105,"t":14,"k":"cites"},{"s":105,"t":58,"k":"cites"},{"s":0,"t":106,"k":"logged_in"},{"s":17,"t":106,"k":"logged_in"},{"s":19,"t":106,"k":"logged_in"},{"s":106,"t":50,"k":"cites"},{"s":106,"t":52,"k":"cites"},{"s":106,"t":27,"k":"cites"},{"s":106,"t":54,"k":"cites"},{"s":106,"t":55,"k":"cites"},{"s":0,"t":107,"k":"logged_in"},{"s":12,"t":107,"k":"logged_in"},{"s":17,"t":107,"k":"logged_in"},{"s":19,"t":107,"k":"logged_in"},{"s":16,"t":107,"k":"logged_in"},{"s":59,"t":107,"k":"logged_in"},{"s":107,"t":60,"k":"cites"},{"s":107,"t":61,"k":"cites"},{"s":107,"t":62,"k":"cites"},{"s":107,"t":62,"k":"cites"},{"s":0,"t":108,"k":"logged_in"},{"s":63,"t":108,"k":"logged_in"},{"s":17,"t":108,"k":"logged_in"},{"s":19,"t":108,"k":"logged_in"},{"s":69,"t":108,"k":"logged_in"},{"s":108,"t":98,"k":"cites"},{"s":108,"t":64,"k":"cites"},{"s":108,"t":65,"k":"cites"},{"s":108,"t":66,"k":"cites"},{"s":108,"t":67,"k":"cites"},{"s":108,"t":68,"k":"cites"},{"s":108,"t":70,"k":"cites"},{"s":0,"t":109,"k":"logged_in"},{"s":17,"t":109,"k":"logged_in"},{"s":75,"t":109,"k":"logged_in"},{"s":19,"t":109,"k":"logged_in"},{"s":71,"t":109,"k":"logged_in"},{"s":109,"t":76,"k":"cites"},{"s":109,"t":80,"k":"cites"},{"s":109,"t":77,"k":"cites"},{"s":109,"t":72,"k":"cites"},{"s":109,"t":73,"k":"cites"},{"s":109,"t":74,"k":"cites"},{"s":110,"t":111,"k":"covers"},{"s":110,"t":112,"k":"covers"},{"s":110,"t":113,"k":"covers"},{"s":110,"t":114,"k":"covers"},{"s":115,"t":116,"k":"covers"},{"s":115,"t":117,"k":"covers"},{"s":115,"t":118,"k":"covers"},{"s":115,"t":119,"k":"covers"},{"s":120,"t":116,"k":"covers"},{"s":120,"t":121,"k":"covers"},{"s":123,"t":124,"k":"covers"},{"s":123,"t":125,"k":"covers"},{"s":123,"t":126,"k":"covers"},{"s":123,"t":127,"k":"covers"},{"s":123,"t":128,"k":"covers"},{"s":129,"t":130,"k":"covers"},{"s":131,"t":124,"k":"covers"},{"s":131,"t":132,"k":"covers"},{"s":131,"t":133,"k":"covers"},{"s":134,"t":135,"k":"covers"},{"s":134,"t":136,"k":"covers"},{"s":134,"t":137,"k":"covers"},{"s":134,"t":138,"k":"covers"},{"s":134,"t":139,"k":"covers"},{"s":140,"t":141,"k":"covers"},{"s":143,"t":144,"k":"covers"},{"s":145,"t":146,"k":"covers"},{"s":147,"t":148,"k":"covers"},{"s":147,"t":146,"k":"covers"},{"s":147,"t":149,"k":"covers"},{"s":147,"t":126,"k":"covers"},{"s":150,"t":132,"k":"covers"},{"s":151,"t":132,"k":"covers"},{"s":151,"t":133,"k":"covers"},{"s":152,"t":132,"k":"covers"},{"s":160,"t":133,"k":"covers"},{"s":161,"t":133,"k":"covers"},{"s":163,"t":144,"k":"covers"},{"s":165,"t":132,"k":"covers"},{"s":166,"t":135,"k":"covers"},{"s":166,"t":136,"k":"covers"},{"s":166,"t":139,"k":"covers"}],"meta":{"nodes":167,"edges":264,"node_kinds":{"paper":21,"code":60,"queue_item":20,"run":9,"source":17,"post":27,"commission":13},"edge_kinds":{"cites":161,"motivates":19,"logged_in":42,"covers":42},"bridge_edges":161,"distinct_code_targets":60,"citations_resolved":161,"citations_unresolved":["y_finance.py:274"],"most_cited_files":[["code/python_files/factor_learning.py",4],["code/python_files/deflated_sharpe.py",4],["code/python_files/backtest_screeners.py",3],["research/factor_redundancy.py",3],["code/python_files/liquidity.py",3],["code/python_files/build_mailer.py",2],["code/python_files/market_correlation_scan.py",2],["code/python_files/walk_forward_backtest.py",2],["code/python_files/backtest_piotroski_plus.py",2],["code/python_files/backtest_liquidity_forward.py",2],["code/python_files/backtest_ccc.py",2],["code/python_files/portfolio_builder.py",2],["code/python_files/market_regime.py",1],["code/python_files/sentiment_pipeline.py",1],["code/python_files/pe_bands.py",1]]}}</script>
+<script>
+(function(){
+const D=JSON.parse(document.getElementById('gd').textContent);
+const N=D.nodes, L=D.links;
+
+// ---- most-cited table (derived from the graph itself, not retyped) ----
+const counts={};
+L.forEach(l=>{ if(l.k==='cites'){ const f=N[l.t].f||'?'; counts[f]=(counts[f]||0)+1; }});
+const rows=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,14);
+const max=rows.length?rows[0][1]:1;
+document.getElementById('tb').innerHTML=rows.map(([f,c])=>
+  `<tr><td class="f">${f}</td><td class="num">${c}</td>`+
+  `<td><div class="bar b" style="width:${Math.round(c/max*100)}%"></div></td></tr>`).join('');
+
+// ---- palette by kind ----
+const COL={paper:'#A04A2B',queue_item:'#C2703F',run:'#8E6A18',code:'#1B6675',
+           source:'#5A8B6B',commission:'#7B6BA0',post:'#96A3AB'};
+const KIND={paper:'paper',queue_item:'queue item',run:'daily run',code:'code',
+            source:'source',commission:'commission',post:'post'};
+// code nodes sit right, literature left — the gap IS the bridge
+const side=k=>k==='code'?1:-1;
+
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+let W=0,H=0,DPR=Math.min(window.devicePixelRatio||1,2);
+const deg={}; L.forEach(l=>{deg[l.s]=(deg[l.s]||0)+1; deg[l.t]=(deg[l.t]||0)+1;});
+const P=N.map((n,i)=>({x:0,y:0,vx:0,vy:0,r:3.1+Math.min(Math.sqrt(deg[i]||0)*1.35,7),
+                       c:COL[n.k]||'#888',n:n,i:i}));
+function seed(){
+  P.forEach((p,i)=>{
+    const s=side(p.n.k);
+    p.x=W/2+s*W*0.27+((i*2654435761)%1000/1000-0.5)*W*0.10;
+    p.y=H/2+(((i*40503)%1000)/1000-0.5)*H*0.78;
+    p.vx=p.vy=0;
+  });
+}
+function size(){
+  const r=cv.getBoundingClientRect(); W=r.width; H=r.height;
+  cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+let hot=null,drag=null,alpha=1;
+
+function tick(){
+  // repulsion — n=167, O(n^2) is 28k pairs, cheap enough for a real sim
+  for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){
+    const a=P[i],b=P[j]; let dx=b.x-a.x,dy=b.y-a.y,d2=dx*dx+dy*dy||1;
+    if(d2>26000)continue;
+    const f=300/d2, d=Math.sqrt(d2), fx=dx/d*f, fy=dy/d*f;
+    a.vx-=fx; a.vy-=fy; b.vx+=fx; b.vy+=fy;
+  }
+  // springs
+  L.forEach(l=>{
+    const a=P[l.s],b=P[l.t]; if(!a||!b)return;
+    const dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||1;
+    const rest=l.k==='cites'?0:70;  // cites: let the lane anchoring set the span
+    const f=(d-rest)*0.0075, fx=dx/d*f, fy=dy/d*f;
+    a.vx+=fx; a.vy+=fy; b.vx-=fx; b.vy-=fy;
+  });
+  // Side anchoring is deliberately stiff: x is near-constrained to a lane per side so
+  // the forces only arrange y. A soft pull loses to repulsion and the two graphs blend
+  // into one blob — which destroys the whole point, since the bridge only reads as a
+  // bridge when there is a visible gap for it to cross.
+  P.forEach(p=>{
+    p.vx+=((W/2+side(p.n.k)*W*0.27)-p.x)*0.055;
+    p.vy+=(H/2-p.y)*0.004;
+    if(p!==drag){ p.vx*=0.86; p.vy*=0.86; p.x+=p.vx*alpha; p.y+=p.vy*alpha; }
+    p.x=Math.max(p.r+8,Math.min(W-p.r-8,p.x));
+    p.y=Math.max(p.r+8,Math.min(H-p.r-8,p.y));
+  });
+  if(alpha>0.32) alpha*=0.995;
+}
+function draw(){
+  const cs=getComputedStyle(document.documentElement);
+  ctx.clearRect(0,0,W,H);
+  // edges
+  L.forEach(l=>{
+    const a=P[l.s],b=P[l.t]; if(!a||!b)return;
+    const isB=l.k==='cites';
+    const lit=hot!==null&&(l.s===hot||l.t===hot);
+    ctx.strokeStyle=lit?(cs.getPropertyValue('--brass')||'#8E6A18').trim()
+                       :(isB?'rgba(142,106,24,.30)':'rgba(128,145,155,.20)');
+    ctx.lineWidth=lit?1.7:(isB?1.0:0.7);
+    ctx.beginPath(); ctx.moveTo(a.x,a.y);
+    const mx=(a.x+b.x)/2, my=(a.y+b.y)/2-(isB?26:8);
+    ctx.quadraticCurveTo(mx,my,b.x,b.y); ctx.stroke();
+  });
+  // nodes
+  P.forEach(p=>{
+    const lit=hot===p.i;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r+(lit?2.2:0),0,6.2832);
+    ctx.fillStyle=p.c; ctx.globalAlpha=hot===null||lit?1:0.42; ctx.fill();
+    ctx.globalAlpha=1;
+    if(lit){ ctx.lineWidth=1.6;
+      ctx.strokeStyle=(cs.getPropertyValue('--ink')||'#132').trim(); ctx.stroke(); }
+  });
+}
+function loop(){ tick(); draw(); requestAnimationFrame(loop); }
+
+function at(e){
+  const r=cv.getBoundingClientRect();
+  const x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;
+  const y=(e.touches?e.touches[0].clientY:e.clientY)-r.top;
+  let best=null,bd=1e9;
+  P.forEach(p=>{const d=(p.x-x)**2+(p.y-y)**2; if(d<bd&&d<420){bd=d;best=p;}});
+  return {p:best,x:x,y:y};
+}
+const cap=document.getElementById('cap');
+const DEF=cap.innerHTML;
+cv.addEventListener('mousemove',e=>{
+  const {p,x,y}=at(e);
+  if(drag){ drag.x=x; drag.y=y; drag.vx=drag.vy=0; alpha=Math.max(alpha,.75); return; }
+  hot=p?p.i:null;
+  if(p){
+    const n=p.n, extra=n.f?` &nbsp;<span class="mono">${n.f}</span>`
+                          :(n.g?` &nbsp;<span class="mono">${n.g}</span>`:'');
+    cap.innerHTML=`<b>${KIND[n.k]}</b> &nbsp;${n.l||n.s}${extra}`;
+    cv.style.cursor='grab';
+  } else { cap.innerHTML=DEF; cv.style.cursor='default'; }
+});
+cv.addEventListener('mousedown',e=>{const {p}=at(e); if(p){drag=p; cv.style.cursor='grabbing';}});
+window.addEventListener('mouseup',()=>{drag=null; cv.style.cursor='default';});
+cv.addEventListener('mouseleave',()=>{hot=null; cap.innerHTML=DEF;});
+document.getElementById('re').addEventListener('click',()=>{seed(); alpha=1;});
+window.addEventListener('resize',()=>{size(); seed(); alpha=1;});
+size(); seed(); loop();
+})();
+</script>
