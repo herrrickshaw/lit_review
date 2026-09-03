@@ -330,3 +330,19 @@ moved above. Read this section before picking anything from Open.)*
   first against `fci-grain-flow-procurement-storage` and
   `fci-storage-scenario-capacity-stock-and`.
   Logged from the 2026-08-26 register entry.
+
+- **2026-09-03 — the PPV&FR item's outstanding checks could NOT be advanced today; both
+  primaries were down.** The Thursday daily run tried to resolve check (2) on the open
+  "57.8% of India's plant-variety rights are cereals" item — the unverified
+  "4,847 of 9,210 certificates (52.6%) went to farmers" split that came only from a
+  search snippet. `https://plantauthority.gov.in/` and
+  `https://plantauthority.gov.in/plant-varieties-registry-related-information` both
+  returned **HTTP 503** on direct fetch. The split therefore remains **unverified** and
+  the standing instruction stands: confirm it from the Annual Report PDF or drop it
+  entirely — do not repeat it on snippet authority.
+  Operational consequence for whoever writes this piece: the homepage certificate counter
+  is a **live counter on an intermittently unavailable NIC host**, with no vintage
+  archive. Do not plan the piece around fetching it at publication time. Pull the figures
+  once, date-stamp them in the text, and hold the Annual Report PDF locally as the
+  citable artefact. The 2026-08-27 direct-fetch figures in the item above remain the
+  best record we have precisely because they were captured when the host was up.

@@ -333,3 +333,22 @@ when it's been run; do not delete history.
 ## Done
 
 (none yet)
+
+23. **Invert the cost assumption: report breakeven bps per market, not net precision at
+    an assumed charge** — `confusion_matrix_eval.py:34` hard-codes
+    `COST_BPS = {"IN": 40, "US": 15, "KR": 30, "JP": 25, "EU": 30, "CN": 35}`, charges it
+    at `:80`, and reports a gross→net precision pair at `:132`. Every one of those six
+    numbers is an assumption no line in the repo derives or defends, and the report gives
+    no way to see how close any market sits to its own cliff: IN at 40bp could be
+    comfortable or one basis point from dead and the table reads identically. Add the
+    inverse — solve for c* where the net edge hits zero and print `breakeven_bps`
+    alongside `cost_bps` per market. The formula already exists in the repo, at
+    `etf_builder.py:288` (`be = edge / (tno * ppy) * 10_000 + COST_BPS`), but in the
+    benchmark-relative form; 2603.01820 uses the absolute form ("the maximum constant
+    friction that specific asset's strategy can endure before its cumulative PnL is
+    driven to zero"). Report both, per market — the gap between them is the size of the
+    just-buy-the-index alternative. Cheap: no new data, no refit, one solve over the
+    existing per-market series. Diagnostic either way — a market whose breakeven is 45bp
+    against an assumed 40bp is not a live edge, it is rounding error, and this is the
+    only test in the queue that would say so. Motivated by: 2603.01820
+    (Saly-Kaufmann, Wood, Peter-Calliess & Zohren).

@@ -679,3 +679,23 @@ as reported and quoted by Reinsurance News (fetched 2026-09-01, HTTP 200).
 - **NCAER, "Making the IFSC a Re-insurance Hub"** (hosted on ifsca.gov.in,
   `ncaer-report20042022032732.pdf`, dated 2022) — a commissioned advocacy report, four years
   stale, and its numbers are projections rather than released data. Background at best.
+
+### seednet.gov.in — DA&FW Seed Net portal (candidate, NOT assessed)
+
+- **Data**: unknown. Surfaced 2026-09-03 as a possible government primary for the
+  Thursday seeds / plant-variety-rights / agricultural-IP beat — the three-generation
+  breeder → foundation → certified seed production series, seed availability and indent,
+  and state-wise figures are the sort of thing the portal is supposed to carry.
+- **Status**: `https://seednet.gov.in/Material/Seed_Production.htm` returned **HTTP 503**
+  on direct fetch, so **nothing on the page has been read and nothing is claimed about
+  it**. Not graded. Retry on a future Thursday before deciding whether it is
+  COMMISSIONABLE, BACKGROUND or WEAK.
+- **Blog fit (provisional)**: would extend the same confirmed zero-coverage area the open
+  PPV&FR queue item opens. Manifest dedup re-run 2026-09-03 for
+  seed/variet/ppvfr/patent/breeder/germplasm/intellectual/hybrid across titles and slugs:
+  **zero hits**, so the area is still genuinely uncovered.
+- **Caveat**: Seed Replacement Rate is the figure most likely to be reachable and also
+  the one most likely to be quoted loosely — search-result prose today gave "less than
+  25%-30%" for open-pollinated food grains and oilseeds with no year and no source
+  attached. Treat any SRR number as unusable until it is read off a dated departmental
+  table. WEAK on evidence until fetched, logged 2026-09-03.

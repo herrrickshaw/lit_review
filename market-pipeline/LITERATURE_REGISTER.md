@@ -1155,3 +1155,84 @@ chosen by cross-validation — giving closed-form tangency weights.
   prospect-theory investors*. The abs page discloses no universe, period or metric, and
   the prospect-utility framing does not map onto a screener that ranks on returns.
   Off-scope.
+
+## Added 2026-09-03 (daily task, Thursday gap query: transaction-cost-aware factor evaluation)
+
+Citation-following from hub 2605.19337 returned the **same four citing papers for the
+fourth consecutive run** (2608.26990, 2607.19453, 2607.04958, 2606.08285), all already
+in the register — the hub's citation graph remains exhausted. The Thursday query was
+last run 2026-08-27 (Baldi-Lanfranchi, 2604.07880), so it was re-aimed from *do factor
+premia survive their own trading costs* to *how do you report the cost sensitivity
+itself* — i.e. breakeven cost as a first-class evaluation metric rather than a fixed
+assumed charge. Six new candidates, one deep-read.
+
+### 2603.01820 — Deep Learning for Financial Time Series: A Large-Scale Benchmark of Risk-Adjusted Performance (Saly-Kaufmann, Wood, Peter-Calliess & Zohren, 2026-03-02)
+
+EVIDENCE-GRADE: strong on protocol, off-scope on models. Daily futures across five
+asset classes (bonds, commodities, energy, FX, equity indices), 2010–2025, rolling
+windows, fully out-of-sample. Headline metric is the **Sharpe ratio**, not a price-level
+error — the benchmark is explicitly a position-sizing task, and the paper's own summary
+notes that the models that top standard time-series benchmarks are *not* the ones that
+top this one. The architectures themselves (xLSTM, PatchTST, VSN+LSTM, state-space
+models) are out of scope here: they need GPU training of 50 independent runs per model,
+which this pipeline neither has nor wants. The **evaluation apparatus** is the
+transferable part.
+
+Doing-right:
+- **HAC t-statistics on Sharpe differences.** The paper tests significance with
+  "heteroskedasticity and autocorrelation consistent t-statistics", Newey–West style.
+  The repo already has exactly this: `newey_west_t()` at
+  `code/python_files/rloo_rescore.py:385` ("t-stat of mean(x) with HAC (Bartlett)
+  errors"), applied to per-date cohort series at `rloo_rescore.py:444-452` and
+  documented in the emitted report at `rloo_rescore.py:514`. Not a gap.
+- **Costs charged, not ignored.** Per-market cost assumptions exist at
+  `confusion_matrix_eval.py:34` (`COST_BPS = {"IN": 40, "US": 15, "KR": 30, "JP": 25,
+  "EU": 30, "CN": 35}`), deducted at `confusion_matrix_eval.py:80` and reported as a
+  gross→net precision pair at `confusion_matrix_eval.py:132`. `sector_rotation.py:60`
+  and `custom_indices.py:68` carry their own constants. Not a gap.
+- **Seed robustness.** The paper re-runs at reduced budget (25 seeds, top 5) against its
+  primary spec (50 runs, top 10 by validation loss) and checks rank stability. UNVERIFIED
+  as a repo gap and deliberately not queued — the screener has no stochastic training
+  loop for seeds to perturb, so the check has nothing to bite on.
+
+Gap:
+- **Breakeven cost is computed in one place, and it is not the product.** The paper
+  defines it as "the maximum constant friction that specific asset's strategy can endure
+  before its cumulative PnL is driven to zero", reported per asset in bps. The repo has
+  a breakeven column only in `etf_builder.py:273` (header) / `:288` (the formula
+  `be = edge / (tno * ppy) * 10_000 + COST_BPS`), and that variant answers a different
+  and stricter question — the cost at which the scheme's *edge over the benchmark*
+  vanishes, not at which its PnL vanishes. `quick_reference.py:18,293` is static
+  documentation text, not a computation. `grep -rniE 'break[ _-]?even'` across
+  `code/python_files/` finds nothing else. So the daily multi-market screen — the thing
+  that actually emits the email — charges a fixed assumed cost per market and never
+  inverts the question.
+
+Action queued: item 23.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2603.14288** (Huang & Fan, "Beyond Prompting: An Autonomous Framework for Systematic
+  Factor Investing via Agentic AI", v1 2026-03-15, v2 2026-04-06) — claims an annualized
+  Sharpe of **3.11** and a **59.53% return** from long-short portfolios on
+  LLM-self-generated signals, while the abs page discloses no universe size, no sample
+  period and no transaction-cost treatment. A self-directed signal-search loop grading
+  its own output on US equities is a data-snooping engine; the abstract's answer to that
+  is an assertion of "strict empirical discipline" with no reported turnover. This is the
+  implausible-headline pattern the triage rule exists to catch. Weak.
+- **2511.17462** (Engel, Chen, Polak & Boier, "Scaling Conditional Autoencoders for
+  Portfolio Optimization via Uncertainty-Aware Factor Selection", 2025-11-21) — the idea
+  is good (rank latent factors by forecast uncertainty, keep the top-k most predictable)
+  and the metrics are risk-adjusted (Sharpe, Sortino, Omega), but it requires training a
+  high-dimensional conditional autoencoder on a firm-characteristic panel plus Chronos /
+  XGBoost-RAPIDS quantile models, and the abstract reports no universe, no period and no
+  cost model. Off-scope at this pipeline's scale, not weak on method.
+- **2510.19271** (Barunik, Janasek & Sarkany, "Managing Portfolios Across the Return
+  Distribution", v1 2025-10-22, v2 2026-06-23) — dynamic allocation targeting a chosen
+  region of the payoff distribution; the downside-targeted policy is reported as giving
+  both the best left-tail protection and the highest Sharpe. No cost treatment, universe
+  or period on the abs page, and the repo's screener ranks candidates rather than running
+  a dynamic allocation policy, so there is nothing here to attach it to. Off-scope.
+- **2603.15652** and **2512.12420** — surfaced by the Thursday search and **not triaged**;
+  the day's triage budget went to the four above. Neither has been fetched, so nothing is
+  claimed about either. Left for a future Thursday.
