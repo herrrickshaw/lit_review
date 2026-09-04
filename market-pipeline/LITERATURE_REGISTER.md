@@ -1236,3 +1236,97 @@ Action queued: item 23.
 - **2603.15652** and **2512.12420** — surfaced by the Thursday search and **not triaged**;
   the day's triage budget went to the four above. Neither has been fetched, so nothing is
   claimed about either. Left for a future Thursday.
+
+---
+
+## Added 2026-09-04 (daily task, Friday gap query: point-in-time fundamentals / survivorship bias)
+
+Citation-following from hub 2605.19337 returned the same four citing papers for the
+**fifth consecutive run** (2608.26990, 2607.19453, 2607.04958, 2606.08285), all already
+in the register. Two web searches returned five new IDs; one passed triage and was
+deep-read.
+
+### 2608.27734 — What survives honest evaluation? Leakage-safe, search-aware assessment of LLM-driven trading strategy discovery (Eray Gençay, v1 2026-08-27, q-fin.ST)
+
+**Why this one is not covered by the standing LLM rejection.** The 2026-08-28 structural
+finding rejects LLM papers because no LLM sits in this repo's *signal path*. This paper's
+contribution is not a signal — it is the **evaluation harness placed around a search**,
+and this repo does run a search: `profitability_optimizer.csv` picks the best of 10
+factors per market×regime, and a dozen `sweep_*` / `backtest_*` scripts have each tried
+their own configurations. The LLM is only what generates candidates in the paper; the
+grading machinery is agnostic to what produced them. Triaged on that basis, not on the
+LLM framing.
+
+Passes triage on every count: headline metric is **Sharpe with Deflated Sharpe and PBO**
+(not MAPE/RMSE), universe is **453 US equities plus 39 multi-asset ETFs** (ETFs
+2005–2026), design window 2017–2021 / evaluation 2022–2025 for E1–E4 and 2007–2016 /
+2017–2025 for E5–E6b, and costs are modelled explicitly: **1bp commission, 2bp spread,
+square-root market impact against trailing 21-day dollar volume, and 50bp annualised
+borrow on short notional**.
+
+Headline result, and it is a negative one honestly reported: **zero LLM-discovered
+strategies survived**. In E3 (100-candidate search, N=102 trials) the agent's best posted
+a design Sharpe of 1.69 that collapsed to an evaluation Sharpe of **0.18**, DSR 0.86 —
+below the 0.95 certification threshold. The passive benchmarks certify instead:
+equal-weight buy-and-hold **DSR 0.97**, SPY **DSR 0.94**. This is worth recording because
+it converts this register's six prior LLM rejections — all made on *cost* grounds — into
+a *statistical* one made by someone who actually ran the experiment.
+
+- **Doing-right:** point-in-time liquidity. The paper re-selects its tradeable set
+  point-in-time and the repo does the equivalent: `backtest_liquidity_forward.py:40`
+  states the discipline ("Liquidity, DMA50 and DMA200 at date t use bars <= t only.
+  Enforced by SQL"), `:64` sets `LIQ_WINDOW = 60`, `:83` computes the rolling turnover
+  window, and `:172-175` exits a delisted name at its last real close rather than
+  inner-joining it out. The paper's own survivorship handling is *weaker* than this —
+  it fixes the constituent list to current names and argues the resulting bias only
+  makes its null conservative.
+- **Doing-right:** the cost model. The paper's square-root-impact-plus-participation-cap
+  design already exists here — `execution_cost_model.py:8` describes exactly a
+  "square-root market-impact model and a participation-rate (%ADV) cap", and
+  `build_business_valuation_report.py:285` reports it in use with a 15%-ADV cap. The flat
+  per-market constants at `confusion_matrix_eval.py:34` are the weaker path and are
+  already queue item 23. Borrow cost on short notional is a real gap but a known one —
+  `project_retrospective.py:122` already flags the un-netted short leg — so nothing new
+  is queued for it.
+- **Doing-right (already queued, not re-queued):** PBO. The paper runs CSCV over 16
+  blocks. `walk_forward_backtest.py:1086` cites Bailey's PBO on a function (`:1082`) that
+  computes train→val Sharpe decay, which is a different statistic. That mismatch is
+  already **queue item 20** and is not duplicated here.
+- **Gap — the trial count N is scoped to one sweep, not to the search.** This is the new
+  finding. `deflated_sharpe.py:42-49` implements E[max SR] correctly and `:52-58` the DSR,
+  but `:71-74` builds `trial_srs` from a single `market × regime` slice of
+  `profitability_optimizer.csv`, so `n_trials` written at `:82` is 10 — the factors in
+  that one comparison. The paper's N comes from a **persistent ledger of every evaluation
+  the search ever performed** (N=102 in E3, against 100 candidates). Every additional
+  configuration this repo has tried against the same markets — `sweep_piotroski_plus.py`,
+  `backtest_zone_rules.py`, `backtest_pe_anomalies.py`, `backtest_tier_anomalies.py` —
+  is a trial that should raise the bar the winner has to clear, and currently does not.
+  Since E[max SR] grows with N, the present DSR figures are an **upper bound on
+  significance**, not a neutral estimate.
+- **Considered and declined:** making look-ahead inexpressible. The paper's neatest idea
+  is architectural — a feature registry whose leaky family is excluded from the
+  agent-selectable set, with the tool schema and server-side validation deriving from the
+  same flag, so invalid constructs never reach evaluation rather than being discouraged.
+  That is a control for an agent tool-server with an untrusted caller. Here the caller is
+  one person and the discipline is per-script and documented (`backtest_liquidity_forward.py:40`).
+  Not queued: the machinery costs more than the failure mode it removes at this scale.
+- **Action queued:** item 24 (widen the DSR trial count to a persistent cross-sweep ledger).
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+- **2604.09060** (Chakraborty & Singh, "Taming the Black Swan", v1 2026-04-10 / v2
+  2026-05-18, cs.CE) — carried forward from 2026-08-28 where it was left explicitly
+  untriaged; **now triaged and closed**. AEGIS is Sortino-optimised portfolio
+  *allocation* (volatility-adjusted momentum filter + minimax correlation + SLSQP) over a
+  2006–2025 walk-forward, but the abs page discloses no universe size, no cost treatment
+  and no code or data release, and portfolio construction is scope this signal-only
+  pipeline does not have. Discard; future Friday runs need not carry it again.
+- **2604.18500** (QRAFTI: An Agentic Framework for Empirical Research in Quantitative
+  Finance) — its only on-theme content is preprocessing (delisting returns, share-class
+  aggregation, universe screens) sitting downstream of an LLM agent harness. Structurally
+  inapplicable per the 2026-08-28 finding. Not deep-read.
+- **2602.14233** ("Evaluating LLMs in Finance Requires Explicit Bias Consideration") —
+  about bias in grading LLMs, with no signal-path surface here. Discard.
+- **2601.07687** (Physics-Informed Singular-Value Learning for Cross-Covariances
+  Forecasting) — belongs to the Saturday covariance-cleaning branch already mined on
+  2026-08-29 via 2507.01918, not the Friday theme. **Not fetched and not assessed**;
+  noted only so it is not counted as reviewed.

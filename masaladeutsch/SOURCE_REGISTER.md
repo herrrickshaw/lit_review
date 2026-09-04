@@ -699,3 +699,92 @@ as reported and quoted by Reinsurance News (fetched 2026-09-01, HTTP 200).
   25%-30%" for open-pollinated food grains and oilseeds with no year and no source
   attached. Treat any SRR number as unusable until it is read off a dated departmental
   table. WEAK on evidence until fetched, logged 2026-09-03.
+
+---
+
+## Added 2026-09-04 (Friday theme: irrigation, water and soil)
+
+**Dedup first.** The Friday theme's headline source is already here: the AERR paper
+Bathla, Kannan & Das, "Public investment in irrigation across the Indian states",
+AERR 37(1) 2024, was registered on the irrigation entry at line 158 and already carries
+an open queue item (COMMISSION_QUEUE, the 6th Minor Irrigation Census piece). Today's
+search returned it again; it is **not re-logged**. The soil half of the Friday theme was
+untouched, so the search went there.
+
+Manifest dedup re-run 2026-09-04 across all **255** post titles for
+`irrigat|water|soil|groundwater|canal|drip|organic carbon|aquifer|monsoon|rainfall|watershed`:
+**6 hits, none about soil or agricultural water**. All six are water *infrastructure
+spending* pieces — `amruts-197-lakh-crore-urban-portfolio`,
+`tamil-nadus-water-infrastructure-runs`, `indias-79-lakh-crore-rural-water`,
+`the-water-bill-nobody-mentions-what` (semiconductor fabs),
+`price-is-wire-how-gcam-actually-links` (a model, not a measurement), and
+`guar-gum-indias-35-billion-export-peak`, where "poor soil" is agronomic colour in a
+trade piece. Soil health as a measured quantity has **zero coverage**.
+
+### Soil Health Card scheme — the national soil-test panel, and its April-2023 break — COMMISSIONABLE
+- **Data**: the Soil Health Card portal, `soilhealth.dac.gov.in`, run by DA&FW with NIC.
+  Verified live by direct fetch 2026-09-04: home and `/nutrient-dashboard` both return
+  **HTTP 200**. It is a JavaScript single-page app, so the dashboard content is not
+  visible to a plain fetch; the app's own bundle
+  (`/assets/index-Ed_k0WPH.js`) names its data endpoint as an Apollo GraphQL client
+  pointed at **`https://soilhealth4.dac.gov.in`**, which answers a bare GET with
+  **HTTP 400** — i.e. the server is up and rejecting a malformed query, not refusing
+  access. No login wall was encountered at the transport level. The card itself carries
+  **12 parameters: N, P, K, S; Zn, Fe, Cu, Mn, Bo; pH, EC and OC (Organic Carbon)** —
+  organic carbon is a scheme-standard field on every card, not an add-on.
+- **Finding**: not the SOC level — the **regime break in how it is measured**. PIB
+  release PRID 2104403, Ministry of Agriculture & Farmers Welfare, "Celebrating a Decade
+  of Soil Health Cards", posted 18 Feb 2025 (fetched in full 2026-09-04), states that the
+  portal was revamped and rolled out in **April 2023** with GIS integration, and that
+  from then on the mobile app **restricts the sample-collection region** for the village
+  operator, **auto-selects the latitude and longitude** of the sample, and generates a
+  **QR code linking sample to result directly from geo-mapped labs, "without any manual
+  intervention"**. It renders layers down to **cadastral boundary**. The plain reading is
+  that samples before April 2023 were sited and keyed by hand and samples after it are
+  machine-geolocated and machine-keyed — so any district organic-carbon series that
+  straddles April 2023 is comparing two different collection regimes, and a "decline" or
+  "improvement" across that seam may be an artefact of the seam. The same release gives
+  the delivery scaffolding: **665 Village-Level Soil Testing Labs across 17 States** as of
+  February 2025, and, as of 2024, **1,020 schools running the School Soil Health
+  Programme with 1,000 school labs and 125,972 students enrolled**. The scheme was folded
+  into RKVY as the "Soil Health & Fertility" component from **2022-23**.
+- **Blog fit**: opens the **soil** half of the Friday zero-coverage area (irrigation is
+  already opened by the Minor Irrigation Census queue item) and puts a fourth post in the
+  water/land cluster. Nearest published post is `indias-79-lakh-crore-rural-water` — that
+  is Jal Jeevan Mission *drinking-water* capital expenditure, a different ministry and a
+  different quantity; the connection is thematic only and should be cross-linked as the
+  blog cites its own reporting, never as confirmation.
+- **Caveat**: 🔴 **The export path is the one thing not yet verified.** The endpoint is
+  live and the dashboard is described by the government as being in the public domain,
+  but no query has been run and no district-level organic-carbon table has been pulled.
+  Nothing about SOC levels, trends, or district rankings may be written until a real
+  query returns a real table. Second, the widely circulated "ICAR six-year study, 254,236
+  soil samples, 620 districts, 29 states" figure surfaced today **only from coaching-site
+  secondaries** (vajiramandravi, carpediemias, dhruvstarindustryinsights) and is **not
+  verified**; do not repeat it on that authority — trace it to the IISS Bhopal source or
+  drop it. Third, PIB PRID 2104403 gives no national count of cards issued or samples
+  tested, so those numbers must come from the portal or a dated Lok Sabha answer, not
+  from this release. Fourth, `pib.gov.in` returns **403 to a plain fetcher and 302 to a
+  UA-less curl** — it needs a browser user-agent and `-L` to follow to the
+  `&reg=&lang=` form of the URL.
+
+### Weak / background — one line each (triaged, not deep-read)
+- **Rattan Lal, "Soil Carbon in Agro-Ecosystems of India", Journal of the Indian Society
+  of Soil Science 74(1), 2026** (`epubs.icar.org.in/index.php/JISSS/article/view/180202`,
+  fetched 2026-09-04) — **BACKGROUND**. It is a review and a policy argument, not a
+  measurement: the abstract carries exactly one number, a proposed payment-for-ecosystem-
+  services rate of **US $50 per credit (~INR 4,600)**, and no SOC stock in Mg/ha or Pg,
+  no sample, no district. It also names the **Bharat Soil Protection Policy (BSPP) being
+  developed by ICAR** and calls for a Soil Health Act at district, state and national
+  level — both useful as the policy frame around a piece built on portal data, neither
+  able to carry one. Cite inside, do not commission.
+- **AERR 37(1) 2024, Bathla, Kannan & Das, public irrigation investment and financial
+  recovery** — already registered (line 158) with an open queue item. Re-surfaced by
+  today's first search; not re-logged.
+- **Frontiers in Sustainable Food Systems 2025, SOC fractions across land uses in
+  temperate India** — single-region field study outside the Indian-journal estate, no
+  national panel, nothing the blog could pull. **WEAK**.
+- **Coaching-site summaries of the ICAR/IISS SOC study** (vajiramandravi, carpediemias,
+  dhruvstarindustryinsights) — **WEAK by construction**: secondary prose with no
+  citation to a dated ICAR document. Logged only so a future run does not mistake their
+  agreement with each other for corroboration.

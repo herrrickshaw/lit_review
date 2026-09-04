@@ -346,3 +346,44 @@ moved above. Read this section before picking anything from Open.)*
   once, date-stamp them in the text, and hold the Annual Report PDF locally as the
   citable artefact. The 2026-08-27 direct-fetch figures in the item above remain the
   best record we have precisely because they were captured when the host was up.
+
+
+- [ ] India tested its soil twice. The second time, a machine chose the spot.
+      Source: Soil Health Card portal, `soilhealth.dac.gov.in` (DA&FW / NIC) — the
+      Nutrient Dashboard, whose data comes from the app's own Apollo GraphQL endpoint
+      `https://soilhealth4.dac.gov.in` (verified live 2026-09-04: portal and dashboard
+      HTTP 200, endpoint answers a bare GET with HTTP 400, i.e. up and awaiting a
+      well-formed query). The card carries 12 parameters including **OC (Organic
+      Carbon)**. Primary narrative source: **PIB PRID 2104403, Ministry of Agriculture &
+      Farmers Welfare, "Celebrating a Decade of Soil Health Cards", 18 February 2025**
+      (fetched in full 2026-09-04). Policy frame: Rattan Lal, "Soil Carbon in
+      Agro-Ecosystems of India", JISSS 74(1) 2026, open access on epubs.icar.org.in.
+      Argument: the Soil Health Card scheme has been measuring organic carbon on every
+      card since 2015, but in **April 2023** the portal was rebuilt — the mobile app now
+      restricts the operator's sample-collection region, auto-captures latitude and
+      longitude, and QR-links each sample to a geo-mapped lab "without any manual
+      intervention", with map layers down to cadastral boundary. Samples before that were
+      sited and keyed by hand. So India's only national soil panel has a seam running
+      through it, and any district organic-carbon trend that crosses April 2023 is
+      comparing two different collection regimes before it is comparing two soils — which
+      is a problem for the ICAR-study headlines about declining SOC that are currently
+      circulating without anyone naming the seam.
+      Checks needed: (1) 🔴 **BLOCKING — pull an actual district-level organic-carbon
+      table from the dashboard before writing a word about levels or trends.** The
+      endpoint is live but no query has been run; if the public dashboard turns out to be
+      state-level only, or auth-walled, the piece becomes a shorter methods note and the
+      argument must be rebuilt around the PIB release alone. (2) 🔴 Do **not** use the
+      "254,236 samples, 620 districts, 29 states" ICAR figure — it came only from coaching
+      sites today and is unverified; trace it to IISS Bhopal or drop it. (3) PIB PRID
+      2104403 gives no national cards-issued or samples-tested count — get those from the
+      portal or a dated Lok Sabha answer, never from the release. (4) pib.gov.in needs a
+      browser user-agent and `-L`; a plain fetch gets 403 and a UA-less curl gets 302.
+      (5) The April-2023 seam is a **plain reading of the release's own description of the
+      change**, not a claim the government makes about comparability — write it as the
+      former and say so. (6) Cross-link `indias-79-lakh-crore-rural-water` in house style
+      (that is drinking water under a different ministry — cite as earlier reporting,
+      never as confirmation).
+      Logged: 2026-09-04 from the Soil Health Card register entry
+      Opens: the **soil** half of the Friday zero-coverage area (irrigation is already
+      opened by the Minor Irrigation Census item). Manifest dedup 2026-09-04: 255 posts,
+      6 title hits on water/soil terms, none about soil or agricultural water.

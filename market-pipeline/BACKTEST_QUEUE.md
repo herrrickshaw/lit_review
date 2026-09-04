@@ -352,3 +352,34 @@ when it's been run; do not delete history.
     against an assumed 40bp is not a live edge, it is rounding error, and this is the
     only test in the queue that would say so. Motivated by: 2603.01820
     (Saly-Kaufmann, Wood, Peter-Calliess & Zohren).
+
+24. **The DSR trial count is scoped to one sweep, not to the whole search — widen N to a
+    persistent cross-sweep ledger** — `deflated_sharpe.py:42-49` implements López de
+    Prado's E[max SR] and `:52-58` the deflated Sharpe correctly, but `:71-74` builds
+    `trial_srs` from a single `market == mkt & regime == regime` slice of
+    `reports/profitability_optimizer.csv`, so the `n_trials` written at `:82` is 10 — the
+    factors in that one comparison — and `:80` gates `survives` at 0.95 against a
+    best-of-10 benchmark. The search that actually happened is much wider than 10: every
+    configuration tried against the same markets in `sweep_piotroski_plus.py`,
+    `sweep_piotroski_plus_us.py`, `backtest_zone_rules.py`, `backtest_pe_anomalies.py`
+    and `backtest_tier_anomalies.py` is another draw from the same selection process.
+    Because E[max SR] rises with N (`:49`), every DSR currently in
+    `reports/deflated_sharpe.csv` is an **upper bound on significance**, and the
+    `✅ real` / `⚠️ fragile` labels in `reports/deflated_sharpe.md` inherit that
+    optimism. Concrete change: have each sweep append `(market, regime, variant, IR, n)`
+    to one `reports/trial_ledger.csv`, then have `deflated_sharpe.py` read N and the
+    trial-Sharpe dispersion from the ledger slice rather than from
+    `profitability_optimizer.csv` alone, keeping both columns side by side
+    (`n_trials_sweep`, `n_trials_ledger`, `DSR_sweep`, `DSR_ledger`). Falsifiable
+    prediction: the India trend cell currently reported at DSR 0.994 is robust enough to
+    survive the wider N, but at least one of the marginal cells that currently passes at
+    ≥0.95 does not — and if none flips, that is itself the strongest statement this repo
+    has made about its own factor set. Cheap: no new data, no refit, one append per sweep
+    plus a different read path in one file. The repo already has the ledger habit
+    (`decision_log.py`, and `dl.record(...)` at `deflated_sharpe.py:89`), so this is
+    reusing an existing pattern rather than inventing one. Motivated by: 2608.27734
+    (Gençay), whose N=102 comes from the agent's own recorded trial count and whose
+    entire result — every discovered strategy failing, passive benchmarks certifying at
+    DSR 0.97/0.94 — turns on counting trials honestly. Independent of item 19 (which
+    fixes `T`, the sample length) and item 20 (which fixes the mislabelled PBO); this one
+    fixes `N`, the third input to the same gate.
