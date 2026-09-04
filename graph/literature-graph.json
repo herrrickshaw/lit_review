@@ -114,19 +114,19 @@
    "side": "market-pipeline"
   },
   {
-   "id": "market-pipeline::code_python_files_market_correlation_scan_run",
-   "kind": "code",
-   "label": "run()",
-   "file": "code/python_files/market_correlation_scan.py",
-   "line": 257,
-   "repo": "market-pipeline"
-  },
-  {
    "id": "market-pipeline::code_python_files_walk_forward_backtest",
    "kind": "code",
    "label": "walk_forward_backtest.py",
    "file": "code/python_files/walk_forward_backtest.py",
    "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_market_correlation_scan_run",
+   "kind": "code",
+   "label": "run()",
+   "file": "code/python_files/market_correlation_scan.py",
+   "line": 257,
    "repo": "market-pipeline"
   },
   {
@@ -173,11 +173,11 @@
    "side": "market-pipeline"
   },
   {
-   "id": "market-pipeline::code_python_files_backtest_screeners",
+   "id": "market-pipeline::code_python_files_backtest_ccc_pit_panel",
    "kind": "code",
-   "label": "backtest_screeners.py",
-   "file": "code/python_files/backtest_screeners.py",
-   "line": 1,
+   "label": "pit_panel()",
+   "file": "code/python_files/backtest_ccc.py",
+   "line": 134,
    "repo": "market-pipeline"
   },
   {
@@ -189,11 +189,11 @@
    "repo": "market-pipeline"
   },
   {
-   "id": "market-pipeline::code_python_files_backtest_ccc_pit_panel",
+   "id": "market-pipeline::code_python_files_backtest_pe_anomalies_pit_eps_panel",
    "kind": "code",
-   "label": "pit_panel()",
-   "file": "code/python_files/backtest_ccc.py",
-   "line": 134,
+   "label": "pit_eps_panel()",
+   "file": "code/python_files/backtest_pe_anomalies.py",
+   "line": 157,
    "repo": "market-pipeline"
   },
   {
@@ -205,19 +205,19 @@
    "repo": "market-pipeline"
   },
   {
+   "id": "market-pipeline::code_python_files_backtest_screeners",
+   "kind": "code",
+   "label": "backtest_screeners.py",
+   "file": "code/python_files/backtest_screeners.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
    "id": "market-pipeline::code_python_files_backtest_piotroski_plus",
    "kind": "code",
    "label": "backtest_piotroski_plus.py",
    "file": "code/python_files/backtest_piotroski_plus.py",
    "line": 1,
-   "repo": "market-pipeline"
-  },
-  {
-   "id": "market-pipeline::code_python_files_backtest_pe_anomalies_pit_eps_panel",
-   "kind": "code",
-   "label": "pit_eps_panel()",
-   "file": "code/python_files/backtest_pe_anomalies.py",
-   "line": 157,
    "repo": "market-pipeline"
   },
   {
@@ -280,14 +280,6 @@
    "side": "market-pipeline"
   },
   {
-   "id": "market-pipeline::code_python_files_backtest_piotroski_plus_liquid_universe",
-   "kind": "code",
-   "label": "liquid_universe()",
-   "file": "code/python_files/backtest_piotroski_plus.py",
-   "line": 73,
-   "repo": "market-pipeline"
-  },
-  {
    "id": "market-pipeline::code_python_files_screener_kit_rationale_81",
    "kind": "code",
    "label": "{symbol: OHLCV} for a market, from the live cache or committed seed.      min_tu",
@@ -301,6 +293,30 @@
    "label": "_flag_stale_halted_days()",
    "file": "code/python_files/factorial_screener_test_KR.py",
    "line": 119,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_liquidity_rationale_126",
+   "kind": "code",
+   "label": "Amihud ILLIQ (price impact per USD1m traded). None when unmeasurable.      Days",
+   "file": "code/python_files/liquidity.py",
+   "line": 126,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_liquidity_liquid_symbols",
+   "kind": "code",
+   "label": "liquid_symbols()",
+   "file": "code/python_files/liquidity.py",
+   "line": 548,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_iter_utils_with_circuit_breaker",
+   "kind": "code",
+   "label": "with_circuit_breaker()",
+   "file": "code/python_files/iter_utils.py",
+   "line": 48,
    "repo": "market-pipeline"
   },
   {
@@ -320,11 +336,11 @@
    "repo": "market-pipeline"
   },
   {
-   "id": "market-pipeline::code_python_files_run_existing_screeners_fixed_rationale_56",
+   "id": "market-pipeline::code_python_files_risk_management",
    "kind": "code",
-   "label": "fn is detect_darvas_signals or detect_golden_cross_signals -- the real     produ",
-   "file": "code/python_files/run_existing_screeners_fixed.py",
-   "line": 56,
+   "label": "risk_management.py",
+   "file": "code/python_files/risk_management.py",
+   "line": 1,
    "repo": "market-pipeline"
   },
   {
@@ -336,35 +352,19 @@
    "repo": "market-pipeline"
   },
   {
-   "id": "market-pipeline::code_python_files_liquidity_rationale_126",
+   "id": "market-pipeline::code_python_files_run_existing_screeners_fixed_rationale_56",
    "kind": "code",
-   "label": "Amihud ILLIQ (price impact per USD1m traded). None when unmeasurable.      Days",
-   "file": "code/python_files/liquidity.py",
-   "line": 126,
+   "label": "fn is detect_darvas_signals or detect_golden_cross_signals -- the real     produ",
+   "file": "code/python_files/run_existing_screeners_fixed.py",
+   "line": 56,
    "repo": "market-pipeline"
   },
   {
-   "id": "market-pipeline::code_python_files_iter_utils_with_circuit_breaker",
+   "id": "market-pipeline::code_python_files_backtest_piotroski_plus_liquid_universe",
    "kind": "code",
-   "label": "with_circuit_breaker()",
-   "file": "code/python_files/iter_utils.py",
-   "line": 48,
-   "repo": "market-pipeline"
-  },
-  {
-   "id": "market-pipeline::code_python_files_risk_management",
-   "kind": "code",
-   "label": "risk_management.py",
-   "file": "code/python_files/risk_management.py",
-   "line": 1,
-   "repo": "market-pipeline"
-  },
-  {
-   "id": "market-pipeline::code_python_files_liquidity_liquid_symbols",
-   "kind": "code",
-   "label": "liquid_symbols()",
-   "file": "code/python_files/liquidity.py",
-   "line": 548,
+   "label": "liquid_universe()",
+   "file": "code/python_files/backtest_piotroski_plus.py",
+   "line": 73,
    "repo": "market-pipeline"
   },
   {
@@ -385,19 +385,19 @@
    "repo": "market-pipeline"
   },
   {
-   "id": "market-pipeline::code_python_files_backtest_ccc_main",
-   "kind": "code",
-   "label": "main()",
-   "file": "code/python_files/backtest_ccc.py",
-   "line": 202,
-   "repo": "market-pipeline"
-  },
-  {
    "id": "market-pipeline::code_python_files_pead_liquidity_study_main",
    "kind": "code",
    "label": "main()",
    "file": "code/python_files/pead_liquidity_study.py",
    "line": 126,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_backtest_ccc_main",
+   "kind": "code",
+   "label": "main()",
+   "file": "code/python_files/backtest_ccc.py",
+   "line": 202,
    "repo": "market-pipeline"
   },
   {
@@ -418,27 +418,11 @@
    "side": "market-pipeline"
   },
   {
-   "id": "market-pipeline::code_python_files_factorial_screener_analysis_winsorize",
+   "id": "market-pipeline::code_python_files_price_band_migration",
    "kind": "code",
-   "label": "winsorize()",
-   "file": "code/python_files/factorial_screener_analysis.py",
-   "line": 97,
-   "repo": "market-pipeline"
-  },
-  {
-   "id": "market-pipeline::code_python_files_train_ppo_factor_weights_compute_excess_columns",
-   "kind": "code",
-   "label": "compute_excess_columns()",
-   "file": "code/python_files/train_ppo_factor_weights.py",
-   "line": 129,
-   "repo": "market-pipeline"
-  },
-  {
-   "id": "market-pipeline::code_python_files_backtest_liquidity_forward_rationale_151",
-   "kind": "code",
-   "label": "Quarterly rebalance dates, stopping HOLD_BARS before data end.",
-   "file": "code/python_files/backtest_liquidity_forward.py",
-   "line": 151,
+   "label": "price_band_migration.py",
+   "file": "code/python_files/price_band_migration.py",
+   "line": 1,
    "repo": "market-pipeline"
   },
   {
@@ -450,11 +434,27 @@
    "repo": "market-pipeline"
   },
   {
-   "id": "market-pipeline::code_python_files_rloo_rescore_winsorize_xs",
+   "id": "market-pipeline::code_python_files_backtest_liquidity_forward_rationale_151",
    "kind": "code",
-   "label": "winsorize_xs()",
-   "file": "code/python_files/rloo_rescore.py",
-   "line": 291,
+   "label": "Quarterly rebalance dates, stopping HOLD_BARS before data end.",
+   "file": "code/python_files/backtest_liquidity_forward.py",
+   "line": 151,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_train_ppo_factor_weights_compute_excess_columns",
+   "kind": "code",
+   "label": "compute_excess_columns()",
+   "file": "code/python_files/train_ppo_factor_weights.py",
+   "line": 129,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_sweep_piotroski_plus",
+   "kind": "code",
+   "label": "sweep_piotroski_plus.py",
+   "file": "code/python_files/sweep_piotroski_plus.py",
+   "line": 1,
    "repo": "market-pipeline"
   },
   {
@@ -466,11 +466,19 @@
    "repo": "market-pipeline"
   },
   {
-   "id": "market-pipeline::code_python_files_price_band_migration",
+   "id": "market-pipeline::code_python_files_factorial_screener_analysis_winsorize",
    "kind": "code",
-   "label": "price_band_migration.py",
-   "file": "code/python_files/price_band_migration.py",
-   "line": 1,
+   "label": "winsorize()",
+   "file": "code/python_files/factorial_screener_analysis.py",
+   "line": 97,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_rloo_rescore_winsorize_xs",
+   "kind": "code",
+   "label": "winsorize_xs()",
+   "file": "code/python_files/rloo_rescore.py",
+   "line": 291,
    "repo": "market-pipeline"
   },
   {
@@ -479,14 +487,6 @@
    "label": "Compute Nifty 50 / S&P 500 buy-and-hold returns over the same horizons     start",
    "file": "code/python_files/backtest_screeners.py",
    "line": 290,
-   "repo": "market-pipeline"
-  },
-  {
-   "id": "market-pipeline::code_python_files_sweep_piotroski_plus",
-   "kind": "code",
-   "label": "sweep_piotroski_plus.py",
-   "file": "code/python_files/sweep_piotroski_plus.py",
-   "line": 1,
    "repo": "market-pipeline"
   },
   {
@@ -507,19 +507,19 @@
    "repo": "market-pipeline"
   },
   {
-   "id": "market-pipeline::code_python_files_mutual_fund_theorem_main",
-   "kind": "code",
-   "label": "main()",
-   "file": "code/python_files/mutual_fund_theorem.py",
-   "line": 96,
-   "repo": "market-pipeline"
-  },
-  {
    "id": "market-pipeline::code_python_files_portfolio_builder_rationale_206",
    "kind": "code",
    "label": "Long-only mean-variance optimisation with:       \u2022 shrinkage expected returns (r",
    "file": "code/python_files/portfolio_builder.py",
    "line": 206,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_mutual_fund_theorem_main",
+   "kind": "code",
+   "label": "main()",
+   "file": "code/python_files/mutual_fund_theorem.py",
+   "line": 96,
    "repo": "market-pipeline"
   },
   {
@@ -532,19 +532,19 @@
    "side": "market-pipeline"
   },
   {
-   "id": "market-pipeline::code_python_files_walk_forward_backtest_rationale_1083",
-   "kind": "code",
-   "label": "Check for overfitting: compare Sharpe ratio across TRAIN / TEST / VAL.     A dra",
-   "file": "code/python_files/walk_forward_backtest.py",
-   "line": 1083,
-   "repo": "market-pipeline"
-  },
-  {
    "id": "market-pipeline::code_python_files_deflated_sharpe_main",
    "kind": "code",
    "label": "main()",
    "file": "code/python_files/deflated_sharpe.py",
    "line": 61,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_deflated_sharpe_expected_max_sr",
+   "kind": "code",
+   "label": "expected_max_sr()",
+   "file": "code/python_files/deflated_sharpe.py",
+   "line": 42,
    "repo": "market-pipeline"
   },
   {
@@ -556,11 +556,11 @@
    "repo": "market-pipeline"
   },
   {
-   "id": "market-pipeline::code_python_files_deflated_sharpe_expected_max_sr",
+   "id": "market-pipeline::code_python_files_walk_forward_backtest_rationale_1083",
    "kind": "code",
-   "label": "expected_max_sr()",
-   "file": "code/python_files/deflated_sharpe.py",
-   "line": 42,
+   "label": "Check for overfitting: compare Sharpe ratio across TRAIN / TEST / VAL.     A dra",
+   "file": "code/python_files/walk_forward_backtest.py",
+   "line": 1083,
    "repo": "market-pipeline"
   },
   {
@@ -631,6 +631,14 @@
    "side": "market-pipeline"
   },
   {
+   "id": "market-pipeline::code_python_files_full_us_market_scan",
+   "kind": "code",
+   "label": "full_us_market_scan.py",
+   "file": "code/python_files/full_us_market_scan.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
    "id": "market-pipeline::code_python_files_fund_implementability",
    "kind": "code",
    "label": "fund_implementability.py",
@@ -639,10 +647,124 @@
    "repo": "market-pipeline"
   },
   {
-   "id": "market-pipeline::code_python_files_full_us_market_scan",
+   "id": "paper::2603.01820",
+   "kind": "paper",
+   "label": "2603.01820",
+   "title": "Deep Learning for Financial Time Series: A Large-Scale Benchmark of Risk-Adjusted Performance (Saly-Kaufmann, Wood, Peter-Calliess & Zohren, 2026-03-02)",
+   "grade": "strong",
+   "section": "Added 2026-09-03 (daily task, Thursday gap query: transaction-cost-aware factor evaluation)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_confusion_matrix_eval_main",
    "kind": "code",
-   "label": "full_us_market_scan.py",
-   "file": "code/python_files/full_us_market_scan.py",
+   "label": "main()",
+   "file": "code/python_files/confusion_matrix_eval.py",
+   "line": 105,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_sector_rotation",
+   "kind": "code",
+   "label": "sector_rotation.py",
+   "file": "code/python_files/sector_rotation.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_etf_builder_main",
+   "kind": "code",
+   "label": "main()",
+   "file": "code/python_files/etf_builder.py",
+   "line": 176,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_confusion_matrix_eval_evaluate",
+   "kind": "code",
+   "label": "evaluate()",
+   "file": "code/python_files/confusion_matrix_eval.py",
+   "line": 78,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_quick_reference_rationale_1",
+   "kind": "code",
+   "label": "MOMENTUM TRADING STRATEGY - QUICK REFERENCE CARD Indian Stock Market | 500-Stock",
+   "file": "code/python_files/quick_reference.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_rloo_rescore_score_market",
+   "kind": "code",
+   "label": "score_market()",
+   "file": "code/python_files/rloo_rescore.py",
+   "line": 408,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_rloo_rescore_main",
+   "kind": "code",
+   "label": "main()",
+   "file": "code/python_files/rloo_rescore.py",
+   "line": 476,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_rloo_rescore_newey_west_t",
+   "kind": "code",
+   "label": "newey_west_t()",
+   "file": "code/python_files/rloo_rescore.py",
+   "line": 385,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_custom_indices",
+   "kind": "code",
+   "label": "custom_indices.py",
+   "file": "code/python_files/custom_indices.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "paper::2608.27734",
+   "kind": "paper",
+   "label": "2608.27734",
+   "title": "What survives honest evaluation? Leakage-safe, search-aware assessment of LLM-driven trading strategy discovery (Eray Gen\u00e7ay, v1 2026-08-27, q-fin.ST)",
+   "grade": "unstated",
+   "section": "Added 2026-09-04 (daily task, Friday gap query: point-in-time fundamentals / survivorship bias)",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_project_retrospective_main",
+   "kind": "code",
+   "label": "main()",
+   "file": "code/python_files/project_retrospective.py",
+   "line": 81,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_execution_cost_model",
+   "kind": "code",
+   "label": "execution_cost_model.py",
+   "file": "code/python_files/execution_cost_model.py",
+   "line": 1,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_build_business_valuation_report_sheet_capacity",
+   "kind": "code",
+   "label": "sheet_capacity()",
+   "file": "code/python_files/build_business_valuation_report.py",
+   "line": 281,
+   "repo": "market-pipeline"
+  },
+  {
+   "id": "market-pipeline::code_python_files_backtest_liquidity_forward",
+   "kind": "code",
+   "label": "backtest_liquidity_forward.py",
+   "file": "code/python_files/backtest_liquidity_forward.py",
    "line": 1,
    "repo": "market-pipeline"
   },
@@ -823,10 +945,42 @@
    "repo": "market-pipeline"
   },
   {
+   "id": "queue::20",
+   "kind": "queue_item",
+   "label": "#20",
+   "title": "`overfitting_report()` is labelled PBO but computes Sharpe decay \u2014 replace it with",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::21",
+   "kind": "queue_item",
+   "label": "#21",
+   "title": "The factor-redundancy measurement and the factor model are both linear \u2014 neither",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
    "id": "queue::22",
    "kind": "queue_item",
    "label": "#22",
    "title": "No closed-form max-Sharpe baseline sits between the Lasso and the PPO",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::23",
+   "kind": "queue_item",
+   "label": "#23",
+   "title": "Invert the cost assumption: report breakeven bps per market, not net precision at",
+   "status": "open",
+   "side": "market-pipeline"
+  },
+  {
+   "id": "queue::24",
+   "kind": "queue_item",
+   "label": "#24",
+   "title": "The DSR trial count is scoped to one sweep, not to the whole search \u2014 widen N to a",
    "status": "open",
    "side": "market-pipeline"
   },
@@ -885,16 +1039,30 @@
    "side": "both"
   },
   {
+   "id": "run::2026-09-03",
+   "kind": "run",
+   "label": "2026-09-03",
+   "side": "both"
+  },
+  {
+   "id": "run::2026-09-04",
+   "kind": "run",
+   "label": "2026-09-04",
+   "side": "both"
+  },
+  {
+   "id": "market-pipeline::code_python_files_walk_forward_backtest_overfitting_report",
+   "kind": "code",
+   "label": "overfitting_report()",
+   "file": "code/python_files/walk_forward_backtest.py",
+   "line": 1082,
+   "repo": "market-pipeline"
+  },
+  {
    "id": "source::PPV&FR Authority registration data (Protection of Plant Vari",
    "kind": "source",
    "label": "PPV&FR Authority registration data (Protection of Plant Varieties and ",
    "grade": "unstated",
-   "side": "masaladeutsch"
-  },
-  {
-   "id": "post::indias-445-billion-spice-export-book-is",
-   "kind": "post",
-   "label": "indias-445-billion-spice-export-book-is",
    "side": "masaladeutsch"
   },
   {
@@ -916,16 +1084,16 @@
    "side": "masaladeutsch"
   },
   {
+   "id": "post::indias-445-billion-spice-export-book-is",
+   "kind": "post",
+   "label": "indias-445-billion-spice-export-book-is",
+   "side": "masaladeutsch"
+  },
+  {
    "id": "source::Defence Positive Indigenisation Lists (DDP, Ministry of Defe",
    "kind": "source",
    "label": "Defence Positive Indigenisation Lists (DDP, Ministry of Defence)",
    "grade": "commissionable",
-   "side": "masaladeutsch"
-  },
-  {
-   "id": "post::chemical-import-substitution-hsn-8-registry",
-   "kind": "post",
-   "label": "chemical-import-substitution-hsn-8-registry",
    "side": "masaladeutsch"
   },
   {
@@ -935,15 +1103,21 @@
    "side": "masaladeutsch"
   },
   {
-   "id": "post::quarterly-reportage-4034-scheme",
+   "id": "post::chemical-import-substitution-hsn-8-registry",
    "kind": "post",
-   "label": "quarterly-reportage-4034-scheme",
+   "label": "chemical-import-substitution-hsn-8-registry",
    "side": "masaladeutsch"
   },
   {
    "id": "post::jai-kisan-jai-javan-fci-based-military",
    "kind": "post",
    "label": "jai-kisan-jai-javan-fci-based-military",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::quarterly-reportage-4034-scheme",
+   "kind": "post",
+   "label": "quarterly-reportage-4034-scheme",
    "side": "masaladeutsch"
   },
   {
@@ -974,15 +1148,9 @@
    "side": "masaladeutsch"
   },
   {
-   "id": "post::price-is-wire-how-gcam-actually-links",
+   "id": "post::tamil-nadus-water-infrastructure-runs",
    "kind": "post",
-   "label": "price-is-wire-how-gcam-actually-links",
-   "side": "masaladeutsch"
-  },
-  {
-   "id": "post::35a18274-b04c-4db6-b732-b23ff68a359b",
-   "kind": "post",
-   "label": "35a18274-b04c-4db6-b732-b23ff68a359b",
+   "label": "tamil-nadus-water-infrastructure-runs",
    "side": "masaladeutsch"
   },
   {
@@ -992,15 +1160,21 @@
    "side": "masaladeutsch"
   },
   {
-   "id": "post::tamil-nadus-water-infrastructure-runs",
-   "kind": "post",
-   "label": "tamil-nadus-water-infrastructure-runs",
-   "side": "masaladeutsch"
-  },
-  {
    "id": "post::guar-gum-indias-35-billion-export-peak",
    "kind": "post",
    "label": "guar-gum-indias-35-billion-export-peak",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::price-is-wire-how-gcam-actually-links",
+   "kind": "post",
+   "label": "price-is-wire-how-gcam-actually-links",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::35a18274-b04c-4db6-b732-b23ff68a359b",
+   "kind": "post",
+   "label": "35a18274-b04c-4db6-b732-b23ff68a359b",
    "side": "masaladeutsch"
   },
   {
@@ -1024,15 +1198,15 @@
    "side": "masaladeutsch"
   },
   {
-   "id": "post::premium-now-claim-later-float-indias",
-   "kind": "post",
-   "label": "premium-now-claim-later-float-indias",
-   "side": "masaladeutsch"
-  },
-  {
    "id": "post::who-collects-indias-gst-and-who",
    "kind": "post",
    "label": "who-collects-indias-gst-and-who",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::premium-now-claim-later-float-indias",
+   "kind": "post",
+   "label": "premium-now-claim-later-float-indias",
    "side": "masaladeutsch"
   },
   {
@@ -1043,9 +1217,9 @@
    "side": "masaladeutsch"
   },
   {
-   "id": "post::7186-litre-why-maize-is-indias-priciest",
+   "id": "post::india-hit-e20-on-maize-and-rice-not",
    "kind": "post",
-   "label": "7186-litre-why-maize-is-indias-priciest",
+   "label": "india-hit-e20-on-maize-and-rice-not",
    "side": "masaladeutsch"
   },
   {
@@ -1055,15 +1229,15 @@
    "side": "masaladeutsch"
   },
   {
-   "id": "post::india-hit-e20-on-maize-and-rice-not",
-   "kind": "post",
-   "label": "india-hit-e20-on-maize-and-rice-not",
-   "side": "masaladeutsch"
-  },
-  {
    "id": "post::fci-storage-scenario-capacity-stock-and",
    "kind": "post",
    "label": "fci-storage-scenario-capacity-stock-and",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::7186-litre-why-maize-is-indias-priciest",
+   "kind": "post",
+   "label": "7186-litre-why-maize-is-indias-priciest",
    "side": "masaladeutsch"
   },
   {
@@ -1166,6 +1340,39 @@
    "side": "masaladeutsch"
   },
   {
+   "id": "source::seednet.gov.in \u2014 DA&FW Seed Net portal (candidate, NOT asses",
+   "kind": "source",
+   "label": "seednet.gov.in \u2014 DA&FW Seed Net portal (candidate, NOT assessed)",
+   "grade": "unstated",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::amruts-197-lakh-crore-urban-portfolio",
+   "kind": "post",
+   "label": "amruts-197-lakh-crore-urban-portfolio",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "post::indias-79-lakh-crore-rural-water",
+   "kind": "post",
+   "label": "indias-79-lakh-crore-rural-water",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::Soil Health Card scheme \u2014 the national soil-test panel, and ",
+   "kind": "source",
+   "label": "Soil Health Card scheme \u2014 the national soil-test panel, and its April-",
+   "grade": "unstated",
+   "side": "masaladeutsch"
+  },
+  {
+   "id": "source::Weak / background \u2014 one line each (triaged, not deep-read)",
+   "kind": "source",
+   "label": "Weak / background \u2014 one line each (triaged, not deep-read)",
+   "grade": "unstated",
+   "side": "masaladeutsch"
+  },
+  {
    "id": "commission::57.8% of India's plant-variety rights are cereals. Spices ge",
    "kind": "commission",
    "label": "57.8% of India's plant-variety rights are cereals. Spices get 151.",
@@ -1255,6 +1462,13 @@
    "label": "What a farm labourer earns, and why it stopped tracking output",
    "status": "done",
    "side": "masaladeutsch"
+  },
+  {
+   "id": "commission::India tested its soil twice. The second time, a machine chos",
+   "kind": "commission",
+   "label": "India tested its soil twice. The second time, a machine chose the spot.",
+   "status": "open",
+   "side": "masaladeutsch"
   }
  ],
  "edges": [
@@ -1285,12 +1499,12 @@
   },
   {
    "source": "paper::2604.17251",
-   "target": "market-pipeline::code_python_files_market_correlation_scan_run",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest",
    "kind": "cites"
   },
   {
    "source": "paper::2604.17251",
-   "target": "market-pipeline::code_python_files_walk_forward_backtest",
+   "target": "market-pipeline::code_python_files_market_correlation_scan_run",
    "kind": "cites"
   },
   {
@@ -1310,27 +1524,7 @@
   },
   {
    "source": "paper::2606.08285",
-   "target": "market-pipeline::code_python_files_backtest_screeners",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2606.08285",
-   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2606.08285",
    "target": "market-pipeline::code_python_files_backtest_ccc_pit_panel",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2606.08285",
-   "target": "market-pipeline::code_python_files_adaptive_liquidity_retier",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2606.08285",
-   "target": "market-pipeline::code_python_files_backtest_piotroski_plus",
    "kind": "cites"
   },
   {
@@ -1340,16 +1534,31 @@
   },
   {
    "source": "paper::2606.08285",
+   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2606.08285",
    "target": "market-pipeline::code_python_files_backtest_pe_anomalies_pit_eps_panel",
    "kind": "cites"
   },
   {
-   "source": "paper::2601.10279",
-   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "source": "paper::2606.08285",
+   "target": "market-pipeline::code_python_files_adaptive_liquidity_retier",
    "kind": "cites"
   },
   {
-   "source": "paper::2111.05072",
+   "source": "paper::2606.08285",
+   "target": "market-pipeline::code_python_files_backtest_screeners",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "market-pipeline::code_python_files_backtest_piotroski_plus",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2601.10279",
    "target": "market-pipeline::code_python_files_factor_learning_main",
    "kind": "cites"
   },
@@ -1365,12 +1574,17 @@
   },
   {
    "source": "paper::2111.05072",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2111.05072",
    "target": "market-pipeline::research_factor_redundancy_spectral_stats",
    "kind": "cites"
   },
   {
    "source": "paper::2507.07107",
-   "target": "market-pipeline::code_python_files_backtest_piotroski_plus_liquid_universe",
+   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
    "kind": "cites"
   },
   {
@@ -1385,6 +1599,21 @@
   },
   {
    "source": "paper::2507.07107",
+   "target": "market-pipeline::code_python_files_liquidity_rationale_126",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "market-pipeline::code_python_files_liquidity_liquid_symbols",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
+   "target": "market-pipeline::code_python_files_iter_utils_with_circuit_breaker",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.07107",
    "target": "market-pipeline::code_python_files_cost_vs_edge_rationale_124",
    "kind": "cites"
   },
@@ -1395,7 +1624,7 @@
   },
   {
    "source": "paper::2507.07107",
-   "target": "market-pipeline::code_python_files_run_existing_screeners_fixed_rationale_56",
+   "target": "market-pipeline::code_python_files_risk_management",
    "kind": "cites"
   },
   {
@@ -1405,47 +1634,17 @@
   },
   {
    "source": "paper::2507.07107",
-   "target": "market-pipeline::code_python_files_liquidity_rationale_126",
+   "target": "market-pipeline::code_python_files_run_existing_screeners_fixed_rationale_56",
    "kind": "cites"
   },
   {
    "source": "paper::2507.07107",
-   "target": "market-pipeline::code_python_files_iter_utils_with_circuit_breaker",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2507.07107",
-   "target": "market-pipeline::code_python_files_risk_management",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2507.07107",
-   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2507.07107",
-   "target": "market-pipeline::code_python_files_liquidity_liquid_symbols",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2605.00501",
-   "target": "market-pipeline::code_python_files_backtest_screeners",
+   "target": "market-pipeline::code_python_files_backtest_piotroski_plus_liquid_universe",
    "kind": "cites"
   },
   {
    "source": "paper::2605.00501",
    "target": "market-pipeline::code_python_files_confusion_matrix_eval",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2605.00501",
-   "target": "market-pipeline::code_python_files_factor_learning_main",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2605.00501",
-   "target": "market-pipeline::code_python_files_backtest_ccc_main",
    "kind": "cites"
   },
   {
@@ -1460,47 +1659,27 @@
   },
   {
    "source": "paper::2605.00501",
-   "target": "market-pipeline::code_python_files_backtest_screeners_rationale_263",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2605.00501",
    "target": "market-pipeline::code_python_files_walk_forward_backtest",
    "kind": "cites"
   },
   {
-   "source": "paper::2604.07880",
+   "source": "paper::2605.00501",
    "target": "market-pipeline::code_python_files_factor_learning_main",
    "kind": "cites"
   },
   {
-   "source": "paper::2604.07880",
-   "target": "market-pipeline::code_python_files_factorial_screener_analysis_winsorize",
+   "source": "paper::2605.00501",
+   "target": "market-pipeline::code_python_files_backtest_ccc_main",
    "kind": "cites"
   },
   {
-   "source": "paper::2604.07880",
-   "target": "market-pipeline::code_python_files_train_ppo_factor_weights_compute_excess_columns",
+   "source": "paper::2605.00501",
+   "target": "market-pipeline::code_python_files_backtest_screeners",
    "kind": "cites"
   },
   {
-   "source": "paper::2604.07880",
-   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_rationale_151",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2604.07880",
-   "target": "market-pipeline::code_python_files_band_sip_backtest",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2604.07880",
-   "target": "market-pipeline::code_python_files_rloo_rescore_winsorize_xs",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2604.07880",
-   "target": "market-pipeline::code_python_files_factor_zscore_panel",
+   "source": "paper::2605.00501",
+   "target": "market-pipeline::code_python_files_backtest_screeners_rationale_263",
    "kind": "cites"
   },
   {
@@ -1510,12 +1689,47 @@
   },
   {
    "source": "paper::2604.07880",
-   "target": "market-pipeline::code_python_files_backtest_screeners_rationale_290",
+   "target": "market-pipeline::code_python_files_band_sip_backtest",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_rationale_151",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_train_ppo_factor_weights_compute_excess_columns",
    "kind": "cites"
   },
   {
    "source": "paper::2604.07880",
    "target": "market-pipeline::code_python_files_sweep_piotroski_plus",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_factor_zscore_panel",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_factorial_screener_analysis_winsorize",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_rloo_rescore_winsorize_xs",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2604.07880",
+   "target": "market-pipeline::code_python_files_backtest_screeners_rationale_290",
    "kind": "cites"
   },
   {
@@ -1525,22 +1739,17 @@
   },
   {
    "source": "paper::2507.01918",
-   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2507.01918",
-   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2507.01918",
    "target": "market-pipeline::code_python_files_portfolio_builder_rationale_206",
    "kind": "cites"
   },
   {
-   "source": "paper::2608.23808",
-   "target": "market-pipeline::code_python_files_walk_forward_backtest_rationale_1083",
+   "source": "paper::2507.01918",
+   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2507.01918",
+   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
    "kind": "cites"
   },
   {
@@ -1550,12 +1759,17 @@
   },
   {
    "source": "paper::2608.23808",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_expected_max_sr",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2608.23808",
    "target": "market-pipeline::code_python_files_smallcap_screener_screen",
    "kind": "cites"
   },
   {
    "source": "paper::2608.23808",
-   "target": "market-pipeline::code_python_files_deflated_sharpe_expected_max_sr",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest_rationale_1083",
    "kind": "cites"
   },
   {
@@ -1585,7 +1799,7 @@
   },
   {
    "source": "paper::2602.20856",
-   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "target": "market-pipeline::code_python_files_full_us_market_scan",
    "kind": "cites"
   },
   {
@@ -1595,7 +1809,92 @@
   },
   {
    "source": "paper::2602.20856",
-   "target": "market-pipeline::code_python_files_full_us_market_scan",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2603.01820",
+   "target": "market-pipeline::code_python_files_confusion_matrix_eval",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2603.01820",
+   "target": "market-pipeline::code_python_files_confusion_matrix_eval_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2603.01820",
+   "target": "market-pipeline::code_python_files_sector_rotation",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2603.01820",
+   "target": "market-pipeline::code_python_files_etf_builder_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2603.01820",
+   "target": "market-pipeline::code_python_files_confusion_matrix_eval_evaluate",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2603.01820",
+   "target": "market-pipeline::code_python_files_quick_reference_rationale_1",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2603.01820",
+   "target": "market-pipeline::code_python_files_rloo_rescore_score_market",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2603.01820",
+   "target": "market-pipeline::code_python_files_rloo_rescore_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2603.01820",
+   "target": "market-pipeline::code_python_files_rloo_rescore_newey_west_t",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2603.01820",
+   "target": "market-pipeline::code_python_files_custom_indices",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2608.27734",
+   "target": "market-pipeline::code_python_files_confusion_matrix_eval",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2608.27734",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_expected_max_sr",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2608.27734",
+   "target": "market-pipeline::code_python_files_project_retrospective_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2608.27734",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest_rationale_1083",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2608.27734",
+   "target": "market-pipeline::code_python_files_execution_cost_model",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2608.27734",
+   "target": "market-pipeline::code_python_files_build_business_valuation_report_sheet_capacity",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2608.27734",
+   "target": "market-pipeline::code_python_files_backtest_liquidity_forward",
    "kind": "cites"
   },
   {
@@ -1619,12 +1918,12 @@
    "kind": "cites"
   },
   {
-   "source": "paper::2605.19337",
+   "source": "paper::2604.17251",
    "target": "queue::6",
    "kind": "motivates"
   },
   {
-   "source": "paper::2604.17251",
+   "source": "paper::2605.19337",
    "target": "queue::6",
    "kind": "motivates"
   },
@@ -1649,17 +1948,17 @@
    "kind": "motivates"
   },
   {
+   "source": "paper::2604.17251",
+   "target": "queue::9",
+   "kind": "motivates"
+  },
+  {
    "source": "paper::2608.09641",
    "target": "queue::9",
    "kind": "motivates"
   },
   {
    "source": "paper::2607.19005",
-   "target": "queue::9",
-   "kind": "motivates"
-  },
-  {
-   "source": "paper::2604.17251",
    "target": "queue::9",
    "kind": "motivates"
   },
@@ -1705,12 +2004,7 @@
   },
   {
    "source": "queue::15",
-   "target": "market-pipeline::code_python_files_cost_vs_edge_rationale_124",
-   "kind": "cites"
-  },
-  {
-   "source": "queue::15",
-   "target": "market-pipeline::code_python_files_daily_breakout_combo_us_main",
+   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
    "kind": "cites"
   },
   {
@@ -1720,7 +2014,12 @@
   },
   {
    "source": "queue::15",
-   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
+   "target": "market-pipeline::code_python_files_cost_vs_edge_rationale_124",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::15",
+   "target": "market-pipeline::code_python_files_daily_breakout_combo_us_main",
    "kind": "cites"
   },
   {
@@ -1740,22 +2039,22 @@
   },
   {
    "source": "queue::17",
-   "target": "market-pipeline::code_python_files_factorial_screener_analysis_winsorize",
-   "kind": "cites"
-  },
-  {
-   "source": "queue::17",
    "target": "market-pipeline::code_python_files_train_ppo_factor_weights_compute_excess_columns",
    "kind": "cites"
   },
   {
    "source": "queue::17",
-   "target": "market-pipeline::code_python_files_rloo_rescore_winsorize_xs",
+   "target": "market-pipeline::code_python_files_factor_zscore_panel",
    "kind": "cites"
   },
   {
    "source": "queue::17",
-   "target": "market-pipeline::code_python_files_factor_zscore_panel",
+   "target": "market-pipeline::code_python_files_factorial_screener_analysis_winsorize",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::17",
+   "target": "market-pipeline::code_python_files_rloo_rescore_winsorize_xs",
    "kind": "cites"
   },
   {
@@ -1775,33 +2074,23 @@
   },
   {
    "source": "queue::18",
-   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
-   "kind": "cites"
-  },
-  {
-   "source": "queue::18",
-   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
-   "kind": "cites"
-  },
-  {
-   "source": "queue::18",
    "target": "market-pipeline::code_python_files_portfolio_builder_rationale_206",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::18",
+   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::18",
+   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
    "kind": "cites"
   },
   {
    "source": "paper::2507.01918",
    "target": "queue::18",
    "kind": "motivates"
-  },
-  {
-   "source": "queue::19",
-   "target": "market-pipeline::code_python_files_factor_learning",
-   "kind": "cites"
-  },
-  {
-   "source": "queue::19",
-   "target": "market-pipeline::code_python_files_factor_learning_ls_book_ir",
-   "kind": "cites"
   },
   {
    "source": "queue::19",
@@ -1814,48 +2103,63 @@
    "kind": "cites"
   },
   {
-   "source": "queue::19",
-   "target": "market-pipeline::code_python_files_walk_forward_backtest_rationale_1083",
-   "kind": "cites"
-  },
-  {
-   "source": "queue::19",
-   "target": "market-pipeline::code_python_files_paper_claim_audit",
-   "kind": "cites"
-  },
-  {
-   "source": "queue::19",
-   "target": "market-pipeline::code_python_files_factor_learning_build_xy",
-   "kind": "cites"
-  },
-  {
-   "source": "queue::19",
-   "target": "market-pipeline::code_python_files_deflated_sharpe_main",
-   "kind": "cites"
-  },
-  {
-   "source": "queue::19",
-   "target": "market-pipeline::research_factor_redundancy_py_research_factor_redundancy",
-   "kind": "cites"
-  },
-  {
-   "source": "paper::2503.23501",
-   "target": "queue::19",
-   "kind": "motivates"
-  },
-  {
    "source": "paper::2608.23808",
    "target": "queue::19",
    "kind": "motivates"
   },
   {
+   "source": "queue::20",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_main",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::20",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest_rationale_1083",
+   "kind": "cites"
+  },
+  {
    "source": "paper::2512.12924",
-   "target": "queue::19",
+   "target": "queue::20",
+   "kind": "motivates"
+  },
+  {
+   "source": "paper::2608.23808",
+   "target": "queue::20",
+   "kind": "motivates"
+  },
+  {
+   "source": "queue::21",
+   "target": "market-pipeline::code_python_files_paper_claim_audit",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::21",
+   "target": "market-pipeline::code_python_files_factor_learning_build_xy",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::21",
+   "target": "market-pipeline::code_python_files_factor_learning_ls_book_ir",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::21",
+   "target": "market-pipeline::code_python_files_factor_learning",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::21",
+   "target": "market-pipeline::research_factor_redundancy_py_research_factor_redundancy",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2503.23501",
+   "target": "queue::21",
    "kind": "motivates"
   },
   {
    "source": "queue::22",
-   "target": "market-pipeline::code_python_files_fund_implementability",
+   "target": "market-pipeline::code_python_files_full_us_market_scan",
    "kind": "cites"
   },
   {
@@ -1865,12 +2169,12 @@
   },
   {
    "source": "queue::22",
-   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "target": "market-pipeline::code_python_files_fund_implementability",
    "kind": "cites"
   },
   {
    "source": "queue::22",
-   "target": "market-pipeline::code_python_files_full_us_market_scan",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
    "kind": "cites"
   },
   {
@@ -1879,7 +2183,37 @@
    "kind": "motivates"
   },
   {
-   "source": "paper::2605.19337",
+   "source": "queue::23",
+   "target": "market-pipeline::code_python_files_confusion_matrix_eval",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::23",
+   "target": "market-pipeline::code_python_files_etf_builder_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2603.01820",
+   "target": "queue::23",
+   "kind": "motivates"
+  },
+  {
+   "source": "queue::24",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_expected_max_sr",
+   "kind": "cites"
+  },
+  {
+   "source": "queue::24",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2608.27734",
+   "target": "queue::24",
+   "kind": "motivates"
+  },
+  {
+   "source": "paper::2608.09641",
    "target": "run::2026-08-23",
    "kind": "logged_in"
   },
@@ -1889,24 +2223,19 @@
    "kind": "logged_in"
   },
   {
-   "source": "paper::2604.17251",
-   "target": "run::2026-08-23",
-   "kind": "logged_in"
-  },
-  {
    "source": "paper::2606.08285",
    "target": "run::2026-08-23",
    "kind": "logged_in"
   },
   {
-   "source": "paper::2608.09641",
+   "source": "paper::2604.17251",
    "target": "run::2026-08-23",
    "kind": "logged_in"
   },
   {
-   "source": "run::2026-08-23",
-   "target": "market-pipeline::code_python_files_market_correlation_scan_run",
-   "kind": "cites"
+   "source": "paper::2605.19337",
+   "target": "run::2026-08-23",
+   "kind": "logged_in"
   },
   {
    "source": "run::2026-08-23",
@@ -1924,6 +2253,11 @@
    "kind": "cites"
   },
   {
+   "source": "run::2026-08-23",
+   "target": "market-pipeline::code_python_files_market_correlation_scan_run",
+   "kind": "cites"
+  },
+  {
    "source": "paper::2605.19337",
    "target": "run::2026-08-24",
    "kind": "logged_in"
@@ -1935,22 +2269,7 @@
   },
   {
    "source": "run::2026-08-24",
-   "target": "market-pipeline::code_python_files_backtest_screeners",
-   "kind": "cites"
-  },
-  {
-   "source": "run::2026-08-24",
-   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
-   "kind": "cites"
-  },
-  {
-   "source": "run::2026-08-24",
    "target": "market-pipeline::code_python_files_backtest_ccc_pit_panel",
-   "kind": "cites"
-  },
-  {
-   "source": "run::2026-08-24",
-   "target": "market-pipeline::code_python_files_backtest_piotroski_plus",
    "kind": "cites"
   },
   {
@@ -1960,16 +2279,26 @@
   },
   {
    "source": "run::2026-08-24",
+   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-24",
    "target": "market-pipeline::code_python_files_backtest_pe_anomalies_pit_eps_panel",
    "kind": "cites"
   },
   {
-   "source": "paper::2606.08285",
-   "target": "run::2026-08-25",
-   "kind": "logged_in"
+   "source": "run::2026-08-24",
+   "target": "market-pipeline::code_python_files_backtest_screeners",
+   "kind": "cites"
   },
   {
-   "source": "paper::2605.19337",
+   "source": "run::2026-08-24",
+   "target": "market-pipeline::code_python_files_backtest_piotroski_plus",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2608.09641",
    "target": "run::2026-08-25",
    "kind": "logged_in"
   },
@@ -1979,7 +2308,7 @@
    "kind": "logged_in"
   },
   {
-   "source": "paper::2608.09641",
+   "source": "paper::2606.08285",
    "target": "run::2026-08-25",
    "kind": "logged_in"
   },
@@ -1994,9 +2323,9 @@
    "kind": "logged_in"
   },
   {
-   "source": "run::2026-08-25",
-   "target": "market-pipeline::code_python_files_factor_learning_main",
-   "kind": "cites"
+   "source": "paper::2605.19337",
+   "target": "run::2026-08-25",
+   "kind": "logged_in"
   },
   {
    "source": "run::2026-08-25",
@@ -2009,7 +2338,17 @@
    "kind": "cites"
   },
   {
-   "source": "paper::2507.07107",
+   "source": "run::2026-08-25",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2605.00501",
+   "target": "run::2026-08-26",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2607.04958",
    "target": "run::2026-08-26",
    "kind": "logged_in"
   },
@@ -2024,23 +2363,13 @@
    "kind": "logged_in"
   },
   {
-   "source": "paper::2607.04958",
-   "target": "run::2026-08-26",
-   "kind": "logged_in"
-  },
-  {
-   "source": "paper::2605.00501",
+   "source": "paper::2507.07107",
    "target": "run::2026-08-26",
    "kind": "logged_in"
   },
   {
    "source": "run::2026-08-26",
-   "target": "market-pipeline::code_python_files_factor_learning_main",
-   "kind": "cites"
-  },
-  {
-   "source": "run::2026-08-26",
-   "target": "market-pipeline::code_python_files_backtest_piotroski_plus_liquid_universe",
+   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
    "kind": "cites"
   },
   {
@@ -2055,6 +2384,21 @@
   },
   {
    "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_liquidity_rationale_126",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_liquidity_liquid_symbols",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_iter_utils_with_circuit_breaker",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-26",
    "target": "market-pipeline::code_python_files_cost_vs_edge_rationale_124",
    "kind": "cites"
   },
@@ -2065,22 +2409,7 @@
   },
   {
    "source": "run::2026-08-26",
-   "target": "market-pipeline::code_python_files_run_existing_screeners_fixed_rationale_56",
-   "kind": "cites"
-  },
-  {
-   "source": "run::2026-08-26",
-   "target": "market-pipeline::code_python_files_liquidity",
-   "kind": "cites"
-  },
-  {
-   "source": "run::2026-08-26",
-   "target": "market-pipeline::code_python_files_liquidity_rationale_126",
-   "kind": "cites"
-  },
-  {
-   "source": "run::2026-08-26",
-   "target": "market-pipeline::code_python_files_iter_utils_with_circuit_breaker",
+   "target": "market-pipeline::code_python_files_backtest_ccc_main",
    "kind": "cites"
   },
   {
@@ -2090,28 +2419,23 @@
   },
   {
    "source": "run::2026-08-26",
-   "target": "market-pipeline::code_python_files_backtest_liquidity_forward_build",
+   "target": "market-pipeline::code_python_files_liquidity",
    "kind": "cites"
   },
   {
    "source": "run::2026-08-26",
-   "target": "market-pipeline::code_python_files_backtest_ccc_main",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
    "kind": "cites"
   },
   {
    "source": "run::2026-08-26",
-   "target": "market-pipeline::code_python_files_liquidity_liquid_symbols",
+   "target": "market-pipeline::code_python_files_run_existing_screeners_fixed_rationale_56",
    "kind": "cites"
   },
   {
-   "source": "paper::2606.08285",
-   "target": "run::2026-08-27",
-   "kind": "logged_in"
-  },
-  {
-   "source": "paper::2605.19337",
-   "target": "run::2026-08-27",
-   "kind": "logged_in"
+   "source": "run::2026-08-26",
+   "target": "market-pipeline::code_python_files_backtest_piotroski_plus_liquid_universe",
+   "kind": "cites"
   },
   {
    "source": "paper::2607.04958",
@@ -2119,7 +2443,7 @@
    "kind": "logged_in"
   },
   {
-   "source": "paper::2604.07880",
+   "source": "paper::2606.08285",
    "target": "run::2026-08-27",
    "kind": "logged_in"
   },
@@ -2129,23 +2453,18 @@
    "kind": "logged_in"
   },
   {
-   "source": "run::2026-08-27",
-   "target": "market-pipeline::code_python_files_backtest_screeners",
-   "kind": "cites"
+   "source": "paper::2605.19337",
+   "target": "run::2026-08-27",
+   "kind": "logged_in"
   },
   {
-   "source": "run::2026-08-27",
-   "target": "market-pipeline::code_python_files_factorial_screener_analysis_winsorize",
-   "kind": "cites"
+   "source": "paper::2604.07880",
+   "target": "run::2026-08-27",
+   "kind": "logged_in"
   },
   {
    "source": "run::2026-08-27",
    "target": "market-pipeline::code_python_files_train_ppo_factor_weights_compute_excess_columns",
-   "kind": "cites"
-  },
-  {
-   "source": "run::2026-08-27",
-   "target": "market-pipeline::code_python_files_rloo_rescore_winsorize_xs",
    "kind": "cites"
   },
   {
@@ -2155,13 +2474,33 @@
   },
   {
    "source": "run::2026-08-27",
-   "target": "market-pipeline::code_python_files_backtest_screeners_rationale_290",
+   "target": "market-pipeline::code_python_files_factorial_screener_analysis_winsorize",
    "kind": "cites"
   },
   {
    "source": "run::2026-08-27",
    "target": "market-pipeline::code_python_files_walk_forward_backtest",
    "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-27",
+   "target": "market-pipeline::code_python_files_rloo_rescore_winsorize_xs",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-27",
+   "target": "market-pipeline::code_python_files_backtest_screeners_rationale_290",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-27",
+   "target": "market-pipeline::code_python_files_backtest_screeners",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2607.04958",
+   "target": "run::2026-08-28",
+   "kind": "logged_in"
   },
   {
    "source": "paper::2606.08285",
@@ -2174,13 +2513,8 @@
    "kind": "logged_in"
   },
   {
-   "source": "paper::2607.04958",
-   "target": "run::2026-08-28",
-   "kind": "logged_in"
-  },
-  {
    "source": "run::2026-08-28",
-   "target": "market-pipeline::code_python_files_factor_learning_main",
+   "target": "market-pipeline::code_python_files_price_band_migration",
    "kind": "cites"
   },
   {
@@ -2190,7 +2524,7 @@
   },
   {
    "source": "run::2026-08-28",
-   "target": "market-pipeline::code_python_files_price_band_migration",
+   "target": "market-pipeline::code_python_files_sweep_piotroski_plus",
    "kind": "cites"
   },
   {
@@ -2200,16 +2534,11 @@
   },
   {
    "source": "run::2026-08-28",
-   "target": "market-pipeline::code_python_files_sweep_piotroski_plus",
+   "target": "market-pipeline::code_python_files_factor_learning_main",
    "kind": "cites"
   },
   {
-   "source": "paper::2606.08285",
-   "target": "run::2026-08-29",
-   "kind": "logged_in"
-  },
-  {
-   "source": "paper::2605.19337",
+   "source": "paper::2608.09641",
    "target": "run::2026-08-29",
    "kind": "logged_in"
   },
@@ -2219,17 +2548,22 @@
    "kind": "logged_in"
   },
   {
+   "source": "paper::2606.08285",
+   "target": "run::2026-08-29",
+   "kind": "logged_in"
+  },
+  {
    "source": "paper::2604.17251",
    "target": "run::2026-08-29",
    "kind": "logged_in"
   },
   {
-   "source": "paper::2608.09641",
+   "source": "paper::2507.01918",
    "target": "run::2026-08-29",
    "kind": "logged_in"
   },
   {
-   "source": "paper::2507.01918",
+   "source": "paper::2605.19337",
    "target": "run::2026-08-29",
    "kind": "logged_in"
   },
@@ -2240,18 +2574,33 @@
   },
   {
    "source": "run::2026-08-29",
-   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
-   "kind": "cites"
-  },
-  {
-   "source": "run::2026-08-29",
-   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
-   "kind": "cites"
-  },
-  {
-   "source": "run::2026-08-29",
    "target": "market-pipeline::code_python_files_portfolio_builder_rationale_206",
    "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-29",
+   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-29",
+   "target": "market-pipeline::code_python_files_mutual_fund_theorem_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2512.12924",
+   "target": "run::2026-08-31",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2608.23808",
+   "target": "run::2026-08-31",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2607.04958",
+   "target": "run::2026-08-31",
+   "kind": "logged_in"
   },
   {
    "source": "paper::2606.08285",
@@ -2264,23 +2613,18 @@
    "kind": "logged_in"
   },
   {
-   "source": "paper::2607.04958",
-   "target": "run::2026-08-31",
-   "kind": "logged_in"
-  },
-  {
-   "source": "paper::2608.23808",
-   "target": "run::2026-08-31",
-   "kind": "logged_in"
-  },
-  {
-   "source": "paper::2512.12924",
-   "target": "run::2026-08-31",
-   "kind": "logged_in"
+   "source": "run::2026-08-31",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_main",
+   "kind": "cites"
   },
   {
    "source": "run::2026-08-31",
-   "target": "market-pipeline::code_python_files_strategy_regime_survival_signals",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_expected_max_sr",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-31",
+   "target": "market-pipeline::code_python_files_smallcap_screener_screen",
    "kind": "cites"
   },
   {
@@ -2295,23 +2639,18 @@
   },
   {
    "source": "run::2026-08-31",
-   "target": "market-pipeline::code_python_files_deflated_sharpe_main",
-   "kind": "cites"
-  },
-  {
-   "source": "run::2026-08-31",
-   "target": "market-pipeline::code_python_files_smallcap_screener_screen",
-   "kind": "cites"
-  },
-  {
-   "source": "run::2026-08-31",
-   "target": "market-pipeline::code_python_files_deflated_sharpe_expected_max_sr",
-   "kind": "cites"
-  },
-  {
-   "source": "run::2026-08-31",
    "target": "market-pipeline::code_python_files_cite_check_rationale_34",
    "kind": "cites"
+  },
+  {
+   "source": "run::2026-08-31",
+   "target": "market-pipeline::code_python_files_strategy_regime_survival_signals",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2607.04958",
+   "target": "run::2026-09-01",
+   "kind": "logged_in"
   },
   {
    "source": "paper::2602.20856",
@@ -2324,34 +2663,14 @@
    "kind": "logged_in"
   },
   {
-   "source": "paper::2605.19337",
-   "target": "run::2026-09-01",
-   "kind": "logged_in"
-  },
-  {
-   "source": "paper::2607.04958",
-   "target": "run::2026-09-01",
-   "kind": "logged_in"
-  },
-  {
    "source": "paper::2503.23501",
    "target": "run::2026-09-01",
    "kind": "logged_in"
   },
   {
-   "source": "run::2026-09-01",
-   "target": "market-pipeline::code_python_files_factor_learning_ls_book_ir",
-   "kind": "cites"
-  },
-  {
-   "source": "run::2026-09-01",
-   "target": "market-pipeline::code_python_files_fund_implementability",
-   "kind": "cites"
-  },
-  {
-   "source": "run::2026-09-01",
-   "target": "market-pipeline::code_python_files_full_us_market_scan",
-   "kind": "cites"
+   "source": "paper::2605.19337",
+   "target": "run::2026-09-01",
+   "kind": "logged_in"
   },
   {
    "source": "run::2026-09-01",
@@ -2365,13 +2684,118 @@
   },
   {
    "source": "run::2026-09-01",
+   "target": "market-pipeline::code_python_files_factor_learning_ls_book_ir",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-01",
+   "target": "market-pipeline::code_python_files_full_us_market_scan",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-01",
+   "target": "market-pipeline::code_python_files_fund_implementability",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-01",
    "target": "market-pipeline::research_factor_redundancy_py_research_factor_redundancy",
    "kind": "cites"
   },
   {
-   "source": "source::PPV&FR Authority registration data (Protection of Plant Vari",
-   "target": "post::indias-445-billion-spice-export-book-is",
-   "kind": "covers"
+   "source": "paper::2607.04958",
+   "target": "run::2026-09-03",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2603.01820",
+   "target": "run::2026-09-03",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "run::2026-09-03",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2605.19337",
+   "target": "run::2026-09-03",
+   "kind": "logged_in"
+  },
+  {
+   "source": "run::2026-09-03",
+   "target": "market-pipeline::code_python_files_rloo_rescore_newey_west_t",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-03",
+   "target": "market-pipeline::code_python_files_quick_reference_rationale_1",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-03",
+   "target": "market-pipeline::code_python_files_confusion_matrix_eval",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-03",
+   "target": "market-pipeline::code_python_files_etf_builder_main",
+   "kind": "cites"
+  },
+  {
+   "source": "paper::2607.04958",
+   "target": "run::2026-09-04",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2608.27734",
+   "target": "run::2026-09-04",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2606.08285",
+   "target": "run::2026-09-04",
+   "kind": "logged_in"
+  },
+  {
+   "source": "paper::2605.19337",
+   "target": "run::2026-09-04",
+   "kind": "logged_in"
+  },
+  {
+   "source": "run::2026-09-04",
+   "target": "market-pipeline::code_python_files_walk_forward_backtest_overfitting_report",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-04",
+   "target": "market-pipeline::code_python_files_confusion_matrix_eval",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-04",
+   "target": "market-pipeline::code_python_files_project_retrospective_main",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-04",
+   "target": "market-pipeline::code_python_files_deflated_sharpe_main",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-04",
+   "target": "market-pipeline::code_python_files_execution_cost_model",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-04",
+   "target": "market-pipeline::code_python_files_build_business_valuation_report_sheet_capacity",
+   "kind": "cites"
+  },
+  {
+   "source": "run::2026-09-04",
+   "target": "market-pipeline::code_python_files_backtest_liquidity_forward",
+   "kind": "cites"
   },
   {
    "source": "source::PPV&FR Authority registration data (Protection of Plant Vari",
@@ -2389,8 +2813,8 @@
    "kind": "covers"
   },
   {
-   "source": "source::Defence Positive Indigenisation Lists (DDP, Ministry of Defe",
-   "target": "post::chemical-import-substitution-hsn-8-registry",
+   "source": "source::PPV&FR Authority registration data (Protection of Plant Vari",
+   "target": "post::indias-445-billion-spice-export-book-is",
    "kind": "covers"
   },
   {
@@ -2400,12 +2824,17 @@
   },
   {
    "source": "source::Defence Positive Indigenisation Lists (DDP, Ministry of Defe",
-   "target": "post::quarterly-reportage-4034-scheme",
+   "target": "post::chemical-import-substitution-hsn-8-registry",
    "kind": "covers"
   },
   {
    "source": "source::Defence Positive Indigenisation Lists (DDP, Ministry of Defe",
    "target": "post::jai-kisan-jai-javan-fci-based-military",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Defence Positive Indigenisation Lists (DDP, Ministry of Defe",
+   "target": "post::quarterly-reportage-4034-scheme",
    "kind": "covers"
   },
   {
@@ -2420,12 +2849,7 @@
   },
   {
    "source": "source::Minor Irrigation Census, 6th round (Ministry of Jal Shakti, ",
-   "target": "post::price-is-wire-how-gcam-actually-links",
-   "kind": "covers"
-  },
-  {
-   "source": "source::Minor Irrigation Census, 6th round (Ministry of Jal Shakti, ",
-   "target": "post::35a18274-b04c-4db6-b732-b23ff68a359b",
+   "target": "post::tamil-nadus-water-infrastructure-runs",
    "kind": "covers"
   },
   {
@@ -2435,12 +2859,17 @@
   },
   {
    "source": "source::Minor Irrigation Census, 6th round (Ministry of Jal Shakti, ",
-   "target": "post::tamil-nadus-water-infrastructure-runs",
+   "target": "post::guar-gum-indias-35-billion-export-peak",
    "kind": "covers"
   },
   {
    "source": "source::Minor Irrigation Census, 6th round (Ministry of Jal Shakti, ",
-   "target": "post::guar-gum-indias-35-billion-export-peak",
+   "target": "post::price-is-wire-how-gcam-actually-links",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Minor Irrigation Census, 6th round (Ministry of Jal Shakti, ",
+   "target": "post::35a18274-b04c-4db6-b732-b23ff68a359b",
    "kind": "covers"
   },
   {
@@ -2455,22 +2884,12 @@
   },
   {
    "source": "source::PMFBY premium-sharing structure and cumulative claims (PIB E",
-   "target": "post::premium-now-claim-later-float-indias",
-   "kind": "covers"
-  },
-  {
-   "source": "source::PMFBY premium-sharing structure and cumulative claims (PIB E",
    "target": "post::who-collects-indias-gst-and-who",
    "kind": "covers"
   },
   {
-   "source": "source::\ud83d\udd34 Corpus-survey Tier-1 item 2 (\"ethanol feedstock balance ag",
-   "target": "post::7186-litre-why-maize-is-indias-priciest",
-   "kind": "covers"
-  },
-  {
-   "source": "source::\ud83d\udd34 Corpus-survey Tier-1 item 2 (\"ethanol feedstock balance ag",
-   "target": "post::fci-grain-flow-procurement-storage",
+   "source": "source::PMFBY premium-sharing structure and cumulative claims (PIB E",
+   "target": "post::premium-now-claim-later-float-indias",
    "kind": "covers"
   },
   {
@@ -2480,7 +2899,17 @@
   },
   {
    "source": "source::\ud83d\udd34 Corpus-survey Tier-1 item 2 (\"ethanol feedstock balance ag",
+   "target": "post::fci-grain-flow-procurement-storage",
+   "kind": "covers"
+  },
+  {
+   "source": "source::\ud83d\udd34 Corpus-survey Tier-1 item 2 (\"ethanol feedstock balance ag",
    "target": "post::fci-storage-scenario-capacity-stock-and",
+   "kind": "covers"
+  },
+  {
+   "source": "source::\ud83d\udd34 Corpus-survey Tier-1 item 2 (\"ethanol feedstock balance ag",
+   "target": "post::7186-litre-why-maize-is-indias-priciest",
    "kind": "covers"
   },
   {
@@ -2510,6 +2939,11 @@
   },
   {
    "source": "source::NSS 77th Round \u2014 Situation Assessment of Agricultural Househ",
+   "target": "post::a-17-rural-pay-rise-that-nobody-received",
+   "kind": "covers"
+  },
+  {
+   "source": "source::NSS 77th Round \u2014 Situation Assessment of Agricultural Househ",
    "target": "post::tamil-nadus-water-infrastructure-runs",
    "kind": "covers"
   },
@@ -2519,17 +2953,7 @@
    "kind": "covers"
   },
   {
-   "source": "source::NSS 77th Round \u2014 Situation Assessment of Agricultural Househ",
-   "target": "post::a-17-rural-pay-rise-that-nobody-received",
-   "kind": "covers"
-  },
-  {
    "source": "source::Weak / background \u2014 logged, not actioned (2026-08-31)",
-   "target": "post::premium-now-claim-later-float-indias",
-   "kind": "covers"
-  },
-  {
-   "source": "source::IRDAI obligatory cession to GIC Re, held at 4% for FY 2025-2",
    "target": "post::premium-now-claim-later-float-indias",
    "kind": "covers"
   },
@@ -2539,8 +2963,48 @@
    "kind": "covers"
   },
   {
+   "source": "source::IRDAI obligatory cession to GIC Re, held at 4% for FY 2025-2",
+   "target": "post::premium-now-claim-later-float-indias",
+   "kind": "covers"
+  },
+  {
    "source": "source::General Insurance Council industry statistics (Flash Figures",
    "target": "post::premium-now-claim-later-float-indias",
+   "kind": "covers"
+  },
+  {
+   "source": "source::seednet.gov.in \u2014 DA&FW Seed Net portal (candidate, NOT asses",
+   "target": "post::tamil-nadus-water-infrastructure-runs",
+   "kind": "covers"
+  },
+  {
+   "source": "source::seednet.gov.in \u2014 DA&FW Seed Net portal (candidate, NOT asses",
+   "target": "post::amruts-197-lakh-crore-urban-portfolio",
+   "kind": "covers"
+  },
+  {
+   "source": "source::seednet.gov.in \u2014 DA&FW Seed Net portal (candidate, NOT asses",
+   "target": "post::indias-79-lakh-crore-rural-water",
+   "kind": "covers"
+  },
+  {
+   "source": "source::seednet.gov.in \u2014 DA&FW Seed Net portal (candidate, NOT asses",
+   "target": "post::the-water-bill-nobody-mentions-what",
+   "kind": "covers"
+  },
+  {
+   "source": "source::seednet.gov.in \u2014 DA&FW Seed Net portal (candidate, NOT asses",
+   "target": "post::guar-gum-indias-35-billion-export-peak",
+   "kind": "covers"
+  },
+  {
+   "source": "source::seednet.gov.in \u2014 DA&FW Seed Net portal (candidate, NOT asses",
+   "target": "post::price-is-wire-how-gcam-actually-links",
+   "kind": "covers"
+  },
+  {
+   "source": "source::Soil Health Card scheme \u2014 the national soil-test panel, and ",
+   "target": "post::indias-79-lakh-crore-rural-water",
    "kind": "covers"
   },
   {
@@ -2580,26 +3044,26 @@
   }
  ],
  "meta": {
-  "nodes": 167,
-  "edges": 264,
+  "nodes": 195,
+  "edges": 314,
   "node_kinds": {
-   "paper": 21,
-   "code": 60,
-   "queue_item": 20,
-   "run": 9,
-   "source": 17,
-   "post": 27,
-   "commission": 13
+   "paper": 23,
+   "code": 74,
+   "queue_item": 24,
+   "run": 11,
+   "source": 20,
+   "post": 29,
+   "commission": 14
   },
   "edge_kinds": {
-   "cites": 161,
-   "motivates": 19,
-   "logged_in": 42,
-   "covers": 42
+   "cites": 193,
+   "motivates": 22,
+   "logged_in": 50,
+   "covers": 49
   },
-  "bridge_edges": 161,
-  "distinct_code_targets": 60,
-  "citations_resolved": 161,
+  "bridge_edges": 193,
+  "distinct_code_targets": 74,
+  "citations_resolved": 193,
   "citations_unresolved": [
    "y_finance.py:274"
   ],
@@ -2609,8 +3073,20 @@
     4
    ],
    [
+    "code/python_files/rloo_rescore.py",
+    4
+   ],
+   [
     "code/python_files/deflated_sharpe.py",
     4
+   ],
+   [
+    "code/python_files/walk_forward_backtest.py",
+    3
+   ],
+   [
+    "code/python_files/backtest_liquidity_forward.py",
+    3
    ],
    [
     "code/python_files/backtest_screeners.py",
@@ -2625,19 +3101,15 @@
     3
    ],
    [
+    "code/python_files/confusion_matrix_eval.py",
+    3
+   ],
+   [
     "code/python_files/build_mailer.py",
     2
    ],
    [
     "code/python_files/market_correlation_scan.py",
-    2
-   ],
-   [
-    "code/python_files/walk_forward_backtest.py",
-    2
-   ],
-   [
-    "code/python_files/backtest_liquidity_forward.py",
     2
    ],
    [
@@ -2654,14 +3126,6 @@
    ],
    [
     "code/python_files/market_regime.py",
-    1
-   ],
-   [
-    "code/python_files/sentiment_pipeline.py",
-    1
-   ],
-   [
-    "code/python_files/pe_bands.py",
     1
    ]
   ]

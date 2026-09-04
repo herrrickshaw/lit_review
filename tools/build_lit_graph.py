@@ -82,7 +82,12 @@ def resolve(fname, line, prefer_repo="market-pipeline"):
 # ---------------------------------------------------------------- parse corpus
 CITE = re.compile(r'([A-Za-z_][A-Za-z0-9_]*\.py):(\d+)')
 ARXIV_H = re.compile(r'^###\s+(?:arXiv:)?(\d{4}\.\d{4,5})\s+—\s+(.+?)\s*$')
-QUEUE_H = re.compile(r'^(\d+)\.\s+~?~?\*\*(.+?)\*\*')
+# The closing ** is optional at end-of-line: queue titles are hand-wrapped prose and
+# four of them (20, 21, 23, 24) carry the bold across two lines, which a mandatory
+# closing ** dropped silently. Non-greedy .+? still stops at a same-line ** first, so
+# single-line titles parse exactly as before; a wrapped one keeps its first-line
+# fragment, which the 120-char truncation below would have clipped anyway.
+QUEUE_H = re.compile(r'^(\d+)\.\s+~?~?\*\*(.+?)(?:\*\*|$)')
 SRC_H = re.compile(r'^###\s+(.+?)\s*$')
 GRADE = re.compile(r'EVIDENCE-GRADE:\s*([\w/-]+)', re.I)  # n/a and medium-strong are real values
 MDGRADE = re.compile(r'^-?\s*Grade:\s*\*\*(\w+)\*\*', re.I | re.M)
