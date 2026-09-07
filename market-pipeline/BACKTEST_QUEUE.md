@@ -383,3 +383,36 @@ when it's been run; do not delete history.
     DSR 0.97/0.94 — turns on counting trials honestly. Independent of item 19 (which
     fixes `T`, the sample length) and item 20 (which fixes the mislabelled PBO); this one
     fixes `N`, the third input to the same gate.
+
+25. **Every backtest fills at the close it just saw — measure the one-bar delay instead of
+    assuming it away** — `backtest_screeners.py:270` states the convention outright in its
+    docstring ("Entry = signal bar close. Exit = close at T+N") and the code stamps it at
+    `:402` (`"entry_price": curr_close`, from `curr_close = closes[i]` at `:385`) and
+    `:439` (`float(closes.iloc[i])`), with `walk_forward_backtest.py:1362` carrying the
+    same shape through `sig["entry"]`. Signal and fill are the same bar. The volume gate at
+    `backtest_screeners.py:397` sharpens the problem rather than softening it: it tests
+    `vols[i]`, the *completed* day-t volume, against the trailing 20-day mean, so the
+    decision provably requires the finished bar — and then fills inside it. Concrete
+    change: add an `ENTRY_DELAY_BARS` constant (default 0, so nothing moves silently) read
+    by `compute_forward_returns` at `:257`, entering at `closes[signal_idx + delay]` and
+    exiting at `closes[signal_idx + delay + offset]`, then run the existing screener
+    backtest twice and report `ret_*` and `ret_*_delayed` side by side in
+    `reports/backtest_screeners.csv`. No new data is needed — the `closes` array is already
+    in hand and no `Open` column is required (deliberately: see below). Falsifiable
+    prediction: net returns fall by a small, roughly uniform amount and the *ranking* of
+    screeners is unchanged, which would make the whole estate's headline numbers safe to
+    keep quoting; but if any screener's edge collapses under a single bar of delay — the
+    Darvas breakout at `:388` is the likeliest, since it fires on the first close above the
+    box top and a one-day-late fill buys the follow-through rather than the break — then
+    that edge is an artifact of same-bar execution and the mailer has been surfacing it.
+    Motivated by: 2605.23959 (Zhang, Li, Peng & Chen), whose one-switch benchmark prices
+    this exact convention (`EXEC_CLOSE`) at ~+0.06 Sharpe on an S&P 500 daily-OHLCV panel —
+    small, but one-directional and optimistic, and the only one of the paper's five
+    violations this repo actually commits. **Do not "fix" this by moving to open-price
+    execution.** The same paper measures `EXEC_OPEN` — signal built from the full day-t bar
+    but filled at the day-t open — at +5 to +26 Sharpe of pure inflation, the worst channel
+    it found. The repo is currently immune because `grep -n '"Open"'` over the four
+    backtest modules returns zero hits; adding an open-price fill without also moving the
+    feature cutoff back a day would import the paper's most damaging bug while looking like
+    a realism upgrade. A one-bar close-to-close delay is the cheap, safe version of the
+    same correction.

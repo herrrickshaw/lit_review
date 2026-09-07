@@ -387,3 +387,42 @@ moved above. Read this section before picking anything from Open.)*
       Opens: the **soil** half of the Friday zero-coverage area (irrigation is already
       opened by the Minor Irrigation Census item). Manifest dedup 2026-09-04: 255 posts,
       6 title hits on water/soil terms, none about soil or agricultural water.
+
+- **2026-09-07 — the PPV&FR item's two outstanding checks are RESOLVED. One of them
+  changes a number the piece would otherwise have got wrong.** `plantauthority.gov.in`
+  was up today (HTTP 200, 171,508 bytes, browser UA) after the 503 recorded on
+  2026-09-03, and both charts were fetched directly.
+  **Check (1) — vintage — is satisfied and no longer needs hand-dating.** The homepage
+  now states its own as-on date in both chart headings: "10885 Certificates issued as on
+  **31.08.2026**". Crop groups on that date: Cereals **6,280** · Vegetables 1,386 ·
+  Fibre 1,006 · Legumes 872 · Oilseeds 577 · Fruits 429 · Sugar 93 · Other 242.
+  Cereals **57.7%** — the queued headline survives on the newer vintage (it was 57.8%,
+  6,246 of 10,802, as on 31.07.2026). The two captures reconcile exactly: the month's
+  +83 certificates distribute as cereals +34, vegetables +19, fibre +17, legumes +6,
+  fruits +4, other +3, and today's single "Other" (242) matches the five small
+  categories broken out on 31.07 (Spices 151 + Trees 43 + Flowers 36 + Cash 5 +
+  Medicinal & Aromatic 4 = 239). ⚠️ **But today's homepage no longer breaks out spices**,
+  so "Spices get 151" in the working title is now only available from the 2026-08-27
+  capture or the Annual Report — do not plan to re-fetch it.
+  **Check (2) — the farmer split — is resolved, and the unverified figure was wrong in
+  the direction that matters.** Registration-type series as on 31.08.2026: **Farmer
+  5,368** · Extant Notified 2,025 · New 1,921 · Extant VCK 1,557 · EDV 14, summing
+  independently to the same 10,885. Farmers' varieties are **49.3% — just under half.**
+  The circulating "4,847 of 9,210 (52.6%) went to farmers" snippet is superseded; had it
+  been used, the piece would have claimed a majority that the Authority's own figure does
+  not support. **Use 5,368 of 10,885 as on 31.08.2026, and say "just under half".**
+  **New material worth putting in the piece:** essentially derived varieties account for
+  **14 certificates, 0.13%**, in a register issuing since 2007 — while the same homepage
+  carries a live notice, "General Guidelines Regarding the Registration of EDV". EDV is
+  the doctrine deciding whether a variety bred from a protected variety needs the original
+  breeder's authorisation, i.e. who captures the value of incremental breeding. This pairs
+  with the AERR 36(1):77-86 (2023) concept citation already on the item.
+  **Checks that still stand:** (3) certificates issued ≠ varieties commercially sold;
+  (4) the categories are the Authority's own and undefined on the page — and this now
+  applies to the registration-type split too, whose labels come from hidden inputs on the
+  same page. The Annual Report 2024-25 PDF remains the citable artefact and the
+  cross-read is still worth doing. 🔴 The figures above are **chart literals embedded in
+  homepage JavaScript**, not a published table: primary and internally consistent across
+  two series and two dates, but pull and keep a local copy — the host is intermittent
+  (200 today, 503 four days ago).
+  Logged: 2026-09-07 from the PPV&FR registry register entry.

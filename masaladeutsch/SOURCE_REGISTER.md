@@ -788,3 +788,110 @@ trade piece. Soil health as a measured quantity has **zero coverage**.
   dhruvstarindustryinsights) — **WEAK by construction**: secondary prose with no
   citation to a dated ICAR document. Logged only so a future run does not mistake their
   agreement with each other for corroboration.
+
+---
+
+## Added 2026-09-07 (Monday theme: agricultural labour and rural incomes)
+
+**Step 1 outranked the search today, and produced the day's whole result.** The Monday
+theme is now well covered — the 2026-08-31 entry established that
+`a-17-rural-pay-rise-that-nobody-received` (22 Aug 2026) treats CPI-AL/CPI-RL rebasing,
+the village-sample swap, MGNREGA's repeal by the VB-G RAM G Act 2025 and PM-KISAN's
+targeting, and that the beat should be treated as covered rather than as a gap. Manifest
+dedup re-run today (snapshot 2026-09-05T22:16, **257 posts**, regex
+`wage|labour|labor|mgnrega|nrega|rural|farm|employ|migrant|income|agricultur|harvest|crop`
+over titles and slugs): 11 hits, of which exactly one — that post — is on the beat, and
+one more, `annadata-to-urjadata-farmer-income-case`, is adjacent. Unchanged picture. So
+the open-queue check took priority, and it paid.
+
+### PPV&FR Authority registry — the blocked check is resolved, and it changes a number
+
+**Status of the host.** `https://plantauthority.gov.in/` returned **HTTP 200, 171,508
+bytes** on direct fetch today with a browser user-agent. On 2026-09-03 it returned 503 and
+the Thursday run recorded the item as un-advanceable. It is up now, so the two outstanding
+checks on the queued item "57.8% of India's plant-variety rights are cereals" were run.
+(The deep link `/plant-varieties-registry-related-information` still fails outright —
+curl exit 000, connection never completes — so the homepage is the working surface.)
+
+**Data**: two ECharts series hardcoded in the homepage source, both headed with an
+explicit vintage the site states itself: "**10885 Certificates issued as on 31.08.2026**"
+and "10885 Certificates issued crop group-wise as on 31.08.2026". Free, no login, no
+browser needed beyond a UA string. This is materially better than what the item was
+resting on: the 2026-08-27 capture was described in the queue as a *live counter with no
+vintage archive*, which is why check (1) told the writer to date-stamp it by hand. The
+page now carries its own as-on date.
+
+**Finding 1 — the crop split holds, on a newer vintage.** Crop-group series as on
+31.08.2026, total 10,885: **Cereals 6,280**, Vegetables 1,386, Fibre 1,006, Legumes 872,
+Oilseeds 577, Fruits 429, Sugar 93, Other 242. Cereals are **57.7%**, against the 57.8%
+(6,246 of 10,802, as on 31.07.2026) captured on 2026-08-27. The queued headline survives.
+
+The two captures also **cross-validate**, which is the reason to trust either. Month on
+month: cereals +34, vegetables +19, fibre +17, legumes +6, fruits +4, oilseeds 0, sugar 0,
+other +3 — summing to +83, exactly 10,885 − 10,802. And today's single "Other" bucket
+(242) reconciles with the five small categories the 31.07 capture broke out separately
+(Spices 151 + Trees 43 + Flowers 36 + Cash 5 + Medicinal & Aromatic 4 = 239, +3 in a
+month). ⚠️ Note the consequence for the piece: **today's homepage no longer breaks out
+spices**, so the "Spices get 151" half of the working title is only available from the
+2026-08-27 capture or the Annual Report — do not expect to re-fetch it.
+
+**Finding 2 — check (2) is resolved, and the unverified figure was wrong in the direction
+that matters.** The registration-type series as on 31.08.2026, total 10,885: **Farmer
+5,368**, Extant Notified 2,025, New 1,921, Extant VCK (varieties of common knowledge)
+1,557, **EDV 14**. Farmers' varieties are therefore **49.3%** of all certificates ever
+issued — **just under half, not over it**. The circulating snippet claim the queue item
+flagged as unverified ("4,847 of 9,210 certificates (52.6%) went to farmers") is now
+superseded by a dated primary, and a piece written on it would have asserted that most
+Indian plant-variety certificates go to farmers when the Authority's own figure says they
+do not. Both series sum independently to the same 10,885, which is the check that makes
+them usable.
+
+**Finding 3 — incidental, and the sharpest number on the page.** Essentially derived
+varieties: **14 certificates, 0.13% of 10,885**, in a register that has been issuing since
+2007 — while the homepage simultaneously carries a live notice, "General Guidelines
+Regarding the Registration of EDV". EDV is the doctrine that decides whether a variety
+bred from a protected variety needs the original breeder's authorisation, so it is the
+mechanism that determines who captures the value of incremental breeding. Fourteen.
+
+**Blog fit**: does not open a new area — it resolves checks on an item already queued
+against the confirmed zero-coverage seeds / plant-variety-rights / agricultural-IP area.
+Nearest published posts remain `indias-445-billion-spice-export-book-is` and
+`379-kilos-hectare-in-punjab-44-in`, both to be cross-linked as earlier reporting in house
+style, never as confirmation.
+
+**Caveat**: 🔴 these are **chart literals embedded in homepage JavaScript**, not a
+published table — genuinely primary, and internally consistent across two independent
+series and two dates, but the Authority publishes no schema for them. The category names
+come from hidden inputs on the same page (`Extant Notified`, `Extant VCK`, `Farmer`,
+`New`, `EDV`) and are undefined there, so check (4) of the original item — state that the
+categories are the Authority's own and undefined — now applies to the *registration-type*
+split as well as the crop split. The Annual Report cross-read (check 1) is still worth
+doing and is still the citable artefact; nothing here replaces it. Check (3) stands
+unchanged: certificates issued ≠ varieties commercially sold. The host is intermittent —
+up today, 503 four days ago — so anyone writing this should pull and keep a local copy
+rather than plan to fetch at publication time.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **AERR, "Agricultural wages in India: trends and determinants"**
+  (`epubs.icar.org.in/index.php/AERR/article/view/140527`) — WEAK by dedup, not by
+  quality: farm-wage trends are the exact subject of `a-17-rural-pay-rise-that-nobody-received`,
+  which runs on the Labour Bureau's own CPI-AL series and a base-revision break. A
+  determinants paper does not contradict or materially update it.
+- **Venkatesh P., "Recent Trends in Rural Employment and Wages in India: Has the Growth
+  Benefitted the Agricultural Labours?", AERR Vol. 26 (2013)** — WEAK on vintage: a
+  thirteen-year-old series on a beat where the live question is a 2026 base revision and a
+  scheme repealed in December 2025.
+- **Pattayat & Parida, "Drivers of Rural Non-farm Sector Employment in India, 1983–2019"
+  (Sage, 2024)** and **NCAER, "Rural Non-farm Employment in India: Access, Incomes and
+  Poverty Impact"** — WEAK by dedup: rural non-farm employment is **already queued** as
+  "Rural India's fastest quarter off the farm" (COMMISSION_QUEUE, logged 2026-08-24) on
+  the PLFS Quarterly Bulletin, which is a quarterly official series running to Apr–Jun
+  2026. Neither an academic panel ending in 2019 nor an undated NCAER volume improves on
+  that source, and the queue item is the piece.
+- **IJAgS, "Trends in agriculture, non-farm sector and rural employment in India: An
+  insight from state level analysis"** (`epubs.icar.org.in/index.php/IJAgS/article/view/48502`)
+  — same dedup as above; not fetched beyond the search listing, and not counted as assessed.
+- **AERR issue archive** — not re-checked today. It was confirmed on 2026-08-31 as still
+  ending at Vol. 37 No. 1 (2024), and one week is not a plausible interval for a new issue
+  of a journal whose archive has been static since 2024.

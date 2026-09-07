@@ -1330,3 +1330,122 @@ a *statistical* one made by someone who actually ran the experiment.
   Forecasting) — belongs to the Saturday covariance-cleaning branch already mined on
   2026-08-29 via 2507.01918, not the Friday theme. **Not fetched and not assessed**;
   noted only so it is not counted as reviewed.
+
+---
+
+## Added 2026-09-07 (daily task, Monday gap query: CPCV / purging / embargo)
+
+Dedup note: this is the third Monday pass on the purging/embargo theme (2026-08-23 round,
+2026-08-31 grading-after-purging angle), so the query was re-aimed a third time — at
+*which* leakage conventions actually cost you anything, rather than at how to purge or how
+to grade. Citation-following from hub 2605.19337 returned exactly the same four citing
+papers for the **sixth consecutive run** (2608.26990, 2607.19453, 2607.04958, 2606.08285),
+all already registered. That branch is dry and should be considered exhausted until the
+hub accrues new citations; future Monday runs can skip straight to the web query.
+
+### 2605.23959 — When Alpha Disappears: A One-Switch Benchmark for Decision-Time Leakage in Financial Backtests (Fan Zhang, Zhen Li, Sijia Peng & Yu Chen, 2026-05-12, q-fin.RM)
+
+Passed triage on data shape as much as on rigour: two **daily-OHLCV equity panels** —
+S&P 500 constituents, 2010–2024, 439 retained tickers, and CSI 300, 186 tickers — six
+model families, yearly tests 2016–2024, proportional costs at 0/5/10 bps with 5 bps as the
+headline. That is this repo's exact data regime, which is rare in the leakage literature.
+
+The design is the contribution: rather than declaring a backtest "leaky" or "clean", it
+holds the data panel, walk-forward split, model family, horizon, portfolio rule and cost
+convention fixed and **toggles one evaluation convention at a time** against a clean
+`t+1`-open reference (features from information available by the close of day t, execution
+at the t+1 open, labels as open-to-open returns). What comes out is a *ranking of how much
+each convention inflates Sharpe*, which is far more useful than a binary verdict.
+
+**The measured result — leakage is highly selective:**
+
+| Convention | Effect | Magnitude |
+|---|---|---|
+| `TEMP_CENTER` — centered rather than trailing rolling statistics, so a day-t feature can depend on t+3 | **large** | ~+19 to +27 Sharpe (Ridge h=5: +19.43 US, +21.70 China) |
+| `EXEC_OPEN` — signal built from the full day-t bar (post-open high/low/close/volume) but executed at the day-t **open** | **large** | ~+5 to +26 Sharpe (Ridge h=5: +21.65 US, +26.16 China) |
+| `STRUCT_GRAPH` — symmetric 252-day correlation graphs centered on monthly anchors | weak | mean ~+0.10 Sharpe |
+| `NORM_GLOBAL` — normalisation fitted on the full sample instead of the training split | weak | ~+0.07–0.09 Sharpe |
+| `EXEC_CLOSE` — close-of-day signal paired with same-day close execution | weak | ~+0.06 Sharpe (US panel) |
+
+**Doing-right:** it states plainly that the benchmark "is diagnostic rather than a claim of
+tradable alpha", and the clean-reference Sharpes it reports are modest and believable
+(Ridge h=5: 0.68 US, 0.84 China) — a paper that publishes a 0.68 baseline and then shows
+its own violations manufacturing a 20-Sharpe strategy is demonstrating the failure mode
+rather than selling a result.
+
+**Verified against this repo (greps run today, not carried from prior entries):**
+
+- **`TEMP_CENTER` — clean, confirmed.** `grep -rn "center *= *True" --include='*.py'` over
+  `code/python_files/` returns hits **only** inside `.venv/` (networkx, torch, sklearn,
+  patsy, polars library source). No pipeline code constructs a centered rolling statistic.
+  This is the single largest inflation channel the paper measures and the repo does not
+  touch it.
+- **`EXEC_OPEN` — structurally impossible here, confirmed.** `grep -n '"Open"'` over
+  `backtest_screeners.py`, `walk_forward_backtest.py`, `rloo_rescore.py` and
+  `backtest_zone_rules.py` returns **zero hits**. The backtest paths read `Close`,
+  `High`, `Low` and `Volume` and never reference the open at all, so the +5 to +26 Sharpe
+  channel has no surface area. Worth recording explicitly: an "Open-aware execution model"
+  would look like an upgrade and is in fact the entry point to the worst bug in the paper.
+- **`NORM_GLOBAL` — clean in the signal path, confirmed.** `StandardScaler().fit_transform`
+  on a full sample appears at `cluster_extra_markets.py:61`, `valuation_clustering.py:52`,
+  `sector_analysis.py:216` and `pattern_discovery.py:251` — all four are descriptive
+  clustering / PCA reporting, not return-generating. In the one place it would matter,
+  `ml_signal_engine.py`, `StandardScaler` is **imported at :76 and never instantiated**
+  (`grep -n "StandardScaler\|scaler\|\.fit(" ml_signal_engine.py` shows only the import,
+  a comment at `:218`, and three bare `model.fit(...)` calls at `:319`, `:441`, `:518`).
+  That engine retrains on a rolling `TRAIN_WINDOW = 252` (`:98`) and its one normalised
+  feature, `close_norm`, is documented at `:135` as "Z-score normalized close vs 20-day
+  window" — trailing, not global.
+- **`EXEC_CLOSE` — this is what the repo does, and the paper prices it.** The convention is
+  documented in the docstring at `backtest_screeners.py:270` ("Entry = signal bar close.
+  Exit = close at T+N") and stamped at `:402` (`"entry_price": curr_close`, where
+  `curr_close = closes[i]` at `:385`) and `:439` (`float(closes.iloc[i])`), with the same
+  shape in `walk_forward_backtest.py:1362`. The signal and the fill are the **same bar's
+  close**. Under the paper's measurement that is the mildest of the five violations,
+  ~+0.06 Sharpe on the US panel — but it is one-directional and it is optimistic.
+
+**Gap (the one that survives):** the repo's whole backtest estate assumes it can trade the
+close it has just observed. Nothing in the codebase has ever measured what a one-bar delay
+costs, and the volume-confirmation branch at `backtest_screeners.py:397` makes the
+assumption slightly sharper than it looks — it compares `vols[i]`, the completed day-t
+volume, against the trailing 20-day mean, so the decision genuinely needs the full bar,
+which is exactly the information set the paper pairs with a t+1 fill rather than a t fill.
+
+**Not adoptable:** the benchmark harness itself. Reproducing a one-switch panel means six
+model families × two panels × five toggles × nine yearly tests, and this repo trains no
+cross-sectional model that would sit in it. The transferable content is the **ranking**,
+which converts "we should probably worry about leakage" into a priced list.
+
+**Action queued:** item 25 (one-bar execution delay as a reported variant, not a
+replacement).
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2603.13252** (Ursina Sanderink, "When Alpha Breaks: Two-Level Uncertainty for Safe
+  Deployment of Cross-Sectional Stock Rankers", 2026-02-24, cs.AI) — EVIDENCE-GRADE: weak,
+  and a near miss. Its validation design is the best thing about it and is genuinely on
+  today's theme: 109 chronological walk-forward folds, Feb 2016–Feb 2025, a **90-trading-day
+  embargo** between training and prediction, and overlapping labels purged — stricter than
+  anything in this repo. But the headline metric is **AUROC** (~0.72 overall, ~0.75 in the
+  2024 holdout), the abs page discloses **no universe size**, and **no transaction cost
+  treatment** appears anywhere, so the paper never converts its ranking quality into
+  anything a screener can bank. A DEUP-based epistemic tail-risk cap that the authors
+  themselves downgrade to "a tail-risk guard rather than a continuous sizing denominator"
+  is not worth deep-read budget against those disclosure gaps. Logged rather than
+  discarded: if a v2 adds a universe and a cost model, the 90-day embargo design is worth
+  revisiting.
+- **2609.00731** (Pan, Ding & Giesecke, "Agentic Empirical Asset Pricing: Methodological
+  Foundations", 2026-09-01, cs.AI) — LLM agents doing autonomous factor discovery on two US
+  equity panels; no cost treatment stated and no date range on the abs page. Its one
+  transferable observation — "no single metric ranks the systems consistently", hence
+  multi-axis evaluation — is already the operating assumption behind queue items 19, 20 and
+  24. Structurally inapplicable per the standing 2026-08-28 finding that this repo has no
+  LLM agent surface. Not deep-read.
+- **2602.00080** (GT-Score) — surfaced again by today's search (4-year train / 2-year
+  validation / 30-day embargo). **Already in the register**; not re-triaged, listed only so
+  the day's candidate count is honest.
+- **q-fin.ST recent listing** (2609.04420, 2609.02660, 2608.29692, 2608.29669, 2608.29025,
+  2608.30446) — skimmed as a block; none concerns backtest validation, leakage or
+  evaluation methodology. Rare-event onset forecasting, forex trade durations, two
+  language-model-representation covariance papers, Bitcoin option deep hedging, and neural
+  correlation-matrix shrinkage. No candidates.
