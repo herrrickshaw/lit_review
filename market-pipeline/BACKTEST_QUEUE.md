@@ -416,3 +416,36 @@ when it's been run; do not delete history.
     feature cutoff back a day would import the paper's most damaging bug while looking like
     a realism upgrade. A one-bar close-to-close delay is the cheap, safe version of the
     same correction.
+
+26. **The learned-factor report's strongest claim is its only untested one — replace
+    single-LASSO selection with double-selection before repeating it** —
+    `factor_learning.py:145` writes into `reports/factor_learning.md` that "Lasso zeroing
+    a factor = that factor adds nothing once the others are in (built-in selection — a
+    principled cure for the multiple-testing fragility the Deflated-Sharpe flagged)".
+    That is a post-selection *inference* claim, and the single-stage `LassoCV` at
+    `factor_learning.py:88` cannot support it: the L1 penalty shrinks coefficients toward
+    zero, which factors survive is unstable across resamples, and post-selection
+    coefficients have no valid standard errors. Concrete change, in `research/` only —
+    **not** in the nightly path: for each of the 10 factors at `factor_learning.py:37-38`
+    in turn, treat it as the signal-of-interest d and the other 9 as controls Z, then run
+    Belloni–Chernozhukov–Hansen double selection — LASSO y on Z, LASSO d on Z, take the
+    **union** of the two selected control sets, refit y on d plus that union
+    *unpenalised* by OLS, and report d's coefficient with a heteroskedasticity-robust
+    standard error clustered by week. Falsifiable prediction: at least one factor that
+    `LassoCV` currently zeroes (`:119` logs which per market) comes back with a
+    significant coefficient under double selection — meaning the report has been
+    announcing "adds nothing" about a factor that does — and/or at least one *kept*
+    factor's coefficient fails to clear its own standard error, meaning the kept count in
+    `factor_learning.md` is padded. Either outcome changes what that report is allowed to
+    say. Cheap: no new data and no new panel — `build_xy()` (`:43`) already returns the
+    matrix, and `sklearn.linear_model` is already imported at `:27`; the whole thing is
+    10 fits of a model already in the file. 🔴 Take the **method**, not the paper's
+    numbers: 2601.06499's headline (17 of 191 short-term signals survive against 151
+    fundamental controls, S&P 500, 2002–2022, monthly) states **no transaction-cost
+    treatment**, which for short-horizon price-volume signals is the disclosure that
+    matters most — read the 17 as gross and do not import the signals themselves.
+    Motivated by: 2601.06499 (Du, Walter & Ulrich). **Complementary to item 21, not a
+    duplicate**: item 21 asks whether the redundancy diagnosis can see non-linear terms
+    at all; this asks whether the verdict is valid inference even on the linear terms
+    both sides already see. Do item 21's Fama-MacBeth build first if only one is done —
+    it produces the machinery this can reuse.

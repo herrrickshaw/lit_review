@@ -895,3 +895,91 @@ rather than plan to fetch at publication time.
 - **AERR issue archive** — not re-checked today. It was confirmed on 2026-08-31 as still
   ending at Vol. 37 No. 1 (2024), and one week is not a plausible interval for a new issue
   of a journal whose archive has been static since 2024.
+
+## Added 2026-09-08 (Tuesday theme: insurance, reinsurance and financial plumbing)
+
+Second Tuesday pass on this theme (2026-09-01 took the domestic wholesale end — the IRDAI
+obligatory cession and the GI Council statistics), so it was re-aimed at the leg 09-01
+explicitly left untouched: **IFSCA / GIFT City**, which that entry's own dedup run
+recorded as returning zero manifest hits. Dedup re-run today against
+`meta/manifest.json` (snapshot 2026-09-07T19:53+05:30, **257 posts**): a regex for
+`ifsca|gift.?city|reinsur|insur|bullion|fintech|offshore|banking.?unit` over the full
+manifest returns **exactly one post**, `premium-now-claim-later-float-indias` ("Premium
+Now, Claim Later: The Float India's Car Boom Is Building", 2026-08-22), matching only on
+`insur`. `ifsca`, `gift city`, `bullion`, `offshore` and `banking unit` return **zero**,
+unchanged from a week ago and now against 19 more posts.
+
+### IFSCA Bulletin, Jan–Mar 2025 — GIFT IFSC's insurance leg is 94% reinsurance
+
+`ifsca.gov.in/Document/ReportandPublication/ifsca-bulletin-jan-mar-202509052025055132.pdf`,
+fetched 2026-09-08 (HTTP 200, 4.6 MB, text extracted with `pdftotext -layout`). Issued by
+the Division of Economic Policy and Analysis, IFSCA; the front matter states the source is
+"the periodic reports submitted by the regulated entities to IFSCA" and grants explicit
+reproduction permission subject to acknowledgement.
+
+- **Data**: a quarterly statistical bulletin with **26 numbered tables**, free, no login,
+  no paywall, published on the regulator's own domain, and issued each quarter (Apr–Jun,
+  Jul–Sep, Oct–Dec, Jan–Mar editions for 2024 and 2025 all resolve on `ifsca.gov.in`), so
+  it is a genuine time series rather than a one-off report. The tables the blog would
+  actually use: **Table 3** number of IBUs, **Table 4/5** assets and liabilities of IBUs,
+  **Table 10** industry-wise credit exposure of IBUs, **Table 11** *country-wise* exposure
+  of IBUs, **Table 12** IFSC exchange turnover, **Table 24** premium written by IFSC
+  Insurance Offices (IIOs) and Intermediary Offices (IIIOs), **Table 25** line-of-business
+  direct insurance, **Table 26** line-of-business reinsurance. Headline dashboard figures
+  (as on/during Mar 2025): 865 total IFSCA registrations (including in-principle/
+  provisional), banking assets USD 88.51 Bn, average monthly IFSC-exchange turnover USD
+  92.15 Bn, 162 fund management entities with USD 15.74 Bn of commitments raised, 33
+  aircraft lessors and 24 ship lessors, 31.99 tonnes of gold traded on IIBX worth USD 2.9
+  Bn in the quarter, and 18 insurance offices plus 27 intermediary offices.
+- **Finding**: GIFT IFSC is described everywhere as an offshore insurance hub. Its own
+  quarterly tables say the direct-insurance business barely exists. Summing Table 25 across
+  the four quarters of FY 2024-25 gives **USD 12.42 Mn of gross direct written premium**
+  (2.43 + 2.42 + 3.96 + 3.61); summing Table 26 over the same four quarters gives **USD
+  195.45 Mn of reinsurance premium** (44.54 + 48.00 + 44.76 + 58.15). Reinsurance is
+  therefore **94.0% of the centre's insurance book**. The direct **life** line is USD
+  **2.54 Mn for the entire year** (0.46 + 0.82 + 0.90 + 0.36) — under ₹25 crore, from a
+  jurisdiction hosting 18 registered insurance offices. Set against USD 88.51 Bn of banking
+  assets on the same dashboard page, the whole insurance leg is roughly a five-hundredth of
+  the banking leg. The centre did not fail to attract insurance; it attracted one *kind* of
+  insurance, the wholesale cession end, and almost none of the retail end it is marketed on.
+- **Blog fit**: opens the **IFSCA / GIFT City** zero-coverage area and gives the near-empty
+  *Insurance & Reinsurance* label its offshore half. Nearest published post is
+  `premium-now-claim-later-float-indias` (motor float — domestic, retail, the opposite end
+  of the same balance sheet). It also completes the pipe the 2026-09-01 entry opened: India
+  *compels* 4% of every general policy into a domestic state reinsurer (GIC Re) while the
+  offshore centre built to attract international reinsurance capacity writes USD 195 Mn a
+  year. Structural sibling on the blog is `who-collects-indias-gst-and-who` — the same
+  who-writes-vs-who-receives framing.
+- **Caveat**: four things must be checked before publication. (1) Table 24's Jan–Mar 2025
+  IIO figure of USD 61.70 Mn carries a printed footnote — "Reinsurance data of one IIO is
+  under examination and hence not included" — so that one quarter is understated by an
+  unknown amount; the 94% share should be recomputed once the audited figure lands, and
+  quoted as *approximately* 94% until then. (2) All FY 2024-25 figures are marked
+  **unaudited** on both tables. (3) Table 26 shows "Health + PA" collapsing from 26.48 to
+  2.21 between Oct–Dec and Jan–Mar while a separate "Health Insurance" line appears at
+  5.77 in the same quarter — that looks like a reclassification, not a collapse in
+  business, and must be resolved against the following bulletin before either number is
+  narrated. (4) Table 24 (offices) and Tables 25/26 (lines of business) are differently
+  scoped — do not add or divide across them.
+- Grade: **COMMISSIONABLE**. Logged 2026-09-08.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **IFSCA Annual Report 2024-25** (issued 2025-08-18; TeamLease RegTech and Cyril Amarchand
+  Mangaldas both carry summaries) — almost certainly the right *annual* primary, but three
+  searches failed to surface a direct PDF URL on `ifsca.gov.in`, and every accessible
+  account of its contents was a law-firm or compliance-vendor summary rather than the
+  document. Not registered on secondhand summaries. Worth one attempt at
+  `ifsca.gov.in/ReportPublication/index/zcGvy-Iqfcg=` (the Annual Reports index, which does
+  resolve) on a future Tuesday; the quarterly bulletins already carry the tables, so this is
+  a completeness errand, not a blocker.
+- **PwC India, "Banking in GIFT IFSC" (April 2024)** — a consultancy explainer, not a data
+  source; its figures are restatements of IFSCA's own. Standing rule on vendor material
+  applies. WEAK, and unnecessary now that the primary is in hand.
+- **`giftcityadvisor.com` mirror of the Jul–Sep 2025 IFSCA bulletin** — a third-party copy of
+  a document the regulator publishes itself. Never cite the mirror; note only that a
+  **Jul–Sep 2025** edition exists, which means the series runs at least two quarters past
+  the edition read today and a piece built on it can be brought to a current vintage.
+- **`gicouncil.in` industry statistics** — surfaced again alongside today's query; **already
+  registered 2026-09-01** with its own caveats. Listed only so the day's candidate count is
+  honest, not re-triaged.

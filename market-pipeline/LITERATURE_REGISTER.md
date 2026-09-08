@@ -1449,3 +1449,100 @@ replacement).
   evaluation methodology. Rare-event onset forecasting, forex trade durations, two
   language-model-representation covariance papers, Bitcoin option deep hedging, and neural
   correlation-matrix shrinkage. No candidates.
+
+## Added 2026-09-08 (daily task, Tuesday gap query: factor redundancy / spanning tests)
+
+Third Tuesday pass on this theme (2026-08-25 asked *which factor model wins a spanning
+test*, 2026-09-01 asked *are my factors redundant through terms a correlation matrix
+cannot see*), so it was re-aimed again — at **whether the repo's existing redundancy
+verdict is inferentially valid at all**, rather than at finding more factors.
+Citation-following from hub 2605.19337 returned a **new** citing paper for the first time
+in seven runs (2609.04917, alongside the same four already-registered ones), so that
+branch is no longer dry, only slow. Four new candidates, two deep-read.
+
+### 2601.06499 — Cross-Market Alpha: Testing Short-Term Trading Factors in the U.S. Market via Double-Selection LASSO (Jin Du, Alexander Walter & Maxim Ulrich, v1 2026-01-10, v2 2026-05-21)
+
+EVIDENCE-GRADE: moderate-to-strong on design, weak on costs. S&P 500 large caps,
+2002–2022, monthly rebalancing — a real, disclosed, twenty-year universe. A library of
+191 short-term price-volume and microstructure signals (built for the retail-heavy
+Chinese A-share market) is tested against a control set of **151 fundamental factors**;
+17 survive as non-redundant risk premia. The abs page does not state a transaction-cost
+treatment, which for *short-term* signals is the disclosure that matters most, so the
+17-signal headline should be read as gross. The transferable content is the method, not
+the count.
+
+**Doing-right:** the repo already runs L1 selection over its factor set —
+`factor_learning.py:88` fits `LassoCV(cv=5, n_alphas=40)` on the train split of the 10
+signals at `factor_learning.py:37-38` (`trend, revert, mom126, mom_st, golden_cross,
+breakout, lowvol, mom252, qual_mom, def_revert`), per market, walk-forward, and grades
+the survivors on an out-of-sample information ratio (`ls_book_ir`, `:62`) rather than on
+in-sample fit. Sparse selection *plus* an OOS grade is more than most of this literature
+does.
+
+**Gap:** the repo converts that selection into an inference claim it cannot support.
+`factor_learning.py:145` states, in the generated report, "Lasso zeroing a factor = that
+factor adds nothing once the others are in (built-in selection — a principled cure for
+the multiple-testing fragility the Deflated-Sharpe flagged)". Single-stage LASSO does not
+license that reading: the penalty biases coefficients toward zero, selection is unstable
+across resamples, and post-selection coefficients have no valid standard errors. This is
+precisely the problem double-selection (Belloni–Chernozhukov–Hansen) exists to fix — run
+LASSO twice, once of the outcome on the controls and once of the signal-of-interest on
+the controls, take the **union** of selected controls, then refit unpenalised and read
+off a coefficient with valid inference. `grep -rniE
+'double.?selection|post.?selection|debias|desparsif|belloni|chernozhukov'` over the whole
+repo returns nothing on this (the two `trading_financials.py:60,78` hits are an unrelated
+trade-filter step named DEBIAS). So the *strongest* factual claim the learned-factor
+report makes is the one part of it with no test behind it.
+
+**Distinct from queue item 21**, which attacks the same report from the non-linearity
+side (a Pearson participation ratio and a linear model share a blind spot). This is the
+inference side: even restricted to the linear terms both already see, "zeroed ⇒ adds
+nothing" is unwarranted. The two are complementary and neither subsumes the other.
+
+**Action queued:** item 26.
+
+### 2609.04917 — Artificial Intelligence in Equity and Crypto Markets: Progress, Profitability Evidence, and the Limits of Automated Investing (Linsen Zhu & Mengqing Cai, 2026-09-04)
+
+EVIDENCE-GRADE: not applicable — a critical review of public research through
+2026-08-31, no original panel. Registered for its framing, not its numbers. Its organising
+device is an **"alpha-translation chain"**: information → stable signal → feasible
+positions → executable orders → risk-adjusted net returns after costs. A method is graded
+by the *furthest link it demonstrates*, not by its headline metric. Its verdict is that
+progress is "real but mainly upstream", and that no general AI architecture in the public
+record delivers persistent, cross-regime, capacity-aware net alpha.
+
+**Doing-right:** this repo sits unusually far down that chain for a one-person estate.
+`cost_vs_edge.py` exists precisely to ask whether the small-cap Piotroski edge survives
+costs, and grounds its answer in Krauss, Krüger & Beerstecher (2015) — the same finding
+that set the ₹1 crore/day liquidity floor. Capacity is treated as a first-class question,
+not a footnote. Under the review's own grading the pipeline reaches the last link on at
+least one strategy, which is more than the reviewed AI literature manages.
+
+**Gap:** none actionable, and this is deliberately not queued. The review's remaining
+criticisms — temporal contamination, survivorship, capacity — already map onto queue items
+23, 24 and 25 and onto the standing 2026-08-28 finding that this repo has no LLM-agent
+surface for its AI-specific critiques to attach to. Logged as a citable external prior for
+the *next* time an AI-flavoured method is proposed here: the burden of proof is the last
+link in the chain, and the public record has not met it.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2212.12845** (Wan, Li, Lu & Song, "Mining the Factor Zoo: Estimation of Latent Factor
+  Models with Sufficient Proxies", 2022-12-25, stat.ME) — penalised reduced-rank
+  regression for latent factor estimation with an increasing number of proxies, plus a
+  heavy-tailed-robust variant. The abs page discloses **no universe, no date range, no
+  evaluation metric and no cost treatment**; the claimed contribution is a convergence
+  rate. Latent factors are also the wrong object here — this repo's 10 signals are named,
+  interpretable and individually tradable, and replacing them with statistical factors
+  would destroy the property that makes the mailer explainable. Off-scope.
+- **1907.01670** (Zeng, Xia & Zhang, "Double Cross Validation for the Number of Factors in
+  Approximate Factor Models", 2019-07-02) — surfaced by the query's "effective number of
+  factors" clause and rejected on it. Pure econometric theory: consistency of a
+  cross-validate-over-observations-then-over-variables rule as both dimensions grow, with
+  no equity application. The repo's analogous quantity is already measured
+  (`research/factor_redundancy.py` participation ratio, 4.92/10 IN and 4.53/10 US, per
+  queue item 21), and a consistency proof for a different estimator does not change what
+  to do about it. Not deep-read.
+- **Citation-following, already registered** — 2608.26990, 2607.19453, 2607.04958,
+  2606.08285 returned again (seventh consecutive run); listed only so the day's candidate
+  count is honest. 2609.04917 was the one genuinely new hit and was deep-read above.

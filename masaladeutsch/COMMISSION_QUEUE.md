@@ -306,6 +306,49 @@ Format:
       never as confirmation.
 
 
+- [ ] India built an offshore insurance hub. It writes USD 12 million of direct cover a year.
+      Source: IFSCA Bulletin, Jan-Mar 2025 (International Financial Services Centres
+      Authority, Division of Economic Policy and Analysis) — free PDF on the regulator's
+      own domain, no login, explicit reproduction permission with acknowledgement:
+      ifsca.gov.in/Document/ReportandPublication/ifsca-bulletin-jan-mar-202509052025055132.pdf
+      (fetched 2026-09-08, HTTP 200, 4.6 MB; text extracts cleanly with `pdftotext
+      -layout`). Tables used: Table 25 (line-of-business direct insurance) and Table 26
+      (line-of-business reinsurance), both quarterly across FY 2024-25; Table 24 (offices
+      and premium by IIO/IIIO). Quarterly series, so a current-vintage edition exists — a
+      Jul-Sep 2025 bulletin is known to be out.
+      Argument: GIFT IFSC is sold as an offshore insurance and reinsurance hub, and by its
+      own quarterly tables it is only the second of those. Across the four quarters of
+      FY 2024-25 it wrote USD 12.42 Mn of gross direct premium against USD 195.45 Mn of
+      reinsurance — 94% of the book is cession business. Direct life for the entire year
+      was USD 2.54 Mn, under Rs 25 crore, from a jurisdiction hosting 18 registered
+      insurance offices; the whole insurance leg is about a five-hundredth of the USD
+      88.51 Bn of banking assets on the same dashboard page. The centre did not fail to
+      attract insurance. It attracted the wholesale end and almost none of the retail end
+      it is marketed on — which is the same shape as the domestic story in the queued
+      4%-cession piece, seen from the offshore side: India compels 4% of every general
+      policy into a state reinsurer at home while the centre built to import international
+      reinsurance capacity writes USD 195 Mn a year.
+      Checks needed: (1) Table 24's Jan-Mar 2025 IIO figure carries a printed footnote —
+      "Reinsurance data of one IIO is under examination and hence not included" — so that
+      quarter is understated by an unknown amount; quote the share as ~94% and recompute
+      when the audited figure lands; (2) every FY 2024-25 figure on both tables is marked
+      unaudited — say so in the piece; (3) 🔴 Table 26 shows "Health + PA" falling 26.48 ->
+      2.21 between Oct-Dec and Jan-Mar while a separate "Health Insurance" line appears at
+      5.77 the same quarter — resolve this against the next bulletin before narrating
+      either number, it looks like a reclassification and not a collapse; (4) Table 24
+      counts offices, Tables 25/26 count lines of business — do not add or divide across
+      them; (5) pull the following quarter's bulletin before publishing so the piece is not
+      a year stale.
+      Logged: 2026-09-08 from the IFSCA Bulletin register entry
+      Opens: the IFSCA / GIFT City zero-coverage area, and the offshore half of the
+      near-empty *Insurance & Reinsurance* label. Pairs with the queued 4%-cession item as
+      two ends of one pipe; if both are written, write the domestic one first.
+      Manifest dedup run 2026-09-08 (257 posts, snapshot 2026-09-07): a regex for
+      `ifsca|gift.?city|reinsur|insur|bullion|fintech|offshore|banking.?unit` returns
+      exactly one post, `premium-now-claim-later-float-indias` (motor float, domestic
+      retail), matching on `insur` alone. `ifsca`, `gift city`, `bullion`, `offshore` and
+      `banking unit` return zero.
+
 ## Done
 
 - [x] What a farm labourer earns, and why it stopped tracking output
