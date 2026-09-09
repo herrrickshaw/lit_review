@@ -449,3 +449,49 @@ when it's been run; do not delete history.
     at all; this asks whether the verdict is valid inference even on the linear terms
     both sides already see. Do item 21's Fama-MacBeth build first if only one is done —
     it produces the machinery this can reuse.
+
+27. **The mailer's shortlist is a ~2,110 → ~25 cut decided entirely by one column's
+    ordering, and that ordering has never been tested — measure its within-passer rank IC
+    before changing anything else about it** — `signal_tracker.py:222` sorts the technical
+    passes by `score` and keeps `TECHNICAL_TOP_PER_MARKET = 5` per market (`:210`). The
+    comment at `:195-207` records the scale: the filter returned **2,110 passes in one
+    run**, grade alone was "not enough of a bar", so the fix was "rank by quality score and
+    take the best few PER MARKET". `score` for those rows is `Quality_Score`
+    (`signal_tracker.py:152`). Nothing tests whether `Quality_Score` orders forward returns
+    **among names that already passed** — `rloo_rescore.py` answers picked-vs-not-picked
+    (its LOO baseline is the *other eligible names*, `:271,281`), which is a different
+    question from rank-6-vs-rank-4, and the existing rank-IC code
+    (`pead_liquidity_study.py:226`, `backtest_ccc.py:258`) is pointed at PEAD surprise and
+    the CCC signal, not at this column. Concrete change, in `research/` only — **not** in
+    the nightly path: take the technical rows from `cache_seed/signal_ledger.parquet`,
+    restrict to passers only, and for each (market, date) cohort compute the Spearman rank
+    IC of `Quality_Score` against h-day forward return from the back-adjusted panel
+    (`~/.cache/market-warehouse/ohlcv_adj` — **the adjusted one**, per
+    `rloo_rescore.py:44-48`, or raw splits manufacture fake advantages). Collapse to one IC
+    per cohort and t-test with Newey-West HAC at lag h, reusing `rloo_rescore.py`'s
+    correction rather than writing a new one. Report per market: India's is the one that
+    matters most and the one most likely to differ. **Falsifiable prediction:** the
+    within-passer rank IC is statistically indistinguishable from zero in at least one
+    market — meaning the top-5 cut in that market is selecting arbitrarily among ~400
+    equally-good names and its only real function is bounding the list length, which a
+    liquidity or count rule would do more honestly. The opposite outcome is just as useful:
+    a positive IC licenses the cut *and* makes it worth asking whether 5 is the right N.
+    🔴 **Fix the falsy-zero first or the sample is truncated**: `signal_tracker.py:152`
+    (`float(r.get("Quality_Score") or np.nan)`) and `:181` (same for `f_score`, a 0–9
+    Piotroski score where 0 is legitimate) both turn a genuine **0** into NaN, so the
+    worst-scoring rows are logged score-less. It does not change today's picks — NaN and 0
+    both sort last — but a rank-IC run on the ledger would silently drop exactly the tail
+    that anchors the correlation. Use `pd.to_numeric(..., errors="coerce")`, matching
+    `:153-155`. **Do this before the IC run, and re-derive any affected history.**
+    **Deferred until this resolves: TopK-DropN hysteresis.** 2605.13407 holds K names and
+    only evicts one that falls out of the top K+N, which is the standard cure for the
+    boundary churn `signal_tracker.py:222` currently has (verified absent: no
+    `hysteres|turnover_cap|churn|drop_n|buffer.?zone` hits in `code/python_files/`; the
+    `EVICT_SESSIONS = 5` at `filter_watchlists.py:70` counts *filter misses*, `:41`, in a
+    different module, and is not rank buffering). Do **not** implement it first — smoothing
+    a cut is only worth doing once the cut is known to mean something. Motivated by:
+    2012.07149 (Poh, Lim, Zohren & Roberts) for the score-is-not-a-ranker framing —
+    their regress-then-rank MLP scores Sharpe 0.265 against LambdaMART's 2.156 on the same
+    NYSE 1980–2019 panel — and 2605.13407 (Kim & Song) for the DropN mechanism. 🔴 Take
+    neither paper's numbers: 2012.07149 states outright that it models **no transaction
+    costs**, and 2605.13407's model is GPU-trained and off-scope.

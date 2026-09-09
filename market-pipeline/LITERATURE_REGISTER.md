@@ -1546,3 +1546,155 @@ link in the chain, and the public record has not met it.
 - **Citation-following, already registered** — 2608.26990, 2607.19453, 2607.04958,
   2606.08285 returned again (seventh consecutive run); listed only so the day's candidate
   count is honest. 2609.04917 was the one genuinely new hit and was deep-read above.
+
+## Added 2026-09-09 (daily task, Wednesday gap query: learning-to-rank cross-sectional equity returns)
+
+Citation-following from hub 2605.19337 returned **five** citing papers and **none of them
+new** — 2609.04917 (deep-read yesterday), 2608.26990, 2607.19453, 2607.04958, 2606.08285,
+all already in the register. Yesterday's note that the branch is "slow, not dead" survives
+but today it was dead. Whole yield from the weekday gap query.
+
+Second Wednesday pass on this theme. 2026-08-26 asked whether the repo should *train* a
+ranker and correctly answered no — it has no learned cross-sectional model to re-fit. So
+today was re-aimed at the half that pass left untouched and that does apply to a
+rule-based screener: **the repo already ranks and already cuts to a top-N, and nothing has
+ever checked that the ordering it cuts on carries information.** That question needs no
+ranker, no GPU and no new data.
+
+The re-aim also closed an open loop. The 2026-08-26 entry logged Poh et al. as paywalled
+at pm-research.com and noted "a possible re-check if an open version appears" — the arXiv
+preprint (2012.07149) surfaced on today's query and is registered below.
+
+### 2012.07149 — Building Cross-Sectional Systematic Strategies By Learning to Rank (Poh, Lim, Zohren & Roberts, 2020-12-13)
+
+The paper the 2026-08-26 entry could not verify. Reformulates cross-sectional portfolio
+construction as a *ranking* problem rather than a prediction-then-sort problem, and
+benchmarks four learning-to-rank algorithms (RankNet, LambdaMART, ListNet, ListMLE)
+against a random baseline, two published momentum heuristics (Jegadeesh & Titman, Baz et
+al.) and an MLP "regress-then-rank" baseline. Universe is actively traded NYSE firms
+**1980–2019**, filtered at each monthly rebalance to names above $1 with valid prior-year
+pricing. Selection is **100 long / 100 short, ~10% of the tradeable universe per
+rebalance**. Headline: LambdaMART **Sharpe 2.156** vs **0.696** for the Baz heuristic and
+**0.265** for the MLP — the "approximately threefold" claim in the abstract.
+
+- **EVIDENCE-GRADE: medium-high on the mechanism, low on the number.** Graded up for the
+  things this register keeps asking for and rarely gets: a real, named, reproducible
+  universe (NYSE), a **40-year** window spanning many regimes, a disclosed selection rule,
+  and — unusually — baselines that include the obvious cheap alternative rather than only
+  strawmen. Graded down hard on one disclosure, which the paper is at least honest about:
+  **transaction costs are not modelled at all.** Verbatim: "All returns in this section are
+  computed without transaction costs to focus on the raw predictive ability of the models."
+  A monthly-rebalanced 200-name long/short book is exactly the design where that omission
+  is load-bearing, so the 2.156 is a gross number and the 3x ratio is not a net-of-cost
+  claim. The paper also does not report turnover, which would have let a reader estimate
+  the cost drag themselves. **Take the framing, not the Sharpe.**
+- **Doing-right (verified): the repo separates selection skill from beta and from the
+  liquidity tilt, which is a harder test than anything in this paper.**
+  `rloo_rescore.py` scores each pick against a leave-one-out baseline of the *other*
+  eligible names in the same market x date x liquidity tier (`rloo_rescore.py:271,281`),
+  with the rationale stated at `:8-36` — raw forward return confounds the market day, the
+  factor tilt and actual skill, and only the third is an edge. Overlapping forward windows
+  are collapsed to one mean per (market, date) cohort with Newey-West HAC errors at lag h
+  (`rloo_rescore.py:55-64` header). Poh et al. report a raw Sharpe against a random
+  baseline; this is strictly the more demanding comparison.
+- **Doing-right (verified): rank IC is already the house metric where a ranker exists.**
+  `pead_liquidity_study.py:226` reports Spearman rank IC with a t-stat, and
+  `backtest_ccc.py:258` builds a per-month IC series (both re-confirmed today; the
+  2026-08-26 entry logged the latter and it has not drifted).
+- **Gap (verified, and this is the day's finding): the ordering the mailer actually cuts on
+  has never been validated.** The technical shortlist is produced by `_cap_technical()` —
+  `signal_tracker.py:222` sorts by `score` descending and takes
+  `TECHNICAL_TOP_PER_MARKET = 5` (`:210`) per market. The comment at `:195-207` records
+  exactly how much work that cut does: the filter returned **2,110 passes in one run** and
+  pushed the watchlist from 775 to 2,703 rows, so grade alone was "not enough of a bar" and
+  the fix was to "rank by quality score and take the best few PER MARKET". That is a
+  ~2,110 → ~25 reduction decided entirely by the ordering of one column. `score` for those
+  rows is `Quality_Score` (`signal_tracker.py:152`). Nothing anywhere tests whether
+  `Quality_Score` ranks forward returns *among names that already passed*: the rank-IC
+  machinery at `pead_liquidity_study.py:226` and `backtest_ccc.py:258` is pointed at PEAD
+  surprise and the CCC signal, not at this column, and `rloo_rescore.py` answers the
+  different question of picked-vs-not-picked, not rank-6-vs-rank-4. Poh et al.'s result is
+  precisely that a score built to separate good from bad is not automatically a good
+  *ranker* — their MLP regress-then-rank baseline scores 0.265 against 2.156 on the same
+  data. The repo is a score-then-cut design and has never measured its own ordering.
+- **Gap: no rank hysteresis on that cut.** `grep -rniE
+  'hysteres|turnover_cap|churn|drop_n|dropn|buffer.?zone' --include='*.py'` over
+  `code/python_files/` returns no true hits (only `dropna` false positives). A name at rank
+  6 today and rank 4 tomorrow enters and leaves the shortlist on score noise.
+  `filter_watchlists.py:70` does hold `EVICT_SESSIONS = 5`, but that counter is documented
+  at `:41` as counting sessions in which a name **does not pass the filter** — it is a
+  different module tracking filter membership, not rank position, so it should not be
+  credited as buffering the top-5 cut.
+- **Action queued: item 27** (rank-IC-within-passers on `Quality_Score`).
+- **Not queued: adopting LambdaMART.** Same verdict as 2026-08-26 and for the same reason —
+  it needs a trained ranker this repo does not have. The gap above is the *prerequisite*
+  diagnostic, and it is cheap; if the ordering turns out to be flat, no ranker is worth
+  training on it either.
+
+### Incidental finding (not from a paper — found while grep-verifying the above)
+
+`signal_tracker.py:152` writes `"score": float(r.get("Quality_Score") or np.nan)` and
+`:181` writes `"score": float(r.get("f_score") or np.nan)`. Both are falsy-zero bugs: a
+genuine score of **0** is falsy, so `0 or np.nan` evaluates to `np.nan` and the row is
+logged with a missing score. `f_score` is a Piotroski F-score on 0–9, so 0 is a legitimate
+and reachable value. This does **not** change today's selection — `sort_values("score",
+ascending=False)` puts NaN last by default, which is where a 0 would have sorted anyway —
+so it is a data-quality bug in the ledger, not a picking bug. It matters because the ledger
+is the input to any study of the score column, including queue item 27: a rank-IC run that
+silently drops the worst-scoring rows would be measuring a truncated sample. Fix is
+`pd.to_numeric(r.get(...), errors="coerce")`, matching what `:153-155` already does for
+`price_at_signal`. Worth folding into item 27 rather than queueing separately.
+
+### 2605.13407 — Vector-Quantized Discrete Latent Factors Meet Financial Priors: Dynamic Cross-Sectional Stock Ranking Prediction for Portfolio Construction (Namhyoung Kim & Jae Wook Song, 2026-05-13, IJCAI 2026)
+
+PRISM-VQ: expert prior factors combined with vector-quantized discrete latent factors, VQ
+acting as an information bottleneck and the discrete codes doubling as routing signals for
+a mixture-of-experts. CSI 300 and S&P 500; **train 2009–2019, validate 2020–2021, test
+2022–2024**; **contemporaneous index constituents** to avoid survivorship bias; costs
+**5 bp at open and 15 bp at close** (20 bp round trip, asymmetric); portfolio rule is
+**TopK-DropN with K=30, N=5**; trained on a single RTX 3090.
+
+- **EVIDENCE-GRADE: medium, and off-scope as a model.** The *disclosure* is good — this is
+  one of the few papers this register has seen that names its cost model, splits its dates,
+  states its portfolio rule and says what survivorship treatment it used, all without being
+  asked. The model itself is out of reach and out of character: VQ + MoE needs GPU training
+  the pipeline does not have, and discrete latent codes would destroy the explainability
+  that makes an emailed shortlist usable — the same objection already recorded against
+  2212.12845. Cost-robustness detail sits in Appendix E, which was **not fetched**; the
+  20 bp figure above is from the main text and the wider grid is UNVERIFIED here.
+- **Doing-right (verified): asymmetric round-trip costs are already modelled and already
+  used as a grading bar.** Confirmed by the existing register entries on `cost_vs_edge.py`
+  (2026-09-08 deep-read of 2609.04917) rather than re-grepped today.
+- **Gap: TopK-DropN has no analogue.** The mechanism is a one-line change in spirit — hold
+  K names, and only evict a holding once it falls out of the top K+N rather than the top K,
+  so a name hovering at the boundary is not churned every session. That is exactly the
+  hysteresis the second gap above says is missing from `signal_tracker.py:222`, and it is
+  the same idea reached from the turnover side rather than the noise side.
+- **Action: folded into item 27, not queued separately.** Deliberate. A DropN buffer is a
+  fix for churn, and it should not be applied before item 27 establishes whether the
+  ordering being buffered means anything. If `Quality_Score` has no within-passer rank IC,
+  the right change is to stop cutting on it, not to cut on it more smoothly. Sequencing
+  matters here and a second queue item would invite doing them in the wrong order.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2607.19385** (Guo, Lu & Zhang, "STN-TGAT: Top-K Portfolio Construction via
+  Prior-Guided Graph Attention with Learnable Soft-Threshold Sparsification", 2026-07-01) —
+  does carry an explicit transaction-cost adjustment, which is more than most, but the
+  evaluation is **Top-5 selected from the top 50 S&P 500 names**. A 5-of-50 mega-cap book
+  is too concentrated for its Sharpe to mean much and too cap-biased to transfer to a
+  screener whose established edge is in *illiquid* names. Graph attention also needs GPU
+  training. Off-scope on universe and compute both.
+- **2105.10019** (Poh et al., "Enhancing Cross-Sectional Currency Strategies by
+  Context-Aware Learning to Rank with Self-Attention") — same group as 2012.07149 and
+  surfaced alongside it, but the asset class is FX. No cross-sectional equity panel, and
+  currency carry/momentum does not map onto a fundamentals-plus-breakout equity screen.
+  Off-scope.
+- **2509.16616** ("Learn to Rank Risky Investors: A Case Study of Predicting Retail
+  Traders' Behaviour and Profitability") — matched the query on "learn to rank" only. The
+  ranked objects are *traders*, not securities; there is no cross-sectional return panel
+  and nothing to transfer. Discard.
+- **Citation-following, already registered** — 2609.04917, 2608.26990 (registered at line
+  917), 2607.19453, 2607.04958, 2606.08285 all returned again, **none new**; listed so the
+  day's candidate count is honest. Eighth consecutive run with no new citation on this hub
+  beyond yesterday's single hit.

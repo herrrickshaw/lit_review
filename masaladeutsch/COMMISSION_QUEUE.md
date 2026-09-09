@@ -349,6 +349,53 @@ Format:
       retail), matching on `insur` alone. `ifsca`, `gift city`, `bullion`, `offshore` and
       `banking unit` return zero.
 
+
+- [ ] The Ministry of Power published two different AT&C loss figures for the same year
+      Source: two PIB releases, both fetched directly 2026-09-09 (pib.gov.in returns 403 to
+      a plain fetch; a browser User-Agent over curl returns 200). PRID 2200450, "Key
+      Initiatives to Bring Down AT&C Losses of Power Distribution Utilities", 08 DEC 2025
+      5:02PM, a written reply by the Minister of State for Power in the Rajya Sabha:
+      AT&C losses "reduced from 21.91% in FY 21 to 16.16% in FY25". PRID 2215761, "Power
+      Distribution Utilities Record Positive PAT After Years of Losses", 18 JAN 2026
+      10:34AM, quoting the Union Minister of Power: AT&C losses "reduced from 22.62% in FY
+      2013-14 to 15.04% in FY 2024-25". Same year, same ministry, 1.12 points apart, six
+      weeks apart. Supporting figures from the January release: PAT +Rs 2,701 crore in FY
+      2024-25 against -Rs 25,553 crore in FY 2023-24 and -Rs 67,962 crore in FY 2013-14;
+      ACS-ARR gap Rs 0.78/kWh (FY 2013-14) to Rs 0.06/kWh (FY 2024-25). Underlying annual
+      series is PFC's Report on Performance of Power Utilities, which neither release
+      names and which is CURRENTLY UNREACHABLE — see the register's WEAK note; getting it
+      is the first job.
+      Argument: RDSS, the flagship distribution scheme with Rs 2.83 lakh crore sanctioned,
+      targets a pan-India AT&C band of 12-15%. Whether it hit that target depends on which
+      of its own ministry's two numbers you read: 15.04% lands just outside the band,
+      16.16% misses by more than a point. The lower figure is the one in the celebratory
+      press release; the higher one was given to Parliament six weeks earlier. The piece is
+      not "the government is lying" — it is that a scheme graded on a ratio published two
+      ways cannot be graded, and the blog can show exactly where the two series part.
+      Checks needed: (1) THE PIECE DIES IF THE DENOMINATORS DIFFER — neither release states
+      which utilities it counts (the January PAT line says "DISCOMs and power departments",
+      the December AT&C line says only "distribution utilities at the national level"). If
+      the coverage differs, this is a scope difference and not a contradiction; resolve it
+      against the PFC report's utility count BEFORE writing a word, and if it resolves that
+      way, write the scope-difference piece instead, which is still a piece. (2) FY25
+      figures are provisional — PFC's FY 2023-24 edition covered 63 of 72 utilities with 52
+      of 59 audited, so an FY25 number published in Dec 2025 cannot be firmer; say so.
+      (3) AT&C is a ratio and the same January release credits the Electricity Distribution
+      (Accounts and Additional Disclosure) Rules, 2025 and new subsidy-accounting rules —
+      changes to how subsidy is booked move the ratio without recovering a stolen unit.
+      (4) Do not narrate Rs 0.06/kWh as cost recovery achieved: it is a national average and
+      suspiciously round. (5) The two releases use different baselines (FY21 vs FY 2013-14),
+      so only the FY25 endpoint is a like-for-like clash — do not compare the trends.
+      Cross-link to discom-debt-relief-token-charge in house style (cite the earlier post as
+      reporting, never as confirmation): that calculator's standing premise is Rs 64,000
+      crore of new discom debt every year, and a sector-wide positive PAT dates it — worth
+      saying plainly, since it is the blog's own number.
+      Logged: 2026-09-09 from the PIB AT&C register entry
+      Opens: the electricity-distribution / grid area — 93 of 257 posts are energy, but a
+      precise regex (discom|at&c|electricity|power utilit|rdss|smart meter|kwh) returns
+      exactly ONE, and that one is a calculator. The blog covers the molecule side of
+      energy exhaustively and the electron side almost not at all.
+
 ## Done
 
 - [x] What a farm labourer earns, and why it stopped tracking output
