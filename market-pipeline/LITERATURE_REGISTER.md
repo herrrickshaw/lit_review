@@ -1698,3 +1698,96 @@ a mixture-of-experts. CSI 300 and S&P 500; **train 2009–2019, validate 2020–
   917), 2607.19453, 2607.04958, 2606.08285 all returned again, **none new**; listed so the
   day's candidate count is honest. Eighth consecutive run with no new citation on this hub
   beyond yesterday's single hit.
+
+---
+
+## Added 2026-09-11 (daily task, Friday gap query: point-in-time fundamentals / survivorship bias)
+
+### 0810.1922 — Look-Ahead Benchmark Bias in Portfolio Performance Evaluation (Gilles Daniel, Didier Sornette & Peter Wöhrmann, submitted 2008-10-10; Journal of Portfolio Management 36(1), Fall 2009)
+
+The oldest paper in this register and the most directly useful Friday hit so far, because
+it points at the half of survivorship the repo has *not* already disarmed. The familiar
+version of the bias is on the **strategy** side — picking from a universe of survivors.
+This paper is about the **benchmark** side: evaluating a strategy against an index whose
+constituents are taken from the *end* of the test period rather than reconstructed as they
+stood at each date. Universe is the running top-500 US capitalisations from **CRSP,
+1926–2006**, benchmarked against the S&P 500. Quantified magnitude: **up to 8% per annum**
+for the S&P 500, which also **overstates Sharpe and understates peak-to-valley drawdown** —
+so it corrupts the risk side of the evaluation, not just the return side. Remedy proposed
+is comparison against random strategies drawn under matched investment constraints.
+
+- **EVIDENCE-GRADE: high.** Real long-horizon database (CRSP, 80 years), a named
+  benchmark, a quantified bias in annualised return, and an explicit statement of which
+  *other* statistics it distorts. Metric is return/Sharpe/drawdown, not price-level
+  MAPE. Pre-dates the ML literature that fills the rest of this register, and is better
+  specified than most of it.
+- **Doing-right (verified today, and it is the strong case): the India price panel is
+  genuinely survivorship-free.** Measured directly on
+  `~/.cache/market-warehouse/ohlcv_adj/IN` (path from `signal_tracker.py:100` via
+  `warehouse_paths.ohlcv_adj_in()`): **513 symbols present in `year=2016.parquet` are
+  absent from `year=2026.parquet`**, and `DHFL`, `DENABANK` and `DISHMAN` are each present
+  in 2016 and gone by 2026. The comment asserting this at `smallcap_screener.py:22-24` is
+  correct, not aspirational.
+- **Doing-right: the repo already refuses the strategy-side version of this bias, in
+  writing.** `smallcap_screener.py:30-38` declines to backtest on the real Nifty Smallcap
+  250 constituents *at all*, on the stated grounds that NSE publishes only the current list
+  and projecting it backwards would embed exactly this bias — and records that a market-cap
+  reconstruction reproduces today's list at only 71%. `band_sip_backtest.py:20-26` models
+  delisting as **two explicit bounds** rather than inner-joining it away, and says the
+  choice between them decides the answer (31.9% of the sample is affected).
+  `sweep_piotroski_plus.py:40-45` states its own survivorship bound as an upper bound
+  because screener.in serves listed companies only. This is better discipline than most
+  papers in this register.
+- **🔴 Gap — the benchmark side is where it leaks, and the leak is live.**
+  `signal_tracker.py:436` falls back to `bench = wide.median(axis=1)`, labelled
+  `"panel-median (equal-wt)"`, whenever the market's real benchmark is missing or stale —
+  and the comment block at `:417-428` records that this fallback **does** fire for India,
+  because NIFTYBEES stopped updating when an equity-only bhavcopy filter was added. That
+  series is then used as a benchmark *level*: `:473-474` computes
+  `bret = (ba.iloc[-1] / ba.iloc[0] - 1) * 100`, and `:479` reports
+  `xret_pct = ret - bret`. **The median of a cross-section of price levels is not an index.**
+  It is not survivor-biased — names drop out as they delist, which is point-in-time correct —
+  but it is **composition-drifting**, which is the same class of error arriving from the
+  opposite direction: the same panel goes from **1,654 symbols in 2016 to 7,073 in 2026**
+  (measured today), so the median price level moves whenever the *membership* of the
+  cross-section changes, independently of any market move. Chaining a return off it
+  attributes compositional drift to the market.
+- **This is not a re-report of the known bug — it is the part of it that was never fixed.**
+  The session log at `LITERATURE_REGISTER.md:140` records that this fallback "produced a
+  fabricated +46.77% 'vs bench' for India" and was "replaced with a real NIFTYBEES+NIFTY50
+  splice" on 2026-08-22/23. That replacement went into the **research analysis script** —
+  `research/stock_pick_performance.py:139-178` builds the spliced series, rescaled at the
+  seam so the handoff has no jump. The **live tracker was not changed**:
+  `signal_tracker.py:436` still constructs the median. So the fabricated-benchmark
+  mechanism was diagnosed a month ago, fixed where it was found, and left in place in the
+  module that writes the ledger everything else is graded against.
+- **Action queued: item 28** (port the spliced benchmark into `signal_tracker.py`, and
+  quantify what the median fallback has been reporting in the meantime).
+- **Considered and declined: the random-strategy remedy.** The paper's fix — compare
+  against random portfolios under matched constraints — is already present in stronger
+  form. `rloo_rescore.py:271,281` scores picks against a leave-one-out baseline of the
+  *other eligible names in the same liquidity tier*, which is a matched-constraint null
+  with the constraint that actually binds here. Nothing to add.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2505.07078** (Li, Kim, Cucuringu & Ma, "Can LLM-based Financial Investing Strategies
+  Outperform the Market in Long Run?", v1 2025-05-11 / v6 2026-06-26) — FINSABER: a
+  genuinely well-built bias-aware backtester (delisted stocks explicitly included,
+  2-year rolling windows on a 1-year step, two decades and 100+ symbols, finding that
+  reported LLM advantages deteriorate under a broader cross-section). Failed on
+  **redundancy, not quality**: every transferable piece is already in the repo — the panel
+  is survivorship-free (measured above), `walk_forward_backtest.py` and
+  `strategy_regime_survival.py` already do rolling-window and regime-conditional
+  evaluation, and its headline conclusion is the same one 2609.04917 already carries in
+  this register. The remaining content is an audit of LLM timing agents, which this
+  pipeline does not run.
+- **2603.27539** ("Toward Reliable Evaluation of LLM-Based Financial Multi-Agent Systems:
+  Taxonomy, Coordination Primacy, and Cost Awareness") — evaluation taxonomy for
+  multi-agent LLM systems. No cross-sectional equity panel, no security-level returns;
+  the "cost awareness" is inference cost, not transaction cost. Off-scope.
+- **2506.07993** ("Stochastic portfolio theory with price impact") — continuous-time
+  theory, no backtest and no dataset. Matched the query on "price impact" only. Discard.
+- **Citation-following, already registered** — 2609.04917, 2608.26990, 2607.19453,
+  2607.04958, 2606.08285 returned again, **none new**. Ninth consecutive run in which this
+  hub's citation list produced no new candidate; every hit came from the gap query.

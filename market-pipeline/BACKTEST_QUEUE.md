@@ -495,3 +495,43 @@ when it's been run; do not delete history.
     NYSE 1980–2019 panel — and 2605.13407 (Kim & Song) for the DropN mechanism. 🔴 Take
     neither paper's numbers: 2012.07149 states outright that it models **no transaction
     costs**, and 2605.13407's model is GPU-trained and off-scope.
+
+28. **The live tracker still grades India against a median price level — the fabricated
+    benchmark was fixed in the research script and left in the pipeline.** On 2026-08-22/23
+    this repo caught `signal_tracker.py`'s panel-median fallback reporting a **fabricated
+    +46.77% "vs bench" for India** and replaced it with a real spliced series. The
+    replacement lives in `research/stock_pick_performance.py:139-178` — NIFTYBEES bars
+    through 2026-07-13 spliced onto the NIFTY 50 index series from 2026-07-14, rescaled at
+    the seam so there is no jump. The live module was never changed:
+    `signal_tracker.py:436` still does `bench, bench_name = wide.median(axis=1),
+    "panel-median (equal-wt)"`, and `:417-428` records that this fallback **does** fire for
+    India, because NIFTYBEES stopped updating when an equity-only bhavcopy filter was added
+    (its last bar is a week behind the panel). The series is then used as a level:
+    `:473-474` computes `bret = (ba.iloc[-1] / ba.iloc[0] - 1) * 100` and `:479` writes
+    `xret_pct = ret - bret`. **A median of price levels across a changing cross-section is
+    not an index.** It is not survivor-biased — delisted names lose their bars and drop out,
+    which is point-in-time correct — but it is composition-drifting: the same panel holds
+    **1,654 symbols in `year=2016.parquet` and 7,073 in `year=2026.parquet`** (measured
+    2026-09-11 on `~/.cache/market-warehouse/ohlcv_adj/IN`), so the median level moves when
+    the membership of the cross-section changes, with no market move behind it. Concrete
+    change, two parts. **(a)** Lift `_india_benchmark()` out of
+    `research/stock_pick_performance.py` into a shared helper and have `signal_tracker.py`
+    use it for `IN`; keep a fallback, but make it a **return-chained equal-weight index**
+    (mean of daily cross-sectional returns, cumulated) rather than a median of levels, and
+    keep the existing practice of labelling a substituted benchmark rather than silently
+    swapping it (`:437-441`). **(b)** Before changing anything, measure the damage in
+    `research/` only: re-derive `xret_pct` for every ledger entry under both benchmarks and
+    report the distribution of the difference per market and per filter. **Falsifiable
+    prediction:** the median-level benchmark is biased *upward* over the 2016→2026 window —
+    India's listed cross-section grew four-fold and newly listed small-caps enter at lower
+    price levels than the incumbents, dragging the median down and so inflating every
+    `xret_pct` computed against it — which would mean the recorded "median vs benchmark
+    -2.74%, win rate 53%" is, for the affected rows, better than the truth rather than
+    worse. The opposite sign is equally informative and equally cheap to get. 🔴 Read-only
+    on the live path until (b) is done: this changes how every past signal is graded, so
+    re-derive history rather than letting the new benchmark silently apply to old rows.
+    Motivated by 0810.1922 (Daniel, Sornette & Wöhrmann, JPM 2009), which measures
+    look-ahead **benchmark** bias at **up to 8%/annum** on the S&P 500 over CRSP 1926-2006
+    and notes it also overstates Sharpe and understates drawdown — the benchmark side of
+    survivorship, which this repo has disarmed thoroughly on the strategy side
+    (`smallcap_screener.py:30-38`, `band_sip_backtest.py:20-26`) and not at all here.

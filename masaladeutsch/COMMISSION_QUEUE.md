@@ -516,3 +516,56 @@ moved above. Read this section before picking anything from Open.)*
   two series and two dates, but pull and keep a local copy — the host is intermittent
   (200 today, 503 four days ago).
   Logged: 2026-09-07 from the PPV&FR registry register entry.
+
+- **2026-09-11 — the soil item's BLOCKING check is RESOLVED, and the resolution makes the
+  argument simpler and stronger.** Check (1) demanded "pull an actual district-level
+  organic-carbon table from the dashboard before writing a word about levels or trends",
+  with the fallback that if the data turned out to be state-level or auth-walled the piece
+  shrank to a methods note. **It is neither.** `GetNutrientDashboardForPortal` on
+  `soilhealth4.dac.gov.in` — operation name taken from the SPA bundle at
+  `soilhealth.dac.gov.in/assets/index-Ed_k0WPH.js`, since introspection is disabled —
+  accepts `state`, `district`, `block`, `village`, `cycle`, `scheme` and answers over plain
+  POST with a browser User-Agent plus Origin/Referer, **no login and no key**. Granularity
+  runs to **village**. Pulled 2026-09-11: **9,204,404 organic-carbon samples in 2024-25
+  across 743 districts, 47.6% Low** (Medium 28.4%, High 24.0%); 2023-24 4,111,331 samples
+  **50.1% Low**; 2025-26 in progress 11,367,996 samples **51.9% Low**. Rows stamped
+  `lastProcessedAt` 2026-09-10 — live, not a static release. The per-state sum and the
+  no-state aggregate **reconcile exactly** at 9,204,404, so the national figure is real.
+  **The thing that changes the piece: cycles 2020-21 and 2022-23 return ZERO rows — the
+  public dashboard starts at 2023-24, i.e. at the seam itself.** The queued argument was
+  "a methodological seam runs through India's only national soil panel, and the declining-SOC
+  headlines don't name it". The available, verifiable version is blunter: **the government's
+  own dashboard holds nothing from before the rebuild, so the trend those headlines assert
+  cannot be drawn from it at all.** Lead with that; the April-2023 collection-regime change
+  (PIB PRID 2104403) then explains *why* the series restarts rather than carrying forward.
+  **Checks (2)-(6) all still stand**, and check (2) matters more now, not less: with a real
+  national number in hand the temptation to reach for the unverified "254,236 samples, 620
+  districts" ICAR figure is gone — drop it rather than trace it.
+  **New checks this pull creates.** (7) These are **counts of samples in a bucket, not
+  measured carbon** — the only honest sentence is "X% of samples tested Low", never
+  "organic carbon fell to X%". (8) The High/Medium/Low thresholds are not published on the
+  endpoint; get them before saying what "Low" means agronomically. (9) Sample counts are
+  not area and not farms — sampling density varies by state, so do **not** rank states on
+  these counts without a denominator. (10) 2025-26 is an incomplete cycle; never compare
+  its percentage to a closed year without saying so. (11) Rows are per district **per
+  scheme** (861 rows over 743 districts) — group before counting districts. (12) Delhi and
+  Dadra & Nagar Haveli and Daman & Diu returned no 2024-25 rows; say so rather than
+  implying national completeness. Keep a dated local copy of every figure used — this is an
+  undocumented endpoint behind a public dashboard, same standing rule as the PPV&FR chart
+  literals.
+  Logged: 2026-09-11 from the Soil Health Card nutrient-dashboard register entry.
+
+- **2026-09-11 — the irrigation item's vintage blocker was re-probed and is UNCHANGED; one
+  new negative worth recording.** Check (1) on *"India irrigates itself"* requires the 7th
+  Minor Irrigation Census all-India volume before publishing. Re-probed today with a
+  browser User-Agent and ranged GET against
+  `mowr.nic.in/irrigationcensus/Documents/MI-Census/Reports/`:
+  `7-MI-Report-All-India-Vol-I.pdf` still **404**, `7-MI-Report-State-Wise-Vol-II-Part-1.pdf`
+  still **206 / valid PDF**, and — not previously recorded —
+  `7-MI-Report-State-Wise-Vol-II-Part-2.pdf` also **404**, so the state-wise volume is
+  itself only half published. `6-MI-Report-All-India-Vol-I.pdf` still serves (206). Both
+  `mowr.nic.in/irrigationcensus/` (200) and `wrcensus.mowr.gov.in` (200) are up, so this is
+  a publication gap, not an outage. **The item stays blocked on its own terms: keep every
+  figure dated to the 6th census reference year 2017-18, and do not take a 7th-census
+  national number from a secondary source.** Nothing else found today bears on it.
+  Logged: 2026-09-11 from the Friday irrigation/water/soil sweep.

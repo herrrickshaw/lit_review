@@ -1091,3 +1091,60 @@ User-Agent over curl returns HTTP 200 — the standing PIB access note holds).
 - **Dataful / FACTLY structured discom tables** — a third-party re-publication of PFC's
   numbers in clean form. Convenient, but it is a mirror of a government series; the standing
   rule applies. Never cite in place of PFC.
+
+---
+
+## 2026-09-11 (daily task, Friday: irrigation, water and soil)
+
+### Soil Health Card nutrient dashboard — the GraphQL endpoint answered, and it changes what the queued soil piece can claim
+
+The 2026-09-04 entry registered `soilhealth4.dac.gov.in` as "up and awaiting a well-formed
+query" — the endpoint returned HTTP 400 to a bare GET and nothing had been pulled. It has
+now been queried successfully, which resolves the **blocking check** on the queued item
+*"India tested its soil twice. The second time, a machine chose the spot."*
+
+- **Data — obtainable, free, unauthenticated, and district-level.** `soilhealth.dac.gov.in`
+  serves a 657-byte SPA shell; the operation names are in its bundle at
+  `/assets/index-Ed_k0WPH.js`. The relevant one is **`GetNutrientDashboardForPortal`**,
+  taking `state`, `district`, `block`, `village`, `cycle` and `scheme` — so granularity
+  runs to **village**, not state-only, which was the risk the blocking check named. It
+  answers over plain POST with a browser `User-Agent` plus `Origin`/`Referer` on
+  `soilhealth.dac.gov.in`; **no login, no key, no cookie**. Schema introspection is
+  disabled (a generic "Unable to connect to the server" error), so operation names must
+  come from the bundle. `GetState` returns the 34 state/UT ids needed as inputs. Each row
+  carries sample **counts** (not values) for twelve parameters — N, P, K, S, **OC**, pH,
+  EC, Fe, Zn, Cu, B, Mn — bucketed High/Medium/Low for OC.
+- **Finding — 9,204,404 organic-carbon samples in 2024-25 across 743 districts, and
+  47.6% of them are Low.** Medium 28.4% (2,612,208), High 24.0% (2,211,638), Low 47.6%
+  (4,380,558). 2023-24: 4,111,331 samples, **50.1% Low**. 2025-26 (in progress):
+  11,367,996 samples, **51.9% Low**. Rows are stamped `lastProcessedAt` 2026-09-10, i.e.
+  the series is live, not a static release.
+- **Finding that matters more — the public dashboard does not span the seam at all.**
+  Cycles **2020-21 and 2022-23 return zero rows**; the first cycle with any data is
+  **2023-24**. The queued item's argument was that the April-2023 portal rebuild put a
+  methodological seam through India's only national soil panel. The stronger and simpler
+  version is now available: **the public data begins at the seam.** Any district- or
+  national-level organic-carbon *trend* that crosses April 2023 cannot be sourced from
+  this portal, because the portal holds nothing before it. That reframes the piece from
+  "compare two regimes carefully" to "the comparison everyone is making cannot be made
+  from the government's own dashboard".
+- **Integrity check, done rather than assumed.** Calling the query with no `state`
+  returns a national aggregate in a different row shape (37 rows for 2024-25 against 861
+  when summed state-by-state). The **OC totals reconcile exactly — 9,204,404 either way**,
+  so the no-state call is a genuine aggregate and not a partial slice. 32 of 34 states
+  returned 2024-25 rows; **Delhi and Dadra & Nagar Haveli and Daman & Diu returned none**.
+- **Blog fit.** Opens the **soil / soil-organic-carbon** zero-coverage area (survey §3,
+  0 posts). Nearest published post is `indias-79-lakh-crore-rural-water` — drinking water
+  under a different ministry, so adjacent, not overlapping. Cite it as earlier reporting
+  in house style, never as confirmation.
+- **Caveats.** (1) These are **counts of samples in a bucket, not measured carbon values**
+  — never write "organic carbon fell to X%"; the honest sentence is "X% of samples tested
+  Low". (2) The High/Medium/Low thresholds are not published on the endpoint; find them
+  before characterising what "Low" means agronomically. (3) Sample counts are not area and
+  not farms — sampling density varies by state, so a state with more Low samples may
+  simply have tested more. Never rank states on these counts without a denominator.
+  (4) 2025-26 is an **incomplete cycle**; do not compare its percentage to a closed year
+  without saying so. (5) Rows are per district **per scheme** (861 rows over 743
+  districts), so a naive district count double-counts — group before counting.
+  (6) Undocumented endpoint behind a public dashboard: keep a dated local copy of every
+  figure used, as with the PPV&FR chart literals.
