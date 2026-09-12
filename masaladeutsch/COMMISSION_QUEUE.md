@@ -569,3 +569,80 @@ moved above. Read this section before picking anything from Open.)*
   figure dated to the 6th census reference year 2017-18, and do not take a 7th-census
   national number from a secondary source.** Nothing else found today bears on it.
   Logged: 2026-09-11 from the Friday irrigation/water/soil sweep.
+
+- **2026-09-12 — "Rebuilding the $189 billion substitution list from public trade data" is
+  ALREADY PUBLISHED. Do not commission it again — commission the correction instead.**
+  The open item (logged 2026-08-22) asks for a DGCI&S reconstruction of the 1,272-product /
+  $189 bn list. The blog did exactly that in `you-cannot-substitute-crude-oil-or-gold`,
+  published **2026-08-23**, the day after the item was logged: it reconstructs from
+  DGCI&S at HSN-8, reports its own all-98-chapter total of **776,014** ($ mn), concludes
+  "the target is 24 per cent of the import bill", and carries the item's required caveat
+  verbatim — attributing 1,272 / $189 bn / the $50 mn threshold / the four sectors to
+  Business Standard (16 July 2026) and Policy Circle, and stating "No primary government
+  document setting out this list was located." Every check the item asked for was honoured.
+  **The item is closed by publication.**
+  **What replaces it.** A *second* press account of the same exercise ran the same day and
+  the post never saw it: Reuters (16 July 2026, Nikunj Ohri and Shivangi Acharya) reports
+  three government sources putting **$398 bn** of a **$775 bn** FY26 import bill as having
+  "potential to be replaced by local manufacturing" — **51 per cent**, against the 24-26
+  per cent the post and the Business Standard companion piece both land on — with **$51 bn**
+  of that treated as critical manufacturing inputs and about **100 items** taken up for
+  immediate action, across footwear, textiles, EVs, solar panels and renewable-energy
+  components. Verified by body grep: the published post contains 21 hits on `$189` and 16
+  on `1,272`, and **zero** on `398` or `$51`.
+  **Working title**: *The other number from the same day: is half of India's import bill
+  substitutable, or a quarter?*
+  **Argument in one sentence**: two press accounts of one July-2026 government exercise put
+  the replaceable share of India's import bill at 26 per cent and at 51 per cent, the blog
+  has already published a reconstruction resting on the smaller figure, and the DGCI&S book
+  it reconstructed from can be re-cut against the Reuters sector list — footwear, textiles,
+  EVs, solar, renewables — to see which of the two the trade data actually supports.
+  **Checks needed**: (1) 🔴 all of this is press and the Reuters figures rest on **three
+  anonymous sources**, with the trade ministry declining to comment by filing time — state
+  neither number as established, exactly as the published post did with $189 bn; (2) do
+  **not** present $189 bn and $398 bn as a change over time — same date, same exercise, two
+  readings, and the piece fails if it implies a revision; (3) the likeliest reconciliation
+  is that "realistically amenable" and "potential to be replaced" are two different tiers
+  flattened by two newsrooms — say so as a hypothesis, not a finding, unless a primary
+  document turns up; (4) use the post's own DGCI&S denominator (776,014 $ mn) rather than
+  the press's $775 bn, and say why; (5) the Reuters sector list does not match the Business
+  Standard one (chemicals, electronics, machinery, speciality steel) — that mismatch is
+  itself part of the story and must not be silently merged; (6) cite
+  `you-cannot-substitute-crude-oil-or-gold` in house style, as the blog's own earlier
+  reporting, never as confirmation of the new figure.
+  Logged: 2026-09-12 from the Saturday trade/tariffs/industrial-policy sweep.
+
+- **2026-09-12 — NEW: the price index under the blog's heaviest beat, never once mentioned
+  in 267 posts.** DGCI&S moved the Merchandise Trade Indices from base **FY 2012-13 to
+  FY 2022-23 (2022-23 = 100)** on 20 Feb 2026, on the recommendation of a committee chaired
+  by Prof. Nachiketa Chattopadhyay (ISI Kolkata), revising the commodity basket at Principal
+  Commodity level, the weights, the common-basket selection rule and the treatment of
+  missing unit values (PIB PRID 2230845, fetched in full).
+  **Working title**: *India re-based its trade prices, and its real GDP moved with them*
+  **Source**: PIB PRID 2230845 (free; 🔴 needs a browser User-Agent and
+  `PressReleasePage.aspx`); dgciskol.gov.in, which publishes **both** Laspeyres series in
+  parallel — base 2012-13 at `TradeIndices_side_new.aspx` and base 2022-23 at
+  `TradeIndicessidenew2223.aspx` — each current to **April-June 2026**, free and login-free;
+  the committee's own report (Feb 2026 PDF) on the same page; principal-commodity data at
+  `ftddp.dgciskol.gov.in/dgcis/`.
+  **Argument in one sentence**: the blog has 128 posts on trade and industrial policy and
+  every one of them reports *levels*, while the index that converts those levels into real
+  terms was quietly re-based this February — and because DGCI&S publishes both bases for the
+  same quarters, the size of the revision can simply be measured, on a series that MoSPI's
+  National Accounts Division uses as the **deflator for real exports and imports in GDP**
+  and the RBI uses for balance-of-payments work.
+  **Checks needed**: (1) establish whether the 2012-13 series is being retired or run
+  indefinitely — the PIB release says nothing about discontinuation and the piece changes
+  shape either way; (2) find out whether any back-cast onto 2022-23 exists before FY23,
+  since without one no long series can be shown on the new base; (3) read the committee
+  report before describing the methodology — do not characterise the imputation or
+  basket-selection rules from the PIB summary; (4) the terms-of-trade series were
+  recompiled on the new base, so any ToT trend crossing the change is a splice and must be
+  labelled one; (5) quote the report title as the site spells it ("Base year Revission");
+  (6) dedup was done by body grep, not title — `unit value index|base year revision|
+  Laspeyres` returns nothing across all posts — but re-grep before drafting in case an
+  intervening post lands. Nearest published neighbours to cross-link:
+  `indias-8-digit-trade-book-searchable` and `you-cannot-substitute-crude-oil-or-gold`,
+  both of which already run off this portal.
+  Logged: 2026-09-12 from the DGCI&S base-year-revision register entry, closing the thread
+  the 2026-08-29 Saturday run left open as "worth a proper look on a future Saturday".

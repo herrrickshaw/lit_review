@@ -535,3 +535,75 @@ when it's been run; do not delete history.
     and notes it also overstates Sharpe and understates drawdown — the benchmark side of
     survivorship, which this repo has disarmed thoroughly on the strategy side
     (`smallcap_screener.py:30-38`, `band_sip_backtest.py:20-26`) and not at all here.
+
+29. **Item 18's harness already exists, and its premise was half-wrong — retarget rather
+    than rebuild.** Item 18 says the repo applies no eigenvalue treatment anywhere. Verified
+    2026-09-12: that holds for `portfolio_builder.py:217` (`cov = R.cov().values *
+    TRADING_DAYS`, into `port_var` at `:222`) and `mutual_fund_theorem.py:107` (identical
+    line), but **not** for `etf_builder.py`, which imports `LedoitWolf` at `:202`, computes
+    `cov = LedoitWolf().fit(hist.values).covariance_ * TRADING_DAYS` at `:227`, and already
+    accumulates per-scheme `turnovers` (`:205`) inside a strictly-trailing rebalance loop
+    (`:208-231`) whose universe selection is point-in-time by trailing median turnover
+    (`:213-215`). So the comparison item 18 asks for does not need a new backtest harness —
+    it needs the two raw-covariance call sites routed through the one that already reports
+    volatility *and* turnover together. **(a)** Factor the estimator out of `etf_builder.py`
+    into a `cov_estimator(hist, method)` helper with three methods: raw `.cov()`,
+    `LedoitWolf`, and Average Oracle. **(b)** Average Oracle, now specified rather than
+    guessed (2309.17219 §method): eigendecompose the correlation matrix, keep the **current
+    eigenvectors**, and replace the eigenvalues with a fixed set calibrated once on an
+    earlier out-of-sample stretch — the calibration being a bootstrap over repeated random
+    draws of periods *and* of assets, each draw taking the covariance of its "future" period
+    against the eigenvectors of its adjacent past period, then averaging. Held
+    time-independent thereafter; no refit at rebalance. **(c)** Report realized volatility,
+    max drawdown, Sharpe **and turnover** for all three at both 5-day and 20-day rebalancing,
+    the two frequencies the paper uses. **Falsifiable prediction, now with a number to beat:**
+    the paper reports AO at **Sharpe 1.229 / turnover 0.068** against DCC-QIS at
+    **0.894-0.895 / turnover 1.307-1.308** on 100 US names, 2000-2021, long-short, 5bps costs
+    applied at each rebalance — a ~19x turnover gap in AO's favour. If the ordering here
+    comes out AO ≥ LW > raw on Sharpe while AO also has the lowest turnover, the mechanism
+    transfers; if AO's turnover advantage vanishes on a long-only Indian EOD book, that is
+    the more interesting result and says the edge was a long-short artefact. 🔴 Do not
+    import the paper's Sharpe as an expectation: it is long-short US at 5 bps, this repo is
+    long-only multi-market at materially worse costs. Cheap: sklearn is already a
+    dependency, AO is a bootstrap loop plus `eigh`, no new data and no training.
+    Supersedes nothing in item 18 — it replaces item 18's "frozen-eigenvalue estimator
+    (spectrum estimated once on the earliest third of the sample)" with the actual method,
+    and removes its assumption that a turnover-reporting harness has to be written first.
+    Motivated by: 2309.17219 (Bongiorno & Challet), corroborated by 2511.10478 (Ruelloux,
+    Bongiorno & Challet) which reaches for the same AO eigenvalues from a different
+    direction.
+
+30. **Every redundancy number in this repo is measured in the index set the theory says
+    doesn't order the one we care about.** `research/factor_redundancy.py` computes all of
+    its output from one object: `corr = df.corr().values` at `:65`, the Pearson correlation
+    **across assets at each date** of the ten factor columns in `factor_learning.py`'s
+    feature matrix. `spectral_stats()` at `:42-54` eigendecomposes exactly that matrix for
+    the participation ratio, eigenvalue entropy / effective rank and absorption ratio, and
+    `:75-81` names the top-5 correlated pairs from it. The docstring states the method
+    plainly at `:15-16`. 2609.09588 (Nunes, 2026-09-09) proves that signal correlation and
+    **PnL** correlation are correlations over different index sets — across assets per date
+    versus across dates for scalar payoffs — and that, absent constraints on the transverse
+    geometry, **neither bounds nor orders the other**. Signal correlation decomposes into an
+    uncentred IC cross-moment plus a transverse-similarity term; Pearson PnL correlation
+    centres and dispersion-weights the IC series alone. So two factors reading 0.9 in
+    `factor_redundancy.md` may have near-independent PnL, and two reading 0.2 may not
+    diversify at all — and this repo has never computed the PnL-side matrix. Concrete
+    change, and it is additive: **(a)** for each of the ten factors compute the per-date
+    realized cross-sectional IC (Pearson of the normalized signal against demeaned forward
+    returns) — a series per factor over the panel's dates. **(b)** Take the Pearson
+    correlation **of those IC series across dates**; that is the PnL-side matrix. **(c)**
+    Print both matrices, and both participation ratios, side by side in
+    `factor_redundancy.md` — do not replace the existing one, the paper's point is that they
+    are different objects, not that the signal-side number is wrong. **Falsifiable
+    prediction:** the two participation ratios disagree materially, and specifically the
+    PnL-side effective factor count is **higher** than the signal-side one — the ten factors
+    all derive from one weekly close panel (`factor_library(close)`, docstring `:11-13`) and
+    two of them (`qual_mom`, `def_revert`) are documented AND-combinations of two others,
+    which is a construction guaranteed to inflate signal correlation, whereas their payoffs
+    fire at different times. If the two agree closely, that is a real and reassuring result
+    and means items 1/9's redundancy verdict can be taken at face value. Cheap: forward
+    returns are already assembled by `build_xy()`, which `factor_redundancy.py` already
+    imports; this is one extra series per factor and a second `corrcoef`. Read-only on the
+    live path — `research/` only, same as the existing script.
+    Motivated by: 2609.09588 (Marc Nunes), which sharpens the simulation finding of
+    Sorensen, Qian, Schoen & Hua (2004) into an exact non-identifiability theorem.

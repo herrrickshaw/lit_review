@@ -1791,3 +1791,139 @@ is comparison against random strategies drawn under matched investment constrain
 - **Citation-following, already registered** — 2609.04917, 2608.26990, 2607.19453,
   2607.04958, 2606.08285 returned again, **none new**. Ninth consecutive run in which this
   hub's citation list produced no new candidate; every hit came from the gap query.
+
+## Added 2026-09-12 (daily task, Saturday gap query: correlation-matrix eigenvalues / regime / effective dimension)
+
+Note on dedup: this is the **third** Saturday pass on this theme (2026-08-23, 2026-08-29).
+Citation-following from hub 2605.19337 returned exactly five citing papers — 2609.04917,
+2608.26990, 2607.19453, 2607.04958, 2606.08285 — **all five already in this register**, so
+that branch is now exhausted until the hub accrues new citations. The plain gap query
+likewise returned only already-logged IDs (2601.06090, 2507.01918, 2604.17251, 2507.14325,
+2212.05504). A third search re-angled onto *covariance filtering / shrinkage* rather than
+*regime detection* is what produced everything new below — the spectral-descriptor framing
+was mined out, the estimator framing was not.
+
+### 2309.17219 — Covariance matrix filtering and portfolio optimisation: the Average Oracle vs Non-Linear Shrinkage and all the variants of DCC-NLS (Christian Bongiorno & Damien Challet, submitted 2023-09-29)
+
+This is the **source paper for the "Average Oracle" baseline** that queue item 18 already
+names but was, until today, known to this register only second-hand through 2507.01918's
+comparison table. Fetching it directly changes the item from "try a frozen-eigenvalue
+estimator" to a specified method with published numbers.
+
+Passes triage on the strictest reading of this register's bar: headline metric is Sharpe
+(with realized volatility and turnover reported beside it), US equities at both 100 and
+1,000 names, out-of-sample 2000-01 through 2021-12, weekly (5d) and monthly (20d)
+rebalancing — and transaction costs are not merely "discussed" but **applied**: the paper
+sets 5 bps, paid at each rebalance.
+
+**Doing-right:** the paper's whole result is a turnover result. On 100-asset long-short
+books at 5-day rebalancing it reports Average Oracle (AO1200) **Sharpe 1.229 at turnover
+0.068** against DCC-QIS/QuEST **Sharpe 0.894–0.895 at turnover 1.307–1.308** — the
+sophisticated estimator runs roughly **19x the turnover** for a *lower* Sharpe. This is the
+same failure mode 2507.01918's neural estimator showed (112% vs 44% per 5 days) and the
+same one queue item 18 was written to catch. Two independent papers by overlapping author
+groups now say the identical thing: on this axis, variance reduction is bought with churn,
+and churn is what kills the net number.
+
+**Method, concretely (this is the part item 18 was missing):** eigen-decompose the
+correlation matrix; replace its eigenvalues with a **fixed set calibrated once on an
+earlier, outdated sample** and held time-independent thereafter, keeping the current
+eigen*vectors*. The calibration itself is a bootstrap — repeated random draws of periods
+and of assets, taking the covariance of each draw's "future" period against the
+eigenvectors of its adjacent past period, then averaging. So the eigenvalues encode the
+*average* influence of future on present rather than the current sample's noise. AO1200
+denotes the calibration length. No training, no GPU, no new data — it is a bootstrap loop
+plus an eigen-decomposition, which is exactly the scale this repo runs at.
+
+**Gap (verified, and it corrects a prior entry — see the incidental finding below):** two
+of the three covariance sites in this repo remain raw sample estimators.
+`portfolio_builder.py:217` is `cov = R.cov().values * TRADING_DAYS`, fed into
+`port_var = lambda w: w @ cov @ w` at `:222`; `mutual_fund_theorem.py:107` is the identical
+line. Neither applies any eigenvalue treatment.
+
+**Action queued:** item 29 — not a new experiment but a correction and sharpening of item
+18: run its three-way comparison inside `etf_builder.py`'s existing rebalance loop, which
+already has the harness, and use this paper's AO specification rather than the vague
+"spectrum estimated once on the earliest third".
+
+### 2609.09588 — Signal Correlation, IC, and PnL Dependence (Marc Nunes, 2026-09-09)
+
+A pure theory paper — no universe, no date range, no backtest, no costs — and admitted here
+deliberately, because the register's triage bar is aimed at *weak empirical* work (headline
+MAPE on four correlated tech stocks) and not at a proof. Its result bears directly on a
+measurement this repo already runs.
+
+**The result:** signal correlation (across assets, at each date) and PnL correlation
+(across dates, for scalar payoffs) are correlations over **different index sets**, and
+practitioners routinely use the first as a proxy for the second. The paper decomposes
+signal correlation into an uncentred IC cross-moment plus a "transverse similarity" term in
+the orthogonal complement of the realized return direction, while Pearson PnL correlation
+centres and dispersion-weights the IC series alone. Its main theorem is a
+**non-identifiability** statement: absent constraints on the transverse geometry, neither
+correlation bounds or orders the other. Two signals can look 0.9-correlated and have
+near-independent PnL, or vice versa.
+
+**Gap (verified):** `research/factor_redundancy.py` measures redundancy **entirely** in the
+signal-correlation index set. `:65` is `corr = df.corr().values` over the ten factor
+columns of `factor_learning.py`'s feature matrix; `:42-54` eigendecomposes exactly that
+matrix to produce the participation ratio, eigenvalue entropy / effective rank and
+absorption ratio; `:75-81` names the top-5 most correlated *pairs* from the same matrix.
+The file's own docstring (`:15-16`) states the method as "Take Pearson correlation across
+the 10 columns, eigendecompose it". Every redundancy number this repo has is therefore a
+signal-side number, and this paper says it does not order the thing we actually care about
+— whether two factors make money at the same times. The repo has never computed the
+PnL-side matrix at all.
+
+**Not adoptable:** the transverse-Gram-matrix machinery and the gauge-invariance argument.
+The usable content is one sentence of the decomposition: the PnL-side quantity is the
+Pearson correlation of the **per-date realized IC series**, which is cheap.
+
+**Action queued:** item 30 — compute both matrices and print them side by side, rather than
+replacing one with the other; the paper's point is that they are different objects, not
+that the existing one is wrong.
+
+### Incidental finding — a prior register entry overstated the gap it found
+
+The 2026-08-29 entry for 2507.01918 asserts that "the repo builds its covariance matrices
+from the raw sample estimator with no eigenvalue treatment at all". That is **not correct
+as a blanket claim**, verified today by grep: `etf_builder.py:202` imports
+`from sklearn.covariance import LedoitWolf` and `:227` computes
+`cov = LedoitWolf().fit(hist.values).covariance_ * TRADING_DAYS`, with a comment at
+`:224-226` giving the reason ("the sample covariance of 200 names on 252 days is
+near-singular and its inverse is noise. Shrinkage is the minimum defensible treatment, not
+an optimisation"). That module also already tracks `turnovers` per scheme (`:205`) across a
+strictly-trailing rebalance loop (`:208-231`).
+
+So the repo has three covariance sites, not two, and the third already does the right
+thing. This matters practically rather than pedantically: item 18 was scoped as "build a
+shrinkage comparison", when a shrinkage-and-turnover comparison harness already exists and
+the work is to point it at the other two sites. Logged here because this register's own
+instructions warn that prior summaries drift and must be re-grepped rather than trusted.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2601.15597** (Yang, Zhao & Chai, "Neural Nonlinear Shrinkage of Covariance Matrices for
+  Minimum Variance Portfolio Optimization", 2026-01-22) — abstract fetched: a
+  transformer-based network learns a nonlinear eigenvalue shrinkage function on top of
+  Ledoit-Wolf, trained with portfolio risk as the loss. Headline metric is out-of-sample
+  realized risk **only** — no Sharpe, no turnover, no transaction costs, no stated date
+  range, and it requires training. Same shape as the two neural-shrinkage papers already
+  logged (2507.01918, 2608.30446) and fails on the axis both of those at least reported.
+  Not adoptable and not separately informative. Discard.
+- **2511.10478** (Ruelloux, Bongiorno & Challet, "Noise-proofing Universal Portfolio
+  Shrinkage", 2025-11-13) — abstract fetched: robustifies Kelly et al.'s UPSA by
+  time-averaging the optimal penalty weights and substituting **Average Oracle eigenvalues**
+  for the sample ones. Corroborating rather than new: its transferable content reduces to
+  the same AO recommendation as 2309.17219 above, wrapped in UPSA machinery this repo does
+  not run. Logged as supporting evidence for item 29, not separately actioned.
+- **2510.19130** ("Denoising Complex Covariance Matrices with Hybrid ResNet and Random
+  Matrix Theory: Cryptocurrency Portfolio Applications") — surfaced by the estimator query.
+  Crypto universe and a trained ResNet: wrong asset class for this repo and wrong compute
+  scale. Title and venue only; nothing asserted about its contents. Not fetched, not
+  reviewed.
+- **2410.03053** ("The Quadratic Optimization Bias Of Large Covariance Matrices"),
+  **2507.01545** ("Covariance Matrix Estimation for Positively Correlated Assets"),
+  **2609.04496** ("Portfolio Diversification and Concentration under Dependence Uncertainty:
+  A Majorization Approach") — three estimation-theory papers surfaced by the same query.
+  Not fetched, so nothing is asserted about their contents; logged by title only so they are
+  not re-surfaced as unreviewed on a future Saturday.

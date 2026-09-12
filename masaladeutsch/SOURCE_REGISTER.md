@@ -1148,3 +1148,127 @@ now been queried successfully, which resolves the **blocking check** on the queu
   districts), so a naive district count double-counts — group before counting.
   (6) Undocumented endpoint behind a public dashboard: keep a dated local copy of every
   figure used, as with the PPV&FR chart literals.
+
+---
+
+## 2026-09-12 (daily task, Saturday: trade, tariffs and industrial policy)
+
+Highest dedup bar in the rotation: manifest snapshot 2026-09-11T00:35, 267 posts, **128 of
+them labelled Trade & Tariffs / Industrial Policy / Import Substitution / Manufacturing**.
+Both entries below clear it for the stated reason — the first **contradicts a published
+post's central framing**, the second lands in a confirmed hole *inside* the blog's heaviest
+beat.
+
+### The same-day second number on the import-substitution exercise — $51 bn / $398 bn against the published $189 bn
+
+Step 1 of the Saturday routine (re-source the open queue items) turned this up while
+checking whether the "$189 billion substitution list" item now has a primary document. It
+does not. What it has is a **second press account of the same exercise, filed the same
+day, with a substitutable share twice as large**.
+
+- **Data**: Reuters, "India identifies $51 billion in critical imports for domestic
+  manufacturing push, sources say", **16 July 2026**, by Nikunj Ohri and Shivangi Acharya
+  (fetched in full via the Yahoo Finance carry; free, no login). Figures as reported:
+  India imported **$775 bn** of goods in the 12 months to March 2026; an internal
+  government analysis found imports worth **$398 bn** have "the potential to be replaced by
+  local manufacturing"; of these about **$51 bn** are treated as critical manufacturing
+  inputs, with about **100 items** taken up for immediate action. Sectors named are
+  **footwear, textiles, electric vehicles, solar panels and renewable-energy components**.
+  The underlying reproducible data is unchanged and already in the blog's hands: DGCI&S
+  TradeStat at HSN-8.
+- **Finding 🔴 — the two July-16 accounts do not agree, and the published post sits on the
+  smaller one.** The blog's `you-cannot-substitute-crude-oil-or-gold` (23 Aug 2026) opens
+  by reporting the 1,272-product / **$189 bn** list and then reconstructs it from DGCI&S,
+  concluding in its own words that "the target is 24 per cent of the import bill" against
+  its own all-98-chapter total of **776,014** ($ mn). The Business Standard companion piece
+  of the same date reports the centre's assessment that only **26 per cent** of the FY26
+  import basket "is realistically amenable to import substitution" — which agrees with the
+  post (26% of $775 bn ≈ $202 bn, near $189 bn). Reuters' three government sources put the
+  replaceable share at **$398 bn**, i.e. **51 per cent** — double. Either the exercise has
+  two tiers that the press has flattened into one number each ("amenable" vs "potential"),
+  or two parts of government are working off different denominators. Nobody has published
+  the reconciliation, and the blog has already built a post on one side of it.
+- **Blog fit**: this **materially updates a published post** rather than opening a beat —
+  `you-cannot-substitute-crude-oil-or-gold` (23 Aug 2026; labels Import Substitution ·
+  India Trade & Policy · Industrial Policy · Trade & Tariffs). Dedup done by reading that
+  post's body, not its title: it contains 21 occurrences of `$189`, 16 of `1,272`, and
+  cites Business Standard (16 July 2026) and Policy Circle by name while stating "No
+  primary government document setting out this list was located." It contains **zero**
+  occurrences of `398` or `$51`. The second number was never in view when it was written.
+- **Caveat**: 🔴 both accounts are press, and the Reuters one rests on **three anonymous
+  government sources** who "did not want to be identified because the project is
+  confidential"; Reuters records that "India's trade ministry did not immediately respond"
+  to its request for comment. Nothing here is a primary document and none of it may be
+  stated as established — the blog's existing posture (attribute to press, derive your own
+  figure from DGCI&S, compare) is the only defensible one and must carry over. Do not
+  present $189 bn and $398 bn as a change over time: they are two readings of the same
+  July-2026 exercise, not a before and after. The $775 bn import total is itself press;
+  the post's own DGCI&S reconstruction gives $776.0 bn, which is close enough to use as
+  the denominator and honest enough to prefer.
+- Grade: **COMMISSIONABLE** — as a correction-and-reconciliation piece on the blog's own
+  published arithmetic, not as a report of a new list.
+
+### DGCI&S revises the merchandise trade indices to base FY 2022-23 — the deflator under the blog's heaviest beat, and it has never been mentioned
+
+This closes the thread the 2026-08-29 Saturday run left open ("a base-year revision is the
+kind of thing that silently breaks a published index series ... worth a proper look on a
+future Saturday"). It is real, it is primary, and it is uncovered.
+
+- **Data**: two fetches, both free and login-free. **PIB release PRID 2230845**, Ministry
+  of Commerce & Industry, posted **20 FEB 2026 6:35PM** — fetched in full (🔴 403s a plain
+  fetcher; a browser User-Agent plus `PressReleasePage.aspx` returns the body, the standing
+  rule from the defence-PIL entry). And **dgciskol.gov.in itself**, fetched today, which
+  serves **both** index series in parallel — Laspeyres base 2012-13 (`TradeIndices_side_new.aspx`)
+  and Laspeyres base 2022-23 (`TradeIndicessidenew2223.aspx`) — each current to
+  **April–June 2026**, plus "Report of the committee on Base year Revission [sic] for
+  Merchandise Trade Indices" (February 2026, PDF) and a quarterly merchandise-trade review
+  for Oct–Dec 2025. Principal-commodity data sits on the dissemination portal at
+  `ftddp.dgciskol.gov.in/dgcis/`.
+- **Finding**: the base year moves from **FY 2012-13 to FY 2022-23 (2022-23 = 100)** on the
+  recommendation of a committee chaired by **Prof. Nachiketa Chattopadhyay** of the Indian
+  Statistical Institute, Kolkata, which revised the commodity basket at Principal Commodity
+  level, the weighting structure, the common-basket selection procedure and the treatment
+  of missing unit values. The release is explicit about who consumes the output: the
+  **National Accounts Division of MoSPI uses the Export and Import Unit Value Indices as
+  deflators for estimating real exports and imports in GDP compilation**, and the **RBI**
+  uses them for balance-of-payments and price-competitiveness work. The revised series
+  spans monthly/quarterly/annual UVIs, PC-, SITC- and BEC-wise indices, bilateral indices
+  for India's top 20 partners, and gross/net/income terms of trade. Because both bases are
+  published for the same quarters, **the size of the revision is directly measurable** —
+  the same trade, deflated two ways, with the answer feeding real GDP.
+- **Blog fit**: opens a hole inside the blog's *heaviest* beat rather than a new subject.
+  Manifest dedup: **2 title hits** on `index|indices|deflator|unit value|base year|dgci`,
+  both false positives (`what-seven-model-stock-portfolios-look`, `article-index-start-here`),
+  and a body grep across all posts for `unit value index|base year revision|Laspeyres`
+  returns **nothing at all**. 128 posts on trade and industrial policy, every one of them a
+  *level* piece — values, HSN lines, chapter shares — and not one on the price index that
+  converts those levels into real terms. Nearest published neighbours are
+  `indias-8-digit-trade-book-searchable` and `you-cannot-substitute-crude-oil-or-gold`,
+  both of which run off exactly this portal.
+- **Caveat**: the PIB release announces the revision; it does not quantify its effect, so
+  every number in a piece must come from the two series themselves rather than from the
+  announcement. Check before publishing: (1) whether the 2012-13 series is being *retired*
+  or run indefinitely in parallel — the release says only that the revised series "will be
+  released on the official website" and says nothing about discontinuation, and the whole
+  argument changes if the old one stops; (2) whether a back-cast exists for 2022-23 base
+  before FY23, without which no long series can be shown on the new base; (3) get the
+  committee report's own account of the common-basket selection and missing-unit-value
+  imputation before characterising the methodology — do not describe it from the PIB
+  summary; (4) "Revission" is the site's own spelling of the report title, quote it as
+  found; (5) the terms-of-trade series are newly recompiled on the new base, so any
+  terms-of-trade trend spanning the change is a splice and must be labelled one.
+- Grade: **COMMISSIONABLE**.
+
+### Weak / background — logged, not actioned (2026-09-12)
+
+- **imarcengineering.com, "India Identifies USD 51 Billion Critical Imports for
+  Manufacturing"** — surfaced alongside the Reuters wire on the same story. IMARC is a
+  market-research vendor and this register's standing rule makes vendor material WEAK by
+  default; here it adds nothing to the wire it restates. Use Reuters directly. **WEAK.**
+- **Policy Circle, "India's import substitution plan needs export discipline"** — already
+  cited in the existing 1,272-product entry above and already used by the published post.
+  Commentary, not a source of new figures. Not re-assessed.
+- **DGCI&S "Report of Quarterly Review of Merchandise Foreign Trade [Oct-Dec'25]"** —
+  confirmed present and downloadable on the homepage fetch today, not opened. Noted as an
+  obtainable primary for a future quarter-on-quarter piece; nothing asserted about its
+  contents. **BACKGROUND, pending verification.**
