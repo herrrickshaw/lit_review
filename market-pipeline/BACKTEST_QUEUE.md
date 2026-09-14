@@ -607,3 +607,63 @@ when it's been run; do not delete history.
     live path — `research/` only, same as the existing script.
     Motivated by: 2609.09588 (Marc Nunes), which sharpens the simulation finding of
     Sorensen, Qian, Schoen & Hua (2004) into an exact non-identifiability theorem.
+
+31. **Five cost conventions, one question nobody has asked: does any conclusion depend on
+    which one its module happened to use?**
+    2603.20319 (Yin, Miki, Lesnichenko & Gural) ran 15 strategies through 5 engines. At
+    zero cost the engines agree to 0.000%; under costs they diverge by up to 3.71%. Its
+    conclusion is that cost *implementation* is the whole source of backtest disagreement.
+    This repo has no engines, but it has the same mechanism spread across modules:
+    - a flat 20 bp round-trip per trade (`backtest_screeners.py:174`, `:285`;
+      `walk_forward_backtest.py:156`, `:936`)
+    - 10 bp per side on L1 traded weight, first rebalance charged in full
+      (`etf_builder.py:60`, `:240-243`)
+    - a flat 100 bp of the whole level per rebalance, whatever the turnover
+      (`custom_indices.py:68`, `:146`)
+    - a per-market 15–40 bp hurdle (`confusion_matrix_eval.py:34`, `:94`)
+    - zero commissions (`cost_vs_edge.py:36`)
+
+    India alone is costed at **20 bp in one module and 40 bp in another**.
+
+    Concrete change, `research/` only and read-only on the live path. For each module's
+    headline number (net mean return or Sharpe per screen, horizon or scheme), recompute
+    it under **one shared convention**: cost on the traded delta, per side, using the
+    per-market bps table already at `confusion_matrix_eval.py:34`. Report the paper's
+    **Conclusion Sensitivity Index**, i.e. whether any headline changes sign against its
+    native convention, plus the size of each shift.
+
+    **Falsifiable prediction:** CSI = 0 for the low-turnover, cost-neutral comparisons
+    (`etf_builder` schemes, and `custom_indices` vs its own null, since both sides pay the
+    same charge). Any sign flip shows up first in the **shortest horizons of
+    `backtest_screeners.py` for India**, where moving from 20 to 40 bp doubles the hurdle
+    on the smallest gross moves. If nothing flips, record that as the result: it means
+    the five conventions are harmless inconsistency, not a hidden bias.
+    Motivated by: 2603.20319.
+
+32. **Amendment to item 30: compute the intermediate spectra, not just the two end points.**
+    2609.12477 (Nunes, 2026-09-11), the sequel to 2609.09588 behind item 30, proves that
+    two separable things happen between the signal-side and PnL-side matrices:
+    - **transverse annihilation:** the payoff map kills signal components orthogonal to
+      returns (Theorem 7.1)
+    - **longitudinal transformation:** PnL covariance temporally centers the IC path and
+      reweights dates by squared return dispersion, which can reorder PCs on its own
+
+    Item 30 as written prints only the first and last matrices, so a gap between the two
+    participation ratios could not be attributed to either effect. Add two intermediate
+    objects to the same run, following the paper's §12.5:
+    - (a) the **uncentred, un-weighted per-date IC Gram matrix** across the ten factors,
+      which isolates the transverse effect
+    - (b) the same Gram matrix **dispersion-weighted but uncentred**, which isolates the
+      weighting
+
+    Print four participation ratios in one row: signal corr → IC Gram → weighted IC Gram →
+    centered PnL corr. Also print the §12.4 equal-centrality diagnostic,
+    `CVsig = sd(G·1) / |mean(G·1)|`, on the signal matrix. It is the relevant check for the
+    one equal-weight composite in the repo, the PPO baseline at
+    `train_ppo_factor_weights.py:147-149`. `factor_learning.py` itself combines with
+    LassoCV/SGD (`:7-13`), so this does not bear on the live combiner.
+
+    Cost: three extra `corrcoef` / Gram calls on series item 30 already builds. Theory
+    only; the paper presents no market-data results, so this is a measurement to make, not
+    an edge to expect.
+    Motivated by: 2609.12477.

@@ -1927,3 +1927,133 @@ instructions warn that prior summaries drift and must be re-grepped rather than 
   A Majorization Approach") — three estimation-theory papers surfaced by the same query.
   Not fetched, so nothing is asserted about their contents; logged by title only so they are
   not re-surfaced as unreviewed on a future Saturday.
+
+## Added 2026-09-14 (daily task, Monday gap query: CPCV / purging / embargo)
+
+Fourth Monday on this theme. Citation-following from hub 2605.19337 returned the same five
+citing papers (2609.04917, 2608.26990, 2607.19453, 2607.04958, 2606.08285), all registered
+— still dry. The plain CPCV query surfaced only registered IDs (2407.17645, 2512.12924) and a
+software paper; a re-angled query on *deflated Sharpe / backtest overfitting* surfaced
+2603.20319, and the q-fin.PM recent listing surfaced 2609.12477, a direct sequel to the
+paper behind queue item 30.
+
+### 2603.20319 — Implementation Risk in Portfolio Backtesting: A Previously Unquantified Source of Error (Dong Yin, Takeshi Miki, Vladislav Lesnichenko & Vasyl Gural, 2026-03-19, q-fin.PM)
+
+Passed triage because cost is the independent variable here, not a footnote. The design runs
+15 benchmark strategies through 5 engines: bt 1.1.0, vectorbt 0.26.2, Backtrader 1.9.78,
+cvxportfolio 1.3.0, and the authors' reference implementation. The data is 30 stratified
+buckets of 180 S&P 500 stocks. Four cost regimes: 0 bps, 18 bps (15 commission + 3
+slippage), 36 bps, and 60 bps (50 + 10).
+
+**Result:** at zero cost all five engines agree exactly (max divergence **0.000%**), so
+**cost implementation is the sole source of disagreement**. Under costs, divergence tracks
+cost intensity (Spearman **0.93**). It stays under ~0.75pp for most strategies but reaches
+**3.61%** (18 bps) and **3.71%** (36 bps) for a monthly full-portfolio rotation. The
+conventions named as drivers:
+- pre- vs post-trade equity reporting
+- cost charged on notional vs on the traded delta
+- deduction before vs after reallocation
+- integer vs fractional shares
+- sell-first fill ordering
+- whether the initial construction is charged
+- the turnover definition
+
+It also found seven undocumented engine defects, e.g. Backtrader silently undercharging
+commissions 100× under the `percabs=False` default, and NautilusTrader double-charging
+through a wrapper. **Conclusion Sensitivity Index = 0 on all 15:** engine choice never
+flipped the sign of Sharpe.
+
+**Doing-right (paper):** the zero-cost ablation isolates the mechanism cleanly, and the
+reassuring result (no sign flips) is reported as prominently as the alarming one.
+
+**Verified against this repo (greps run today):**
+- **Engine defects — no surface area.** A grep for imports of `backtrader|vectorbt|zipline|nautilus_trader|bt|cvxportfolio|backtesting`
+  across `code/python_files/` (excluding `.venv/`) returns nothing. Every backtest is
+  hand-rolled.
+- **But the repo runs at least five different cost conventions, which is exactly the
+  paper's mechanism, spread across modules instead of engines:**
+  1. Flat **20 bp round-trip** subtracted from each trade's percentage return:
+     `backtest_screeners.py:174` and `:285` (`gross_ret - cost * 100`), and
+     `walk_forward_backtest.py:156` and `:936`.
+  2. **10 bp per side × L1 traded weight change**, with the first rebalance charged at
+     `turn = 1.0` (the "initial construction charged" convention): `etf_builder.py:60` and
+     `:240-243`.
+  3. **Flat 100 bp per rebalance on the whole level**, whatever the turnover (the
+     *notional* convention). Charged to every series including the null, so comparisons
+     are cost-neutral: `custom_indices.py:41-42`, `:68` and `:146` (`lv *= (1 - cost)`).
+  4. **Per-market round-trip hurdle** of 15–40 bp, with **India at 40**:
+     `confusion_matrix_eval.py:34` and `:94`.
+  5. **Zero commissions**: `cost_vs_edge.py:36`.
+- **India's round-trip cost is 20 bp in (1) and 40 bp in (4)**, so the same market is
+  costed twice as heavily in one module as in another.
+
+**Gap:** nothing in the repo has checked whether any headline conclusion depends on which of
+these conventions its module happened to use. The paper's CSI is the right, cheap question
+to ask.
+
+**Not adoptable:** the multi-engine harness, since the repo has no engines to cross-check.
+
+**Action queued:** item 31.
+
+### 2609.12477 — Large Signal Libraries: Equal-Weight Limits and the Divergent Spectra of Signals and PnL (Marc da Costa Nunes, 2026-09-11, q-fin.PM)
+
+Admitted as theory, deliberately, like its companion 2609.09588 (2026-09-12). The abstract
+states "No market-data empirical results are presented". It bears directly on queue item
+30, which has not yet been implemented: a grep for `pnl_corr|ic_series|PnL-side` outside
+the register and queue finds only the 2026-09-12 run log.
+
+It separates four objects:
+- the equal-weight signal
+- signal PCs
+- equal-weight PnL
+- PnL PCs
+
+The results:
+- Once demeaned and normalised, cross-sectional signals over d assets lie on a sphere of
+  dimension q = d−1. Under axial symmetry, their mean is signal-cloud PC1 exactly when
+  its longitudinal second moment exceeds **1/q**.
+- The payoff map **annihilates transverse signal components** (Theorem 7.1).
+- Signal PC1 and PnL PC1 then diverge through two further channels. **Temporal
+  centering** removes the mean IC path. **Dispersion weighting** reweights dates by
+  a_t², which "can change the ordering of principal components even when all population
+  moments are known exactly".
+
+§12 proposes an empirical program. Two of its steps are cheap at this scale:
+- **§12.5:** compare the spectra of the full signal kernel, its longitudinal part alone,
+  the dispersion-weighted IC Gram matrix, and the centered PnL covariance.
+- **§12.4:** an equal-centrality diagnostic, `CVsig = sd(G·1) / |mean(G·1)|`, the
+  dispersion of the Gram matrix's row sums.
+
+**Verified against this repo:**
+- `factor_learning.py:7-13` combines the ten factors with **LassoCV / SGD**, not equal
+  weights, so the equal-weight limit theory does not describe the live combiner.
+- The one equal-weight composite is the PPO *baseline*,
+  `train_ppo_factor_weights.py:147-149` (`w = np.full(n_factors, 1.0 / n_factors)`).
+- `research/factor_redundancy.py:65` still computes only the cross-asset `df.corr()`.
+
+**Gap:** item 30 as written would compute one PnL-side matrix. This paper shows that matrix
+mixes two separable effects, transverse annihilation and longitudinal transformation. Without
+the intermediate spectra, a disagreement between the two participation ratios cannot be
+attributed to either effect.
+
+**Action queued:** item 32, an amendment to item 30 rather than new work.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2609.08106** (Kunhan Guo, "Nyström Attention Matches Full Attention for Cross-Sectional
+  Stock Prediction", 2026-09-08). Weak for this repo: the metric is Rank IC only, no cost
+  treatment appears on the abs page, and it requires training a MASTER transformer. Its
+  own finding counts against adoption: at ~3,500 stocks, cross-stock modules do not
+  significantly beat a per-stock LSTM.
+- **2609.06267** (Lei Liu, "Return-to-Present Curves", 2026-09-05, stat.AP). A performance
+  *display* method (fixed evaluation date, varying purchase date). No evaluation metric and
+  no costs. Off-scope.
+- **2507.04176** (Nicolini, Manzi & Delatte, "skfolio: Portfolio Optimization in Python",
+  2025-07). A software paper with no empirical results. Noted only because it ships CPCV
+  with purging and embargo if the repo ever wants a library instead of hand-rolled splits.
+- **2512.22476** (Kaihong Deng, "AutoQuant", v3 2026-08-07, ESWA). Crypto perpetual futures
+  (BTC/ETH/SOL/AVAX), where funding and slippage dominate. Wrong asset class. Its one
+  transferable point, that fee-only simulations overstate performance versus fully costed
+  ones, is already covered by 2603.20319 above.
+- **2609.12227** ("Seasonal Trading in Commodity Futures", q-fin.PM). Not fetched; logged by
+  title so it isn't re-surfaced. Commodity futures are off-scope.

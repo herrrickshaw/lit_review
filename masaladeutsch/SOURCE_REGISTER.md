@@ -1272,3 +1272,37 @@ future Saturday"). It is real, it is primary, and it is uncovered.
   confirmed present and downloadable on the homepage fetch today, not opened. Noted as an
   obtainable primary for a future quarter-on-quarter piece; nothing asserted about its
   contents. **BACKGROUND, pending verification.**
+
+## Added 2026-09-14 (daily task, Monday: agricultural labour and rural incomes)
+
+Manifest dedup re-run (snapshot 2026-09-11T00:35, **267 posts**, regex
+`wage|labou?r|mgnrega|nrega|rural|farm|employ|migrant|income|agricultur|harvest|crop|kisan|plfs|job`
+over titles and slugs): 13 hits, and the beat is still carried by exactly one post,
+`a-17-rural-pay-rise-that-nobody-received` (v3.0.1, updated 2026-09-10). No new post on
+the beat since 2026-09-07. Step 1 (open items): the two rural items — "Rural India's
+fastest quarter off the farm" (PLFS) and "The wage beats the crop" (NSS 77th) — have no
+newer source today; the next PLFS quarterly (Jul–Sep 2026) is not yet due, and this was
+not probed further.
+
+### Weak / background — one line each (triaged, not deep-read)
+
+- **VB-G RAM G, first-month person-days (July 2026)** — **BACKGROUND, hold.** This is
+  sub-angle (a) the 2026-08-31 entry told us to hold. Press figures, fetched today:
+  NewsGram (Agniva Ray, 11 Aug 2026) and Forbes India (Sarthak Choudhury, 18 Aug 2026)
+  both give **7.67 crore person-days in July 2026 vs 15.33 crore in July 2025 (−49.94%)**
+  and **68.94 lakh households vs 1.42 crore (−51.45%)**, citing "the scheme's dashboard
+  as of 9 August". Nothing in the published post matches: a body grep finds zero hits
+  for `7.67`, `15.33`, `68.94` or `dashboard`. The one `person-days` hit is the post's
+  own caveat that the scheme is "nine weeks old" and that "judgement on the scheme should
+  wait for a full season". It fails triage on obtainable primary data: `vbgramg.dord.gov.in`
+  answered **HTTP 200 with a 345-byte JavaScript shell**, so no figure was read from the
+  primary. The figure is also contested: per NewsGram, MoRD says **~9 crore** against the
+  dashboard's 7.67. And the year-on-year comparison is confounded by design, since Forbes
+  India reports seven states (Bihar, Gujarat, Odisha, Arunachal, Mizoram, Sikkim,
+  Nagaland) used the Act's 60-day pause in July, the same month as the comparison. One
+  month from one side of a contested number is not yet a piece. **Revisit after the
+  Jul–Sep 2026 quarter**, using a browser pull of the dashboard's State Report, and
+  compare only states that did not use the pause.
+- **Labour Bureau, "Wage Rates in Rural India" — advance release calendar for 2026**
+  (`labourbureau.gov.in/wage-rates-in-rural-india`, search listing only) — WEAK by dedup:
+  rural wage rates are the subject of the published post. Not fetched.
