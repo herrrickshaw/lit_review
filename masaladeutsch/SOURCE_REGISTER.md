@@ -1092,217 +1092,52 @@ User-Agent over curl returns HTTP 200 — the standing PIB access note holds).
   numbers in clean form. Convenient, but it is a mirror of a government series; the standing
   rule applies. Never cite in place of PFC.
 
----
+## Added 2026-09-15 (daily task, Tuesday: insurance, reinsurance and financial plumbing)
 
-## 2026-09-11 (daily task, Friday: irrigation, water and soil)
+**Dedup note that changes the queue.** The manifest (snapshot 2026-09-14, 273 posts) was checked
+two ways. A title/label regex for `insur|reinsur|irdai|ifsca|gift.?city|solvency|actuar` returns
+only `premium-now-claim-later-float-indias`. A full-text grep of `posts/` for `irdai|reinsur` also
+returns **`the-4-nobody-notices-and-three-other`**, "The 4% Nobody Notices, and Three Other Ways
+India Backstops Its Own Food System" (published 2026-09-01; labels Agriculture & Fertilisers,
+Industrial Policy, Markets & Finance). That post opens on the GIC Re obligatory cession. **The open
+"4% every Indian insurance policy pays" queue item is therefore partly published**, and every
+earlier dedup missed it because the title never says "insurance". Future dedups on this beat must
+grep post bodies, not only titles.
 
-### Soil Health Card nutrient dashboard — the GraphQL endpoint answered, and it changes what the queued soil piece can claim
+### IRDAI obligatory cession for FY 2026-27, held at 4% (fourth consecutive year), as reported by The Tribune
 
-The 2026-09-04 entry registered `soilhealth4.dac.gov.in` as "up and awaiting a well-formed
-query" — the endpoint returned HTTP 400 to a bare GET and nothing had been pulled. It has
-now been queried successfully, which resolves the **blocking check** on the queued item
-*"India tested its soil twice. The second time, a machine chose the spot."*
+- **Source:** "IRDAI fixes 4 pc obligatory cession for FY 2026–27, retains GIC Re as sole
+  recipient", Aditya Rangroo, Tribune News Service, 17 April 2026 (fetched 2026-09-15). The article
+  cites no notification number or date. Secondary press, not the IRDAI notification itself.
+- **Data:** none beyond the notification terms.
+  - Cession: 4% of sum insured on every general policy attaching 1 Apr 2026 – 31 Mar 2027, to GIC Re
+    as sole recipient.
+  - Nil for terrorism and nuclear-pool premiums.
+  - **The upper limit on sum insured is removed.**
+  - Minimum ceding commissions: motor TP and oil & energy 5%, group health 10%, crop 7.5%, aviation at
+    average market terms, all other classes 15%.
+  - Profit commission shared 50:50 after three years (incurred loss ratio, 2% management expenses,
+    5% profit margin, 12.5% commission).
+- **Finding:** status quo on the rate, now a fourth year at 4%. The rate is not news. The new terms
+  are the removal of the sum-insured cap and the published class-wise commission floors.
+- **Blog fit:** a material update to `the-4-nobody-notices-and-three-other`. That post still says
+  "held at 4% for a third straight year (FY2025-26)", which has been out of date since April 2026.
+  It also describes the cession as a share of the policy's **premium**, while both this report and
+  the FY26 notification quoted in the 2026-09-01 register entry say **sum insured**. Treat that as
+  a check, not an established error.
+- **Caveat:** press paraphrase. Pull the notification from `irdai.gov.in` before correcting the
+  post, and confirm the premium-vs-sum-insured wording and the cap removal verbatim.
+- **Grade: BACKGROUND** (a correction lead for a published post; it does not carry a new article).
 
-- **Data — obtainable, free, unauthenticated, and district-level.** `soilhealth.dac.gov.in`
-  serves a 657-byte SPA shell; the operation names are in its bundle at
-  `/assets/index-Ed_k0WPH.js`. The relevant one is **`GetNutrientDashboardForPortal`**,
-  taking `state`, `district`, `block`, `village`, `cycle` and `scheme` — so granularity
-  runs to **village**, not state-only, which was the risk the blocking check named. It
-  answers over plain POST with a browser `User-Agent` plus `Origin`/`Referer` on
-  `soilhealth.dac.gov.in`; **no login, no key, no cookie**. Schema introspection is
-  disabled (a generic "Unable to connect to the server" error), so operation names must
-  come from the bundle. `GetState` returns the 34 state/UT ids needed as inputs. Each row
-  carries sample **counts** (not values) for twelve parameters — N, P, K, S, **OC**, pH,
-  EC, Fe, Zn, Cu, B, Mn — bucketed High/Medium/Low for OC.
-- **Finding — 9,204,404 organic-carbon samples in 2024-25 across 743 districts, and
-  47.6% of them are Low.** Medium 28.4% (2,612,208), High 24.0% (2,211,638), Low 47.6%
-  (4,380,558). 2023-24: 4,111,331 samples, **50.1% Low**. 2025-26 (in progress):
-  11,367,996 samples, **51.9% Low**. Rows are stamped `lastProcessedAt` 2026-09-10, i.e.
-  the series is live, not a static release.
-- **Finding that matters more — the public dashboard does not span the seam at all.**
-  Cycles **2020-21 and 2022-23 return zero rows**; the first cycle with any data is
-  **2023-24**. The queued item's argument was that the April-2023 portal rebuild put a
-  methodological seam through India's only national soil panel. The stronger and simpler
-  version is now available: **the public data begins at the seam.** Any district- or
-  national-level organic-carbon *trend* that crosses April 2023 cannot be sourced from
-  this portal, because the portal holds nothing before it. That reframes the piece from
-  "compare two regimes carefully" to "the comparison everyone is making cannot be made
-  from the government's own dashboard".
-- **Integrity check, done rather than assumed.** Calling the query with no `state`
-  returns a national aggregate in a different row shape (37 rows for 2024-25 against 861
-  when summed state-by-state). The **OC totals reconcile exactly — 9,204,404 either way**,
-  so the no-state call is a genuine aggregate and not a partial slice. 32 of 34 states
-  returned 2024-25 rows; **Delhi and Dadra & Nagar Haveli and Daman & Diu returned none**.
-- **Blog fit.** Opens the **soil / soil-organic-carbon** zero-coverage area (survey §3,
-  0 posts). Nearest published post is `indias-79-lakh-crore-rural-water` — drinking water
-  under a different ministry, so adjacent, not overlapping. Cite it as earlier reporting
-  in house style, never as confirmation.
-- **Caveats.** (1) These are **counts of samples in a bucket, not measured carbon values**
-  — never write "organic carbon fell to X%"; the honest sentence is "X% of samples tested
-  Low". (2) The High/Medium/Low thresholds are not published on the endpoint; find them
-  before characterising what "Low" means agronomically. (3) Sample counts are not area and
-  not farms — sampling density varies by state, so a state with more Low samples may
-  simply have tested more. Never rank states on these counts without a denominator.
-  (4) 2025-26 is an **incomplete cycle**; do not compare its percentage to a closed year
-  without saying so. (5) Rows are per district **per scheme** (861 rows over 743
-  districts), so a naive district count double-counts — group before counting.
-  (6) Undocumented endpoint behind a public dashboard: keep a dated local copy of every
-  figure used, as with the PPV&FR chart literals.
+### Weak/off-scope, one line each (triaged, not deep-read)
 
----
-
-## 2026-09-12 (daily task, Saturday: trade, tariffs and industrial policy)
-
-Highest dedup bar in the rotation: manifest snapshot 2026-09-11T00:35, 267 posts, **128 of
-them labelled Trade & Tariffs / Industrial Policy / Import Substitution / Manufacturing**.
-Both entries below clear it for the stated reason — the first **contradicts a published
-post's central framing**, the second lands in a confirmed hole *inside* the blog's heaviest
-beat.
-
-### The same-day second number on the import-substitution exercise — $51 bn / $398 bn against the published $189 bn
-
-Step 1 of the Saturday routine (re-source the open queue items) turned this up while
-checking whether the "$189 billion substitution list" item now has a primary document. It
-does not. What it has is a **second press account of the same exercise, filed the same
-day, with a substitutable share twice as large**.
-
-- **Data**: Reuters, "India identifies $51 billion in critical imports for domestic
-  manufacturing push, sources say", **16 July 2026**, by Nikunj Ohri and Shivangi Acharya
-  (fetched in full via the Yahoo Finance carry; free, no login). Figures as reported:
-  India imported **$775 bn** of goods in the 12 months to March 2026; an internal
-  government analysis found imports worth **$398 bn** have "the potential to be replaced by
-  local manufacturing"; of these about **$51 bn** are treated as critical manufacturing
-  inputs, with about **100 items** taken up for immediate action. Sectors named are
-  **footwear, textiles, electric vehicles, solar panels and renewable-energy components**.
-  The underlying reproducible data is unchanged and already in the blog's hands: DGCI&S
-  TradeStat at HSN-8.
-- **Finding 🔴 — the two July-16 accounts do not agree, and the published post sits on the
-  smaller one.** The blog's `you-cannot-substitute-crude-oil-or-gold` (23 Aug 2026) opens
-  by reporting the 1,272-product / **$189 bn** list and then reconstructs it from DGCI&S,
-  concluding in its own words that "the target is 24 per cent of the import bill" against
-  its own all-98-chapter total of **776,014** ($ mn). The Business Standard companion piece
-  of the same date reports the centre's assessment that only **26 per cent** of the FY26
-  import basket "is realistically amenable to import substitution" — which agrees with the
-  post (26% of $775 bn ≈ $202 bn, near $189 bn). Reuters' three government sources put the
-  replaceable share at **$398 bn**, i.e. **51 per cent** — double. Either the exercise has
-  two tiers that the press has flattened into one number each ("amenable" vs "potential"),
-  or two parts of government are working off different denominators. Nobody has published
-  the reconciliation, and the blog has already built a post on one side of it.
-- **Blog fit**: this **materially updates a published post** rather than opening a beat —
-  `you-cannot-substitute-crude-oil-or-gold` (23 Aug 2026; labels Import Substitution ·
-  India Trade & Policy · Industrial Policy · Trade & Tariffs). Dedup done by reading that
-  post's body, not its title: it contains 21 occurrences of `$189`, 16 of `1,272`, and
-  cites Business Standard (16 July 2026) and Policy Circle by name while stating "No
-  primary government document setting out this list was located." It contains **zero**
-  occurrences of `398` or `$51`. The second number was never in view when it was written.
-- **Caveat**: 🔴 both accounts are press, and the Reuters one rests on **three anonymous
-  government sources** who "did not want to be identified because the project is
-  confidential"; Reuters records that "India's trade ministry did not immediately respond"
-  to its request for comment. Nothing here is a primary document and none of it may be
-  stated as established — the blog's existing posture (attribute to press, derive your own
-  figure from DGCI&S, compare) is the only defensible one and must carry over. Do not
-  present $189 bn and $398 bn as a change over time: they are two readings of the same
-  July-2026 exercise, not a before and after. The $775 bn import total is itself press;
-  the post's own DGCI&S reconstruction gives $776.0 bn, which is close enough to use as
-  the denominator and honest enough to prefer.
-- Grade: **COMMISSIONABLE** — as a correction-and-reconciliation piece on the blog's own
-  published arithmetic, not as a report of a new list.
-
-### DGCI&S revises the merchandise trade indices to base FY 2022-23 — the deflator under the blog's heaviest beat, and it has never been mentioned
-
-This closes the thread the 2026-08-29 Saturday run left open ("a base-year revision is the
-kind of thing that silently breaks a published index series ... worth a proper look on a
-future Saturday"). It is real, it is primary, and it is uncovered.
-
-- **Data**: two fetches, both free and login-free. **PIB release PRID 2230845**, Ministry
-  of Commerce & Industry, posted **20 FEB 2026 6:35PM** — fetched in full (🔴 403s a plain
-  fetcher; a browser User-Agent plus `PressReleasePage.aspx` returns the body, the standing
-  rule from the defence-PIL entry). And **dgciskol.gov.in itself**, fetched today, which
-  serves **both** index series in parallel — Laspeyres base 2012-13 (`TradeIndices_side_new.aspx`)
-  and Laspeyres base 2022-23 (`TradeIndicessidenew2223.aspx`) — each current to
-  **April–June 2026**, plus "Report of the committee on Base year Revission [sic] for
-  Merchandise Trade Indices" (February 2026, PDF) and a quarterly merchandise-trade review
-  for Oct–Dec 2025. Principal-commodity data sits on the dissemination portal at
-  `ftddp.dgciskol.gov.in/dgcis/`.
-- **Finding**: the base year moves from **FY 2012-13 to FY 2022-23 (2022-23 = 100)** on the
-  recommendation of a committee chaired by **Prof. Nachiketa Chattopadhyay** of the Indian
-  Statistical Institute, Kolkata, which revised the commodity basket at Principal Commodity
-  level, the weighting structure, the common-basket selection procedure and the treatment
-  of missing unit values. The release is explicit about who consumes the output: the
-  **National Accounts Division of MoSPI uses the Export and Import Unit Value Indices as
-  deflators for estimating real exports and imports in GDP compilation**, and the **RBI**
-  uses them for balance-of-payments and price-competitiveness work. The revised series
-  spans monthly/quarterly/annual UVIs, PC-, SITC- and BEC-wise indices, bilateral indices
-  for India's top 20 partners, and gross/net/income terms of trade. Because both bases are
-  published for the same quarters, **the size of the revision is directly measurable** —
-  the same trade, deflated two ways, with the answer feeding real GDP.
-- **Blog fit**: opens a hole inside the blog's *heaviest* beat rather than a new subject.
-  Manifest dedup: **2 title hits** on `index|indices|deflator|unit value|base year|dgci`,
-  both false positives (`what-seven-model-stock-portfolios-look`, `article-index-start-here`),
-  and a body grep across all posts for `unit value index|base year revision|Laspeyres`
-  returns **nothing at all**. 128 posts on trade and industrial policy, every one of them a
-  *level* piece — values, HSN lines, chapter shares — and not one on the price index that
-  converts those levels into real terms. Nearest published neighbours are
-  `indias-8-digit-trade-book-searchable` and `you-cannot-substitute-crude-oil-or-gold`,
-  both of which run off exactly this portal.
-- **Caveat**: the PIB release announces the revision; it does not quantify its effect, so
-  every number in a piece must come from the two series themselves rather than from the
-  announcement. Check before publishing: (1) whether the 2012-13 series is being *retired*
-  or run indefinitely in parallel — the release says only that the revised series "will be
-  released on the official website" and says nothing about discontinuation, and the whole
-  argument changes if the old one stops; (2) whether a back-cast exists for 2022-23 base
-  before FY23, without which no long series can be shown on the new base; (3) get the
-  committee report's own account of the common-basket selection and missing-unit-value
-  imputation before characterising the methodology — do not describe it from the PIB
-  summary; (4) "Revission" is the site's own spelling of the report title, quote it as
-  found; (5) the terms-of-trade series are newly recompiled on the new base, so any
-  terms-of-trade trend spanning the change is a splice and must be labelled one.
-- Grade: **COMMISSIONABLE**.
-
-### Weak / background — logged, not actioned (2026-09-12)
-
-- **imarcengineering.com, "India Identifies USD 51 Billion Critical Imports for
-  Manufacturing"** — surfaced alongside the Reuters wire on the same story. IMARC is a
-  market-research vendor and this register's standing rule makes vendor material WEAK by
-  default; here it adds nothing to the wire it restates. Use Reuters directly. **WEAK.**
-- **Policy Circle, "India's import substitution plan needs export discipline"** — already
-  cited in the existing 1,272-product entry above and already used by the published post.
-  Commentary, not a source of new figures. Not re-assessed.
-- **DGCI&S "Report of Quarterly Review of Merchandise Foreign Trade [Oct-Dec'25]"** —
-  confirmed present and downloadable on the homepage fetch today, not opened. Noted as an
-  obtainable primary for a future quarter-on-quarter piece; nothing asserted about its
-  contents. **BACKGROUND, pending verification.**
-
-## Added 2026-09-14 (daily task, Monday: agricultural labour and rural incomes)
-
-Manifest dedup re-run (snapshot 2026-09-11T00:35, **267 posts**, regex
-`wage|labou?r|mgnrega|nrega|rural|farm|employ|migrant|income|agricultur|harvest|crop|kisan|plfs|job`
-over titles and slugs): 13 hits, and the beat is still carried by exactly one post,
-`a-17-rural-pay-rise-that-nobody-received` (v3.0.1, updated 2026-09-10). No new post on
-the beat since 2026-09-07. Step 1 (open items): the two rural items — "Rural India's
-fastest quarter off the farm" (PLFS) and "The wage beats the crop" (NSS 77th) — have no
-newer source today; the next PLFS quarterly (Jul–Sep 2026) is not yet due, and this was
-not probed further.
-
-### Weak / background — one line each (triaged, not deep-read)
-
-- **VB-G RAM G, first-month person-days (July 2026)** — **BACKGROUND, hold.** This is
-  sub-angle (a) the 2026-08-31 entry told us to hold. Press figures, fetched today:
-  NewsGram (Agniva Ray, 11 Aug 2026) and Forbes India (Sarthak Choudhury, 18 Aug 2026)
-  both give **7.67 crore person-days in July 2026 vs 15.33 crore in July 2025 (−49.94%)**
-  and **68.94 lakh households vs 1.42 crore (−51.45%)**, citing "the scheme's dashboard
-  as of 9 August". Nothing in the published post matches: a body grep finds zero hits
-  for `7.67`, `15.33`, `68.94` or `dashboard`. The one `person-days` hit is the post's
-  own caveat that the scheme is "nine weeks old" and that "judgement on the scheme should
-  wait for a full season". It fails triage on obtainable primary data: `vbgramg.dord.gov.in`
-  answered **HTTP 200 with a 345-byte JavaScript shell**, so no figure was read from the
-  primary. The figure is also contested: per NewsGram, MoRD says **~9 crore** against the
-  dashboard's 7.67. And the year-on-year comparison is confounded by design, since Forbes
-  India reports seven states (Bihar, Gujarat, Odisha, Arunachal, Mizoram, Sikkim,
-  Nagaland) used the Act's 60-day pause in July, the same month as the comparison. One
-  month from one side of a contested number is not yet a piece. **Revisit after the
-  Jul–Sep 2026 quarter**, using a browser pull of the dashboard's State Report, and
-  compare only states that did not use the pause.
-- **Labour Bureau, "Wage Rates in Rural India" — advance release calendar for 2026**
-  (`labourbureau.gov.in/wage-rates-in-rural-india`, search listing only) — WEAK by dedup:
-  rural wage rates are the subject of the published post. Not fetched.
+- **IRDAI, *Handbook on Indian Insurance Statistics 2024-25*** (`irdai.gov.in/handbook-of-indian-insurance`,
+  edition dated 03-02-2026, ZIP, no login; 18 editions back to 2007-08). This is the primary
+  statistical series the insurance beat lacks. The landing page lists no table contents, and the
+  ZIP was **not downloaded** in this unattended run, so it cannot be graded yet. BACKGROUND pending.
+  The next Tuesday run should open the ZIP and look for insurer-wise solvency, claims and segment
+  tables.
+- **Search-snippet claims about the Handbook** (USD 141 bn premium, 3.7% penetration) come from a
+  search-engine summary, not a fetched page. Not registered. Never cite.
+- **gyansurance.com "Solvency Ratio of All Life Insurers: 11 Years of IRDAI Data"**, a third-party
+  re-publication of IRDAI series (not fetched). Mirror rule: use the Handbook instead.

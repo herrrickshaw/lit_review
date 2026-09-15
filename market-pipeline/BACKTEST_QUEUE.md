@@ -667,3 +667,54 @@ when it's been run; do not delete history.
     only; the paper presents no market-data results, so this is a measurement to make, not
     an edge to expect.
     Motivated by: 2609.12477.
+
+33. **The Deflated-Sharpe gate counts correlated factors as independent trials. Report it
+    under effective multiplicity too.** `deflated_sharpe.py:45` sets `N = len(trials)`, and
+    `expected_max_sr()` assumes "N independent trials" (`:43`). The trials are the ten factor
+    rows per market×regime (`:74`), which item 1 measured at a participation ratio of about
+    4.9/10. Change:
+    - **(a)** Build the K×K correlation of the trials' per-period return series (or of their
+      t-stats), apply Schäfer–Strimmer shrinkage, and compute `K_eff = K² / ‖Σ‖_F²`.
+    - **(b)** Write `n_eff`, `IR_exp_max_eff` and `DSR_eff` alongside the existing columns in
+      `reports/deflated_sharpe.csv`. Do **not** replace the nominal-N gate.
+    - **(c)** In `walk_forward_backtest.py`, add `Sharpe_Gap = train − val` (absolute) next to
+      `Sharpe_Decay%` (`:1099`). The ratio explodes as `train` nears 0.
+
+    Falsifiable prediction: `K_eff` is well below 10, E[max] falls, and at least one
+    currently FAILing row flips to PASS. Any flip should be read as "the gate was harsh", not
+    as a new edge. Cost: one `corrcoef` per market×regime. Research output only; the live
+    gate is unchanged.
+    Motivated by: 2604.15531.
+
+34. **Run the factor-selection workflow on panels known to contain no signal (falsification
+    audit).** No placebo or synthetic-null test exists: `grep -rniE 'placebo|shuffle|permutation'`
+    finds nothing relevant, and `r_analysis.py:245` bootstraps one Sharpe series, not the
+    selection step. Generate weekly close panels with the real panel's shape (same tickers and
+    dates) under three of the paper's nulls:
+    - **(A)** i.i.d. Gaussian returns, zero mean.
+    - **(D)** one mean-zero market factor plus idiosyncratic noise.
+    - **(C)** latent martingale returns observed through an MA(1) bid-ask bounce.
+
+    Push each panel through `factor_library()` → `profitability_optimizer` → `deflated_sharpe`,
+    about 50 replications per null. Pass criterion: the share of market×regime cells that
+    "survive" is at or below about 5%. Anything materially above that means the workflow
+    hallucinates signal, and every live PASS needs re-examining. Null (C) specifically tests
+    whether the short-term reversal factors (`revert`, `mom_st`) pick up bounce. Cost:
+    CPU-only on synthetic data; no fetch and no live-path change.
+    Motivated by: 2604.15531.
+
+35. **Amendment to item 12: spanning is a property of return series, and it has two
+    conditions.** As written, item 12 regresses the signal feature matrix
+    (`research/factor_redundancy.py:64-65`) and tests α alone. Correct it in three ways:
+    - **(a)** Run the regression on the ten factors' **PnL/IC series across dates**, the object
+      item 30 builds. Build item 30 first.
+    - **(b)** For each factor, test both the intercept α **and** `1'β − 1` (the
+      global-minimum-variance condition) and take the max of the two standardized statistics.
+    - **(c)** Get critical values from a moving-block bootstrap (`ℓ = ⌊1.2·T^{1/4}⌋`) with a
+      step-down over factors.
+
+    Report which factors enter the minimum spanning set, and through which channel. Caveat,
+    and state it in the output: the paper needs T ≥ 180 monthly observations for coverage, and
+    most markets' fortnightly series here are far shorter. Treat any "spanned, drop it" verdict
+    as provisional unless IN's deep 10-year panel reproduces it.
+    Motivated by: 2501.19213.

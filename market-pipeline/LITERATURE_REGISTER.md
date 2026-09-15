@@ -2057,3 +2057,112 @@ attributed to either effect.
   ones, is already covered by 2603.20319 above.
 - **2609.12227** ("Seasonal Trading in Commodity Futures", q-fin.PM). Not fetched; logged by
   title so it isn't re-surfaced. Commodity futures are off-scope.
+
+## Added 2026-09-15 (daily task, Tuesday gap query: effective number of factors / redundancy / spanning tests)
+
+Citation-following from hub 2605.19337 is still dry. Semantic Scholar returns the same five citing
+papers, all registered. The Tuesday query surfaced five registered IDs (2602.20856, 2606.19550,
+2603.29751, 2603.16365, 2606.23596) and four new ones. The q-fin.PM recent listing added three more.
+
+### 2604.15531 — Spurious Predictability in Financial Machine Learning (Sotirios D. Nikolopoulos, v1 2026-04-16, q-fin.ST / stat.ME / stat.ML)
+
+The paper audits whole workflows in two stages.
+- **Stage 1** runs the pipeline on five synthetic nulls with zero conditional mean: (A) white noise,
+  (B) regime-switching volatility, (C) a bid-ask-bounce MA(1) "friction placebo", (D) a mean-zero
+  factor null, and (E) GARCH. A workflow that produces significant walk-forward evidence on any of
+  them is falsified.
+- **Stage 2** measures selection inflation on real data for the workflows that survive.
+
+Techniques extracted:
+- **Effective multiplicity** (Eq. 4): `K_eff = K² / ‖Σ‖_F²`, where Σ is the correlation matrix of
+  the K candidates' in-sample t-stats, shrunk with Schäfer–Strimmer when K is large. `K_eff = K`
+  under independence and falls toward 1 as candidates become collinear.
+- **Absolute magnitude gap** (Eq. 7): `ΔZ = max_k|Z_IS,k| − |Z_WF,k*|`, the in-sample winner minus
+  its own walk-forward result. The paper prefers this explicitly to ratio forms, which blow up as
+  the denominator nears zero. A stabilized ratio (Eq. 9, τ = 0.5) is offered only as an intra-study
+  heuristic.
+- **SPY case study:** a deep-learning directional pipeline earns annualized alpha of 0.39% versus
+  buy-and-hold after 2015, with p = 0.931. The apparent signal is traced to threshold-induced
+  activity clustering (trigger rate 69.4% in calm regimes, 88.7% in volatile ones).
+
+Evidence grade: moderate. The simulations use 1,000 Monte Carlo replications per scenario. Costs are
+confined to an appendix. The QuantAudit R package is promised only "upon journal publication". The
+paper has a single author.
+
+**Verified against this repo:**
+- `code/python_files/deflated_sharpe.py:42-49` computes E[max SR] "from N independent trials"
+  (docstring `:43`) with `N = len(trials)` (`:45`). `main()` feeds it every factor row for a
+  market×regime (`:74`). The candidates are the ten factors, which item 1 already measured as
+  highly redundant (PR 4.92/10 IN). So the nominal N over-counts, E[max] is overstated, and the DSR
+  gate at `:81` is **too strict**, not too loose.
+- `walk_forward_backtest.py:1099` computes `Sharpe_Decay% = (train − val)/|train|·100`. That is
+  the ratio form the paper warns against: it is guarded only for `train == 0` and explodes as
+  train approaches 0. It also averages across groups rather than tracking the selected winner.
+- Placebo or synthetic-null runs: `grep -rniE 'placebo|shuffle|permutation'` finds nothing relevant.
+  The only resampling is the Lo (2002) Sharpe bootstrap in `r_analysis.py:245`, which tests one
+  series and not the selection workflow.
+
+**Doing-right:** the repo already runs a multiple-testing correction on the factor optimiser
+(`deflated_sharpe.py`), plus BH-FDR in `pead_sector_spillover.py:230`, and walk-forward
+TRAIN/TEST/VAL splits.
+
+**Gap:** DSR uses nominal N, the decay metric is a ratio, and no workflow has been run on a
+known-null panel.
+
+**Action queued:**
+- **33:** report DSR under both N and K_eff, and add an absolute-gap column next to `Sharpe_Decay%`.
+- **34:** a white-noise and factor-null falsification run of the factor-selection workflow.
+
+### 2501.19213 — Testing for the Minimum Mean-Variance Spanning Set (Zhipeng Liao, Bin Wang & Wenyu Zhou, v1 2025-01-31, v3 2025-03-18, q-fin.PM)
+
+The paper estimates the minimum spanning set (MSS), the smallest subset of assets that spans the
+full mean-variance frontier.
+
+Method:
+- Regress each asset on all the others.
+- Statistic: `M_i = max{√T|α̂_i|/s₁, √T|1'β̂_i − 1|/s₂}`. The first term tests the tangency
+  (alpha) condition; the second tests the global-minimum-variance condition.
+- Moving-block bootstrap with block length `ℓ = ⌊1.2·T^{1/4}⌋`, and step-down critical values
+  that control the max over assets.
+
+Data: the Ehsani–Linnainmaa (2022) set of 22 monthly factors (7 momentum variants + 15 standard),
+1964-07 to 2019-12.
+
+Result: nine factors form the MSS, ranked PCM, ACC, QMJ, SMB, MKT, IAM, MOM, STR, RVA. QMJ enters
+through α alone; most of the others enter through the β (GMV) channel. In simulation, coverage
+exceeds 0.9 only once T reaches 240 months, and T ≥ 180 is the practical floor. Costs are not
+discussed.
+
+Evidence grade: solid econometrics on a public dataset, but gross returns only.
+
+**Verified against this repo:**
+- Queue item 12 (`BACKTEST_QUEUE.md:111-123`) proposes an **α-only** spanning regression. It says
+  to reuse "the exact feature matrix `research/factor_redundancy.py` already builds (`:64-65`)",
+  which is the per-date cross-asset **signal** matrix.
+- No spanning test exists yet: `grep -rniE 'spanning|GRS|gibbons'` over `code/python_files` and
+  `research/` finds only prose uses of "spanning" and the portfolio optimiser's max-Sharpe weights.
+
+**Gap:**
+- **The object is wrong.** Spanning is defined on **return** series, so it must be run on the
+  ten factors' PnL series (the object item 30 builds), not on signal values.
+- **The test is half-built.** α-only misses the GMV condition, and in this paper that condition is
+  how most MSS members qualify.
+- **Sample size is binding.** At fortnightly forward horizons, T ≥ 180 *months* is out of reach on
+  most of the panel. Even with the higher sampling frequency, expect wide bands.
+
+**Action queued:** 35, an amendment to item 12.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2602.14670** (Yanlong Wang et al., "FactorMiner: A Self-Evolving Agent with Skills and
+  Experience Memory for Financial Alpha Discovery", v1 2026-02-16, v2 2026-08-19). The abstract
+  discloses no metric, universe, date range or cost treatment. It is LLM-agent formula mining.
+  Weak.
+- **2609.07946** (Devanathan, Tzikas & Boyd, "Simple Dynamic Stock/Bond/Gold Portfolios",
+  2026-09-07). Costs are modelled, but it covers multi-asset allocation across three assets plus
+  cash, 2006-2026. That is off-scope for a single-name equity screener.
+- **2306.14004** ("Latent Factor Analysis in Short Panels"). Not fetched; logged by title from search.
+- **2609.11905** ("Entropic Value-at-Risk parity for tempered stable returns"). Not fetched;
+  risk-parity theory, off-scope.
+- **2609.04712** ("Convex Modeling of Price Cross-Impact over Time"). Not fetched; an execution and
+  market-impact model for a pipeline that places no orders, so off-scope.
