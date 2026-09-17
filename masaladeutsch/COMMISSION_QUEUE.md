@@ -534,3 +534,20 @@ moved above. Read this section before picking anything from Open.)*
   The IFSCA item's note "write the domestic one first" should now read: the domestic one is
   already out.
   Logged from the 2026-09-15 register entry.
+
+- **2026-09-17: two updates to the PPV&FR item ("57.8% of India's plant-variety rights are
+  cereals. Spices get 151.").**
+  - **(a) "Spices get 151" is re-fetchable again.** The homepage (HTTP 200 today, still as on
+    31.08.2026) breaks out the small crop groups once more: Spices 151 · Trees 45 · Flowers
+    36 · Medicinal & Aromatic 5 · Cash 5. That sums to the 242 "Other" of 2026-09-07. Spices
+    held at 151 across both vintages. Medicinal & Aromatic is now **5**, not 4, so update
+    the argument sentence.
+  - **(b) The "Opens: confirmed zero-coverage" line is out of date.**
+    `indias-draft-seeds-bill-cuts-states` (published 2026-09-10) now covers seed
+    *regulation*. Plant-variety *rights* are still unpublished, so the item stands. It
+    should cross-link that post (as reporting, in house style), and must not describe the
+    beat as untouched.
+
+  Separately, and not a commission: that published post's "up to 3 years' imprisonment" is
+  unsourced in the PIB primary. See the register entry for PIB PRID 2215353 (16 Jan 2026).
+  Logged: 2026-09-17 from the Thursday register entries.

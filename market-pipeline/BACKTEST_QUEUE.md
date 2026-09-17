@@ -718,3 +718,23 @@ when it's been run; do not delete history.
     most markets' fortnightly series here are far shorter. Treat any "spanned, drop it" verdict
     as provisional unless IN's deep 10-year panel reproduces it.
     Motivated by: 2501.19213.
+
+36. **Re-score the factor library in a cap-coverage universe, value-weighted, with
+    library-wide luck shrinkage.** The factor optimiser's investable gate
+    (`strategy_regime_survival.py:98-105`) drops only the bottom turnover tercile, and it scores
+    equal-weighted books (`profitability_optimizer.py:65-67`). Chen & Welch find exactly that
+    configuration inflates anomaly premia several-fold relative to a top-N/90%-of-cap universe.
+    Without changing the live path, add a research variant that does three things:
+    - **(a)** Restrict each week to the names covering the top 90% of total traded value (a
+      turnover-value proxy for cap coverage, because the panel carries only Close/Volume,
+      `:86`). Also restrict to the top ~N by traded value, with N scaled to the market (about
+      500 for IN/JP/KR/EU, 3,000 for US).
+    - **(b)** Score the BUY book traded-value-weighted as well as equal-weighted.
+    - **(c)** Over the full factor×market×regime table of IR t-stats, report
+      `r_adj = (1 − 1/Var(t))·r` beside the existing DSR verdict.
+
+    Output: a three-column comparison per cell (current gate EW / cap-coverage EW /
+    cap-coverage VW) plus the shrinkage factor. Any cell whose PASS disappears under (a) or (b)
+    is a microcap effect. Caveat: the paper is US-only and India's trend edge may behave
+    differently, so report per market and do not generalise. CPU-only, existing panel, no fetch.
+    Motivated by: 2607.06502.

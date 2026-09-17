@@ -1141,3 +1141,56 @@ grep post bodies, not only titles.
   search-engine summary, not a fetched page. Not registered. Never cite.
 - **gyansurance.com "Solvency Ratio of All Life Insurers: 11 Years of IRDAI Data"**, a third-party
   re-publication of IRDAI series (not fetched). Mirror rule: use the Handbook instead.
+
+---
+
+## Added 2026-09-17 (daily task, Thursday: seeds, plant variety rights and agricultural IP)
+
+🔴 **The zero-coverage claim for this beat is stale.** The manifest now has 273 posts. A regex
+over titles, slugs and labels for seed/variet/ppvfr/breeder/germplasm/hybrid/spurious hits
+`indias-draft-seeds-bill-cuts-states` (published 2026-09-10, labels Agriculture &
+Fertilisers / India / Industrial Policy). Seeds *regulation* is now covered. Plant-variety
+*rights* (the PPV&FR registry) is still unpublished.
+
+### PIB, "'Historic reforms for farmers': Union Agriculture Minister … shares details of new Seed Act" (Ministry of Agriculture & Farmers Welfare, PRID 2215353, posted 16 Jan 2026) — BACKGROUND, material to a published post
+
+- **Data**: a press release, no dataset. Fetched with curl and a browser UA (WebFetch got 403).
+  Free, no login.
+- **Finding**: the Minister's own briefing says: "Earlier, the penalty was up to ₹500. Now,
+  there is a proposal to impose a fine of up to ₹30 lakh", plus unspecified "provision for
+  punishment" for deliberate offences. Other points: QR-code traceability on every packet,
+  mandatory registration of seed companies, and farm-saved seed exchange stated to be
+  unaffected. The release calls it "the proposed legislation" / "Seed Act 2026"; it has not
+  been passed.
+- **Blog fit**: updates `indias-draft-seeds-bill-cuts-states`. That post gives "fines up to ₹30
+  lakh with up to 3 years' imprisonment" and flags it as coming from "multiple secondary reports
+  (not independently verified against the draft text)". It cites only the Nov 2025 release (PIB
+  2189600). This release is a **ministerial primary for the ₹30 lakh figure**. It adds the
+  **₹500 baseline** (a 6,000× increase), which the post lacks. It does **not** state "3 years";
+  it says only "provision for punishment". Suggest a correction note: cite 2215353 for the fine,
+  and either source the 3-year term to the draft text or soften it.
+- **Caveat**: this is a press briefing, not bill text. "Up to ₹30 lakh" is a proposal, and the
+  ₹500 figure is the Minister's characterisation of the 1966 Act, not checked against it. The
+  post's central claim (Central Seed Committee state seats 22 → 5) is not addressed here.
+  Not COMMISSIONABLE, because the piece already exists.
+
+### PPV&FR homepage, re-read: spices are broken out again (update to the queued item)
+
+`plantauthority.gov.in` returned HTTP 200 (171,469 bytes) today. The vintage is unchanged: "10885
+Certificates issued crop group-wise as on 31.08.2026". But the page now shows the small groups
+individually, reversing the 2026-09-07 note that it "no longer breaks out spices". Spices
+**151**, Trees/Forest/plantation **45**, Flowers 36, Medicinal & Aromatic **5**, Cash 5. These sum
+to 242, matching that day's "Other". The other groups are unchanged (Cereals 6,280 · Vegetables
+1,386 · Fibre 1,006 · Legumes 872 · Oilseeds 577 · Fruits 429 · Sugar 93), and the total re-adds
+to 10,885. Also live on the page: an opposition order dated 15.09.2026, Nuziveedu Seeds v.
+Maharashtra Hybrid Seeds Co., denomination C 5195, cotton. Logged only; not assessed.
+
+### Weak / not deep-read, one line each
+
+- **seednet.gov.in** (retry of the 2026-09-03 candidate). `/Material/Seed_Production.htm` and the
+  root both returned **HTTP 503** again (curl, browser UA). Still unread and ungraded. It is now
+  0-for-2 on Thursdays; deprioritise.
+- **IMARC, "Seed Industry in India"** (surfaced by search, not fetched). A vendor market-size
+  figure ("USD 9.6 Billion in 2026"). WEAK by rule; never cite.
+- **Mongabay India, "New Seeds Bill draft promises quality reform…" (Jan 2026)**. Not fetched.
+  The published seeds post already cites Mongabay coverage. Nothing new; WEAK for dedup.

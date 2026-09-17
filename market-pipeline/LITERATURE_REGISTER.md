@@ -2166,3 +2166,96 @@ Evidence grade: solid econometrics on a public dataset, but gross returns only.
   risk-parity theory, off-scope.
 - **2609.04712** ("Convex Modeling of Price Cross-Impact over Time"). Not fetched; an execution and
   market-impact model for a pipeline that places no orders, so off-scope.
+
+---
+
+## Added 2026-09-17 (daily task, Thursday gap query: transaction-cost-aware factor evaluation)
+
+Citation-following from hub 2605.19337 is still dry. Semantic Scholar returns the same five citing
+papers, all registered. Two Thursday searches plus the q-fin.PM recent listing produced six new
+candidates. The two left untriaged on 2026-09-03 (2603.15652, 2512.12420) were fetched and triaged
+today.
+
+### 2607.06502 — What Useful Alphas? (Andrew Y. Chen & Ivo Welch, v1 2026-07-07, q-fin.GN)
+
+About 200 published long-short anomalies from the Chen–Zimmermann open-source dataset
+(openassetpricing.com), each implemented as in its original paper (mostly quintile/decile sorts).
+CRSP, US only.
+
+The results come as a 2×2 split: period (≤2005 vs ≥2006) × universe (all stocks vs "Standard",
+meaning top 3,000 **and** top 90% of market cap). Median long-short return by cell:
+- ≤2005, all stocks: 48 bp/month.
+- ≤2005, Standard: 26 bp.
+- ≥2006, all stocks: 19 bp.
+- ≥2006, Standard: **7 bp**. Only 67% of anomalies are positive, the median t is 0.45 and the
+  median annualised Sharpe is 0.11. A tight N1000/80% universe gives the same 7 bp.
+
+Techniques extracted:
+- **The investable-universe filter is the test.** Screening on market-cap coverage, not only
+  a count or a liquidity rank, removes about half the pre-2005 premium on its own.
+- **Empirical-Bayes luck adjustment across the whole library:** `r_adj = [1 − 1/Var(t)]·r`,
+  where Var(t) is the cross-anomaly variance of t-stats. Post-2005 Standard gives Var(t) = 1.09,
+  so the signal share is about 0.08. The best survivor's raw 66 bp becomes 6 bp. It is one line
+  and needs no per-trial Sharpe model.
+- **By category:** profitability (cash-based OP, R&D-adjusted OP, gross profitability) is the
+  only group with a healthy post-2005 median. Momentum, value and intangibles are "essentially
+  dead" in the Standard universe. Off-season and seasonal momentum are the exceptions, at about
+  50 bp.
+- **Costs** are cited from Chen & Velikov (2023), not re-estimated: legs turn over about 40% a
+  month in stocks with about 4× the median NYSE spread. Net returns are about −1 bp/month
+  post-2005, or +4 bp with cost-minimising execution.
+
+Evidence grade: strong. The data is public, the universe is large and the split is pre-specified.
+Caveats: US only, static implementations only (the authors say timing and ML combinations may
+recover some return), and costs are borrowed rather than modelled.
+
+**Verified against this repo:**
+- The factor optimiser's library is entirely price-based: trend, revert, mom126, mom_st,
+  golden_cross, breakout, lowvol, mom252, qual_mom, def_revert
+  (`code/python_files/profitability_optimizer.py:29-50`). Those are the momentum and reversal
+  families the paper finds dead in large caps. The one family that survives, profitability, is
+  not in the library.
+- The investable gate is `strategy_regime_survival.py:98-105`: it drops only the bottom
+  **turnover tercile** plus a $1 price floor, keeping about two-thirds of every universe. That is
+  far looser than top-3,000 plus 90% of cap. On IN's roughly 8.9k names
+  (`liquidity.py:13`) about 5.9k survive. The panel loads only Close and Volume
+  (`strategy_regime_survival.py:86`), so there is no market-cap field to apply the paper's filter.
+- Books are **equally weighted** against an equal-weighted liquid universe
+  (`profitability_optimizer.py:65-67`), and the output is labelled "Gross of costs"
+  (`:151`).
+- The sample starts in 2016 (`strategy_regime_survival.py:50`), so every result is already in
+  the paper's weak post-2005 regime. There is no stale pre-publication period inflating it.
+- Luck adjustment is Deflated Sharpe on the per-cell max (`deflated_sharpe.py:40-49, 74-81`).
+  There is no cross-library shrinkage: a grep for `empirical.?bayes|shrink` over
+  `deflated_sharpe.py`, `profitability_optimizer.py` and `strategy_regime_survival.py` finds
+  only a prose use at `profitability_optimizer.py:10`.
+
+**Doing-right:** post-2005-only sample; a liquidity gate exists; a multiple-testing gate exists
+(DSR); the output is honestly labelled gross.
+
+**Gap:** the gate is a turnover rank, not cap coverage. Scoring is equal-weight, which is exactly
+the configuration where the paper's premia were microcap-driven. No library-wide shrinkage.
+Profitability, the only surviving US family, is absent from the price-only factor library.
+
+**Action queued:** 36.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2603.15652** (Davit Gondauri, "P vs NP Problem in Portfolio Optimization…", 2026-03-06,
+  econ.EM). Cardinality-constrained Markowitz on about 94 Damodaran industry portfolios, with
+  no date range and no costs. Off-scope.
+- **2512.12420** (Lucius et al., "Deep Hedging with Reinforcement Learning…", 2025-12-13).
+  SPX option hedging; costs are modelled but CIs overlap long-SPY. Options hedging is off-scope.
+- **2607.18001** (Boris Belyakov, "AlphaZeroBeta…", 2026-07-20). CNN-GRU PPO market-neutral
+  policy on seven indices, 2014-2024, with costs in the reward. It needs RL training and
+  shorting. Off-scope.
+- **2601.11958** (Zefeng Chen & Darcy Pu, "Autonomous Market Intelligence…", 2026-01-17). An
+  LLM agent ranks Russell 1000 daily from April 2025; top-20 long-only FF5+Mom alpha is 18.4 bp/day,
+  Sharpe 2.43, costs under 10% of gross. The window is about nine months and irreproducible by the
+  authors' own statement. Weak on sample length.
+- **2609.17609** (Marc da Costa Nunes, "Separated Signal Libraries: Packing, Saturation, and Joint
+  Spectral Limits", 2026-09-14). Pure theory; the abstract says no market data are used. It
+  follows 2609.12477 (registered), and nothing here is testable beyond item 32.
+- **2512.16251** ("Interpretable Deep Learning for Stock Returns: A Consensus-Bottleneck Asset
+  Pricing Model") and **2601.05975** ("DeePM", systematic macro). Not fetched; logged by title
+  from search. Both are deep-learning pricing/allocation models, off-scope at this scale.
