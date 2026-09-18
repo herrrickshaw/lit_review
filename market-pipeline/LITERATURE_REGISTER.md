@@ -2259,3 +2259,132 @@ Profitability, the only surviving US family, is absent from the price-only facto
 - **2512.16251** ("Interpretable Deep Learning for Stock Returns: A Consensus-Bottleneck Asset
   Pricing Model") and **2601.05975** ("DeePM", systematic macro). Not fetched; logged by title
   from search. Both are deep-learning pricing/allocation models, off-scope at this scale.
+
+## Added 2026-09-18 (daily task, Friday gap query: point-in-time fundamentals / survivorship bias)
+
+Citation-following from hub 2605.19337 is dry for the third run running: Semantic Scholar returns
+the same five citing papers (2609.04917, 2608.26990, 2607.19453, 2607.04958, 2606.08285), all
+already registered. Two Friday searches plus the q-fin.ST recent listing make three attempts and
+produced eight candidates.
+
+### 2609.20550 — Principal component error in high-dimensional factor models (Alex Bernstein, Lisa R. Goldberg, Nicholas Gunther, Alec N. Kercheval, Tian Lan, Yian Lin & Dayi Yao, 2026-09-17, math.ST)
+
+Theory plus a three-factor simulation of the US public equity market. The setting is explicitly
+"the number of variables grows with sample size bounded", which the authors note is "commonplace
+in financial economics" — i.e. many assets, short window.
+
+Techniques extracted:
+- **Split the PC estimation error in two.** *Out-of-subspace error* is "the distance from an
+  estimate to the subspace spanned by population factor exposures"; *in-subspace error* "arises
+  from the fixed sample size of the latent factor returns". Both have almost-sure asymptotic
+  limits as n grows with T bounded.
+- **The out-of-subspace half is estimable from the data alone**, "providing an estimable floor
+  for error". Theorem 2's estimator is the ratio `ℓ(p)/θⱼ(p)`, where `ℓ(p)` is the average of the
+  n−k trailing sample eigenvalues of the dual covariance matrix and `θⱼ(p)` is the jth eigenvalue
+  of `W(p) = YᵀY/(np)`. The in-subspace half "cannot be estimated from data alone".
+- **In their US-equity simulation, out-of-subspace error dominates** — so the estimable floor is
+  the larger piece, not a rounding term.
+
+Evidence grade: it is a theory paper with a simulation, not a backtest, so the usual
+Sharpe/cost/universe triage does not apply. Graded on its own terms the argument is clean and the
+regime it assumes is exactly this repo's. Caveat: the simulation's n and T grids sit in Section 8,
+which the arXiv HTML truncates at the point fetched today — the relative magnitudes above are
+quoted from the abstract, not read off a table. Nothing below depends on those numbers.
+
+**Verified against this repo:**
+- `research/correlation_regime_spectrum.py` measures the market's correlation spectrum on a
+  150-name target universe (`:34` `N_SYMBOLS = 150`) over a rolling **60-trading-day** window
+  (`:35` `WINDOW = 60`, sliced at `:60`). The CSV it produced actually carries
+  `n_symbols = 126` on every row (`correlation_regime_spectrum.csv:2`, 299 windows).
+  **That is n/T ≈ 2.1.** A 126×126 correlation matrix estimated from 60 observations has rank at
+  most 59: at least 67 of its eigenvalues are exactly zero before any market structure is read
+  off it.
+- The participation ratio and PC1 absorption ratio it reports come straight out of
+  `spectral_stats()` in `research/factor_redundancy.py:43-54`, which eigendecomposes the raw
+  Pearson correlation matrix with no shrinkage and no null model — the only defence is a
+  numerical floor, `np.clip(ev, 1e-12, None)` (`:44`).
+- BACKTEST_QUEUE item 9 already asks for a Marchenko–Pastur *descriptor* (λ₁−(1+√(n/T))² and m⁻)
+  on `market_correlation_scan.py`'s nightly matrix. It does not ask whether the numbers already
+  cited from this script (queue lines 21-22: "150-symbol NSE universe, rolling 60d windows")
+  survive their own n/T.
+
+**Doing-right:** the spectral work was correctly built as a measurement script, not a gate
+("This is a MEASUREMENT script, not a new gate", `correlation_regime_spectrum.py:21`), so nothing
+live depends on these numbers yet. Eigenvalues, not eigenvectors, are used — PR and AR₁ are
+dominated by the large eigenvalues and so are far more robust than an eigenvector-based factor
+model would be in the same regime.
+
+**Gap:** the measurement lives in precisely the n>T regime this paper analyses, and no part of the
+current code separates the market signal in PR/AR₁ from the dimension artefact. A PR of ~6.4 out
+of 126 (`correlation_regime_spectrum.csv:2`) is not currently distinguishable from what the same
+window length would produce on pure noise.
+
+**Action queued:** 37.
+
+### 2512.23847 — Detecting Lookahead Bias in LLM Forecasts (Zhenyu Gao, Wenxi Jiang & Yutong Yan, v1 2025-12-29, v2 2026-06-12, q-fin.GN)
+
+A diagnostic, not a strategy. For a firm-date pair the authors put a **date-only recall query** to
+the model and estimate "the probability that the LLM has internalized information about the
+realized outcome", which they call **Lookahead Propensity (LAP)**. The test is the interaction of
+LAP with the model's forecast in an accuracy regression: "a positive interaction between LAP and
+the LLM forecast in an accuracy regression indicates lookahead-bias contamination."
+
+Techniques extracted:
+- **LAP as a per-observation contamination weight**, rather than a single yes/no verdict about a
+  model. It is "materially positive throughout the in-sample period and collapses essentially to
+  zero right after the training-data cutoff".
+- **The post-cutoff sample as the placebo.** Applied to two tasks — news headlines predicting
+  stock returns, and earnings-call transcripts predicting capex — "the LLM forecast's predictive
+  power is amplified on high-LAP firm-date pairs, and the interaction loses significance on
+  post-training-cutoff samples."
+
+Evidence grade: sound for what it claims. Real firm-date data, a pre-specified placebo window, and
+the headline is a regression interaction rather than an accuracy score. It is a validity test, so
+there is no universe/cost triage to apply. Caveat: no transaction costs and no trading result
+anywhere, and the abstract names neither the models nor the sample dates.
+
+**Verified against this repo — the contamination channel does not exist here:**
+- The only LLM call site in the pipeline is `extract_structured()` in
+  `code/python_files/llm_extract.py`, and a grep for `llm_extract|extract_structured` across
+  `code/python_files` (excluding `.venv`) finds exactly one caller:
+  `code/python_files/promptfoo/provider.py:16,32` — the promptfoo regression harness. No scanner,
+  scorer, backtest or mailer calls it.
+- Its documented purpose is document parsing, not forecasting: SEBI DRHP filing text and
+  broker-statement PDFs (`llm_extract.py:16-19`).
+- Sentiment is **not** an LLM. `sentiment_pipeline.py:66-68` instantiates VADER with a
+  finance-lexicon boost and `:134-135` scores each headline with it.
+
+**Doing-right:** no LLM sits anywhere in the decision path, so no forecast in this repo can be
+contaminated by parametric hindsight. This is worth recording as a deliberate property rather than
+an accident, because several papers already in this register (2601.13770, 2605.24564, 2606.08285)
+attack the same class of bias from different angles and none of it applies here.
+
+**Gap:** none that is actionable today. The one thing to keep in view: if `extract_structured()`
+is ever pointed at *historical* filings inside a backtest — the obvious temptation, given
+`llm_extract.py:16-19` — the extracted "facts" become an LLM output indexed by a past date, and
+this paper's LAP test becomes the right check before trusting them.
+
+**Action queued:** none.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2607.18867** (Haozhe Jia, "HindsightBench: A Black-Box Behavioral Audit Protocol for
+  Parametric Hindsight in Time-Indexed LLM Decision Tasks", v1 2026-07-21, v2 2026-08-10, cs.LG).
+  Audits 15 models on a 258-node vintage-correct macro panel; finds effective cutoffs precede
+  vendor-reported ones "by up to eight months", which invalidates calendar-window placebos. Real
+  rigor, but it grades models, not strategies, and this repo runs no LLM in its decision path
+  (see 2512.23847 above), so there is nothing here to act on.
+- **2609.19013** ("Routing Frictions and Executable Liquidity in Fragmented Markets", q-fin.ST
+  recent listing). Intraday order-routing microstructure; this is an EOD screener that places no
+  orders. Off-scope.
+- **2609.14733** ("WaVeFuse: Regime-Adaptive Equity Index Forecasting via Channel-Wise Wavelet
+  Denoising and Vertical Attention Fusion") and **2609.12793** ("VertiFuseX: Generalizable
+  Financial Forecasting via Multi-Stream Temporal Fusion"). Not fetched; logged by title from the
+  q-fin.ST listing. Both are deep-learning index-forecasting architectures — the shape the budget
+  cap exists to skip.
+- **2609.14029** ("Special Markowitz: Thermodynamic Formalism for the Joint Regularisation of
+  Returns and Covariance") and **2609.20264** (synthetic control under staggered adoption). Not
+  fetched; a regularisation formalism and a treatment-effect estimator respectively, neither of
+  which this pipeline has a place for.
+- **2603.26797**. Surfaced only as a bare PDF link in the second search with no title; not
+  fetched, not identified. Recorded so a later run does not treat it as new without checking.

@@ -1194,3 +1194,70 @@ Maharashtra Hybrid Seeds Co., denomination C 5195, cotton. Logged only; not asse
   figure ("USD 9.6 Billion in 2026"). WEAK by rule; never cite.
 - **Mongabay India, "New Seeds Bill draft promises quality reform…" (Jan 2026)**. Not fetched.
   The published seeds post already cites Mongabay coverage. Nothing new; WEAK for dedup.
+
+## Added 2026-09-18 (daily task, Friday: irrigation, water and soil)
+
+**Dedup first.** The survey's "water has two mentions in 192 posts" is stale. A regex over
+`meta/manifest.json` (273 posts) on water/irrigation/soil/canal/drought terms returns twelve
+hits — but every water hit is **supply-side**: `indias-79-lakh-crore-rural-water`,
+`amruts-197-lakh-crore-urban-portfolio`, `tamil-nadus-water-infrastructure-runs`,
+`the-water-bill-nobody-mentions-what` (fabs), `price-is-wire-how-gcam-actually-links`, plus
+`the-recycling-lottery-playbook-norways` (a Jal Jeevan application). A second pass on
+irrigation-adjacent terms (`jal|pmksy|canal|command area|tank|borewell|hectare|farm`) returns no
+irrigation post at all. **Irrigation economics — what the states spent, what came back — is
+genuinely uncovered.** Soil is uncovered except as fertiliser dosing.
+
+### Bathla, Kannan & Das, "Public investment in irrigation across the Indian states: Financial recovery and governance", *Agricultural Economics Research Review* 37(1): 93-112 (2024) — COMMISSIONABLE
+
+- **Data**: the paper's own state-level estimates of public expenditure on major, medium and
+  minor irrigation for **20 states, 1981-82 to 2019-20**, plus an irrigation governance index
+  built from "16 important social, economic, and financial indicators … for each state from
+  2001-02 to 2015-16". 🔴 **The full text is not free.** `epubs.icar.org.in`'s galley link
+  (`/article/download/154839/55421`) returns HTTP 200 but serves an HTML page whose only download
+  link is `user/register?source=…` — an account wall, not a paywall, but a wall. The **abstract
+  is public** and everything quoted here comes from it. The article page is
+  `epubs.icar.org.in/index.php/AERR/article/view/154839`.
+- **Finding**: the disconnect, in the authors' own words — "a sizeable increase in the public
+  expenditure on agriculture and allied activities, major, medium, and minor irrigation systems
+  during the 2000s", yet "increasing public capital formation in irrigation has barely
+  corresponded with the outcomes in terms of net irrigated area, potential utilised, and rate of
+  financial recovery". Recovery is "positively determined by agricultural income, capital stock,
+  area under rice and wheat" — i.e. the systems that recover cost are the ones already sitting on
+  rice and wheat, which is a fact about crop mix, not about irrigation management.
+- **Blog fit**: opens irrigation economics, which the dedup above confirms is unpublished. It is
+  the missing supply-side counterpart to `indias-79-lakh-crore-rural-water` and
+  `amruts-197-lakh-crore-urban-portfolio` (both drinking water, both about money committed) and
+  the natural structural pair for `379-kilos-hectare-in-punjab-44-in`, whose rice-and-wheat map is
+  the same map this paper's recovery result lands on. Nearest published post:
+  `tamil-nadus-water-infrastructure-runs`, which does the "three money streams that do not match"
+  move for one state's water bill — the same method, pointed at irrigation and at 20 states.
+- **Caveat**: (1) the paper's own recovery percentages are behind the registration wall and are
+  **not** in the abstract — do not quote a recovery rate on abstract authority; either register
+  and read the PDF, or rebuild the ratio from primaries and attribute the *concept* to Bathla et
+  al. (2) The series ends 2019-20, so nothing here speaks to the post-COVID capex surge. (3)
+  "Financial recovery" is the authors' definition (receipts against working expenses, on the
+  usual Indian convention) and must be stated in the piece, because the ratio changes completely
+  depending on whether interest on capital is counted. (4) The rebuild path — RBI's *State
+  Finances: A Study of Budgets*, which carries state-wise capital outlay with irrigation and
+  flood control as a line — is **search-level only, not fetched today**; confirm the statement
+  number before building a piece on it.
+
+### Weak / not deep-read, one line each
+
+- **JISSS Vol. 74 No. 2 (2026)**, fetched (issue TOC). Thirteen papers, and the three
+  carbon-relevant ones — Gangopadhyay et al. on Terai soil carbon storage (137-147), Singh et al.
+  on irrigation regimes and residue management (159-166), Ashish et al. on microbial decomposers
+  in the Indo-Gangetic plains (186-195) — are all **plot-scale field trials**. No national or
+  state dataset to pull, and the findings are trial results. BACKGROUND at best under the Track B
+  test; nothing commissionable in this issue. Rattan Lal's "Soil Health in the Age of The Kali
+  Yuga" (129-136) is an essay.
+- **Narayanamoorthy, Bhattarai & Jothi, AERR 31(1): 105-112 (2018)**, "An assessment of the
+  economic impact of drip irrigation in vegetable production in India". Abstract fetched. Real
+  numbers (40% water saving, 629 kWh/acre, 31% less fertiliser, 52% yield, 54% higher net
+  returns) but from **one crop (brinjal) in one state (Tamil Nadu)**, survey-based, eight years
+  old, with no sample size in the abstract. A supporting citation, not a piece.
+- **World Bank SINP-536, Abbie, "Economic Return to Investment in Irrigation in India"**. Surfaced
+  by search, not fetched. A 1980s staff paper; superseded for any current claim.
+- **"Irrigation Development and Equity Impacts in India"** (ideas.repec.org, ICAR 2024 conference
+  paper 344984). Not fetched. Logged so a later run does not treat it as new without checking;
+  equity impacts would extend the piece queued below rather than stand alone.

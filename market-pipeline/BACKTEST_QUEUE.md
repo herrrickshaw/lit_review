@@ -738,3 +738,30 @@ when it's been run; do not delete history.
     is a microcap effect. Caveat: the paper is US-only and India's trend edge may behave
     differently, so report per market and do not generalise. CPU-only, existing panel, no fetch.
     Motivated by: 2607.06502.
+
+37. **Establish that the correlation-spectrum measurement is measuring the market and not its
+    own n/T.** `research/correlation_regime_spectrum.py` builds a 126-name correlation matrix
+    (`correlation_regime_spectrum.csv:2`, target `:34` `N_SYMBOLS = 150`) from a **60-day**
+    window (`:35`, sliced `:60`) — n/T ≈ 2.1, so the matrix has rank ≤ 59 and at least 67 of its
+    126 eigenvalues are identically zero before any market structure is read off it. Every PR and
+    AR₁ number quoted from this script (including queue lines 21-22) is therefore a joint function
+    of the market and of the window length, and nothing currently separates the two. Three cheap
+    checks on the existing panel, no new data and no fetch:
+    - **(a) Noise null.** Re-run the same loop on phase-randomised or IID-bootstrapped returns
+      with the identical 126×60 shape, and print the null PR/AR₁ band beside the measured series.
+      Any measured level inside that band is a dimension artefact; only excursions outside it are
+      market signal. This also settles whether the 5 lowest-PR windows item 3 flagged are real.
+    - **(b) n/T sweep.** Recompute PR at (n=126, T=60), (126, 252), (50, 60) and (50, 252). If the
+      level moves with n/T but the *time pattern* does not, the ranking survives even though the
+      level does not — say which of the two the downstream use needs.
+    - **(c) Estimable error floor.** Report 2609.20550's out-of-subspace estimator per window —
+      `ℓ(p)/θⱼ(p)`, with `ℓ(p)` the average of the n−k trailing sample eigenvalues of the dual
+      covariance matrix and `θⱼ(p)` the jth eigenvalue of `W(p) = YᵀY/(np)` — as a floor on how
+      much of the leading direction is estimation error. Their US-equity simulation has this half
+      dominating.
+
+    Caveat: the paper is theory plus a simulation, and its Section 8 grids were not read (the
+    arXiv HTML truncated). Treat (c) as a diagnostic to log, not a correction to apply. Distinct
+    from item 9, which adds MP *descriptors* to `market_correlation_scan.py`'s nightly matrix;
+    this one asks whether the numbers already cited from the research script are admissible.
+    Motivated by: 2609.20550.
