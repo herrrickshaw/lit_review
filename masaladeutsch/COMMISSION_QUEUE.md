@@ -534,3 +534,18 @@ moved above. Read this section before picking anything from Open.)*
   The IFSCA item's note "write the domestic one first" should now read: the domestic one is
   already out.
   Logged from the 2026-09-15 register entry.
+
+- **2026-09-18 — "India's largest crop insurer pays out ₹1.83 lakh crore" is already
+  published. Do not commission.** Drafted this item today and ran the standard
+  `research_crosscheck.py --auto --numbers` dedup pass before publishing, which caught it:
+  `the-4-nobody-notices-and-three-other` (published 2026-09-01) already carries this exact
+  argument — same 78.41 crore applications / ₹1.83 lakh crore claims / 2%-1.5%-5% capped
+  farmer premium table / 95–98.5% Centre+state split, near-verbatim in places — as one of
+  its four backstop stories (PMFBY sits alongside the GIC Re obligatory-cession item, i.e.
+  this queue item and the "4% every Indian insurance policy pays" item are covered by the
+  *same* published post). The published version is also more current: it adds the Kharif
+  2024 12%-p.a. late-claim interest penalty and the Kharif 2026 wild-animal-attack and
+  paddy-inundation add-on covers, neither in this queue item's source vintage. No residual
+  angle identified today. Draft discarded, not published.
+  Logged from a same-day drafting pass, superseding the "India's largest crop insurer"
+  item logged 2026-08-25.
