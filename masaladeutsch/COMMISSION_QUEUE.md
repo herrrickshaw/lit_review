@@ -396,6 +396,40 @@ Format:
       exactly ONE, and that one is a calculator. The blog covers the molecule side of
       energy exhaustively and the electron side almost not at all.
 
+- [ ] Twenty states, forty years of irrigation capital, and a recovery rate nobody publishes
+      Source: Bathla, Kannan & Das, "Public investment in irrigation across the Indian states:
+      Financial recovery and governance", Agricultural Economics Research Review 37(1): 93-112
+      (2024) — abstract free at epubs.icar.org.in/index.php/AERR/article/view/154839, full PDF
+      behind a free ICAR-epubs registration (the galley link serves an HTML page whose only
+      download route is user/register). Rebuild primaries: RBI, *State Finances: A Study of
+      Budgets* (state-wise capital outlay, irrigation and flood control as a line — search-level,
+      NOT yet fetched) and Land Use Statistics / Ministry of Jal Shakti for net irrigated area
+      and potential utilised.
+      Argument: the blog has mapped what India commits to drinking water twice over
+      (₹7.9 lakh crore rural, ₹1.97 lakh crore urban) and never once asked what the far older
+      and far larger irrigation book returns. Bathla et al. cover 20 states from 1981-82 to
+      2019-20 and find capital formation rose through the 2000s while net irrigated area,
+      potential utilised and financial recovery "barely corresponded" — and that recovery tracks
+      area under rice and wheat, which means the systems that pay for themselves are the ones
+      already sitting on the two crops the blog's own urea map is drawn from.
+      Checks needed: (1) 🔴 the recovery percentages are NOT in the abstract — register and read
+      the PDF, or rebuild the ratio from primaries and attribute only the concept to the paper;
+      do not quote a recovery rate on abstract authority. (2) Define "financial recovery"
+      explicitly in the piece — receipts against working expenses, and whether interest on
+      capital is counted, changes the answer completely. (3) The series ends 2019-20: say so, and
+      do not let a reader carry it into the post-COVID capex surge. (4) Verify the RBI statement
+      number before building on it; it is search-level today. (5) Potential created vs potential
+      utilised is the oldest trap in Indian irrigation statistics — never let the two appear as
+      one number.
+      Cross-link to indias-79-lakh-crore-rural-water, amruts-197-lakh-crore-urban-portfolio,
+      tamil-nadus-water-infrastructure-runs and 379-kilos-hectare-in-punjab-44-in in house style
+      (cite the earlier post as reporting, never as confirmation).
+      Logged: 2026-09-18 from the AERR irrigation register entry
+      Opens: irrigation economics. Manifest dedup (273 posts): twelve water/soil hits, every one
+      supply-side or fertiliser; a precise pass on jal|pmksy|canal|command area|tank|borewell|
+      hectare|farm returns no irrigation post at all.
+
+
 ## Done
 
 - [x] What a farm labourer earns, and why it stopped tracking output
@@ -534,6 +568,23 @@ moved above. Read this section before picking anything from Open.)*
   The IFSCA item's note "write the domestic one first" should now read: the domestic one is
   already out.
   Logged from the 2026-09-15 register entry.
+
+- **2026-09-17: two updates to the PPV&FR item ("57.8% of India's plant-variety rights are
+  cereals. Spices get 151.").**
+  - **(a) "Spices get 151" is re-fetchable again.** The homepage (HTTP 200 today, still as on
+    31.08.2026) breaks out the small crop groups once more: Spices 151 · Trees 45 · Flowers
+    36 · Medicinal & Aromatic 5 · Cash 5. That sums to the 242 "Other" of 2026-09-07. Spices
+    held at 151 across both vintages. Medicinal & Aromatic is now **5**, not 4, so update
+    the argument sentence.
+  - **(b) The "Opens: confirmed zero-coverage" line is out of date.**
+    `indias-draft-seeds-bill-cuts-states` (published 2026-09-10) now covers seed
+    *regulation*. Plant-variety *rights* are still unpublished, so the item stands. It
+    should cross-link that post (as reporting, in house style), and must not describe the
+    beat as untouched.
+
+  Separately, and not a commission: that published post's "up to 3 years' imprisonment" is
+  unsourced in the PIB primary. See the register entry for PIB PRID 2215353 (16 Jan 2026).
+  Logged: 2026-09-17 from the Thursday register entries.
 
 - **2026-09-18 — "India's largest crop insurer pays out ₹1.83 lakh crore" is already
   published. Do not commission.** Drafted this item today and ran the standard

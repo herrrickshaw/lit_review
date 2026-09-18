@@ -718,3 +718,74 @@ when it's been run; do not delete history.
     most markets' fortnightly series here are far shorter. Treat any "spanned, drop it" verdict
     as provisional unless IN's deep 10-year panel reproduces it.
     Motivated by: 2501.19213.
+
+36. **Re-score the factor library in a cap-coverage universe, value-weighted, with
+    library-wide luck shrinkage.** The factor optimiser's investable gate
+    (`strategy_regime_survival.py:98-105`) drops only the bottom turnover tercile, and it scores
+    equal-weighted books (`profitability_optimizer.py:65-67`). Chen & Welch find exactly that
+    configuration inflates anomaly premia several-fold relative to a top-N/90%-of-cap universe.
+    Without changing the live path, add a research variant that does three things:
+    - **(a)** Restrict each week to the names covering the top 90% of total traded value (a
+      turnover-value proxy for cap coverage, because the panel carries only Close/Volume,
+      `:86`). Also restrict to the top ~N by traded value, with N scaled to the market (about
+      500 for IN/JP/KR/EU, 3,000 for US).
+    - **(b)** Score the BUY book traded-value-weighted as well as equal-weighted.
+    - **(c)** Over the full factor×market×regime table of IR t-stats, report
+      `r_adj = (1 − 1/Var(t))·r` beside the existing DSR verdict.
+
+    Output: a three-column comparison per cell (current gate EW / cap-coverage EW /
+    cap-coverage VW) plus the shrinkage factor. Any cell whose PASS disappears under (a) or (b)
+    is a microcap effect. Caveat: the paper is US-only and India's trend edge may behave
+    differently, so report per market and do not generalise. CPU-only, existing panel, no fetch.
+    Motivated by: 2607.06502.
+
+37. **Establish that the correlation-spectrum measurement is measuring the market and not its
+    own n/T.** `research/correlation_regime_spectrum.py` builds a **126-to-150**-name correlation
+    matrix (the range across the 299 rows of `correlation_regime_spectrum.csv`; target `:34`
+    `N_SYMBOLS = 150`) from a **60-day** window (`:35`, sliced `:60`) — n/T between 2.1 and 2.5,
+    so the matrix has rank ≤ 59 and between 67 and 91 of its eigenvalues are identically zero
+    before any market structure is read off it. Every PR and
+    AR₁ number quoted from this script (including queue lines 21-22) is therefore a joint function
+    of the market and of the window length, and nothing currently separates the two. Three cheap
+    checks on the existing panel, no new data and no fetch:
+    - **(a) Noise null.** Re-run the same loop on phase-randomised or IID-bootstrapped returns
+      with the identical 126×60 shape, and print the null PR/AR₁ band beside the measured series.
+      Any measured level inside that band is a dimension artefact; only excursions outside it are
+      market signal. This also settles whether the 5 lowest-PR windows item 3 flagged are real.
+    - **(b) n/T sweep.** Recompute PR at (n=126, T=60), (126, 252), (50, 60) and (50, 252). If the
+      level moves with n/T but the *time pattern* does not, the ranking survives even though the
+      level does not — say which of the two the downstream use needs.
+    - **(c) Estimable error floor.** Report 2609.20550's out-of-subspace estimator per window —
+      `ℓ(p)/θⱼ(p)`, with `ℓ(p)` the average of the n−k trailing sample eigenvalues of the dual
+      covariance matrix and `θⱼ(p)` the jth eigenvalue of `W(p) = YᵀY/(np)` — as a floor on how
+      much of the leading direction is estimation error. Their US-equity simulation has this half
+      dominating.
+
+    Caveat: the paper is theory plus a simulation, and its Section 8 grids were not read (the
+    arXiv HTML truncated). Treat (c) as a diagnostic to log, not a correction to apply. Distinct
+    from item 9, which adds MP *descriptors* to `market_correlation_scan.py`'s nightly matrix;
+    this one asks whether the numbers already cited from the research script are admissible.
+    Motivated by: 2609.20550.
+
+    **(a) RUN 2026-09-18** — `research/spectrum_noise_null.py`, output
+    `research/spectrum_noise_null.{csv,md}`. 299 windows, 200 replicates per window per null,
+    seed 20260918, same panel and same `spectral_stats()`. Two answers, and the second is the
+    one that matters:
+    - **Not a dimension artefact — the measurement is clean.** Under an independence null (each
+      column shuffled in time, marginals kept) PR sits at **41.8** with PC1 absorbing under
+      **4.7%**; that matches the analytic Marchenko–Pastur value n/(1+n/T) = 42.1, which is a
+      self-check on the simulation. Measured PR (mean **12.3**, min 3.5) is below the null band
+      in **100.0%** of windows. Rank deficiency cannot manufacture a dominant common mode, so
+      the gap is market structure. The numbers quoted at queue lines 21-22 are admissible.
+    - 🔴 **But PR adds nothing over the mean pairwise correlation.** Against an equicorrelated
+      null calibrated to each window's own ρ̄ (one common factor, same n, same T), measured PR
+      falls **inside** the band in **97.0%** of windows. PR and ρ̄ correlate at **−0.931** across
+      all 299 windows. **All five of the lowest-PR windows are inside their own band** — they are
+      2020-03-30 through 2020-05-11, ρ̄ 0.47-0.50, i.e. real stress, but the eigendecomposition
+      reports nothing the average pairwise correlation did not already say.
+    - **Consequence for items 3 and 9:** before wiring any spectral descriptor into
+      `market_regime.py`, show it beats plain ρ̄ — one number, no eigendecomposition. On this
+      panel PR does not. Item 9's other descriptors (m⁻, spectral gap, MP excess) are untested
+      and may still carry something PR does not; that is now the question to ask of them.
+    - Caveat: Null B is Gaussian with homogeneous loadings, so "inside the band" means "not
+      explained by ρ̄ alone", not "no structure beyond one factor". (b) and (c) are NOT run.

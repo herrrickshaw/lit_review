@@ -1141,3 +1141,123 @@ grep post bodies, not only titles.
   search-engine summary, not a fetched page. Not registered. Never cite.
 - **gyansurance.com "Solvency Ratio of All Life Insurers: 11 Years of IRDAI Data"**, a third-party
   re-publication of IRDAI series (not fetched). Mirror rule: use the Handbook instead.
+
+---
+
+## Added 2026-09-17 (daily task, Thursday: seeds, plant variety rights and agricultural IP)
+
+🔴 **The zero-coverage claim for this beat is stale.** The manifest now has 273 posts. A regex
+over titles, slugs and labels for seed/variet/ppvfr/breeder/germplasm/hybrid/spurious hits
+`indias-draft-seeds-bill-cuts-states` (published 2026-09-10, labels Agriculture &
+Fertilisers / India / Industrial Policy). Seeds *regulation* is now covered. Plant-variety
+*rights* (the PPV&FR registry) is still unpublished.
+
+### PIB, "'Historic reforms for farmers': Union Agriculture Minister … shares details of new Seed Act" (Ministry of Agriculture & Farmers Welfare, PRID 2215353, posted 16 Jan 2026) — BACKGROUND, material to a published post
+
+- **Data**: a press release, no dataset. Fetched with curl and a browser UA (WebFetch got 403).
+  Free, no login.
+- **Finding**: the Minister's own briefing says: "Earlier, the penalty was up to ₹500. Now,
+  there is a proposal to impose a fine of up to ₹30 lakh", plus unspecified "provision for
+  punishment" for deliberate offences. Other points: QR-code traceability on every packet,
+  mandatory registration of seed companies, and farm-saved seed exchange stated to be
+  unaffected. The release calls it "the proposed legislation" / "Seed Act 2026"; it has not
+  been passed.
+- **Blog fit**: updates `indias-draft-seeds-bill-cuts-states`. That post gives "fines up to ₹30
+  lakh with up to 3 years' imprisonment" and flags it as coming from "multiple secondary reports
+  (not independently verified against the draft text)". It cites only the Nov 2025 release (PIB
+  2189600). This release is a **ministerial primary for the ₹30 lakh figure**. It adds the
+  **₹500 baseline** (a 6,000× increase), which the post lacks. It does **not** state "3 years";
+  it says only "provision for punishment". Suggest a correction note: cite 2215353 for the fine,
+  and either source the 3-year term to the draft text or soften it.
+- **Caveat**: this is a press briefing, not bill text. "Up to ₹30 lakh" is a proposal, and the
+  ₹500 figure is the Minister's characterisation of the 1966 Act, not checked against it. The
+  post's central claim (Central Seed Committee state seats 22 → 5) is not addressed here.
+  Not COMMISSIONABLE, because the piece already exists.
+
+### PPV&FR homepage, re-read: spices are broken out again (update to the queued item)
+
+`plantauthority.gov.in` returned HTTP 200 (171,469 bytes) today. The vintage is unchanged: "10885
+Certificates issued crop group-wise as on 31.08.2026". But the page now shows the small groups
+individually, reversing the 2026-09-07 note that it "no longer breaks out spices". Spices
+**151**, Trees/Forest/plantation **45**, Flowers 36, Medicinal & Aromatic **5**, Cash 5. These sum
+to 242, matching that day's "Other". The other groups are unchanged (Cereals 6,280 · Vegetables
+1,386 · Fibre 1,006 · Legumes 872 · Oilseeds 577 · Fruits 429 · Sugar 93), and the total re-adds
+to 10,885. Also live on the page: an opposition order dated 15.09.2026, Nuziveedu Seeds v.
+Maharashtra Hybrid Seeds Co., denomination C 5195, cotton. Logged only; not assessed.
+
+### Weak / not deep-read, one line each
+
+- **seednet.gov.in** (retry of the 2026-09-03 candidate). `/Material/Seed_Production.htm` and the
+  root both returned **HTTP 503** again (curl, browser UA). Still unread and ungraded. It is now
+  0-for-2 on Thursdays; deprioritise.
+- **IMARC, "Seed Industry in India"** (surfaced by search, not fetched). A vendor market-size
+  figure ("USD 9.6 Billion in 2026"). WEAK by rule; never cite.
+- **Mongabay India, "New Seeds Bill draft promises quality reform…" (Jan 2026)**. Not fetched.
+  The published seeds post already cites Mongabay coverage. Nothing new; WEAK for dedup.
+
+## Added 2026-09-18 (daily task, Friday: irrigation, water and soil)
+
+**Dedup first.** The survey's "water has two mentions in 192 posts" is stale. A regex over
+`meta/manifest.json` (273 posts) on water/irrigation/soil/canal/drought terms returns twelve
+hits — but every water hit is **supply-side**: `indias-79-lakh-crore-rural-water`,
+`amruts-197-lakh-crore-urban-portfolio`, `tamil-nadus-water-infrastructure-runs`,
+`the-water-bill-nobody-mentions-what` (fabs), `price-is-wire-how-gcam-actually-links`, plus
+`the-recycling-lottery-playbook-norways` (a Jal Jeevan application). A second pass on
+irrigation-adjacent terms (`jal|pmksy|canal|command area|tank|borewell|hectare|farm`) returns no
+irrigation post at all. **Irrigation economics — what the states spent, what came back — is
+genuinely uncovered.** Soil is uncovered except as fertiliser dosing.
+
+### Bathla, Kannan & Das, "Public investment in irrigation across the Indian states: Financial recovery and governance", *Agricultural Economics Research Review* 37(1): 93-112 (2024) — COMMISSIONABLE
+
+- **Data**: the paper's own state-level estimates of public expenditure on major, medium and
+  minor irrigation for **20 states, 1981-82 to 2019-20**, plus an irrigation governance index
+  built from "16 important social, economic, and financial indicators … for each state from
+  2001-02 to 2015-16". 🔴 **The full text is not free.** `epubs.icar.org.in`'s galley link
+  (`/article/download/154839/55421`) returns HTTP 200 but serves an HTML page whose only download
+  link is `user/register?source=…` — an account wall, not a paywall, but a wall. The **abstract
+  is public** and everything quoted here comes from it. The article page is
+  `epubs.icar.org.in/index.php/AERR/article/view/154839`.
+- **Finding**: the disconnect, in the authors' own words — "a sizeable increase in the public
+  expenditure on agriculture and allied activities, major, medium, and minor irrigation systems
+  during the 2000s", yet "increasing public capital formation in irrigation has barely
+  corresponded with the outcomes in terms of net irrigated area, potential utilised, and rate of
+  financial recovery". Recovery is "positively determined by agricultural income, capital stock,
+  area under rice and wheat" — i.e. the systems that recover cost are the ones already sitting on
+  rice and wheat, which is a fact about crop mix, not about irrigation management.
+- **Blog fit**: opens irrigation economics, which the dedup above confirms is unpublished. It is
+  the missing supply-side counterpart to `indias-79-lakh-crore-rural-water` and
+  `amruts-197-lakh-crore-urban-portfolio` (both drinking water, both about money committed) and
+  the natural structural pair for `379-kilos-hectare-in-punjab-44-in`, whose rice-and-wheat map is
+  the same map this paper's recovery result lands on. Nearest published post:
+  `tamil-nadus-water-infrastructure-runs`, which does the "three money streams that do not match"
+  move for one state's water bill — the same method, pointed at irrigation and at 20 states.
+- **Caveat**: (1) the paper's own recovery percentages are behind the registration wall and are
+  **not** in the abstract — do not quote a recovery rate on abstract authority; either register
+  and read the PDF, or rebuild the ratio from primaries and attribute the *concept* to Bathla et
+  al. (2) The series ends 2019-20, so nothing here speaks to the post-COVID capex surge. (3)
+  "Financial recovery" is the authors' definition (receipts against working expenses, on the
+  usual Indian convention) and must be stated in the piece, because the ratio changes completely
+  depending on whether interest on capital is counted. (4) The rebuild path — RBI's *State
+  Finances: A Study of Budgets*, which carries state-wise capital outlay with irrigation and
+  flood control as a line — is **search-level only, not fetched today**; confirm the statement
+  number before building a piece on it.
+
+### Weak / not deep-read, one line each
+
+- **JISSS Vol. 74 No. 2 (2026)**, fetched (issue TOC). Thirteen papers, and the three
+  carbon-relevant ones — Gangopadhyay et al. on Terai soil carbon storage (137-147), Singh et al.
+  on irrigation regimes and residue management (159-166), Ashish et al. on microbial decomposers
+  in the Indo-Gangetic plains (186-195) — are all **plot-scale field trials**. No national or
+  state dataset to pull, and the findings are trial results. BACKGROUND at best under the Track B
+  test; nothing commissionable in this issue. Rattan Lal's "Soil Health in the Age of The Kali
+  Yuga" (129-136) is an essay.
+- **Narayanamoorthy, Bhattarai & Jothi, AERR 31(1): 105-112 (2018)**, "An assessment of the
+  economic impact of drip irrigation in vegetable production in India". Abstract fetched. Real
+  numbers (40% water saving, 629 kWh/acre, 31% less fertiliser, 52% yield, 54% higher net
+  returns) but from **one crop (brinjal) in one state (Tamil Nadu)**, survey-based, eight years
+  old, with no sample size in the abstract. A supporting citation, not a piece.
+- **World Bank SINP-536, Abbie, "Economic Return to Investment in Irrigation in India"**. Surfaced
+  by search, not fetched. A 1980s staff paper; superseded for any current claim.
+- **"Irrigation Development and Equity Impacts in India"** (ideas.repec.org, ICAR 2024 conference
+  paper 344984). Not fetched. Logged so a later run does not treat it as new without checking;
+  equity impacts would extend the piece queued below rather than stand alone.
