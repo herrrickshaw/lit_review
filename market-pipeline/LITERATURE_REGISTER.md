@@ -2294,11 +2294,15 @@ quoted from the abstract, not read off a table. Nothing below depends on those n
 **Verified against this repo:**
 - `research/correlation_regime_spectrum.py` measures the market's correlation spectrum on a
   150-name target universe (`:34` `N_SYMBOLS = 150`) over a rolling **60-trading-day** window
-  (`:35` `WINDOW = 60`, sliced at `:60`). The CSV it produced actually carries
-  `n_symbols = 126` on every row (`correlation_regime_spectrum.csv:2`, 299 windows).
-  **That is n/T ≈ 2.1.** A 126×126 correlation matrix estimated from 60 observations has rank at
-  most 59: at least 67 of its eigenvalues are exactly zero before any market structure is read
-  off it.
+  (`:35` `WINDOW = 60`, sliced at `:60`). Across the 299 windows in
+  `correlation_regime_spectrum.csv` the names actually used range from **126 to 150**
+  (126 only in the earliest windows, 2.3% of rows). **That is n/T between 2.1 and 2.5.** A
+  126×126 correlation matrix estimated from 60 observations has rank at most 59: at least 67 of
+  its eigenvalues are exactly zero before any market structure is read off it, and at n=150 it is
+  at least 91.
+  *(Corrected 2026-09-18 after running item 37(a): this entry first said the CSV carried 126 on
+  every row, which is wrong — that is the first row only. The direction is unchanged and the
+  rank deficiency is worse at the top of the range.)*
 - The participation ratio and PC1 absorption ratio it reports come straight out of
   `spectral_stats()` in `research/factor_redundancy.py:43-54`, which eigendecomposes the raw
   Pearson correlation matrix with no shrinkage and no null model — the only defence is a

@@ -740,10 +740,11 @@ when it's been run; do not delete history.
     Motivated by: 2607.06502.
 
 37. **Establish that the correlation-spectrum measurement is measuring the market and not its
-    own n/T.** `research/correlation_regime_spectrum.py` builds a 126-name correlation matrix
-    (`correlation_regime_spectrum.csv:2`, target `:34` `N_SYMBOLS = 150`) from a **60-day**
-    window (`:35`, sliced `:60`) — n/T ≈ 2.1, so the matrix has rank ≤ 59 and at least 67 of its
-    126 eigenvalues are identically zero before any market structure is read off it. Every PR and
+    own n/T.** `research/correlation_regime_spectrum.py` builds a **126-to-150**-name correlation
+    matrix (the range across the 299 rows of `correlation_regime_spectrum.csv`; target `:34`
+    `N_SYMBOLS = 150`) from a **60-day** window (`:35`, sliced `:60`) — n/T between 2.1 and 2.5,
+    so the matrix has rank ≤ 59 and between 67 and 91 of its eigenvalues are identically zero
+    before any market structure is read off it. Every PR and
     AR₁ number quoted from this script (including queue lines 21-22) is therefore a joint function
     of the market and of the window length, and nothing currently separates the two. Three cheap
     checks on the existing panel, no new data and no fetch:
@@ -765,3 +766,26 @@ when it's been run; do not delete history.
     from item 9, which adds MP *descriptors* to `market_correlation_scan.py`'s nightly matrix;
     this one asks whether the numbers already cited from the research script are admissible.
     Motivated by: 2609.20550.
+
+    **(a) RUN 2026-09-18** — `research/spectrum_noise_null.py`, output
+    `research/spectrum_noise_null.{csv,md}`. 299 windows, 200 replicates per window per null,
+    seed 20260918, same panel and same `spectral_stats()`. Two answers, and the second is the
+    one that matters:
+    - **Not a dimension artefact — the measurement is clean.** Under an independence null (each
+      column shuffled in time, marginals kept) PR sits at **41.8** with PC1 absorbing under
+      **4.7%**; that matches the analytic Marchenko–Pastur value n/(1+n/T) = 42.1, which is a
+      self-check on the simulation. Measured PR (mean **12.3**, min 3.5) is below the null band
+      in **100.0%** of windows. Rank deficiency cannot manufacture a dominant common mode, so
+      the gap is market structure. The numbers quoted at queue lines 21-22 are admissible.
+    - 🔴 **But PR adds nothing over the mean pairwise correlation.** Against an equicorrelated
+      null calibrated to each window's own ρ̄ (one common factor, same n, same T), measured PR
+      falls **inside** the band in **97.0%** of windows. PR and ρ̄ correlate at **−0.931** across
+      all 299 windows. **All five of the lowest-PR windows are inside their own band** — they are
+      2020-03-30 through 2020-05-11, ρ̄ 0.47-0.50, i.e. real stress, but the eigendecomposition
+      reports nothing the average pairwise correlation did not already say.
+    - **Consequence for items 3 and 9:** before wiring any spectral descriptor into
+      `market_regime.py`, show it beats plain ρ̄ — one number, no eigendecomposition. On this
+      panel PR does not. Item 9's other descriptors (m⁻, spectral gap, MP excess) are untested
+      and may still carry something PR does not; that is now the question to ask of them.
+    - Caveat: Null B is Gaussian with homogeneous loadings, so "inside the band" means "not
+      explained by ρ̄ alone", not "no structure beyond one factor". (b) and (c) are NOT run.
