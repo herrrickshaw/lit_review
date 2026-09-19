@@ -21,7 +21,45 @@ Format:
 
 ## Open
 
-- [ ] 57.8% of India's plant-variety rights are cereals. Spices get 151.
+- [x] Improving India's oil recovery factor: the IOR/EOR incentive framework and a technology compendium (CO2 injection, electric EOR, and the rest)
+      DONE — published 2026-09-19 as `indias-oil-fields-are-running-down`. Cabinet policy dated to October 2018 (not 2022, corrected from this entry's own note); compendium covers waterflood/IOR through polymer, ASP, CO2, thermal, microbial and electrical EOR with named India status per technique; three concrete deployments found (Mangala ASP, ONGC Bechraji polymer, Gandhar CO2 feasibility); electrical EOR confirmed pilot-only worldwide, none in India.
+      Source: MoPNG/DGH policy documents on the recovery-factor incentive framework (the
+      2022 Cabinet-approved changes to royalty/cess treatment and marketing/pricing
+      freedom for incremental output from IOR/EOR projects on nomination fields; check
+      DGH's own EOR/IOR policy page and PIB for the exact approval date and terms — not
+      yet verified here); ONGC and OIL's own investor/annual-report disclosures on named
+      IOR/EOR pilots (ONGC's Mehsana/Ankleshwar/Gandhar/Kalol/Sanand-cluster polymer and
+      waterflood work is well-publicized; the Hazira/Dahej CO2-EOR pilot already touched
+      on in this blog's where-indias-captured-carbon-would post, sourced there from a
+      December 2022 ONGC MoU); global technology reference (thermal/steam, polymer/chemical
+      flooding, miscible/immiscible gas injection including CO2, and lower-TRL routes like
+      electric/electromagnetic EOR) from a standard reserves-engineering source (e.g. an
+      SPE paper or the DGH/oil-ministry's own compendium if one is published) rather than
+      vendor marketing material.
+      Argument: India's own producing fields are running down (this blog's
+      indias-oil-fields-are-running-down-3696 already quantified the 36.96-to-28.70-MMT
+      decade decline) precisely because recovery factors on legacy nomination fields are
+      low by international standards — so the incentive framework and the technology
+      choice behind it matter more than new exploration acreage for near-term production,
+      and deserve the same scrutiny this blog gives PLI/incentive schemes elsewhere: what
+      the policy actually pays for, versus which of the technology options are at pilot
+      scale vs. genuinely commercial in India today.
+      Checks needed: confirm the exact incentive framework and its approval date/terms
+      from a primary or PIB source before citing figures; do not present a single
+      operator's pilot (e.g. ONGC's CO2-EOR test) as sector-wide adoption; electric/
+      electromagnetic EOR in particular has very few field deployments anywhere in the
+      world — verify TRL and named projects (if any) rather than treating it as
+      commercially available; distinguish IOR (waterflood, infill drilling, workovers —
+      already standard practice) from EOR (thermal/chemical/gas-injection/electric —
+      genuinely enhanced techniques) throughout, since the two get conflated in casual
+      usage. Cross-link to indias-oil-fields-are-running-down-3696,
+      where-indias-captured-carbon-would (CO2-EOR aside), dgh-has-awarded-172-oalp-blocks
+      and everyone-worries-about-who-pays-for (CCUS financing) in house style.
+      Logged: 2026-09-19 from user request (direct ask, not the literature-review-daily
+      register).
+
+- [x] 57.8% of India's plant-variety rights are cereals. Spices get 151.
+      DONE — published as `577-of-indias-plant-variety` (reconciled against the live archive 2026-09-19).
       Source: PPV&FR Authority registry — homepage certificate counter with crop-category
       breakdown, 10,802 certificates as of 31.07.2026 (verified by direct fetch
       2026-08-27: Cereals 6,246 · Vegetables 1,367 · Fibre 989 · Legumes 866 · Oilseeds
@@ -53,7 +91,8 @@ Format:
       industrial facility).
 
 
-- [ ] 4,666 items on the defence indigenisation lists, ₹2,570 crore of substitution
+- [x] 4,666 items on the defence indigenisation lists, ₹2,570 crore of substitution
+      CLOSED — superseded by the correction item below, which is done; the headline figures here were the ones corrected.
       Source: DDP Positive Indigenisation Lists 1–4 (2,851 + 107 + 780 + 928 items);
       DPSU-wise indigenised lists published as PDFs on srijandefence.gov.in (verified
       downloadable, HTTP 200, 1.9 MB); PIB releases PRID 1924426 and the ~18 Aug 2026
@@ -79,7 +118,8 @@ Format:
       official filter is not reproducible from trade data alone, and the piece must say so.
       Logged: 2026-08-22 from the 1,272-product register entry
 
-- [ ] Does India have the feedstock for E20?
+- [x] Does India have the feedstock for E20?
+      DONE — published as `india-hit-e20-on-maize-and-rice-not` (reconciled against the live archive 2026-09-19).
       Source: AERR, "Does India have enough feedstock to meet its E20 targets by 2025?";
       cross-check against the blog's existing maize-acreage and sugarcane-diversion posts.
       Argument: the target is set in blending percentage but bounded by a feedstock
@@ -88,7 +128,8 @@ Format:
       time-sensitive needs a newer source before publication.
       Logged: 2026-08-22 from the corpus survey (Tier 1, item 2)
 
-- [ ] Nano-urea: does it substitute for anything?
+- [x] Nano-urea: does it substitute for anything?
+      DONE — published as `nano-urea-works-as-supplement-and-fails` (reconciled against the live archive 2026-09-19).
       Source: IJAgS nano-nitrogen dosing trials; IFFCO deployment figures.
       Argument: test the marketing claim against the trial literature, following the
       blog's existing 4:2:1 and FOM/LFOM pieces.
@@ -103,7 +144,8 @@ Format:
       Checks needed: Agmarknet series continuity across the period chosen.
       Logged: 2026-08-22 from the corpus survey (Tier 1, item 4)
 
-- [ ] Rural India's fastest quarter off the farm
+- [x] Rural India's fastest quarter off the farm
+      DONE — published as `rural-indias-farm-employment-share` (reconciled against the live archive 2026-09-19).
       Source: PLFS Quarterly Bulletin, NSO/MoSPI — Jan-Mar 2026 and Apr-Jun 2026
       releases, both fetched directly (free PDFs, mospi.gov.in/uploads/).
       Argument: rural agriculture's employment share fell for two straight quarters,
@@ -122,7 +164,8 @@ Format:
       Logged: 2026-08-24 from the PLFS Quarterly Bulletin register entry; Apr-Jun 2026
       figure verified same day against the primary bulletin.
 
-- [ ] India's largest crop insurer pays out ₹1.83 lakh crore. Farmers funded about 2% of it.
+- [x] India's largest crop insurer pays out ₹1.83 lakh crore. Farmers funded about 2% of it.
+      DONE — published 2026-09-19 as `pmfby-advertises-51-return-to-farmers`. Re-based to the March 2026 Lok Sabha figures (₹1.92 lakh cr claims / ₹36,055 cr farmer premium); farmer-funded share reframed as ~19% of gross premium (one season with all three shares published), not the ~2%-of-sum-insured cap this entry's own draft note had conflated with cost share; state waivers (Maharashtra/Odisha/Meghalaya/Puducherry/Jharkhand) flagged; applications-vs-farmers distinction kept explicit throughout.
       Source: PIB Explainer ID 155010, "Empowering Annadatas: Pradhan Mantri Fasal Bima
       Yojana", Ministry of Agriculture & Farmers Welfare, 11 Aug 2025 — fetched 2026-08-25
       (needs a browser user-agent; plain fetchers get 403). Scheme rules in the compendium
@@ -146,7 +189,8 @@ Format:
       Logged: 2026-08-25 from the PMFBY register entry
 
 
-- [ ] India irrigates itself. 96.6% of its irrigation is privately owned, and 79.5% of it
+- [x] India irrigates itself. 96.6% of its irrigation is privately owned, and 79.5% of it
+      DONE — published as `india-irrigates-itself-966-of-its` (reconciled against the live archive 2026-09-19).
       was paid for out of farmers' own savings.
       Source: 6th Minor Irrigation Census, Ministry of Jal Shakti (DoWR-RD&GR), reference
       year **2017-18**, released 26 Aug 2023. Primary release PIB PRID 1952480 (fetched in
@@ -193,7 +237,8 @@ Format:
       none on irrigation; nearest post read in full and contains zero irrigation mentions).
 
 
-- [ ] The fifth list was 346 items. Three numbers in the defence indigenisation post need correcting.
+- [x] The fifth list was 346 items. Three numbers in the defence indigenisation post need correcting.
+      DONE — applied 2026-09-18 as v2.2.0 of `5071-items-you-cannot-import-and-rs` (retitled "5,417 Items You Cannot Import — and the Ministry's Own Two Numbers for What Replaced Them"): 5th PIL 346 items added, six-list total 5,417, both the 2023 and 2024 PILs 1-4 pairs shown, SRIJAN re-basing treated as a caveat. Reconciled 2026-09-19.
       Source: PIB PRID 2033571 (16 Jul 2024, MoD) and PIB PRID 2300723 (18 Aug 2026, MoD),
       both fetched in full 2026-08-29. Note PIB 403s plain fetchers — browser UA required,
       and use `PressReleasePage.aspx?PRID=<id>`, not `PressReleaseDetail.aspx`, which
@@ -226,7 +271,8 @@ Format:
       crore of substitution" logged 2026-08-22 — that item's headline figures are the ones
       now in question, and its "verify the 6th PIL against its own release" check is done.
 
-- [ ] The wage beats the crop, in the survey that leaves the wage-earners out
+- [x] The wage beats the crop, in the survey that leaves the wage-earners out
+      DONE — published as `the-wage-beats-crop-in-survey-that` (reconciled against the live archive 2026-09-19).
       Source: NSS 77th Round Situation Assessment of Agricultural Households, NSSO/MoSPI
       — PIB PRID 1753856 (10 Sep 2021), fetched in full 2026-08-31. 🔴 PIB 302-redirects
       to `?PRID=<id>&reg=48&lang=2`; you need `curl -L` **and** a browser user-agent or
@@ -270,7 +316,8 @@ Format:
       of agricultural households are indebted, ₹74,121 average outstanding, which is a
       second piece, not this one.
 
-- [ ] The 4% every Indian insurance policy pays to one state reinsurer
+- [x] The 4% every Indian insurance policy pays to one state reinsurer
+      DONE — published as `the-4-nobody-notices-and-three-other` (reconciled against the live archive 2026-09-19).
       Source: IRDAI's annual obligatory-cession notification for FY 1 Apr 2025 – 31 Mar
       2026, quoted verbatim in Reinsurance News (fetched 2026-09-01) — "The percentage
       cession of the sum insured on each General Insurance Policy to be reinsured with the
@@ -306,7 +353,8 @@ Format:
       never as confirmation.
 
 
-- [ ] India built an offshore insurance hub. It writes USD 12 million of direct cover a year.
+- [x] India built an offshore insurance hub. It writes USD 12 million of direct cover a year.
+      DONE — published as `india-built-offshore-insurance-hub-it` (reconciled against the live archive 2026-09-19).
       Source: IFSCA Bulletin, Jan-Mar 2025 (International Financial Services Centres
       Authority, Division of Economic Policy and Analysis) — free PDF on the regulator's
       own domain, no login, explicit reproduction permission with acknowledgement:
@@ -350,7 +398,8 @@ Format:
       `banking unit` return zero.
 
 
-- [ ] The Ministry of Power published two different AT&C loss figures for the same year
+- [x] The Ministry of Power published two different AT&C loss figures for the same year
+      DONE — published 2026-09-19 as `the-ministry-of-power-published-two`. Gate check (1) resolved as: the 15.04% traces to PFC's FY25 edition (65 utilities); the 16.16% traces to nothing public reachable, sits 0.04 pts from PFC's original FY24 figure, and is written up as an unlabeled-vintage/coverage problem rather than a contradiction, per the entry's own fallback.
       Source: two PIB releases, both fetched directly 2026-09-09 (pib.gov.in returns 403 to
       a plain fetch; a browser User-Agent over curl returns 200). PRID 2200450, "Key
       Initiatives to Bring Down AT&C Losses of Power Distribution Utilities", 08 DEC 2025
@@ -514,7 +563,8 @@ moved above. Read this section before picking anything from Open.)*
   best record we have precisely because they were captured when the host was up.
 
 
-- [ ] India tested its soil twice. The second time, a machine chose the spot.
+- [x] India tested its soil twice. The second time, a machine chose the spot.
+      DONE — published 2026-09-19 as `india-has-tested-its-soil-twice-second`. The BLOCKING check (pull a district-level OC table before writing about levels/trends) could not be passed — dashboard endpoint unreachable from this environment — so, per the entry's own fallback, published as the shorter methods note built on PIB PRID 2104403's own description of the April 2023 change, with no claim about carbon levels or trends. The 254,236-sample ICAR figure was NOT used, per check (2).
       Source: Soil Health Card portal, `soilhealth.dac.gov.in` (DA&FW / NIC) — the
       Nutrient Dashboard, whose data comes from the app's own Apollo GraphQL endpoint
       `https://soilhealth4.dac.gov.in` (verified live 2026-09-04: portal and dashboard
@@ -627,3 +677,18 @@ moved above. Read this section before picking anything from Open.)*
   Separately, and not a commission: that published post's "up to 3 years' imprisonment" is
   unsourced in the PIB primary. See the register entry for PIB PRID 2215353 (16 Jan 2026).
   Logged: 2026-09-17 from the Thursday register entries.
+
+- **2026-09-18 — "India's largest crop insurer pays out ₹1.83 lakh crore" is already
+  published. Do not commission.** Drafted this item today and ran the standard
+  `research_crosscheck.py --auto --numbers` dedup pass before publishing, which caught it:
+  `the-4-nobody-notices-and-three-other` (published 2026-09-01) already carries this exact
+  argument — same 78.41 crore applications / ₹1.83 lakh crore claims / 2%-1.5%-5% capped
+  farmer premium table / 95–98.5% Centre+state split, near-verbatim in places — as one of
+  its four backstop stories (PMFBY sits alongside the GIC Re obligatory-cession item, i.e.
+  this queue item and the "4% every Indian insurance policy pays" item are covered by the
+  *same* published post). The published version is also more current: it adds the Kharif
+  2024 12%-p.a. late-claim interest penalty and the Kharif 2026 wild-animal-attack and
+  paddy-inundation add-on covers, neither in this queue item's source vintage. No residual
+  angle identified today. Draft discarded, not published.
+  Logged from a same-day drafting pass, superseding the "India's largest crop insurer"
+  item logged 2026-08-25.
