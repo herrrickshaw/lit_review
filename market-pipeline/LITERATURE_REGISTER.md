@@ -2392,3 +2392,180 @@ this paper's LAP test becomes the right check before trusting them.
   which this pipeline has a place for.
 - **2603.26797**. Surfaced only as a bare PDF link in the second search with no title; not
   fetched, not identified. Recorded so a later run does not treat it as new without checking.
+
+## Added 2026-09-19 (daily task, Saturday gap query: correlation-matrix eigenvalues / regime / effective dimension)
+
+Citation-following from hub 2605.19337 produced **one new paper** after three dry runs: Semantic
+Scholar now returns six citing papers, five already registered (2609.04917, 2608.26990,
+2607.19453, 2607.04958, 2606.08285) plus 2609.19705, triaged below. Two Saturday searches plus
+the q-fin.PM and q-fin.ST recent listings make three attempts; seven candidates.
+
+### 1102.4076 — The fine structure of spectral properties for random correlation matrices: an application to financial markets (G. Livan, S. Alfarano & E. Scalas, submitted 2011-02-20; Phys. Rev. E 84, 016113 (2011))
+
+Old, and deliberately so: the Saturday rotation has now pulled six modern spectral papers into
+this register and none of them supplies the thing this one does — a closed-form prediction for
+where a *cluster* deposits its eigenvalues, checked against real data.
+
+Techniques extracted:
+- **The bulk is not noise; it is superposed cluster structure.** The paper's own framing: the
+  large empirical bulks "have often been regarded as a consequence of the supposedly large amount
+  of noise contained in financial data", and it challenges that by filtering the empirical matrix
+  to expose clusters and watching the bulk decompose.
+- **A block of N̄ mutually correlated assets with mean internal correlation ρ deposits N̄−1
+  eigenvalues at exactly 1−ρ, plus one large eigenvalue at N̄ρ + (1−ρ).** That is the whole
+  signature, and it lives in the *lower* spectrum. ρ is estimated as the mean off-diagonal
+  correlation inside the block (their eq. 48).
+- **Empirical check.** S&P500: 396 assets, T = 3400 daily returns, 1996–2009. FTSE350: 243
+  assets, T = 1423, 2005–2010. Their filtering procedure (eq. 45–47) picks a tight block by
+  `c_ij ≥ ρ_U`, then a weakly-correlated complement by two further thresholds, and reorders.
+  In the S&P case the block found was **N̄ = 7 assets, ρ = 0.712, all of them energy-sector**,
+  against a complement of 33 names with mean mutual correlation 0.099. Predicted small eigenvalue
+  1 − 0.712 = **0.288**, which is what their eq. (49) reports.
+- **Where it fails is as informative as where it works.** The FTSE spectrum matched the two-block
+  model closely; the S&P one produced two large eigenvalues instead of one, and the paper
+  attributes the discrepancy explicitly to "the unresolved correlation structure in the empirical
+  S&P matrix, which gives rise to additional sub-clusters" — the predicted single large eigenvalue
+  would have been N̄ρ + (1−ρ) = 5.272.
+
+Evidence grade: **strong on its own terms, and the terms are not a backtest.** It is analytic
+plus Monte Carlo plus two disclosed real universes over disclosed date ranges; there is no
+strategy, no Sharpe and no cost model, because it makes no return claim. The usual triage bar
+does not apply. Peer-reviewed in Phys. Rev. E, which the arXiv-preprint majority of this register
+is not.
+
+**Verified against this repo — and it lands on an already-queued item, not a new one.**
+- `research/correlation_regime_spectrum.py` builds its matrix from `N_SYMBOLS = 150` (`:34`) over
+  `WINDOW = 60` (`:35`, sliced `:60-64`); `correlation_regime_spectrum.csv` has 299 rows with
+  `n_symbols` running **126 to 150**. n/T = 2.1 to 2.5, so rank ≤ 59 and between 67 and 91
+  eigenvalues are identically zero. **Livan's 1−ρ signature is unreadable on this matrix**: the
+  lower spectrum there is rank deficiency, not cluster tightness. Confirmed independently
+  yesterday from the other direction — `research/spectrum_noise_null.md`'s independence null put
+  PR at 41.8 against the analytic Marchenko–Pastur value n/(1+n/T) = 42.1.
+- 🔴 **Queue item 9 points the same class of measurement at a matrix where it is worse.** Item 9
+  asks for `m⁻ = count of eigenvalues below (1−√(n/T))²` on `market_correlation_scan.py`'s
+  nightly matrix. That matrix is full-universe (the module's own docstring reports 2,225 resolved
+  NSE symbols, `:220-222`) at `period: str = "1y"` (`:99`, default, threaded through `:261`,
+  `:283`, `:295`, `:362`) — **T ≈ 250, n ≈ 2,225, n/T ≈ 8.9.** The lower MP edge (1−√8.9)² = 3.92
+  sits *above* most of the spectrum, ~1,975 eigenvalues are identically zero, and m⁻ degenerates
+  to a near-constant ≈ n − T that tracks how many tickers resolved that night, not the market.
+  The source paper for m⁻, 2608.09641, ran n = 377 / 199 at w = 1000 — **n/T ≈ 0.38 / 0.20**, the
+  opposite regime. Item 9 as written cannot produce the descriptor it names.
+- Doing-right: both spectral scripts were built as measurement, not gates —
+  `correlation_regime_spectrum.py` is research-only, and item 9's own instruction is "log them as
+  a daily time series first; only then consider gating on them". Nothing live depends on either,
+  so this is a wrong number never wired up rather than a wrong number in production.
+- Doing-right, second: the repo reached Livan's conclusion empirically without the theory.
+  `market_correlation_scan.py:189-197` documents that naive thresholding chains "everything
+  transitively together via broad market beta", 57% of NSE and 37% of US into one component at
+  0.55, and `mst_clusters`' docstring (`:216-234`) records that 0.7 broke it to ~23% and 0.8 to
+  ~11%, "revealing clean real sector groups (fertilizer producers, cable TV operators, QSR
+  franchise operators, pharma pairs)". That is Livan's superposition-of-blocks picture, found by
+  hand.
+
+Caveat: the two eigenvalue formulas are exact only for a homogeneous block; real blocks are not
+equicorrelated, which is precisely why their S&P fit left a residual. Treat 1−ρ as a location to
+look for mass, not a value to test equality against.
+
+- Gap: the lower spectrum is unmeasurable anywhere in this repo at present, in both the research
+  panel (n/T 2.1–2.5) and the nightly scan (n/T ≈ 8.9).
+- Action queued: **item 38.**
+
+### 2608.06618 — Beyond Co-Movement: Locality by Exposures Enables a Joint Factor-Graph Framework for Portfolio Diversification (Sara Chehab, Giorgos Iacovides, Parisa Yazdanparast & Danilo Mandic, 2026-08-06, q-fin.PM)
+
+Proposes MINGLE, which "mutually regularises the factor and graph domains by redefining graph
+locality through systematic factor exposure profiles, rather than via observed co-movements",
+solved by ADMM over a joint objective (their eq. 5: factor reconstruction + exposure smoothness
+on the graph + graph sparsity + degree barrier + factor decorrelation; hyperparameters k=6,
+λ=0.1, α=2.2, δ=1.0, β=3.0, ω=0.997).
+
+Evidence grade: **strong.** 300 equities — the 100 most actively traded from each of the S&P 500,
+Nikkei 225 and STOXX 600, i.e. three of this repo's five markets — evaluated January 2019 to March
+2026 on rolling 2-year windows, monthly rebalanced. Headline metric is **Sharpe and CAGR, not
+MAPE**: 21.0% CAGR / 1.07 Sharpe at 0 bps for their best variant against 17.3% / 0.860 for
+CutV-on-sample-covariance. **Transaction costs are modelled at 0, 10, 20 and 50 bps**, and the
+ranking survives the top of that range (18.3% / 0.929 vs 16.1% / 0.800 at 50 bps). Paired
+statistical testing is claimed. Disclosed universe, disclosed dates, costs addressed — this
+clears the bar the weak-evidence section exists to catch.
+
+Techniques extracted:
+- **The central claim is about the distance function, not the cutoff.** Correlation neighbourhoods
+  are "transient, window-specific"; exposure neighbourhoods capture "persistent economic
+  structure".
+- **A cheap diagnostic that needs none of the ADMM.** Their Figure 4 reports within-cluster edge
+  weight as a multiple of between-cluster: **2.42× for correlation-based clustering against 5.30×
+  for MINGLE** in calm markets. Separately, exposure-similarity graphs "align with GICS economic
+  sectors, whereas correlation graphs do not".
+- Cost: the B update is a Sylvester solve at **O(p³)**, tractable at p=300 on monthly windows. No
+  GPU, no wall-clock figure given.
+
+**Verified against this repo:**
+- The repo's only asset-neighbourhood construction is correlation-based, and in both flavours
+  MINGLE names: `compute_correlation_clusters` (`market_correlation_scan.py:156-181`) takes
+  connected components of the `|corr| ≥ threshold` graph at `threshold: float = 0.55` (`:158`),
+  and `build_mst`/`mst_clusters` (`:186-240`) does Mantegna single-linkage on
+  `d_ij = √(2(1−ρ_ij))` (`:205-207`). Both are "locality by observed co-movement" exactly.
+- 🔴 **The repo has already paid MINGLE's price and patched it with a threshold.** Per the
+  docstrings cited above, the giant beta component ate 57% of NSE at 0.55, and the fix was to
+  raise the cutoff to 0.7 — with the honest closing warning that "there's no universal 'right'
+  cutoff... don't assume one number transfers across markets/periods". MINGLE's argument is that
+  the non-transferability is a property of the *distance*, not of the cutoff, so no amount of
+  tuning fixes it. That is a real gap and it is diagnosable without adopting MINGLE.
+- **The inputs for the diagnostic already exist.** Per-stock factor exposures: `FACTORS` is a
+  10-name list at `factor_learning.py:37-38` (trend, revert, mom126, mom_st, golden_cross,
+  breakout, lowvol, mom252, qual_mom, def_revert) with `build_xy()` assembling the per-week
+  cross-section, and `factor_zscore_panel.py:216` writes a z-scored continuous-factor panel for
+  US + India to parquet. Sector labels already exist too — `watchlist_digest.py:252`
+  (`market_cache/sector_map.json`) and `sector_valuation_history.py:27-28` (Damodaran map).
+  🔴 But note `backtest_ccc.py:186`: `market_cache/sector_map.json` is **Europe-only**, so the
+  sector-alignment half of the diagnostic needs the Damodaran map for IN/US, not that file.
+- Doing-right: nothing consumes the clusters. Grepping every `.py`/`.sh` for
+  `compute_correlation_clusters` / `market_correlation_scan` / `correlation_matrix.csv` returns
+  only the module itself, `check_deps.py:62` listing it as a dependency, `ohlcv_cache.py:10`
+  noting it re-downloads the universe, and four `symbol_master.py` comments. The scan writes
+  `{prefix}_correlation_matrix.csv.zst` and a cluster report (`:328`, `:333`) and stops. No
+  weighting, no screen and no email depends on a correlation cluster, so a wrong neighbourhood
+  currently misleads a reader rather than a position.
+- Doing-right, second: the repo's one documented use of a correlation cluster was as a *data-
+  quality* probe, and it worked. `symbol_master.py:239-242` records that a 56-member cluster
+  "turned out to be entirely J-REITs moving together on rate sentiment, not operating companies",
+  which is how 63 leaking J-REITs were found. Co-movement locality is the right tool for that job
+  even if it is the wrong tool for diversification — worth keeping straight before anything is
+  replaced.
+
+Caveat: MINGLE is a *portfolio-construction* method and this repo constructs no portfolio from
+clusters, so adopting the ADMM itself would be borrowing machinery for a use that does not exist.
+Only the Figure-4 diagnostic is in scope. Also, their 300-name universe is the most actively
+traded decile of three large indices, which is the opposite of where this repo's documented edge
+lives (`project_piotroski_plus`: illiquidity, not size) — so a result on their universe should not
+be assumed to transfer to the NSE small-cap tail.
+
+- Gap: no exposure-based neighbourhood exists, and the correlation-based one has never been
+  compared against the sector labels the repo already carries.
+- Action queued: **item 39.**
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2609.19705** (Mengxiao Wang & Nitesh Saxena, "SoK: Trading Agents or Market Crashers?
+  Dissecting Robustness and Security Failures in Academic Financial LLM Trading Schemes",
+  2026-09-17). The one new citation of the hub paper, and genuinely rigorous — their FARSIGHT
+  framework audits 15 academic schemes and reports 80% failing a core robustness metric and 100%
+  showing a security vulnerability. Off-scope for the same reason 2607.18867 was: the subject is
+  LLM trading agents, and this repo runs no LLM in its decision path (verified 2026-09-18 at
+  `llm_extract.py` / `promptfoo/provider.py:16,32`). Nothing to act on; re-read if an agent is
+  ever wired in.
+- **2601.04602** ("Forecasting Equity Correlations with Hybrid Transformer Graph Neural Network").
+  Surfaced by the Saturday search. Not fetched: a transformer-GNN correlation *forecaster* is the
+  GPU-training shape the budget cap exists to skip, and the repo's problem is measuring today's
+  correlation structure correctly, not predicting next month's.
+- **2606.23492** (Alswaidan, Jin & Varner, "Continuous Hidden Markov Models for Equity Returns:
+  Heavy-Tail Emission Families and Regime-Conditional Value-at-Risk", 2026-06-22). Abstract
+  fetched. Respectable validation — joint conditional-coverage test, walk-forward, a copula for
+  cross-asset correlation, four panels including a CRSP cross-decade transfer — but the output is
+  a regime-conditional VaR and this pipeline forecasts no risk budget and holds no positions it
+  sizes. No date ranges or costs in the abstract. Filed as background, not actioned.
+- **2609.13402** ("Diffusion models for dynamic volatility surface generation and data-driven
+  hedging", q-fin.PM recent listing). Not fetched; options surfaces and hedging, neither of which
+  this equity screener touches.
+- **"Portfolio Diversification and Concentration under Dependence Uncertainty: A Majorization
+  Approach"**. Named in the second search's q-fin listing with no arXiv ID returned; not fetched,
+  not identified. Recorded so a later run does not treat it as new without checking.

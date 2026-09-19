@@ -789,3 +789,74 @@ when it's been run; do not delete history.
       and may still carry something PR does not; that is now the question to ask of them.
     - Caveat: Null B is Gaussian with homogeneous loadings, so "inside the band" means "not
       explained by ρ̄ alone", not "no structure beyond one factor". (b) and (c) are NOT run.
+
+38. 🔴 **Fix item 9 before running it — its lower-spectrum descriptor is not computable on the
+    matrix it points at, and add an n/T guard so it cannot silently return a number anyway.**
+    Item 9 asks for `m⁻ = count of eigenvalues below (1−√(n/T))²` from
+    `market_correlation_scan.py`'s nightly matrix. That matrix is full-universe (the module's own
+    docstring reports 2,225 resolved NSE symbols, `:220-222`) at `period: str = "1y"` (`:99`,
+    default, threaded through `:261`, `:283`, `:295`, `:362`): **T ≈ 250 against n ≈ 2,225, so
+    n/T ≈ 8.9.** At that ratio the lower MP edge (1−√8.9)² = 3.92 sits above most of the spectrum,
+    roughly 1,975 eigenvalues are identically zero by rank deficiency, and m⁻ collapses to a
+    near-constant ≈ n − T that moves with how many tickers resolved that night rather than with
+    the market. The source paper (2608.09641) ran n = 377 / 199 at w = 1000, i.e. n/T ≈ 0.38 /
+    0.20 — the opposite regime. Three changes, all cheap, no new data:
+    - **(a) Guard, not fix.** Wherever a lower-spectrum descriptor is computed, refuse to emit it
+      unless **n < T**, and log the refusal with both numbers. The upper-spectrum descriptors item
+      9 also names (AR_k, entropy, effective rank, spectral gap, MP excess) are fine at n > T and
+      should still be emitted; only m⁻ and the condition number λ₁/λₙ are affected. λ₁/λₙ is
+      meaningless at n > T for the same reason — λₙ is a numerical zero — so guard it too.
+    - **(b) Give the lower spectrum a matrix it can live on.** Compute m⁻ on a sub-universe with
+      n < T instead: the existing 150-name research panel at `period="2y"` (n/T ≈ 0.3), or the
+      most-liquid 150 of the nightly universe at 1y (n/T = 0.6). State which universe the number
+      refers to in the output — a market-wide claim from a liquid-150 matrix is a different claim.
+    - **(c) Then look for Livan's block signature.** On that same n < T matrix, histogram the
+      lower spectrum and check for mass accumulating near **1−ρ̄_block** for the tight blocks
+      `mst_clusters` already finds at 0.7/0.8. A block of N̄ equicorrelated names at mean internal
+      correlation ρ puts N̄−1 eigenvalues at 1−ρ and one at N̄ρ+(1−ρ). If the mass is there, the
+      lower spectrum is counting *how many distinct tight groups exist and how tight they are* —
+      which is information ρ̄ does not carry, and is therefore the thing the 2026-09-18 null run
+      showed PR lacks.
+    Caveat: the two formulas are exact only for a homogeneous block, and Livan et al.'s own S&P
+    fit left a residual they attributed to unresolved sub-clusters (predicted single large
+    eigenvalue 5.272, observed two large ones). Treat 1−ρ as where to look for mass, not a value
+    to test equality against. Caveat 2: this supersedes nothing in item 9 except the m⁻ and
+    condition-number lines; the rest of item 9 stands as written.
+    Motivated by: 1102.4076, against 2608.09641 (item 9's source).
+
+39. **Ask whether the correlation cluster report beats the sector labels the repo already has —
+    MINGLE's Figure-4 diagnostic, without adopting MINGLE.** The only asset-neighbourhood
+    construction in the repo is correlation-based, in both flavours 2608.06618 argues against:
+    `compute_correlation_clusters` (`market_correlation_scan.py:156-181`, connected components at
+    `threshold = 0.55`, `:158`) and `build_mst`/`mst_clusters` (`:186-240`, Mantegna single-linkage
+    on `d_ij = √(2(1−ρ_ij))`, `:205-207`). The repo has already paid the price the paper predicts —
+    the beta giant component ate 57% of NSE at 0.55 and the fix was to raise the cutoff to 0.7,
+    closing with "there's no universal 'right' cutoff... don't assume one number transfers across
+    markets/periods" (`:229-234`). The paper's claim is that the non-transferability is a property
+    of the *distance*, not the cutoff. Test it on one market (IN, then US), no ADMM and no new data:
+    - **(a) Build the exposure graph from what exists.** Use the 10 z-scored factor exposures per
+      stock as the vector b_i — `FACTORS` at `factor_learning.py:37-38`, panel written by
+      `factor_zscore_panel.py:216` — and define neighbourhood by exposure distance ‖b_i − b_j‖
+      instead of by ρ_ij. This is MINGLE's redefinition of locality without its joint optimisation.
+    - **(b) Score both graphs on the paper's own diagnostic.** Within-cluster mean edge weight as
+      a multiple of between-cluster, in a calm window and a stressed one. Their reported figures
+      are 2.42× for correlation against 5.30× for exposure-based. Report the repo's two numbers
+      beside theirs.
+    - **(c) Sector alignment, which is the part that decides whether the cluster report is worth
+      keeping.** Score both graphs' agreement with sector labels (adjusted Rand or normalised
+      mutual information). 🔴 Use the **Damodaran** map (`sector_valuation_history.py:27-28`) for
+      IN/US — `market_cache/sector_map.json` is Europe-only per `backtest_ccc.py:186`, so
+      `watchlist_digest.py:252`'s labels are the wrong source for this test. If the exposure graph
+      recovers sectors and the correlation graph does not, then the correlation cluster report is a
+      noisier restatement of a sector map the repo already ships, and should say so in its own
+      output.
+    Do NOT adopt MINGLE's ADMM: it is a portfolio-construction method and this repo builds no
+    portfolio from clusters, so the machinery has no consumer. Only the diagnostic is in scope.
+    Caveat: their 300-name universe is the most-actively-traded decile of the S&P 500, Nikkei 225
+    and STOXX 600, which is the opposite end of the liquidity spectrum from where this repo's
+    documented edge sits (illiquidity, not size), so a result there should not be assumed to
+    transfer to the NSE small-cap tail — run it per market and report per market.
+    Keep in mind what co-movement locality is *right* for: `symbol_master.py:239-242` records a
+    56-member cluster that "turned out to be entirely J-REITs moving together on rate sentiment",
+    which is how 63 leaking J-REITs were caught. That use is not in question here.
+    Motivated by: 2608.06618.

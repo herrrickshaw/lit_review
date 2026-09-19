@@ -1261,3 +1261,93 @@ genuinely uncovered.** Soil is uncovered except as fertiliser dosing.
 - **"Irrigation Development and Equity Impacts in India"** (ideas.repec.org, ICAR 2024 conference
   paper 344984). Not fetched. Logged so a later run does not treat it as new without checking;
   equity impacts would extend the piece queued below rather than stand alone.
+
+## Added 2026-09-19 (daily task, Saturday: trade, tariffs and industrial policy)
+
+The blog's heaviest beat, so the dedup bar is "contradicts or materially updates a published
+post". Grepping `meta/manifest.json` (273 posts, snapshot 2026-09-14) for
+`import.subst|indigenis|tariff|1,?272|substitut|pli|make.in.india` returns **19 posts**, of which
+`you-cannot-substitute-crude-oil-or-gold` (23 Aug 2026) is the direct incumbent on today's
+subject. Today's find clears the bar: it updates that post rather than repeating it.
+
+### Reuters/Business Standard, "Govt identifies $51 bn in critical imports for domestic manufacturing push" (16 Jul 2026) + KNN India/PTI, "Govt Forms Six Working Groups To Identify 100 Products For Import Substitution" (5 Jun 2026) — COMMISSIONABLE, as an update to a published post
+
+Two press reports, read in full, that together supply the two things
+`you-cannot-substitute-crude-oil-or-gold` explicitly said it could not find: the government's own
+replaceable-imports denominator, and the committee structure drawing the list up.
+
+- **Data**: no login and no payment. The Business Standard page returns HTTP 200 to an ordinary
+  browser user-agent and carries the full Reuters copy in its `articleBody` — WebFetch 403s it,
+  `curl -A <browser UA>` does not (same pattern as the ET/Hindu note in the global memory). The
+  KNN India page fetched clean. Neither is the *primary*: the underlying document is an internal
+  government analysis and a Cabinet Secretariat submission, neither published. What is
+  reproducible independently is the outermost rung only — total goods imports — from DGCI&S,
+  which this blog already pulls at HSN-8.
+- **Finding**, in four nested figures from the July report, quoted from the copy fetched today:
+  India "imported $775 billion worth of goods in the 12 months ended March 2026"; an internal
+  analysis found "imports worth $398 billion have the potential to be replaced by local
+  manufacturing"; "about $51 billion in imports were viewed as those that are seen as critical
+  inputs of manufacturing"; and "about 100 items from this set would be taken up for immediate
+  action". Sectors named: footwear, textiles, electric vehicle industries, solar panels.
+  The June report adds the machinery: **six working groups, all "chaired by the DPIIT
+  Secretary"**, with a **three-week deadline to submit a final list to the Cabinet Secretariat**,
+  drawing on 14 ministries (Commerce, DPIIT, NITI Aayog, Pharmaceuticals, Economic Affairs,
+  Science & Technology, Chemicals, Textiles, Heavy Industry, Ports & Shipping, Electronics & IT,
+  Road Transport, New & Renewable Energy, Oil). The six groups' sector splits are: (1) pharma,
+  biotech and medical devices; (2) chemicals, petrochemicals, textiles and footwear; (3) capital
+  goods, automotive, EVs and advanced capital goods; (4) energy; (5) construction equipment and
+  infrastructure; (6) defence and aerospace (civilian applicability only) and electronics.
+- **Blog fit**: extends the trade-and-industrial-policy beat and specifically updates
+  `you-cannot-substitute-crude-oil-or-gold`, which built its analysis on the $189 bn / 1,272-
+  product figure alone. Two of that post's own statements are now improvable:
+  1. The post wrote that the $189 bn target is "41 per cent of the imports manufacturing could
+     plausibly touch", where the denominator was the post's own construction — $776 bn less
+     mineral fuels ($203 bn) and pearls/precious stones/gold ($109 bn), i.e. **$464 bn**. The
+     government's internal figure for the same concept is **$398 bn**, $66 bn smaller. Against
+     that denominator the target is **47.5%**, not 41% — the post's strip-two-chapters proxy was
+     the more generous of the two, so it understated the ambition.
+  2. The post does not mention the **$51 bn / ~100-item** inner tier at all, though it was
+     reported the same day by the same outlet on the same sourcing. That tier is the one "taken up
+     for immediate action", and it is **27% of the $189 bn headline and 6.6% of the import bill** —
+     which reframes the post's "24 per cent of the import bill" from ambition into announcement.
+  The post's central and correct claim — that the list is unpublished and no PIB release setting
+  out the 1,272 products or the $189 bn could be located — **stands**, and today's search did not
+  overturn it: PIB's site answered (HTTP 200) but surfaced only unrelated monthly trade releases.
+  The chairing, the deadline and the ministry list, however, are on the record via PTI, which the
+  post did not have.
+- **Caveat**: (1) 🔴 **Every figure here is anonymous-source press.** The July report rests on
+  "three government sources … who did not want to be identified because it was confidential", and
+  records that "India's trade ministry did not immediately respond to Reuters' request for
+  comment"; the June report is "an official told PTI". Attribute to reporting, never state as
+  established — the same discipline the published post already applied to $189 bn, applied to all
+  four new numbers. (2) The $775 bn press figure and the blog's own DGCI&S **$776 bn** are the
+  same quantity at different roundings/vintages; pick one, say which, and do not compute a
+  difference between them. (3) 🔴 The June report's **crude oil $174 bn** is *not* the blog's
+  **mineral fuels $203 bn** — one is crude petroleum, the other the whole chapter including LNG,
+  coal and products. Mixing them would manufacture a $29 bn discrepancy that does not exist. Its
+  electronics figure ($116.2 bn) and machinery ($61.73 bn) likewise sit inside, not beside, the
+  post's $256 bn four-sector aggregate. (4) "Potential to be replaced by local manufacturing" is
+  the government's own undefined term, exactly as "import substitution value" is in the defence
+  indigenisation releases — state that it is undefined rather than treating $398 bn as measured.
+  (5) The 1,272-product / $189 bn track and the 100-item / $51 bn track may be the same exercise
+  at two stages or two parallel exercises; the reports do not say, and the piece must not assume.
+  The June deadline (three weeks from 5 Jun) and the July reporting are consistent with one
+  pipeline, which is suggestive, not established.
+
+### Weak / not deep-read, one line each
+
+- **IMARC Engineering, "India Identifies USD 51 Billion Critical Imports for Manufacturing"**, and
+  the Finnovate, Kotak Neo and Zoombangla write-ups of the same Reuters story. Not fetched beyond
+  the search snippet. All are downstream aggregations of the 16 Jul Reuters copy that was read at
+  source today, and IMARC in particular is a vendor market-sizing house — the standing rule
+  (`feedback_vendor_market_estimates`: modelled figures, undisclosed scope, one India number
+  overstated 6.5×) means it is never the citation even when it happens to be relaying a
+  government figure correctly. Cite Reuters via the Business Standard page, not these.
+- **Policy Circle, "India's import substitution plan needs export discipline"**. Already the
+  supporting citation on the existing queue item for the $189 bn reconstruction; commentary, no
+  new data.
+- **dcmsme.gov.in, "Detailed Project Reports on Import Substitution for various products"** (PDF).
+  Surfaced by search, not fetched. An MSME-DI project-report compilation, almost certainly
+  pre-dating this exercise; logged so a later run does not treat it as new without checking. Worth
+  a look only if a piece needs unit-level project economics rather than trade aggregates.
+- **YouTube explainer of the 1,272-product plan**. Not a source.

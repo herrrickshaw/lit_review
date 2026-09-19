@@ -430,6 +430,48 @@ Format:
       hectare|farm returns no irrigation post at all.
 
 
+- [ ] The $189 billion was the outer ring. The part being acted on is $51 billion and 100 items.
+      Source: Reuters via Business Standard, "Govt identifies $51 bn in critical imports for
+      domestic manufacturing push" (16 Jul 2026) — 🔴 WebFetch 403s the page; `curl` with a
+      browser user-agent returns HTTP 200 and the full Reuters copy sits in the page's
+      `articleBody` JSON-LD, read verbatim 2026-09-19. Second source: KNN India carrying PTI,
+      "Govt Forms Six Working Groups To Identify 100 Products For Import Substitution"
+      (5 Jun 2026), fetched clean same day. Reproducible primary for the outer rung only:
+      DGCI&S HSN-8 import data, which the blog already pulls.
+      Argument: the blog measured the $189 bn / 1,272-product target against a replaceable-imports
+      denominator it built itself ($776 bn less mineral fuels and gold = $464 bn, giving 41%).
+      The same exercise's own internal figure is $398 bn — $66 bn smaller, so the target is 47.5%
+      of what the government thinks is replaceable, not 41%. And beneath the $189 bn sits a tier
+      the post never mentions: $51 bn of "critical inputs", of which about 100 items are "taken up
+      for immediate action" — 27% of the headline and 6.6% of the import bill. The announcement is
+      four nested numbers deep, and the operative one is the smallest.
+      Checks needed: (1) 🔴 every new figure is anonymous-source press — "three government
+      sources … did not want to be identified because it was confidential", trade ministry did not
+      respond to Reuters; the PTI piece is "an official told PTI". Attribute to reporting, exactly
+      as the published post already does for $189 bn; do not upgrade any of them. (2) Reconcile
+      $775 bn (press) against the blog's own DGCI&S $776 bn — same quantity, different rounding;
+      pick one, name it, never subtract them. (3) 🔴 crude oil $174 bn (PTI) is NOT mineral fuels
+      $203 bn (the blog's chapter figure) — crude petroleum vs the whole chapter with LNG, coal
+      and products. Mixing them invents a $29 bn gap. Same for electronics $116.2 bn and machinery
+      $61.73 bn, which sit inside the post's $256 bn four-sector aggregate, not beside it.
+      (4) "Potential to be replaced by local manufacturing" is the government's own undefined term
+      — say so, as the defence posts had to say it of "import substitution value". (5) Establish
+      whether the 1,272/$189 bn and 100-item/$51 bn tracks are one exercise at two stages or two
+      exercises; the reports do not say. The three-week June deadline to the Cabinet Secretariat is
+      consistent with one pipeline — suggestive, not established. (6) Re-check PIB before
+      publication: today's search still found no release setting out either list, which means the
+      published post's "the list is not published" holds, but that is a negative worth re-testing.
+      House style: cite `you-cannot-substitute-crude-oil-or-gold` as the blog's own earlier
+      reporting being corrected, never as confirmation.
+      Logged: 2026-09-19 from the Reuters/$51 bn + DPIIT working-groups register entry
+      Updates: the published post `you-cannot-substitute-crude-oil-or-gold` (23 Aug 2026) — its
+      41% denominator and its silence on the $51 bn tier.
+      Relates to the open item "Rebuilding the $189 billion substitution list from public trade
+      data" (logged 2026-08-22), which does NOT need superseding: its reconstruction method is
+      still the right piece, and the six working groups' sector splits now give it a sector
+      partition to reconstruct against. The better target for that item is arguably the 100-item
+      list, not the 1,272 — it is smaller, sector-attributed, and the one with a deadline.
+
 ## Done
 
 - [x] What a farm labourer earns, and why it stopped tracking output
