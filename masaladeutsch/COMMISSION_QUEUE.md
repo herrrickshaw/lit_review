@@ -57,7 +57,8 @@ Format:
       Logged: 2026-09-19 from user request (direct ask, not the literature-review-daily
       register).
 
-- [ ] 57.8% of India's plant-variety rights are cereals. Spices get 151.
+- [x] 57.8% of India's plant-variety rights are cereals. Spices get 151.
+      DONE — published as `577-of-indias-plant-variety` (reconciled against the live archive 2026-09-19).
       Source: PPV&FR Authority registry — homepage certificate counter with crop-category
       breakdown, 10,802 certificates as of 31.07.2026 (verified by direct fetch
       2026-08-27: Cereals 6,246 · Vegetables 1,367 · Fibre 989 · Legumes 866 · Oilseeds
@@ -115,7 +116,8 @@ Format:
       official filter is not reproducible from trade data alone, and the piece must say so.
       Logged: 2026-08-22 from the 1,272-product register entry
 
-- [ ] Does India have the feedstock for E20?
+- [x] Does India have the feedstock for E20?
+      DONE — published as `india-hit-e20-on-maize-and-rice-not` (reconciled against the live archive 2026-09-19).
       Source: AERR, "Does India have enough feedstock to meet its E20 targets by 2025?";
       cross-check against the blog's existing maize-acreage and sugarcane-diversion posts.
       Argument: the target is set in blending percentage but bounded by a feedstock
@@ -124,7 +126,8 @@ Format:
       time-sensitive needs a newer source before publication.
       Logged: 2026-08-22 from the corpus survey (Tier 1, item 2)
 
-- [ ] Nano-urea: does it substitute for anything?
+- [x] Nano-urea: does it substitute for anything?
+      DONE — published as `nano-urea-works-as-supplement-and-fails` (reconciled against the live archive 2026-09-19).
       Source: IJAgS nano-nitrogen dosing trials; IFFCO deployment figures.
       Argument: test the marketing claim against the trial literature, following the
       blog's existing 4:2:1 and FOM/LFOM pieces.
@@ -139,7 +142,8 @@ Format:
       Checks needed: Agmarknet series continuity across the period chosen.
       Logged: 2026-08-22 from the corpus survey (Tier 1, item 4)
 
-- [ ] Rural India's fastest quarter off the farm
+- [x] Rural India's fastest quarter off the farm
+      DONE — published as `rural-indias-farm-employment-share` (reconciled against the live archive 2026-09-19).
       Source: PLFS Quarterly Bulletin, NSO/MoSPI — Jan-Mar 2026 and Apr-Jun 2026
       releases, both fetched directly (free PDFs, mospi.gov.in/uploads/).
       Argument: rural agriculture's employment share fell for two straight quarters,
@@ -182,7 +186,8 @@ Format:
       Logged: 2026-08-25 from the PMFBY register entry
 
 
-- [ ] India irrigates itself. 96.6% of its irrigation is privately owned, and 79.5% of it
+- [x] India irrigates itself. 96.6% of its irrigation is privately owned, and 79.5% of it
+      DONE — published as `india-irrigates-itself-966-of-its` (reconciled against the live archive 2026-09-19).
       was paid for out of farmers' own savings.
       Source: 6th Minor Irrigation Census, Ministry of Jal Shakti (DoWR-RD&GR), reference
       year **2017-18**, released 26 Aug 2023. Primary release PIB PRID 1952480 (fetched in
@@ -262,7 +267,8 @@ Format:
       crore of substitution" logged 2026-08-22 — that item's headline figures are the ones
       now in question, and its "verify the 6th PIL against its own release" check is done.
 
-- [ ] The wage beats the crop, in the survey that leaves the wage-earners out
+- [x] The wage beats the crop, in the survey that leaves the wage-earners out
+      DONE — published as `the-wage-beats-crop-in-survey-that` (reconciled against the live archive 2026-09-19).
       Source: NSS 77th Round Situation Assessment of Agricultural Households, NSSO/MoSPI
       — PIB PRID 1753856 (10 Sep 2021), fetched in full 2026-08-31. 🔴 PIB 302-redirects
       to `?PRID=<id>&reg=48&lang=2`; you need `curl -L` **and** a browser user-agent or
@@ -306,7 +312,8 @@ Format:
       of agricultural households are indebted, ₹74,121 average outstanding, which is a
       second piece, not this one.
 
-- [ ] The 4% every Indian insurance policy pays to one state reinsurer
+- [x] The 4% every Indian insurance policy pays to one state reinsurer
+      DONE — published as `the-4-nobody-notices-and-three-other` (reconciled against the live archive 2026-09-19).
       Source: IRDAI's annual obligatory-cession notification for FY 1 Apr 2025 – 31 Mar
       2026, quoted verbatim in Reinsurance News (fetched 2026-09-01) — "The percentage
       cession of the sum insured on each General Insurance Policy to be reinsured with the
@@ -342,7 +349,8 @@ Format:
       never as confirmation.
 
 
-- [ ] India built an offshore insurance hub. It writes USD 12 million of direct cover a year.
+- [x] India built an offshore insurance hub. It writes USD 12 million of direct cover a year.
+      DONE — published as `india-built-offshore-insurance-hub-it` (reconciled against the live archive 2026-09-19).
       Source: IFSCA Bulletin, Jan-Mar 2025 (International Financial Services Centres
       Authority, Division of Economic Policy and Analysis) — free PDF on the regulator's
       own domain, no login, explicit reproduction permission with acknowledgement:
