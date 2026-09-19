@@ -90,7 +90,8 @@ Format:
       industrial facility).
 
 
-- [ ] 4,666 items on the defence indigenisation lists, ₹2,570 crore of substitution
+- [x] 4,666 items on the defence indigenisation lists, ₹2,570 crore of substitution
+      CLOSED — superseded by the correction item below, which is done; the headline figures here were the ones corrected.
       Source: DDP Positive Indigenisation Lists 1–4 (2,851 + 107 + 780 + 928 items);
       DPSU-wise indigenised lists published as PDFs on srijandefence.gov.in (verified
       downloadable, HTTP 200, 1.9 MB); PIB releases PRID 1924426 and the ~18 Aug 2026
@@ -234,7 +235,8 @@ Format:
       none on irrigation; nearest post read in full and contains zero irrigation mentions).
 
 
-- [ ] The fifth list was 346 items. Three numbers in the defence indigenisation post need correcting.
+- [x] The fifth list was 346 items. Three numbers in the defence indigenisation post need correcting.
+      DONE — applied 2026-09-18 as v2.2.0 of `5071-items-you-cannot-import-and-rs` (retitled "5,417 Items You Cannot Import — and the Ministry's Own Two Numbers for What Replaced Them"): 5th PIL 346 items added, six-list total 5,417, both the 2023 and 2024 PILs 1-4 pairs shown, SRIJAN re-basing treated as a caveat. Reconciled 2026-09-19.
       Source: PIB PRID 2033571 (16 Jul 2024, MoD) and PIB PRID 2300723 (18 Aug 2026, MoD),
       both fetched in full 2026-08-29. Note PIB 403s plain fetchers — browser UA required,
       and use `PressReleasePage.aspx?PRID=<id>`, not `PressReleaseDetail.aspx`, which
