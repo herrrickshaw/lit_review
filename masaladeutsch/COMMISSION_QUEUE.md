@@ -394,7 +394,8 @@ Format:
       `banking unit` return zero.
 
 
-- [ ] The Ministry of Power published two different AT&C loss figures for the same year
+- [x] The Ministry of Power published two different AT&C loss figures for the same year
+      DONE — published 2026-09-19 as `the-ministry-of-power-published-two`. Gate check (1) resolved as: the 15.04% traces to PFC's FY25 edition (65 utilities); the 16.16% traces to nothing public reachable, sits 0.04 pts from PFC's original FY24 figure, and is written up as an unlabeled-vintage/coverage problem rather than a contradiction, per the entry's own fallback.
       Source: two PIB releases, both fetched directly 2026-09-09 (pib.gov.in returns 403 to
       a plain fetch; a browser User-Agent over curl returns 200). PRID 2200450, "Key
       Initiatives to Bring Down AT&C Losses of Power Distribution Utilities", 08 DEC 2025
