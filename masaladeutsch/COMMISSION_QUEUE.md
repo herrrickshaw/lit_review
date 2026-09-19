@@ -21,6 +21,42 @@ Format:
 
 ## Open
 
+- [ ] Improving India's oil recovery factor: the IOR/EOR incentive framework and a technology compendium (CO2 injection, electric EOR, and the rest)
+      Source: MoPNG/DGH policy documents on the recovery-factor incentive framework (the
+      2022 Cabinet-approved changes to royalty/cess treatment and marketing/pricing
+      freedom for incremental output from IOR/EOR projects on nomination fields; check
+      DGH's own EOR/IOR policy page and PIB for the exact approval date and terms — not
+      yet verified here); ONGC and OIL's own investor/annual-report disclosures on named
+      IOR/EOR pilots (ONGC's Mehsana/Ankleshwar/Gandhar/Kalol/Sanand-cluster polymer and
+      waterflood work is well-publicized; the Hazira/Dahej CO2-EOR pilot already touched
+      on in this blog's where-indias-captured-carbon-would post, sourced there from a
+      December 2022 ONGC MoU); global technology reference (thermal/steam, polymer/chemical
+      flooding, miscible/immiscible gas injection including CO2, and lower-TRL routes like
+      electric/electromagnetic EOR) from a standard reserves-engineering source (e.g. an
+      SPE paper or the DGH/oil-ministry's own compendium if one is published) rather than
+      vendor marketing material.
+      Argument: India's own producing fields are running down (this blog's
+      indias-oil-fields-are-running-down-3696 already quantified the 36.96-to-28.70-MMT
+      decade decline) precisely because recovery factors on legacy nomination fields are
+      low by international standards — so the incentive framework and the technology
+      choice behind it matter more than new exploration acreage for near-term production,
+      and deserve the same scrutiny this blog gives PLI/incentive schemes elsewhere: what
+      the policy actually pays for, versus which of the technology options are at pilot
+      scale vs. genuinely commercial in India today.
+      Checks needed: confirm the exact incentive framework and its approval date/terms
+      from a primary or PIB source before citing figures; do not present a single
+      operator's pilot (e.g. ONGC's CO2-EOR test) as sector-wide adoption; electric/
+      electromagnetic EOR in particular has very few field deployments anywhere in the
+      world — verify TRL and named projects (if any) rather than treating it as
+      commercially available; distinguish IOR (waterflood, infill drilling, workovers —
+      already standard practice) from EOR (thermal/chemical/gas-injection/electric —
+      genuinely enhanced techniques) throughout, since the two get conflated in casual
+      usage. Cross-link to indias-oil-fields-are-running-down-3696,
+      where-indias-captured-carbon-would (CO2-EOR aside), dgh-has-awarded-172-oalp-blocks
+      and everyone-worries-about-who-pays-for (CCUS financing) in house style.
+      Logged: 2026-09-19 from user request (direct ask, not the literature-review-daily
+      register).
+
 - [ ] 57.8% of India's plant-variety rights are cereals. Spices get 151.
       Source: PPV&FR Authority registry — homepage certificate counter with crop-category
       breakdown, 10,802 certificates as of 31.07.2026 (verified by direct fetch
