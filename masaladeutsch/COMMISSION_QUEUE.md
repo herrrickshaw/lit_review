@@ -21,7 +21,8 @@ Format:
 
 ## Open
 
-- [ ] Improving India's oil recovery factor: the IOR/EOR incentive framework and a technology compendium (CO2 injection, electric EOR, and the rest)
+- [x] Improving India's oil recovery factor: the IOR/EOR incentive framework and a technology compendium (CO2 injection, electric EOR, and the rest)
+      DONE — published 2026-09-19 as `indias-oil-fields-are-running-down`. Cabinet policy dated to October 2018 (not 2022, corrected from this entry's own note); compendium covers waterflood/IOR through polymer, ASP, CO2, thermal, microbial and electrical EOR with named India status per technique; three concrete deployments found (Mangala ASP, ONGC Bechraji polymer, Gandhar CO2 feasibility); electrical EOR confirmed pilot-only worldwide, none in India.
       Source: MoPNG/DGH policy documents on the recovery-factor incentive framework (the
       2022 Cabinet-approved changes to royalty/cess treatment and marketing/pricing
       freedom for incremental output from IOR/EOR projects on nomination fields; check
@@ -163,7 +164,8 @@ Format:
       Logged: 2026-08-24 from the PLFS Quarterly Bulletin register entry; Apr-Jun 2026
       figure verified same day against the primary bulletin.
 
-- [ ] India's largest crop insurer pays out ₹1.83 lakh crore. Farmers funded about 2% of it.
+- [x] India's largest crop insurer pays out ₹1.83 lakh crore. Farmers funded about 2% of it.
+      DONE — published 2026-09-19 as `pmfby-advertises-51-return-to-farmers`. Re-based to the March 2026 Lok Sabha figures (₹1.92 lakh cr claims / ₹36,055 cr farmer premium); farmer-funded share reframed as ~19% of gross premium (one season with all three shares published), not the ~2%-of-sum-insured cap this entry's own draft note had conflated with cost share; state waivers (Maharashtra/Odisha/Meghalaya/Puducherry/Jharkhand) flagged; applications-vs-farmers distinction kept explicit throughout.
       Source: PIB Explainer ID 155010, "Empowering Annadatas: Pradhan Mantri Fasal Bima
       Yojana", Ministry of Agriculture & Farmers Welfare, 11 Aug 2025 — fetched 2026-08-25
       (needs a browser user-agent; plain fetchers get 403). Scheme rules in the compendium
@@ -519,7 +521,8 @@ moved above. Read this section before picking anything from Open.)*
   best record we have precisely because they were captured when the host was up.
 
 
-- [ ] India tested its soil twice. The second time, a machine chose the spot.
+- [x] India tested its soil twice. The second time, a machine chose the spot.
+      DONE — published 2026-09-19 as `india-has-tested-its-soil-twice-second`. The BLOCKING check (pull a district-level OC table before writing about levels/trends) could not be passed — dashboard endpoint unreachable from this environment — so, per the entry's own fallback, published as the shorter methods note built on PIB PRID 2104403's own description of the April 2023 change, with no claim about carbon levels or trends. The 254,236-sample ICAR figure was NOT used, per check (2).
       Source: Soil Health Card portal, `soilhealth.dac.gov.in` (DA&FW / NIC) — the
       Nutrient Dashboard, whose data comes from the app's own Apollo GraphQL endpoint
       `https://soilhealth4.dac.gov.in` (verified live 2026-09-04: portal and dashboard
