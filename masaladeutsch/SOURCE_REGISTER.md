@@ -1351,3 +1351,59 @@ replaceable-imports denominator, and the committee structure drawing the list up
   pre-dating this exercise; logged so a later run does not treat it as new without checking. Worth
   a look only if a piece needs unit-level project economics rather than trade aggregates.
 - **YouTube explainer of the 1,272-product plan**. Not a source.
+
+## Added 2026-09-21 (daily task, Monday: agricultural labour and rural incomes)
+
+The beat is covered, as established on 2026-08-31 and 2026-09-07. The one sub-angle that
+`a-17-rural-pay-rise-that-nobody-received` explicitly *declined* was VB-G RAM G's own
+performance, on the ground that the scheme was "nine weeks old". Today's search went straight
+at that hold, and it has now lifted. The scheme came into force on 1 Jul 2026, and one full
+month of dashboard data has been public since early August. Manifest dedup (snapshot
+2026-09-14, 273 posts): the regex `nrega|vb-g|ram g|rural job|employment guarantee|person-day`
+over the full JSON of every post returns **zero** hits. Register and queue grep for
+`VB-G|person.?days|RAM G` returns only the 2026-08-31 and 2026-09-07 mentions of the hold
+itself.
+
+Open-queue check (step 1): none of the four open items (the two $189 bn items, Kolar tomato,
+irrigation recovery) is on today's beat, and no newer source for any of them turned up.
+
+### Outlook, "Outlook Explains | India's Rural Jobs Plunge Under New Scheme: What It Means For Workers" (Outlook News Desk, 10 Aug 2026), reporting the VB-G RAM G dashboard as of 9 Aug 2026: COMMISSIONABLE
+
+- **Data**: the scheme's official MIS dashboard, cited by Outlook as "official data available
+  till August 9". 🔴 **Dashboard URL not identified today.** Two searches found only press
+  reports (Outlook, The Wire, Oneindia, Newsgram) and a Feb 2026 DoRD implementation PDF
+  (`dord.gov.in/static/uploads/2026/02/9a986aa573d5b9bef52d25eca6542994.pdf`, not fetched).
+  The MGNREGS comparison years sit on the public `nrega.nic.in` MIS. Both series should be free
+  and login-free, but that is **unconfirmed** for the new dashboard.
+- **Finding**: July 2026 (month 1 of VB-G RAM G) generated **7.67 crore person-days**, against
+  **15.33 crore** under MGNREGS in July 2025, a fall of **49.94%**. Households given work fell
+  **51.45%**, from 1.42 crore to **68.94 lakh**. The four-year July averages are 21.56 crore
+  person-days and 1.72 crore households. The Ministry's own statement claims "around nine crore
+  person-days" in the first month and "more than 98%" of demanding households offered work,
+  which is **1.3 crore more** than its own dashboard showed. Women were "around 63%" of
+  person-days. The ₹95,692 crore BE for 2026-27 is also given.
+- **Blog fit**: the explicitly deferred sub-angle of `a-17-rural-pay-rise-that-nobody-received`
+  (22 Aug 2026). The hold was on age, the scheme now has a full month, and August should be on
+  the dashboard by now. Nearest adjacent post is `annadata-to-urjadata-farmer-income-case`.
+- **Caveat**: (1) **Confounders the article itself names.** The Act lets states notify peak
+  sowing/harvest windows in which work *cannot be demanded*, and Outlook says "there is no data
+  to establish how much the seasonal pause contributed to the fall". Kharif sowing was also down
+  26.50 lakh ha year on year at 31 Jul (894.22 vs 920.72, MoAFW), and IMD had half of 741
+  districts in deficit or worse over 1 Jun–3 Aug. A drought year would normally *raise* demand
+  for public work, which makes the fall sharper rather than explaining it, but the piece must
+  argue that and not assert it. (2) Month-one data lags: an MIS figure read on 9 Aug is
+  revisable, and the 9-crore ministry figure may be the settled one. Re-pull before quoting.
+  (3) A month-one comparison is the weakest version of this story. July + August against
+  July + August is the defensible one.
+
+### Weak/background, one line each
+
+- **PLFS Monthly Bulletin, August 2026** (MoSPI; read via Tribune/MENAFN secondary reports, the
+  press note itself not fetched). Rural unemployment fell **4.5% → 4.1%** in August, on 211,363
+  rural respondents. BACKGROUND, not its own piece: the quarterly PLFS is already queued. It is
+  useful inside the VB-G RAM G piece as the counter-fact a reader will raise: public work halved
+  while measured rural unemployment *fell*. PLFS counts any work in the reference week, so both
+  can be true at once.
+- **DoRD, "Implementation of VB G RAM G"** (Feb 2026 PDF). Surfaced by search, not fetched. Most
+  likely the rollout guideline, and the place to confirm the seasonal-pause rule and the
+  dashboard URL. Logged so the writer checks it first.

@@ -2569,3 +2569,96 @@ be assumed to transfer to the NSE small-cap tail.
 - **"Portfolio Diversification and Concentration under Dependence Uncertainty: A Majorization
   Approach"**. Named in the second search's q-fin listing with no arXiv ID returned; not fetched,
   not identified. Recorded so a later run does not treat it as new without checking.
+
+## Added 2026-09-21 (daily task, Monday gap query: CPCV / purging / embargo)
+
+Citation-following from hub 2605.19337 was dry. Semantic Scholar returns the same six citing
+papers, and all six are already registered. The plain CPCV web search returned only registered
+IDs (2407.17645, 2512.12924, 2507.04176, 2605.23959), plus 2209.05559 (DRL crypto; off-scope,
+not triaged). An arXiv API query for "backtest overfitting / walk-forward / data snooping /
+multiple testing" in q-fin, together with the q-fin.PM recent listing, gave eight new candidates.
+That makes three search attempts.
+
+### 2607.12248: When Directional Accuracy Lies: A Base-Rate-Honest Benchmark for LoRA-Adapted TimesFM on Equity Forecasting (Taizhen Cheung, v1 2026-07-14, v2 2026-07-15, q-fin.ST)
+
+The model is a fine-tuned foundation model, which is off-scope here. What is in scope is the
+evaluation protocol, and it names a trap this repo actually falls into.
+
+Techniques extracted:
+- **Score directional hits against the base rate, not against 50%.** The paper opens with an
+  apparent ~80% directional accuracy and shows it is not skill. When the original conditions are
+  recreated, a trivial "always-up" rule scores a base rate of ~0.70, and the fine-tuned model
+  scores *below* that. The paper reports excess accuracy over always-up as its headline number.
+- **Honest baselines side by side.** The baselines are zero-shot, always-up, random walk,
+  persistence and AR(1).
+- **Paired tests with multiplicity control.** McNemar and Diebold-Mariano, under
+  Benjamini-Hochberg FDR.
+- **Held-out-ticker stratification** inside expanding walk-forward folds. It is replicated on
+  NASDAQ-100 and on S&P 500.
+
+Evidence grade: **moderate, and it is a negative result.** The protocol is disclosed and seeded,
+it covers two universes, and the multiplicity control is explicit. The abstract gives no date
+range and no cost model, but no cost model is needed because the claim is "no directional skill".
+
+**Verified against this repo:**
+- Doing-right: the year-consistency screens count hits on **excess** return, not on raw return,
+  so the base rate is already removed: `year_by_year_consistency_IN_full.py:48-49` and
+  `factorial_screener_analysis_IN_technical.py:131-132` (`mean_excess_63d > 0`).
+- Doing-right: BH-FDR and the deflated Sharpe already exist in `multiple_testing.py:34,46`.
+- **Gap: the PEAD sector-spillover test uses exactly the 50% null the paper warns about.**
+  `pead_sector_spillover.py:240-242` runs `binomtest(k, n, 0.5)` on
+  "same_direction". Its own comment says the 50% is "expected under 'peers move independently of
+  the news'". But `same_dir` compares the sign of the **raw**, non-market-adjusted
+  leave-one-out peer mean with the surprise sign (`:167-172`). Under independence the chance of
+  a match is p_up·f_beat + (1−p_up)·(1−f_beat), and that is only 0.5 when p_up or f_beat is
+  exactly 0.5. Neither is: beats outnumber misses, and up days outnumber down days. Any positive
+  tilt in both pushes the null above 0.5. All four versions inherit it, because v2, v3 and v4
+  `import pead_sector_spillover as pss` (`_v2.py:39`, `_v3.py:50`, `_v4.py:68`).
+- Minor: `dl_strategy_eval.py:185` reports a raw `hit_rate%` = `(sr > 0).mean()` with no
+  buy-and-hold hit rate beside it. The same row reports alpha and Sharpe against B&H
+  (`:177-182`), so the hit rate is secondary and was not queued.
+
+Action queued: BACKTEST_QUEUE item 40.
+
+### 2607.20168: Quantum Kernels and the Cross-Section of Stock Returns: Anatomy of a Vanishing Advantage (Junchi Shen, v1 2026-07-22, q-fin.PR)
+
+Kept for its correction, not its quantum content.
+
+Techniques extracted:
+- **Universe selected with full-sample information is look-ahead.** An earlier 60-window version
+  of the analysis screened the universe with full-sample information. That inflated the quantum
+  kernel's stability metrics. Once the universe was rebuilt point-in-time over 170 walk-forward
+  windows (Chinese A-shares, 2012–2025), the advantage vanished: ΔIC = +0.005, p = 0.42 against an
+  RBF kernel-swap control.
+- **Budget-equalised comparison across 11 models, with multiplicity-robust inference.** No
+  pairwise difference survived.
+
+Evidence grade: **moderate.** The window count, date range and control are disclosed. The metric
+is IC only, with no cost model. The abstract page gives about 38k observations but not a stock
+count.
+
+**Verified against this repo: the lesson has already been learned, independently.**
+`etf_builder.py:65-73` records the identical bug and the identical fix. Turnover had been ranked
+over the whole period to pick a top 200, which showed "1/N beating SPY by 4.92 points a year — a
+gap that is the UNIVERSE, not any scheme". The universe is now ranked on trailing data at each
+rebalance. The re-entry engine's panel is still flagged "survivorship-lite top-200" at
+`project_retrospective.py:67`, so that known gap is already tracked; nothing new to queue.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2609.14733** ("WaVeFuse", Bohra & Vijay, 2026-09-13). Already in the register and logs by ID
+  from an earlier run. Headline figures are R² 0.81–0.96 and a mean Sharpe of 3.69 on four indices
+  at 10 bp, which is too good for an index-timing claim. Not re-read.
+- **2606.31251** (Ozimek, GAMLSS/ZAGA regime-conditional strategy comparison, 2026-06-30).
+  S&P 500 only, one SVM strategy against buy-and-hold over 146 folds. It is a distributional-
+  comparison method, and this screener compares no strategies at the return-distribution level.
+  Not fetched.
+- **2606.09478** (Fang & Ślepaczuk, CSI 300 regime-augmented HARQ plus XGBoost, 2026-06-08). One
+  index, intraday/high-frequency inputs. It reports *weak* predictability after costs, which is
+  an honest result but off-scope for an EOD cross-sectional screener.
+- **2609.21271** (Cotton, "Nested Clustered Optimization Is One End of a Schur Bridge"). This is
+  portfolio construction, and the repo builds no optimised portfolio. Listing only.
+- **2608.24786** (Wysocki, learning-to-rank for the volatility risk premium on S&P 500 weekly
+  options). The out-of-time Sharpe of 4.3–5.8 is options-only. Off-scope.
+- **2608.14323** (Lin et al., homological sparse neural net on 94 characteristics, 1987–2016 US).
+  It needs NN training on a characteristic panel the repo doesn't hold. Off-scope.

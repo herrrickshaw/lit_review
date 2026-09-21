@@ -860,3 +860,20 @@ when it's been run; do not delete history.
     56-member cluster that "turned out to be entirely J-REITs moving together on rate sentiment",
     which is how 63 leaking J-REITs were caught. That use is not in question here.
     Motivated by: 2608.06618.
+
+40. **Replace the 50% null in the PEAD sector-spillover binomial test with the base rate it
+    actually faces.** `pead_sector_spillover.py:242` tests `binomtest(k, n, 0.5)`, but
+    `same_direction` (`:172`) compares the sign of the *raw* peer mean with the surprise sign.
+    Under "peers ignore the news" the chance of a match is
+    p0 = p_up·f_beat + (1−p_up)·(1−f_beat), where p_up is the leader sector's unconditional share
+    of up days for the leave-one-out peer mean and f_beat is the leader's share of positive
+    surprises. Both are computable from panels the script already loads. Two changes, and nothing
+    else in the study moves:
+    - **(a)** Compute p0 per leader and use `binomtest(k, n, p0)`. Report `excess_hit = k/n − p0`
+      beside the current `same_direction_hit_rate`.
+    - **(b)** Alternatively, market-adjust the peer reaction before taking its sign (peer mean minus
+      the same-day market return). The 0.5 null is then closer to right and (a) becomes a check.
+    Re-run v1–v4 (all four import the v1 core) and count how many leaders stay significant after
+    the existing FDR step. If most survive, fine. If they collapse, the spillover finding was a
+    base-rate artefact and must be withdrawn wherever it is cited.
+    Motivated by: 2607.12248.

@@ -521,6 +521,32 @@ Format:
       partition to reconstruct against. The better target for that item is arguably the 100-item
       list, not the 1,272 — it is smaller, sector-attributed, and the one with a deadline.
 
+- [ ] Half the work, in the first month: what VB-G RAM G's own dashboard says about July
+      Source: VB-G RAM G MIS dashboard as reported by Outlook, "Outlook Explains | India's Rural
+      Jobs Plunge Under New Scheme" (10 Aug 2026; data as of 9 Aug), corroborated by The Wire and
+      Oneindia. The MGNREGS comparison years come from nrega.nic.in. The rule text is in the DoRD
+      implementation PDF (dord.gov.in, Feb 2026, not yet fetched).
+      Argument: in its first month the scheme that replaced MGNREGA with a *larger* 125-day
+      guarantee delivered 7.67 crore person-days against 15.33 crore a year earlier (-49.94%), and
+      68.94 lakh households against 1.42 crore (-51.45%). The Ministry's own statement claims ~9
+      crore, so the government's two numbers for the same month differ by 1.3 crore person-days.
+      Checks needed: (1) 🔴 locate the dashboard URL and re-pull July yourself; a 9-Aug read of
+      month-one MIS data is revisable. Quote the settled figure and say which one it is. (2) Pull
+      August and make the comparison July+August against July+August. A one-month story is the
+      weak version. (3) Separate the seasonal pause from everything else: get from the DoRD PDF or
+      state notifications which states notified peak-season windows, and for which weeks, then
+      compare person-days in notifying and non-notifying states. If that cannot be done, say
+      plainly that the pause's share of the fall is unknown, as Outlook does. (4) Address the
+      drought and kharif shortfall (-26.50 lakh ha; half of districts rain-deficit): it argues for
+      *higher* demand, so it cannot explain the fall away, but it must be stated. (5) Put PLFS
+      August (rural unemployment 4.5% to 4.1%) beside it and explain why both can be true.
+      Cross-link to a-17-rural-pay-rise-that-nobody-received (which deferred exactly this question
+      on the scheme's age) in house style: cite it as earlier reporting, never as confirmation.
+      Logged: 2026-09-21 from the VB-G RAM G register entry
+      Opens: the deferred VB-G RAM G performance sub-angle. Manifest dedup (273 posts):
+      nrega|vb-g|ram g|rural job|employment guarantee|person-day returns zero posts.
+
+
 ## Done
 
 - [x] What a farm labourer earns, and why it stopped tracking output
