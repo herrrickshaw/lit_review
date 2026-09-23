@@ -1407,3 +1407,83 @@ irrigation recovery) is on today's beat, and no newer source for any of them tur
 - **DoRD, "Implementation of VB G RAM G"** (Feb 2026 PDF). Surfaced by search, not fetched. Most
   likely the rollout guideline, and the place to confirm the seasonal-pause rule and the
   dashboard URL. Logged so the writer checks it first.
+
+## Added 2026-09-23 (daily task, Wednesday: energy and gas)
+
+Dedup first, on the **273-post manifest** (snapshot 2026-09-14, nine days stale — note that
+before trusting it on anything published since). The 2026-09-09 finding holds and has not
+moved: 89 of 273 posts carry an Energy/Climate/Power label, essentially all on the
+**molecule** side. Narrow regexes over slugs+titles still return **nuclear 0, transmission 0,
+AT&C 0, distribution 0, energy-efficiency 0, kerosene 0, strategic-petroleum-reserve 0,
+peak-demand 0**. The electron side of the energy beat remains the blog's largest confirmed
+hole.
+
+Today's yield is **not a new beat** — it is a better source for an open commission item, which
+the brief rates higher, and that is what the budget went on.
+
+### PFC, *Report on Performance of Power Utilities* FY 2023-24 — the primary series behind the two PIB numbers, and it goes the other way
+
+Read via **Power Line Magazine**, "Widening Losses: Key highlights of PFC's report on discom
+performance" (8 July 2025), fetched directly. **PFC's own site was NOT reached**:
+`pfcindia.com` fails TLS — the certificate covers `*.pfcindia.co.in` only — so everything
+below is trade press quoting the report, not the report. Resolve against the PDF before
+publication.
+
+- **Data**: PFC's annual *Report on Performance of Power Utilities*, FY 2023-24 edition,
+  covering **63 of 72 distribution utilities**, of which **52 of 59** state and private
+  discoms submitted audited annual accounts. Published free as a PDF on PFC's own site
+  (download not verified today, see the TLS note above).
+- **Finding — the series the ministry quotes from rose in its most recent audited year.**
+  Verbatim: "the average aggregate technical and commercial (AT&C) losses for distribution
+  utilities at the national level **increased from 15.11 per cent in 2022-23 to 16.12 per
+  cent in 2023-24**." Both PIB releases already in this register (2026-09-09 entry) narrate
+  the same metric as a clean monotonic fall — "reduced from 21.91% in FY 21 to 16.16% in
+  FY25", and "reduced from 22.62% in FY 2013-14 to 15.04% in FY 2024-25". Neither mentions
+  that the underlying series went **up** a point in the last year anyone has audited numbers
+  for. Long baselines are doing the work in both releases.
+- **Finding — one number reconciles exactly, which settles half of that entry's caveat (1).**
+  Power Line gives aggregate distribution-utility losses on a subsidy-billed basis falling
+  from **₹594.97 billion in 2022-23 to ₹255.53 billion in 2023-24**. The January PIB release
+  quotes **−₹25,553 crore in FY 2023-24**. ₹255.53 billion *is* ₹25,553 crore, to the rupee.
+  So the ministry's PAT series and PFC's report are the same series on the same basis, over
+  63 of 72 utilities — the denominator question the 2026-09-09 entry flagged as potentially
+  fatal is **answered for the PAT line**. It is *not* answered for the AT&C line, and that is
+  still the check that could kill the piece.
+- **Finding — a coincidence worth chasing, not printing.** PFC's FY24 figure is **16.12%**;
+  the December 2025 parliamentary answer's FY25 figure is **16.16%**. Four hundredths of a
+  point apart, one financial year apart. That is consistent with the December answer quoting
+  a near-final FY24-vintage number against an FY25 label, and it is also consistent with FY25
+  genuinely being flat. Both are guesses. The PFC FY 2024-25 edition, if it now exists,
+  decides it.
+- **Also**: ACS–ARR gap on a subsidy-*billed* basis narrowed from **₹0.41/kWh (FY23) to
+  ₹0.15/kWh (FY24)**. The January PIB release's **₹0.06/kWh for FY25** is a third basis again
+  — the 2026-09-09 entry already warns that figure is suspiciously round. Three gap numbers
+  on at least two bases now sit in this register; the piece must name the basis every time it
+  prints one.
+- **Blog fit**: updates the open commission item "The Ministry of Power published two
+  different AT&C loss figures for the same year" (COMMISSION_QUEUE line 401) — it supplies the
+  primary series both releases quote from and adds a second, sharper contrast than the one the
+  item was built on. Nearest published post remains `discom-debt-relief-token-charge`.
+- **Caveat**: (1) **This is trade press, not PFC.** Every figure above needs re-reading off
+  the PFC PDF; do not publish on Power Line's authority. (2) **Check whether an FY 2024-25
+  edition has been released** — it would supersede all of this and answer the 16.12/16.16
+  question directly. (3) The 63-of-72 coverage means the "national level" average excludes
+  nine utilities, and which nine matters for a state-dispersion story. (4) A rise in a ratio
+  can come from the denominator; FY24 had its own accounting-rule changes, per the
+  2026-09-09 entry's caveat (3), and the same objection applies to the increase.
+
+### Weak/background, one line each
+
+- **BEE PAT scheme / Carbon Credit Trading Scheme** (search only; ICAP and BEE pages not
+  fetched). Search results describe PAT running six cycles since 2012, ~1,300 covered units,
+  and CCTS compliance targets for FY2026–27 off an FY2024 baseline with first compliance
+  trades expected around October 2026. WEAK for commissioning: the blog already published
+  `india-solved-carbon-credit-banking-with` (1 Sep 2026), which is the CCTS story, and
+  nothing found today contradicts or materially updates it. The genuinely unrun sliver is
+  **PAT itself** — energy-efficiency regexes still return zero — but that needs BEE's own
+  cycle-wise ESCert issuance and achievement tables, which were not fetched today. Leave it
+  for a future Wednesday and start from BEE, not from CCTS commentary.
+- **Nuclear, transmission/grid, and the strategic petroleum reserve** — re-confirmed at zero
+  coverage by the dedup sweep above, but **not searched today**; the budget went on the open
+  item. Recording them so a future Wednesday can go straight to a primary (NPCIL/DAE, CEA and
+  CTUIL, ISPRL) instead of re-running the dedup.

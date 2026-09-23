@@ -2662,3 +2662,99 @@ rebalance. The re-entry engine's panel is still flagged "survivorship-lite top-2
   options). The out-of-time Sharpe of 4.3–5.8 is options-only. Off-scope.
 - **2608.14323** (Lin et al., homological sparse neural net on 94 characteristics, 1987–2016 US).
   It needs NN training on a characteristic panel the repo doesn't hold. Off-scope.
+
+## Added 2026-09-23 (daily task, Wednesday gap query: learning-to-rank cross-sectional equity returns)
+
+Citation-following from hub 2605.19337 returned **six** citing papers and **none new** —
+2609.19705, 2609.04917, 2608.26990, 2607.19453, 2607.04958, 2606.08285, all already
+registered. The newest of the six, 2609.19705, came off this same hub four days ago
+(registered at line 2548), so the branch is alive but slow; today it yielded nothing.
+
+Third Wednesday pass on this theme. Both prior passes (2026-08-26, 2026-09-09) landed on
+the *mailer's* top-5 technical cut in `signal_tracker.py`. Today's query surfaced a paper
+aimed at what happens **after** a screen rather than at the screen itself, and that pointed
+at a second cut site the register has never looked at: `portfolio_builder.py`, which runs a
+Markowitz optimiser on whatever the screen hands it. The finding below is there, not in the
+mailer.
+
+### 2604.17593 — Post-Screening Portfolio Selection (Yoshimasa Uematsu & Shinya Tanaka, submitted 2026-04-19, q-fin.PM)
+
+Proposes **PS²**, a two-step framework for high-dimensional mean-variance investing: first
+screen assets by a Lasso-type regression of a constant on excess returns with no intercept,
+then estimate weights on the selected set with standard low-dimensional methods. Because
+strong factors destroy the sparsity the screen relies on, they add **FPS²**, which defactors
+returns before screening. Theoretical guarantees plus simulations plus an empirical
+application on **S&P 500 constituents**.
+
+- **EVIDENCE-GRADE: medium, and unusually honest about its own limit.** This is an
+  econometrics paper — the load-bearing content is the theory and the simulations, and the
+  empirical section is an illustration rather than a horse race, so there is no headline
+  Sharpe to be sceptical of. Graded up for reporting a result against its own thesis: the
+  conclusion states that **"transaction costs materially weaken the gains from active
+  rebalancing"** when FPS² is applied to real S&P 500 data. A paper that runs the cost check
+  and prints the answer that hurts it is worth more than one that reports a gross 2.1 Sharpe.
+  Graded down because the abs page does not state the date range, rebalance frequency or
+  typical selected-set size, and **the empirical section was not fetched in full** — those
+  four facts are UNVERIFIED here and the cost sentence is from the conclusion as rendered by
+  the HTML fetch, not from a table I read.
+- **Doing-right (verified): the repo already tests something mean-variance cannot, and says
+  why.** `fund_implementability.py:5-12` opens with "Mean-variance says nothing about whether
+  a portfolio is purchasable", and measures min viable SIP, whole-share rounding drag and
+  cash residual, on the stated ground that India has no fractional shares. The 🔴 note at
+  `:33-36` records that rounding down is asymmetric and tilts realised weights toward cheap
+  names — "a size/price tilt nobody chose and the backtest never modelled". That is an
+  implementation-cost check on the optimiser's output, and it is more concrete than anything
+  in this paper.
+- **Doing-right (verified): expected returns are already shrunk.** `_expected_returns()`
+  (`portfolio_builder.py:191-201`) applies James-Stein shrinkage of each name's mean toward
+  the universe mean, λ=0.5 by default (`:375-376`), for the standard reason that sample means
+  are the noisiest input to a mean-variance problem.
+- **NOT a new gap — already queued: the covariance is the raw sample estimator.**
+  `portfolio_builder.py:217` is `cov = R.cov().values * TRADING_DAYS` with no shrinkage or
+  eigenvalue treatment, fed straight into `port_var` at `:224`. This is **queue item 18**,
+  opened 2026-08-28 and revisited 2026-09-12, and is deliberately not re-queued. Noting one
+  thing item 18 does not: at the CLI default `--max-holdings 25` (`:369`) the optimiser sees
+  N=25 against LOOKBACK=504 daily observations (`:52`), so T/N ≈ 20 and the conditioning
+  problem at the *default* is mild. Item 18's premise holds, but its urgency at this call
+  site is lower than the "200 names on 252 days" case it quotes from elsewhere.
+- **Gap (verified, and this is the day's finding): the post-screen universe is chosen by
+  spreadsheet row order and silent truncation.** `build()` at `portfolio_builder.py:285-286`
+  does `universe = picks["triple"] + picks["coffee"] + picks["other"]`, dedupes, then
+  `[:max_holdings]` — default 25 (`:369`). `load_picks()` (`:62-100`) builds each of those
+  three lists by iterating the scan workbook's sheets in row order (`:72-75`, `:79-82`,
+  `:90-98`) and **sorts by nothing** — not score, not conviction, not liquidity, not
+  correlation. Two consequences, both unchecked anywhere in the repo: (a) if `Triple_Hits`
+  alone holds 25 or more names, the Coffee Can and multi-screen buckets never reach the
+  optimiser at all and nothing prints that they were dropped — `:287` prints only the final
+  count; (b) which names survive inside a bucket is decided by whatever order the scan wrote
+  the sheet. PS²'s whole thesis is that the post-screen selection step is where the work is,
+  and that it should be done on the return covariance structure rather than arbitrarily. This
+  repo's post-screen selection is `[:25]` on an unsorted concatenation. It is the same disease
+  as the mailer's top-5 cut (2026-09-09 entry, queue item 27) at a different site, and it is
+  cheaper to test here because the outcome is a portfolio with a measurable out-of-sample
+  Sharpe rather than a shortlist.
+- **Action queued: item 41.**
+- **Not queued: adopting PS²/FPS² itself.** The Lasso-of-a-constant screen and the defactoring
+  step are aimed at a universe of hundreds where sparsity is the binding constraint. At N=25
+  post-screen there is nothing to sparsify — the repo's screen has already done the
+  dimension reduction PS² performs. Take the question the paper asks, not its estimator.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2104.12484** (Xin Zhang, Lan Wu & Zhixue Chen, "Constructing long-short stock portfolio
+  with a new listwise learn-to-rank algorithm", 2021-04-26) — generalises ListMLE under a
+  Plackett-Luce model to weight both ends of the rank list; headline is a **38% annual return
+  and Sharpe 2** on China A-shares 2006–2019 with 68 factors, and the fetched abs page
+  mentions **no transaction costs at all**. Three strikes for this repo: a gross long/short
+  return in a market the pipeline has ~0 instruments seeded for, a headline number with no
+  cost model, and a trained listwise ranker the repo does not have and has already twice
+  declined to build (2026-08-26, 2026-09-09). Discard.
+- **Lin, Su & Zhu, "Empirical Asset Pricing via Learning-to-Rank" (SSRN 6348379, dated
+  2026-01-20) — COULD NOT FETCH, carried forward.** SSRN returned **HTTP 403**, so nothing
+  here is verified and no grade is assigned. Recording it only so the lead is not lost: search
+  snippets describe 94 firm characteristics over 1964–2024 and a claim that the LTR *philosophy*
+  applied to an **ordered logit** matches the best ML return-forecast models. If that holds it
+  is the most on-scope LTR result the register has seen — an ordered logit is trainable on a
+  Mac and explainable in an email, which LambdaMART and PRISM-VQ are not. Re-check on a future
+  Wednesday for an open version; do not cite the snippet figures until a page is actually
+  fetched.

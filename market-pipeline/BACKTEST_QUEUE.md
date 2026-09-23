@@ -877,3 +877,35 @@ when it's been run; do not delete history.
     the existing FDR step. If most survive, fine. If they collapse, the spillover finding was a
     base-rate artefact and must be withdrawn wherever it is cited.
     Motivated by: 2607.12248.
+
+41. **The optimiser's universe is chosen by spreadsheet row order and a silent truncation —
+    find out whether that costs anything.** `portfolio_builder.py:285-286` builds the
+    optimisation universe as `picks["triple"] + picks["coffee"] + picks["other"]`, dedupes,
+    then truncates `[:max_holdings]` (default 25, `:369`). `load_picks()` (`:62-100`) fills
+    those three lists by iterating scan-workbook sheets in row order and sorts by nothing.
+    So the 25 names that reach the Markowitz step are "the first 25 rows of Triple_Hits,
+    then Coffee_Can, then the multi-screen sheets", and if Triple_Hits alone has 25+ names
+    the other buckets are dropped without a word — `:287` prints the final count only.
+    Three cheap runs on the same scan output, same LOOKBACK=504 window, same `--max-weight
+    0.15` cap, comparing out-of-sample Sharpe and max drawdown of the resulting max-Sharpe
+    portfolio:
+    - **(a) Row order (control)** — what ships today.
+    - **(b) Score order** — sort the concatenated universe by the scan's own quality/conviction
+      column before truncating, so the cut keeps the best 25 rather than the first 25. If (b)
+      does not beat (a), the scan's score does not order the names it selects, which is the
+      same question queue item 27 asks of `Quality_Score` in the mailer — run them together
+      and treat a flat result at both sites as one finding, not two.
+    - **(c) Redundancy-pruned** — greedily drop a name whose return correlation with an
+      already-admitted name exceeds ~0.9 over the lookback, and let the next candidate in.
+      This is the only part of PS² that transfers: its point is that the post-screen set
+      should be chosen against the covariance structure, not arbitrarily.
+    Also print, at `:287`, how many names each bucket contributed after truncation. A run
+    where Coffee_Can silently contributed zero is a fact the operator should see, and that
+    line costs nothing.
+    Do this BEFORE item 18. Item 18 changes the covariance *estimator* for a fixed asset
+    set; this changes the asset set. If the input set is arbitrary, a better estimator is
+    polishing the wrong thing, and at N=25 against T=504 the conditioning problem item 18
+    targets is mild at this call site anyway (T/N ≈ 20).
+    Expect a small or null effect and report it either way — a null here is worth having,
+    because it would mean the truncation is safe and the register can stop flagging it.
+    Motivated by: 2604.17593.

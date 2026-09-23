@@ -718,3 +718,26 @@ moved above. Read this section before picking anything from Open.)*
   angle identified today. Draft discarded, not published.
   Logged from a same-day drafting pass, superseding the "India's largest crop insurer"
   item logged 2026-08-25.
+
+- **2026-09-23 — the AT&C item (line 401) now has its primary series, and it strengthens the
+  piece.** PFC's *Report on Performance of Power Utilities* FY 2023-24 — the source both PIB
+  releases quote from without naming — reports national AT&C losses **rising from 15.11% in
+  2022-23 to 16.12% in 2023-24**. Both ministry releases narrate the same metric as a clean
+  fall off a long baseline and neither mentions the increase in the last audited year. That is
+  a second, sharper contrast than the one the item was built on, and it should lead.
+  **Caveat (1) of that item is now half-resolved.** The item warns the two releases may not
+  share a denominator. PFC's aggregate distribution-utility loss on a subsidy-billed basis for
+  FY24 is **₹255.53 billion**, and the January PIB release's FY24 PAT is **−₹25,553 crore** —
+  the same number. So the PAT line and PFC's report are the same series over **63 of 72
+  utilities**, with **52 of 59** discoms on audited accounts. The denominator question is
+  answered for PAT. It is **still open for AT&C**, and remains the check that can kill the
+  piece.
+  Two operational notes for whoever writes it. **All of the above is trade press** — Power
+  Line Magazine, 8 July 2025, quoting the report — because **PFC's own site could not be
+  fetched: `pfcindia.com` fails TLS, its certificate covers `*.pfcindia.co.in` only.** Try the
+  `.co.in` host and pull the PDF; do not publish on the trade-press figures. And **check for an
+  FY 2024-25 edition first** — PFC's FY24 figure (16.12%) sits four hundredths of a point from
+  the December parliamentary answer's FY25 figure (16.16%), which either means the answer was
+  quoting an FY24-vintage number against an FY25 label or means FY25 was flat. The next edition
+  decides it, and the piece is better if it does not have to guess.
+  Logged from the 2026-09-23 register entry.
