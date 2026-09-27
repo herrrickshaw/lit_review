@@ -909,3 +909,48 @@ when it's been run; do not delete history.
     Expect a small or null effect and report it either way — a null here is worth having,
     because it would mean the truncation is safe and the register can stop flagging it.
     Motivated by: 2604.17593.
+
+42. **Report every screen's edge against both benchmarks, and split it by concentration
+    regime.** The mailer's primary evidence measures edge against an **equal-weight market**
+    (`justified_mailer.py:16-17`, printed at `:267`). The forward tracker scores the same
+    picks against **cap-weighted** NIFTYBEES/SPY (`signal_tracker.py:174`). 2609.27113 shows
+    the EW-minus-cap spread depends on the regime: EW lags while market concentration rises.
+    It also notes US diversity is at its lowest since the dot-com peak. Without this check, a
+    backtest edge measured against EW and a weaker live edge measured against cap-weight
+    would be misread as decay. The check needs no market-cap history. For each tested market
+    and window, compute the EW-minus-cap index spread from index pairs the repo already
+    names (NIFTY50 vs "NIFTY50 Equal Weight", `sip_xirr_backtest.py:48`; SPY vs RSP for the
+    US). Label each 21-day forward window as rising or falling concentration by the sign of
+    the trailing spread. Then re-report each screen's 2016→2026 edge (i) against EW and (ii)
+    against cap-weight, each split by that label. If the edge survives against cap-weight in
+    concentrating windows, print that in the email. If it does not, the email's "edge vs
+    equal-weight" line should say which benchmark and which regime it holds in.
+    Motivated by: 2609.27113.
+
+43. **Stop reporting `pattern_discovery.py`'s R² as a model fit — it is an in-window
+    cross-sectional fit.** `pattern_discovery.py:285` uses `train_test_split` with the
+    default `shuffle=True`. Every row shares one as-of date and the same `_target_fwd21`
+    window (`:224`), so train and test are scored on the identical 21 days. The R² printed at
+    `:293`, and the feature importances, absorb that month's common move. Cheapest fix:
+    rename the printout to "in-window cross-sectional R² (not a forecast)". Proper fix: build
+    the feature matrix at two as-of dates at least 21+2τ trading days apart, train on the
+    earlier one and score on the later one, which is an expanding walk-forward in the sense
+    of 2609.29530. Report both numbers side by side. Expect the causal R² to fall to about
+    zero. If `dl_strategy_eval.py:31` still cites pattern_discovery as evidence afterwards,
+    check it against the causal number.
+    Motivated by: 2609.29530.
+
+44. **Leave-one-screen-out test of the six-screen vote.** `full_us_market_scan.py:994-1003`
+    admits a name to the multi-screen sheet when `screens_passed >= 3` out of six equally
+    weighted booleans. Two of those votes are **Golden Cross/above-200DMA**, which the
+    repo's own evidence calls the worst screen in every tested market
+    (`justified_mailer.py:26`), and **Piotroski f_strong**, which is **INVERTED** for the US
+    (`:20`). 2609.26303 proves that equal-weight admission of a non-aligned forecaster is
+    pure dilution. For each tested market, on the PIT panel, compare the 21-day forward
+    excess return (against both benchmarks, see item 42) of the ≥3-of-6 cohort with the six
+    leave-one-out cohorts, each ≥3 of the remaining 5. Also run ≥2-of-4 with GC and
+    Piotroski both dropped in the US. If dropping GC or US-Piotroski raises forward excess
+    return or leaves it flat, remove that vote. The multi-screen sheet feeds
+    `portfolio_builder.py`'s "other" bucket (item 41), so run this first, before item 41's
+    score-order arm. As with item 41, report a null too.
+    Motivated by: 2609.26303.

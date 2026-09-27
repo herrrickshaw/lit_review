@@ -2758,3 +2758,139 @@ application on **S&P 500 constituents**.
   Mac and explainable in an email, which LambdaMART and PRISM-VQ are not. Re-check on a future
   Wednesday for an open version; do not cite the snippet figures until a page is actually
   fetched.
+
+## Added 2026-09-26 (daily task, Saturday gap query: correlation-matrix eigenvalues / regime / effective dimension)
+
+Citation-following from hub 2605.19337 was dry: Semantic Scholar returned six citing papers
+and all six are already registered (2609.19705, 2609.04917, 2608.26990, 2607.19453,
+2607.04958, 2606.08285), plus one duplicate record with no arXiv ID. This is the second pass
+on the Saturday theme. The theme-specific WebSearch came back mostly with papers already
+registered (2607.19005, 2608.09641, 2212.05504, 1102.4076), so the new candidates came from
+the q-fin.PM and q-fin.ST recent listings. That makes three search attempts and eight
+candidates. Three were deep-read.
+
+### 2609.27113 — Active Portfolio Management in Concentrated Equity Markets (Brian Ceco, Xiaofei Shi & Ting-Kam Leonard Wong, 2026-09-22, q-fin.PM)
+
+Stochastic portfolio theory. The investor allocates actively between the equal-weighted
+portfolio and the cap-weighted market, using forecasts from a mean-reverting stochastic
+diversity–dispersion (SDD) model. Market diversity is φ_ew = Σ(1/n)·log μ_i, the log
+geometric mean of cap weights. Dispersion is the weighted average stock variance minus the
+portfolio variance. Frictions are handled with a quadratic surrogate, calibrated so its
+cumulative wealth effect matches proportional costs.
+
+- **EVIDENCE-GRADE: medium-strong.** Uses CRSP S&P 500 constituents from 1977 to 2024 with
+  time-varying membership, monthly rebalancing, and an out-of-sample window of 1995–2024.
+  Transaction costs of 15 bp proportional are **deducted from wealth** out of sample rather
+  than only assumed. The paper reports higher net cumulative return than both the EW and
+  cap-weighted benchmarks, and a higher IR than EW. It states its own limits: the model
+  fits dispersion less well, and the out-of-sample tail in 2008–09 and 2020 is heavier.
+  Point figures from the results table were **not** extracted; only the prose claims were
+  fetched.
+- **The finding that transfers is the premise, not the controller.** Whether EW beats
+  cap-weighted depends on the regime. EW lags when concentration and correlation rise,
+  especially in bubbles, and the paper notes US diversity is now at its lowest since the
+  dot-com peak.
+- **Gap (verified): the repo measures edge against two different benchmarks and never
+  reconciles them.** The mailer's primary evidence is benchmarked against an
+  **equal-weight market** (`justified_mailer.py:16-17`; the email prints "edge vs
+  equal-weight market" at `:267`). The forward tracker scores the same picks against
+  **cap-weighted** NIFTYBEES/SPY (`signal_tracker.py:174`). Nothing in the repo computes
+  market diversity or concentration: a grep for
+  `diversity|herfindahl|hhi|absorption_ratio|concentration` finds only portfolio-weight HHI
+  (`bundle_validation.py:105`) and PPO factor-weight concentration. By this paper's
+  mechanism, a screen whose 2016→2026 edge was measured against EW could show a smaller or
+  opposite live edge against cap-weight in a concentrating market. The repo would record
+  that as signal decay when it is really a benchmark-regime effect.
+- **Action queued: item 42.**
+- **Not queued: the FBSDE allocation controller itself.** It allocates between two index
+  portfolios, and this pipeline holds neither.
+
+### 2609.29530 — The Impossible Trinity of Time-Series Validation: A Conservation Law among Training Sufficiency, Test Coverage, and Temporal Causality (Jiayu Li, 2026-09-02, q-fin.ST)
+
+Proves that training sufficiency α, test coverage β and causality cannot all be had:
+α+β ≤ 1+Λ, and α+min{β,δ/T} ≤ 1. Under β-mixing, leakage bias is bounded by distance to the
+nearest future training point, not by the amount of future data. Expanding walk-forward is
+exactly the causal Pareto frontier. Purged k-fold with an embargo trades distance for
+coverage. Recommendation: denominate gaps and embargoes as H + c·τ with c ≈ 2–3 (label
+horizon plus 2–3× the dependence scale).
+
+- **EVIDENCE-GRADE: strong theory, synthetic only.** No real-data application. The single
+  experiment runs 1-NN on T=3000 i.i.d. noise with an H=20 overlapping label: shuffled 5-fold
+  reports IC +0.318±0.012, contiguous 5-fold +0.004±0.012. That is a clean,
+  fully-disclosed demonstration of the failure it names. No costs, which is appropriate for
+  a validation paper.
+- **Doing-right (verified):** `purge_embargo.py` implements label-window purging (`:85-103`)
+  plus an embargo, defaulting to `EMBARGO_DAYS = 252`, the longest evaluated horizon (`:82`).
+  The total gap is therefore horizon + embargo = 2H. That matches the paper's form when the
+  dependence scale τ is below H/2, which holds for daily equity returns. The walk-forward in
+  `train_ppo_walk_forward.py:22` uses an **expanding** train window, which the paper proves
+  is the causal frontier. `walk_forward_backtest.py:174-175` splits strictly
+  chronologically, 60/20/20.
+- **Gap (verified, low severity): one shuffled split survives.** `pattern_discovery.py:285`
+  calls `train_test_split(X, y, test_size=0.25, random_state=42)` with sklearn's default
+  `shuffle=True`. The rows are one cross-section: `extract_features` builds one row per stock
+  at a single as-of date, and `_target_fwd21` at `:224` is the same 21-day window for every
+  row. So train and test share the **identical** label window, and the printed
+  "Model fit: R²" (`:293`) is an in-window cross-sectional fit that absorbs that month's
+  market and sector move. It is not an out-of-sample forecast. This is a stronger form of
+  the paper's shuffled-fold failure: coverage in time is zero. The script is a research
+  stage (`pipeline_historical.py:48,74`) and is not in the mailer's decision path, so the
+  severity is low. `dl_strategy_eval.py:31` does cite "our earlier pattern_discovery" as
+  evidence.
+- **Action queued: item 43.**
+
+### 2609.26303 — Target alignment, dilution and forecast selection when cross-sectional forecasts share a common target (Masoud Soleimani, 2026-09-22, q-fin.ST)
+
+Every standardized cross-sectional forecast splits exactly into a part aligned with the
+common realized target, γ_i = ⟨s_i, y⟩, and an orthogonal part. An equal-weight pool of N
+beats the no-information forecast only if mean alignment exceeds ½[ρ̄ + (1−ρ̄)/N]. Adding a
+forecaster at equal weight mixes real improvement with **dilution**, and equal-weight
+admission can reward dilution. The paper proposes a cautious greedy admission rule using
+HAC standard errors and a max-t critical value.
+
+- **EVIDENCE-GRADE: medium, with an honest null.** It has two small panels. The first is
+  24 LLM forecasters on 60 US large caps, weekly from Jan 2021 to Jun 2026. The second is
+  9 mechanical signals (momentum, reversal, volatility and others) on 42 ETFs, monthly from
+  2005 to 2026. Mean alignment is ≈0 in both (0.006 and −0.011). Selection removes most of
+  the dilution loss, **but no combination beats the no-information forecast**, and the paper
+  says so. No transaction costs, which is less of an issue for a forecast-combination result
+  than for a strategy claim.
+- **Gap (verified): the repo counts screen votes at equal weight, including screens its own
+  evidence says are non-positive.** `full_us_market_scan.py:994-1003` computes
+  `screens_passed` as an unweighted sum of six booleans: Darvas BREAKOUT_BUY, **Golden
+  Cross / above-200DMA**, **Piotroski f_strong**, Coffee Can, MF and BC. It admits names with
+  ≥3. The repo's own evidence file rules out Golden Cross ("worst screen in every tested
+  market", `justified_mailer.py:26`) and records US high-F Piotroski as **INVERTED**
+  (`:20`). In this paper's terms, those are forecasters with non-positive alignment admitted
+  at equal weight into a vote. That is the dilution case exactly, and in the US one vote
+  points the wrong way. The multi-screen sheet then feeds `portfolio_builder.py`'s "other"
+  bucket (queue item 41).
+- **Action queued: item 44.**
+- **Not queued: the HAC/max-t admission rule.** With 6 screens and a boolean vote, a
+  leave-one-screen-out forward-return comparison answers the same question with no new
+  machinery.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2609.27051** (Qu, Chen & Wang, "Propose, Don't Judge: An Anytime-Valid Referee for LLM
+  Agents That Mine Investment Factors", 2026-09-22). Rigorous: a frozen e-value referee,
+  planted-truth synthetic data, and a 10-year CSI 500 walk-forward. It honestly reports the
+  price, about 500 trading days to admit a true factor and a lower Sharpe than an ungated
+  portfolio. Off-scope because it assumes an LLM or bandit factor miner, and this repo has
+  none. Worth re-reading if factor mining is ever automated.
+- **2609.29887** (Liu & Hsieh, "Cost-Sensitive Online Window Size Selection for Portfolio
+  Management", 2026-09-24). Regret bounds for Fixed Share/Hedge over lookback-window
+  "experts" with turnover-inclusive loss. The abstract gives no empirical universe, dates or
+  net figures, and the repo sizes no rebalanced book. Not fetched further.
+- **2407.20380** (Achitouv, "Inferring financial stock returns correlation from complex
+  network analysis", 2024-07-29). Built on simulated GBM with a headline "up to 50%" better
+  return "on short time scale". No costs and no real out-of-sample test in the abstract.
+  Weak.
+- **2112.15321** (Nick James, "Evolutionary correlation, regime switching, spectral dynamics
+  and optimal trading strategies for cryptocurrencies and equities", 2021-12-31).
+  Descriptive RMT/PCA comparison of crypto and equity spectra; the portfolio section is
+  crypto-only with no costs. Off-scope.
+- **2609.27614** (Wouters & Diks, "Model-agnostic noise reduction for high-dimensional time
+  series data", 2026-09-23). A lagged-covariance projection onto a low-dimensional dynamic
+  subspace, illustrated on stock returns, with forecast-accuracy metrics only. Background
+  for queue items 37–39's spectrum work; not actioned.

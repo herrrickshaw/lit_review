@@ -1487,3 +1487,77 @@ publication.
   coverage by the dedup sweep above, but **not searched today**; the budget went on the open
   item. Recording them so a future Wednesday can go straight to a primary (NPCIL/DAE, CEA and
   CTUIL, ISPRL) instead of re-running the dedup.
+
+## Added 2026-09-26 (daily task, Saturday: trade, tariffs and industrial policy)
+
+This is the heaviest beat, so the bar is "contradicts or materially updates a published post".
+Three searches: the August 2026 trade print, DGTR trade remedies, and the PIB primary for
+August. Five candidates; two were read at source. **Nothing is COMMISSIONABLE today.** Both
+reads are BACKGROUND, and each is tied to a named published post. The open $51 bn / 100-item
+queue item (2026-09-19) turned up no newer source.
+
+### PIB, "India's total exports (merchandise & services) … August 2026" (Ministry of Commerce & Industry, PRID 2310636, posted 15 Sep 2026) — BACKGROUND, material to `the-50-tariff-and-234-one-untangling`
+
+- **Data**: PIB page fetched with a browser user-agent via `curl`, no login. Country-by-commodity
+  detail sits behind it at DGCI&S HS-8, which the blog already pulls. August services figures
+  are an **estimate**; RBI's latest services data is for July.
+- **Finding** (quoted from the release):
+  - Merchandise exports were **US$ 43.81 bn against 34.74 bn** in August 2025, a gain of
+    about 26.1%.
+  - Imports were **70.67 bn against 61.96 bn**.
+  - Electronic goods rose **89.82%**, from 2.93 to 5.55 bn. Petroleum products rose
+    **63.27%**, from 4.17 to 6.81 bn.
+  - Exports to the **USA grew 21.83%** in August year on year, but only **6.17%** over
+    April–August. The five-month merchandise deficit widened to **60.38 bn from 43.94 bn**.
+- **Blog fit**: the tariff post (12 Sep 2026) traces tariff **rates**, from 50% down to 10%.
+  It has no flow data. This release is the first monthly print since that post. Grepping the
+  manifest for `trade deficit|merchandise|tariff|trade deal` finds only that post and
+  `indias-battery-storage-boom-is`, and neither runs monthly trade flows.
+- **Why not COMMISSIONABLE**: a single month's headline is news, not a finding. The piece
+  worth writing is the US-destination series from September 2025 to August 2026 by HS
+  chapter, which would show whether exports to the US fell during the 50% months and
+  recovered at 10%. That series has not been pulled.
+  🔴 The **August 2025 base is mostly pre-tariff**, because the 50% rate started collecting on
+  27 Aug 2025. So "+21.83% to the US" is **not** a recovery-from-tariff comparison, and must
+  not be written as one. A good share of headline growth is **price-driven petroleum**: the
+  release's own crude basket averaged $90.19 in August against $82.04 in July (figures from
+  the Channel IAM copy; confirm in PIB).
+  Upgrade path: pull DGCI&S country-wise monthly exports to the USA from Jul 2025 to Aug 2026.
+  If the months at 50% show a clear trough and those at 10% show a rebound, it becomes
+  COMMISSIONABLE as a follow-up to the tariff post.
+
+### KNN India, "India Imposes 5-Year Anti-Dumping Duty On Chinese Electrical Steel Imports" (KNN Bureau, 19 Dec 2025), reporting a Ministry of Finance notification on DGTR's CRNO findings — BACKGROUND, material to `rare-earth-magnets-and-specialty-steel`
+
+- **Data**: the KNN page was fetched. The primary, a CBIC/MoF customs notification plus DGTR
+  final findings, was **not** fetched; the notification number is not given in the copy.
+  Import volumes are obtainable from DGCI&S HS-8 under headings **7210, 7225 and 7226**,
+  as named in the article.
+- **Finding**: a five-year anti-dumping duty on cold-rolled non-oriented electrical steel
+  (CRNO) from China, set at **US$ 223.8–414.9 per tonne** depending on the producer. The
+  input grade, CRFH, is **excluded**. CRNO goes into electric motors, generators and
+  transformers.
+- **Blog fit**: `rare-earth-magnets-and-specialty-steel` (5 Aug 2026) names electrical steel as
+  a PLI 1.2 specialty-steel category and "an adjacent input into the same electric-motor
+  value chain". It does not mention this duty, which was already in force when that post was
+  published. So the same input is now both subsidised on the supply side and protected at the
+  border. That stacking is the angle, and a grep of `posts/` for
+  `CRNO|electrical steel|non-oriented` shows no other post touches it.
+- **Why not COMMISSIONABLE**: the only quantified figure is the duty itself. Whether it moved
+  import volumes or sources, or motor-maker input prices, is unmeasured. Without that, the
+  piece would be confirming the obvious.
+- **Caveat**: fetch the actual notification before quoting the rate band. Also check the
+  per-tonne range against DGTR's final findings, since secondary copies disagree (one quotes
+  only $223.82). Upgrade path: pull DGCI&S HS-8 CRNO imports by origin for the 12 months
+  either side of Dec 2025. A switch from China to Japan/Korea at a similar landed price would
+  be a real finding.
+
+### Weak / not deep-read, one line each
+
+- **Channel IAM, "India's Trade Gap Falls to $26.86 Billion" (18 Sep 2026)** and
+  **International News & Views, "India Exports August 2026: $43.81 Billion"**. Secondary
+  copies of the PIB release. The second gives export growth as 25.5% and last year's deficit
+  as $26.68 bn, which does not match the primary (34.74 → 43.81 is about 26.1%; the
+  Aug-2025 deficit was 27.22). Cite PIB, never these.
+- **DGTR's late-September 2026 initiations** (wallpapers, organophosphonates, normal butanol,
+  stainless cold-rolled flat from China), from a search snippet only. Not fetched. These are
+  initiations, not findings, so there is nothing to report until final findings land.
