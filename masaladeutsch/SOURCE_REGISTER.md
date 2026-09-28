@@ -1561,3 +1561,34 @@ queue item (2026-09-19) turned up no newer source.
 - **DGTR's late-September 2026 initiations** (wallpapers, organophosphonates, normal butanol,
   stainless cold-rolled flat from China), from a search snippet only. Not fetched. These are
   initiations, not findings, so there is nothing to report until final findings land.
+
+## Added 2026-09-28 (daily task, Monday: agricultural labour and rural incomes)
+
+Step 1 found the day's result: the open VB-G RAM G item (logged 2026-09-21) has a newer
+source, and it materially changes that item's argument. Manifest dedup (snapshot 2026-09-14,
+273 posts): `nrega|vb-g|ram g|employment guarantee|person-day` over every post's full JSON
+still returns **zero** posts. No new candidate was searched for, because unblocking the queued
+piece was worth more.
+
+### The Hindu, "VB-G RAM G scheme trails MGNREGS by 9% in August" (16 Sep 2026), via superkalam.com's summary; and ThePrint, "SKM flags 9.56-crore drop in person-days under VB-G RAM G" (23 Sep 2026): BACKGROUND, but a material update to a COMMISSIONABLE queued item
+
+- **Data**: the MoRD Rural Employment Dashboard. Both reports name it; the URL is still not
+  identified. The Hindu original sits behind PressReader, so its figures were read through
+  superkalam's summary, which quotes them. ThePrint was fetched directly.
+- **Finding**:
+  - **Aug 2026:** 11.03 crore person-days vs 12.12 crore in Aug 2025, down 9.01% (computed:
+    8.99%).
+  - **July, revised:** 9.18 vs 17.65 crore (−48.01%). The 9-Aug figures in the Outlook entry
+    above were 7.67 vs 15.33.
+  - **July+August:** 20.21 vs 29.77 crore, down 9.56 crore. That is **32.1%, not the "28.51%"
+    SKM states.**
+  - Rajasthan's July fall was more than 52%.
+  - ETV Bharat carries a ministry claim of "over 9.69 crore person-days". Seen as a title in a
+    search result only; not fetched.
+- **Blog fit**: it rewrites the queued item "Half the work, in the first month". See the
+  COMMISSION_QUEUE note dated 2026-09-28. Nearest post: `a-17-rural-pay-rise-that-nobody-received`.
+- **Caveat**:
+  - Both figures are secondary reports of a dashboard nobody has pulled directly yet.
+  - The July baseline was revised by +2.3 crore in five weeks, so MGNREGS history is also
+    being restated.
+  - The August recovery may be seasonal-pause timing. September will tell.

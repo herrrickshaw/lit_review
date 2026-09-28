@@ -2894,3 +2894,51 @@ HAC standard errors and a max-t critical value.
   series data", 2026-09-23). A lagged-covariance projection onto a low-dimensional dynamic
   subspace, illustrated on stock returns, with forecast-accuracy metrics only. Background
   for queue items 37–39's spectrum work; not actioned.
+
+## Added 2026-09-28 (daily task, Monday gap query: CPCV / purging / embargo)
+
+### 2608.23416 — Li, "The Axiomatic Trader: Latent Regularity, Information Budgets, and the Canonical Form of a Quantitative Investment System" (v1 2026-08-24, v3 2026-09-20)
+
+- **What it is:** five axioms, from which the paper derives a five-stage canonical system.
+  The stages are a declared representation, a capacity-bounded predictor, contiguous
+  purged/embargoed block evaluation aggregated by CVaR at level 1/Λ (Λ = the declared
+  recurrence bound), a "budgeted deflated search" and robust sizing. The information budget
+  is `log N ≲ ½ρ²·n_eff`, where `n_eff = n/(H + ρ²_blk(2ℓ−1) + 2π_μ)` and H is label
+  overlap. Sizing is capped at `1/(1+ϰ)` of Kelly, where ϰ is the fraction of the budget
+  already spent. It prefers an ensemble over training perturbations to a single fit.
+- **EVIDENCE-GRADE: medium-weak.** The theory is careful. The empirics are "one real daily
+  series" and "twenty assets, seven block lengths", and the fetched text gives no tickers,
+  dates or transaction costs. The claim "no axiom is so far overturned" is a consistency
+  check, not a return result.
+- **Doing-right (verified):**
+  - Purge+embargo gap: `purge_embargo.py:85-143`.
+  - Lower-tail aggregation across folds, not mean: `trading_reward.py:92` sets
+    `CVAR_Q = 0.30`, and `:165` defines `pessimistic()`, which takes the mean of the worst
+    30% of folds. This is the paper's stage-3 aggregation, with a fixed q in place of 1/Λ.
+  - Deflated search: `multiple_testing.py:46` `deflated_sharpe(sr, n_trials, n_obs, ...)`.
+    `deflated_sharpe.py:65-85` gates at DSR ≥ 0.95.
+- **Gap (already queued; no new item):**
+  - The budget inequality is another form of what items 19 (MTRL) and 24 (cross-sweep trial
+    ledger) already require.
+  - The one new element is the H term. `deflated_sharpe.py:77` passes `T = best["n"]`
+    formation weeks as the raw sample size. If the forward-return label is longer than the
+    2-week step (IR is annualised with √26), overlap shrinks n_eff and the DSR is optimistic.
+    **UNVERIFIED:** this run did not check the label horizon in `profitability_optimizer.py`.
+    Check it when item 19 is picked up.
+- **Not queued:** Kelly-fraction sizing. The repo sizes no live book.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2609.23703** (Kirtac, "Financial Language Models as Applied AI Systems for News-Based
+  Trading under Market Frictions", 2026-09-20). Frictions are handled well: costs,
+  capacity, and OOS restricted to news after the model's training cutoff. But it needs paid
+  Refinitiv News Analytics and CRSP, and the repo has no news signal. `llm_extract.py:1-19`
+  is document extraction for DRHP and broker statements, not a signal. Off-scope.
+- **2609.26349** (Abi Jaber, Gutekunst, Herdegen, Hobson, "Optimal Investment and
+  Consumption … Integrated Variance Clocks", 2026-09-23). Continuous-time control theory.
+  Off-scope.
+- **2609.27786** (Hashimoto & Stillman, "Feasible Multi-Asset Optimal Execution under Cash
+  Constraints"). An execution-algorithm paper; the repo places no orders. Off-scope.
+- **2609.31260 / 2609.31379 / 2609.29108:** agentic LOB phase transitions, DeFi mempool
+  sandwich leakage, and EU electricity trading architecture. All off-scope by title and
+  listing.

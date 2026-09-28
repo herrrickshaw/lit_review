@@ -741,3 +741,24 @@ moved above. Read this section before picking anything from Open.)*
   quoting an FY24-vintage number against an FY25 label or means FY25 was flat. The next edition
   decides it, and the piece is better if it does not have to guess.
   Logged from the 2026-09-23 register entry.
+
+- **2026-09-28: the VB-G RAM G item ("Half the work, in the first month") has August data,
+  and the headline no longer holds.** The data comes from the MoRD Rural Employment Dashboard
+  as reported by The Hindu on 16 Sep 2026 (read via a secondary summary, since the Hindu page
+  is paywalled on PressReader). **August 2026: 11.03 crore person-days, against 12.12 crore
+  in Aug 2025, down 9.01%.** On the same report **July has been revised to 9.18 crore against
+  17.65 crore (−48.01%)**, not the 9-Aug read of 7.67 vs 15.33.
+  **Both the numerator and the baseline moved.** Caveat (1)'s warning that month-one MIS is
+  revisable was right, and in both directions at once.
+  The July+August comparison that check (2) asked for is now possible. ThePrint (23 Sep 2026,
+  SKM statement, same dashboard) gives **20.21 vs 29.77 crore, down 9.56 crore**.
+  The sums reconcile: 9.18+11.03 = 20.21 and 17.65+12.12 = 29.77. **But SKM's "28.51%" does
+  not follow from its own figures: 9.56/29.77 = 32.1%.** Recompute the rate and never quote
+  28.51%.
+  **Recommended reframe:** "a collapse that narrowed to a 9% gap in month two". That leaves a
+  two-month shortfall of about a third, with the open question whether the recovery is
+  seasonal-pause timing or real catch-up. September's number decides it, so wait for
+  September if possible. Checks (1) and (3)–(5) of the item still stand. The dashboard URL is
+  still not identified; the ThePrint and Hindu reports both name "the Rural Employment
+  Dashboard".
+  Logged from the 2026-09-28 register entry.
