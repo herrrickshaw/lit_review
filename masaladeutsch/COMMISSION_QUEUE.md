@@ -547,6 +547,25 @@ Format:
       nrega|vb-g|ram g|rural job|employment guarantee|person-day returns zero posts.
 
 
+- [ ] Bigger premiums, the same customers: India's life insurance has stopped adding people
+      Source: IRDAI Annual Report 2024-25 (irdai.gov.in/annual-reports, free PDF) and earlier
+      annual reports / IRDAI Handbook tables of individual new-business and in-force policies,
+      FY2017-FY2025. Motivated by McKinsey (Sep 2026, via Business Today 24 Sep 2026), which puts
+      individual life policies "broadly flat at around 330 million" while demat accounts rose 8x.
+      Argument: life premium keeps growing (+~7% to ₹8.86 lakh crore in FY25), but penetration
+      has fallen three years running to 2.7% of GDP and the count of individual policies has
+      gone nowhere in eight years. India's life industry is selling bigger tickets to the same
+      households while the savings of new investors go to demat accounts.
+      Checks needed: (1) 🔴 rebuild the policy series from IRDAI tables yourself. Do not cite
+      McKinsey's 330 m, and establish whether it is in-force, lives or cumulative. (2) Verify
+      "270.22 lakh new individual policies, -7.39%" in the AR 2024-25 PDF; it is from a search
+      snippet only. (3) Split premium into single vs regular and ULIP vs traditional, and mark the
+      Budget-2023 ₹5 lakh tax-cap effect on FY23-FY24. (4) Penetration is premium/GDP: show the
+      GDP-denominator effect separately. (5) Use group-policy lives (PMJJBY etc.) as the
+      counter-argument: cover may be growing outside individual policies.
+      Logged: 2026-09-29 from the life-insurance register entry
+      Opens: life insurance, which has zero coverage (manifest 273 posts + posts/ body grep; see register).
+
 ## Done
 
 - [x] What a farm labourer earns, and why it stopped tracking output

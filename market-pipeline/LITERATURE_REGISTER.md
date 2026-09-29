@@ -2942,3 +2942,54 @@ HAC standard errors and a max-t critical value.
 - **2609.31260 / 2609.31379 / 2609.29108:** agentic LOB phase transitions, DeFi mempool
   sandwich leakage, and EU electricity trading architecture. All off-scope by title and
   listing.
+
+## Added 2026-09-29 (daily task, Tuesday gap query: effective number of factors / redundancy / spanning)
+
+### 2609.31263 — Walter, Zimmer & Ulrich, "Taming the Option Factor Zoo: A High-Dimensional Analysis" (2026-09-25, q-fin.CP)
+
+- **What it is:** 137 option-implied characteristics for optionable US stocks, Feb 2004 –
+  Jul 2023 (T = 234 months). They are screened to 20 long-short factors by GBR+SHAP, keeping
+  the top factors up to 90% cumulative attribution. Each factor is then tested against 160
+  equity factors (Jensen et al. 2023) in four ways:
+  - Stewart–Love redundancy index from CCA: 91.0% of option-factor variance explained,
+    against a **mechanical noise level of p_X/(T−1) = 160/233 ≈ 69%**.
+  - GRS joint-alpha test: p = 0.25.
+  - Maximum Sharpe ratio 3.35 → 3.74, not significant.
+  - Feng–Giglio–Xiu double-selection LASSO: 8 of 20 factors have non-zero SDF loadings at
+    5%, and 4 survive Bonferroni (|t| > 3.02). BH and the Harvey–Liu–Zhu t > 3 hurdle are
+    also reported.
+- **EVIDENCE-GRADE: medium.**
+  - For: the tests are rigorous and the multiple-testing correction is layered.
+  - Against: all results are in-sample, and the screen and the tests use the same months
+    (the authors say so). Returns are gross; the authors state they ignore transaction
+    costs. The option data is CBOE and the equity data CRSP/Compustat, both paid.
+  - The option factors themselves are unusable here: the repo has no option data.
+- **Doing-right (verified):**
+  - BH FDR across the whole grid: `code/python_files/multiple_testing.py:35`,
+    `factorial_screener_analysis.py:10`.
+  - A Bonferroni threshold: `code/python_files/rloo_rescore.py:553`.
+  - A spectral effective-factor count (participation ratio):
+    `research/factor_redundancy.py:18,42-52`.
+- **Gap:**
+  - The spanning test itself is already queued (items 12 and 35).
+  - The new, transferable element is the **noise floor**. With p regressors and T
+    observations, pure noise explains about p/(T−1) of the variance. The repo's fortnightly
+    factor series are short, so an unbenchmarked R² or redundancy figure will overstate
+    redundancy. For example, 9 regressors over T = 40 gives a noise floor near 23%.
+  - `factor_redundancy.py` reports its participation ratio with no noise benchmark
+    (`:60-68`). It works on the pooled stock-week feature matrix, where n is large, so the
+    floor matters there far less than for item 12's date-level series.
+- **Action queued:** item 45, an amendment to items 12 and 35.
+- **Not queued:** the GBR+SHAP screen. The repo has 10 factors, not 137, so there is
+  nothing to screen.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2402.06635** (Kelly, Kuznetsov, Malamud & Zhang, "Large and Deep Factor Models", v3
+  2026-06-29). A DNN-trained SDF via the Portfolio Tangent Kernel, on US equity data. It
+  needs deep-network training and CRSP-scale data, and the abstract gives no universe,
+  period or costs. Off-scope at this pipeline's scale.
+- **2509.25606** ("Effective Model Pruning: Measure the Redundancy of …"). A neural-network
+  pruning paper, surfaced by the keyword "redundancy". Off-scope by title.
+- Semantic Scholar citations of 2605.19337 (six distinct) and the q-fin.PM/q-fin.TR recent
+  listings: every entry was already registered.

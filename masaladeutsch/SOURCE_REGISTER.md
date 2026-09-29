@@ -1592,3 +1592,52 @@ piece was worth more.
   - The July baseline was revised by +2.3 crore in five weeks, so MGNREGS history is also
     being restated.
   - The August recovery may be seasonal-pause timing. September will tell.
+
+## Added 2026-09-29 (daily task, Tuesday: insurance, reinsurance and financial plumbing)
+
+Step 1: no open queue item is on this beat, so there was nothing to unblock. Dedup was run
+against the manifest (snapshot 2026-09-14, 273 posts; `insur|irdai|reinsur|ifsca|gift.?city|
+solvency|bancassur` over each post's full JSON returns only `premium-now-claim-later-float-indias`)
+**and** a body grep of `posts/`. `life insur` matches only passing mentions in
+`indias-two-tracks-of-health-cover-and` (one growth-rate sentence),
+`raising-green-debt-globally-rec-euroyen` and `premium-now-claim-later-float-indias`. No post
+is about life insurance.
+
+### Life insurance: premiums up, policies flat. IRDAI Annual Report 2024-25 (as reported by Deccan Chronicle, 30 Dec 2025) + McKinsey & Company, "India's new insurance track: The marathon becomes an AI-led decathlon" (Sep 2026, as reported by Business Today, 24 Sep 2026)
+
+- **Data**: the **IRDAI Annual Report 2024-25**, a free PDF with no login, listed at
+  `irdai.gov.in/annual-reports`. Earlier annual reports and the IRDAI Handbook carry the
+  individual new-business and in-force policy counts year by year. McKinsey's report is the
+  secondary layer; its underlying series has not been checked.
+- **Finding**:
+  - IRDAI AR 2024-25, per Deccan Chronicle: life penetration fell to **2.7% of GDP from
+    2.8%, the third consecutive annual decline**, while life premium rose ~7% to
+    ₹8.86 lakh crore. Overall penetration held at 3.7%, below the 4.2% peak of 2021-22.
+    Density was $97, of which life was $72.
+  - Business World's snippet of the same report gives **270.22 lakh new individual life
+    policies, −7.39% YoY**. That was a search snippet only and was not fetched.
+  - McKinsey, per Business Today: individual life policies **"broadly flat at around 330
+    million" FY2017–FY2025**, while demat accounts rose from ~28 m to ~225 m.
+  - The argument: more money per policy from a customer base that is not growing.
+- **Blog fit**: opens **life insurance**, which the blog has never covered. It is the
+  household-finance counterpart to the demat surge that `a-slice-of-apple-costs-about-1700-slice`
+  quotes. Nearest insurance post: `indias-two-tracks-of-health-cover-and`.
+- **Caveat**:
+  - 🔴 The 330 m figure is McKinsey's. It must be rebuilt from IRDAI tables before
+    publication, and "policies" may be in-force or cumulative; check which.
+  - Penetration is premium/GDP, so it can fall while cover rises. Separate the premium
+    effect from the GDP effect.
+  - Single-premium and ULIP tax-driven swings (Budget 2023's ₹5 lakh cap) distort
+    FY23–FY24 new business.
+  - The 270.22 lakh figure is unverified.
+
+### Weak/background, one line each
+
+- **General Insurance Council, August 2026 non-life premium** (Business Standard,
+  15 Sep 2026; article body 403 to WebFetch, and a curl returned only the metadata
+  description). Total +10.05% to ₹27,454.5 cr; SAHI +30.4% to ₹4,377.14 cr; specialised
+  insurers −~53% on AIC. One month of a series that `indias-two-tracks-of-health-cover-and`
+  already reports. The AIC fall is probably kharif premium timing, so it is BACKGROUND for
+  the crop-insurance entry (2026-08-25) and not a finding in itself.
+- **CareEdge, "Non-Life Premiums in FY26 End at Rs 3.4 Lakh Cr"** (search result, not
+  fetched). A rating-agency summary of GI Council data. Cite the primary. WEAK.

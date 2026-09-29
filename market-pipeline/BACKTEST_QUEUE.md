@@ -954,3 +954,18 @@ when it's been run; do not delete history.
     `portfolio_builder.py`'s "other" bucket (item 41), so run this first, before item 41's
     score-order arm. As with item 41, report a null too.
     Motivated by: 2609.26303.
+
+45. **Amendment to items 12 and 35: benchmark every redundancy R² against its noise floor.**
+    When item 12/35 regresses each factor's date-level PnL/IC series on the other nine,
+    report next to each R² the mechanical level that pure noise would reach,
+    `p/(T−1)` (p = 9 regressors, T = dated observations in that market).
+    Optionally also report the Stewart–Love redundancy index from a CCA of each factor
+    against the rest, with the same floor.
+
+    Call a factor "redundant" only when its R² clearly exceeds the floor and item 35's α and
+    `1'β−1` tests agree. The fortnightly series are short: at T = 40 the floor is about 23%,
+    so an R² of 30% there is close to noise.
+
+    Apply the same caveat to `research/factor_redundancy.py`'s participation ratio
+    (`:60-68`). It has no benchmark, but it pools stock-weeks, so there the floor is small.
+    Motivated by: 2609.31263.
