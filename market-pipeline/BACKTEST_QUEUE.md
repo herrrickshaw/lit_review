@@ -969,3 +969,44 @@ when it's been run; do not delete history.
     Apply the same caveat to `research/factor_redundancy.py`'s participation ratio
     (`:60-68`). It has no benchmark, but it pools stock-weeks, so there the floor is small.
     Motivated by: 2609.31263.
+
+46. **Give the DSR gate real moments, and check whether one window carries the chosen
+    factor.** Two parts, sharing one per-period series.
+
+    **Part (a): pass empirical moments into the DSR.**
+    - `deflated_sharpe.py:78` calls `dsr(sr_best, trials_sr, T)` with the default skew = 0
+      and kurt = 3.
+    - `reports/profitability_optimizer.csv` stores only `mean_excess, info_ratio,
+      mean_book, hit, n`, so no moments exist to pass in.
+    - Have `profitability_optimizer.py` also write each factor's fortnightly excess-return
+      series, or its skew and kurtosis.
+    - Pass the chosen factor's skew and kurt into `dsr()`.
+    - Report DSR under normal and under empirical moments side by side, and flag any
+      market × regime cell whose `survives_0.95` flips.
+    - Item 19's MTRL uses the same bracket and should take the same moments.
+
+    **Part (b): single-window sensitivity.**
+    - For each chosen factor, recompute IR after dropping its best three consecutive
+      fortnights. Also recompute it after dropping Feb–May 2020 where that falls inside
+      the sample.
+    - Mark the cell `⚠️ concentrated` if IR falls by more than half.
+
+    Prediction: bear-regime cells are the most exposed on both counts, because they have
+    short T and crash-driven fat tails.
+
+    Cost: this needs no new data and no refit, only the per-period series the optimiser
+    already computes internally. Motivated by: 2609.35359. In that paper fat tails cut the
+    Sharpe from 0.67 to 0.281, and removing Feb–Apr 2020 cut it to 0.28.
+
+47. **Truncation-invariance and rerun-hash tests for the production scorer.** This is a
+    test, not a backtest.
+    (a) Pick 3 past dates *t* per market. Run the daily scorer once on the OHLCV/
+        fundamentals panel, and once on the same panel with every row after *t* deleted.
+        Assert that the date-*t* picks, scores and zones are identical. Any difference is
+        look-ahead by construction.
+    (b) Run the same scan twice and assert that the SHA256 hashes of the sorted
+        (ticker, score, zone) lists match.
+    Add both to `test_pipeline_invariants.py`. This turns item 11's labels into an
+    executable check. Cost: minutes of CPU, no new data.
+    Motivated by: 2604.04812 (a runtime LeakageGuard is a hard gate there; static
+    `shift(-k)` scans are only warnings).

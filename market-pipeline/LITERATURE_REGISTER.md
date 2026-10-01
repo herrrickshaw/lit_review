@@ -2993,3 +2993,163 @@ HAC standard errors and a max-t critical value.
   pruning paper, surfaced by the keyword "redundancy". Off-scope by title.
 - Semantic Scholar citations of 2605.19337 (six distinct) and the q-fin.PM/q-fin.TR recent
   listings: every entry was already registered.
+
+## Added 2026-09-30 (daily task, Wednesday gap query: learning-to-rank cross-sectional equity returns)
+
+Semantic Scholar's API returned HTTP 429 to curl. The same query through WebFetch listed
+the same six citing papers as on 2026-09-23 (2609.19705, 2609.04917, 2608.26990,
+2607.19453, 2607.04958, 2606.08285). None is new. The Wednesday WebSearch returned nine
+already-registered IDs and one new one (1909.04497). Most candidates came from the recent
+listings for q-fin.PM, q-fin.TR and q-fin.ST. Neither paper deep-read today is about
+learning to rank. The theme has now run dry on four Wednesdays.
+
+### 2609.35359 — From Cointegration to Out-of-Sample Failure: A Pairs-Trading Case Study on PEP-KO (Davide Graziano, submitted 2026-09-28)
+
+This is one PEP–KO pair on daily adjusted closes, split three ways:
+- **Statistics, 2013–2018.** Engle–Granger test. Half-life ≈ 31.9 trading days,
+  β̂ = 1.662.
+- **In-sample threshold optimisation, 2018–2023.** Best thresholds z_entry = 2.15 and
+  z_exit = 0.50, with 0.20% costs. **Sharpe 0.67** over 99 trades.
+- **Out-of-sample, 2023 to date.** All three variants lose money:
+  - static: Sharpe −1.19
+  - rolling OLS: Sharpe −1.05
+  - Kalman: Sharpe −0.88
+- **Post-hoc check on the OOS window.** Engle–Granger gives p = 0.12, and the hedge ratio
+  reverses sign to β̂ = −0.24.
+
+- **EVIDENCE-GRADE: medium on method, weak on generality (n = 1 pair).** It is graded up
+  for doing the cost, sensitivity, walk-forward and deflation work, and for printing the
+  result against itself.
+  - Adjusted Sharpe (skew/kurtosis-corrected): **0.281**, against 0.67 raw.
+  - Deflated Sharpe: **0.423**, with N = 901 policies.
+  - **Without Feb–Apr 2020, the in-sample Sharpe falls from 0.67 to 0.28.**
+  - Walk-forward folds are uneven. Fold 1 has Sharpe 2.14; folds 2 and 3 are one losing
+    trade each.
+- **Doing-right (verified):**
+  - The repo already deflates its selected factor. `code/python_files/deflated_sharpe.py:52`
+    has `dsr()`, `:42` has E[max SR] over the trials, and `:80` gates at 0.95.
+  - `multiple_testing.py:46` carries a second implementation.
+  - The repo runs no pairs strategy. `pattern_discovery.py:306-330` only lists pairs with
+    return correlation > 0.80 as "pairs-trade candidates", in a historical stage
+    (`pipeline_historical.py:48`).
+- **Gap 1: the DSR is computed as if returns were normal.**
+  - The call at `deflated_sharpe.py:78` is `dsr(sr_best, trials_sr, T)`, so skew = 0 and
+    kurt = 3 take their defaults (`:52`). The docstring admits this (`:16-17`).
+  - `reports/profitability_optimizer.csv` only carries
+    `mean_excess, info_ratio, mean_book, hit, n`. No higher moments are available to pass
+    in.
+  - The paper shows the size of the error: fat tails alone cut its Sharpe by more than half
+    (0.67 → 0.281).
+  - Item 19 (MTRL) reuses the same bracket, so it inherits the same assumption.
+- **Gap 2: no check that one window carries the result.** A grep for leave-one-window-out,
+  crisis exclusion or best-N-periods sensitivity found nothing in `code/` or `research/`.
+  The nearest thing is the sub-period tables in `smallcap_screener.py:232` and
+  `sector_rotation.py:139`.
+- **Minor:** `pattern_discovery.py:306-330` selects pairs by correlation, not
+  cointegration. The paper shows that even a cointegrated pair can break out of sample.
+  Nothing is queued for this: the stage is exploratory and it does not reach the mailer.
+- **Action queued:** item 46.
+
+### 2609.33524 — EverMine: Dissecting the Self-Evolution of Research Capabilities in Long-Horizon Alpha Research (Siyuan Li, Jiangfeng Zhang, Rui Yao, Weihua Qiu, Mingyang Xu, Zixuan Yuan, submitted 2026-09-27)
+
+This is an LLM-agent alpha-mining study. The data is Binance Spot USDT, 60 pairs by
+turnover, predicting 10-minute bars. Development runs 2025-01-01 to 2025-12-31 and OOS
+2026-01-01 to 2026-06-30. The model is a 30-factor portfolio scored by IC. Costs are not
+modelled.
+- Evolving the agent's "capabilities" gave no consistent gain across 18 trajectories or 48
+  continuation branches.
+- Tuning parameters of factors already in the portfolio produced 12.8–40.0% of net
+  improvement, and was positive in 16 of 18 trajectories.
+- A factor's marginal value depends on the current portfolio and on submission order.
+  Screened-out candidates, submitted in sequence, *lowered* final IC.
+- **EVIDENCE-GRADE: weak for this pipeline.** The data is crypto intraday, costs are not
+  modelled, and the order effects are tiny: ΔIC −0.0000175 and −0.0000067, well inside
+  noise.
+  - The honest null on "self-evolution" is a useful sanity note for the repo's agentic
+    tooling.
+  - The transferable point is conditional marginal value. The repo has no sequential
+    factor-admission loop: a grep for marginal IC, forward selection or greedy addition
+    found only `train_ppo_factor_weights.py:154`, a per-regime single-best-factor baseline.
+- **Action queued:** none.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **1909.04497** (Wu et al., "Equity2Vec", v2 2021-10-27). A graph DL model with a news
+  input. The abstract gives no universe, period or costs, and the model needs GPU training
+  and a news feed. Off-scope.
+- **2609.34169** (Foley et al., "From Word Counts to Context: Topic Models for Asset
+  Pricing", 2026-09-28). Sentence-transformer versus LDA on 394,661 news articles, with a
+  Sharpe of 1.03. The authors say their "available tests do not establish outperformance"
+  and call for stricter point-in-time tests. It also needs a news corpus.
+- **2609.35086** (Koa, Li & Huang, "RADAR", 2026-09-28). Retrieval-augmented diffusion for
+  SDF portfolios. It claims "state-of-the-art" with no universe or costs in the abstract,
+  and needs GPU training.
+- **2609.33058** (Aldridge, "Evolution of Market Microstructure in the Age of AI",
+  2026-09-27). A microstructure/HFT/AMM survey. Off-scope for an EOD screener.
+- Listed but not triaged, off-scope by title: 2609.27654 (FedIncome), 2609.32686
+  (reinsurance), 2609.32848 (CME HFT), 2609.33767 (option Greeks), 2609.33799 (CFMM),
+  2609.35063 (liquidation), 2609.36257 (option replication), 2609.37872 (latent
+  liquidity), 2609.37963 (AMM LPs).
+
+## Added 2026-10-01 (daily task, Thursday gap query: transaction-cost-aware factor evaluation)
+
+Semantic Scholar (via WebFetch) listed the same six papers citing the hub 2605.19337 as on
+2026-09-30; none is new. The Thursday WebSearch returned seven already-registered IDs plus
+Baldi-Lanfranchi (registered 2026-08-27) and one new ID (2604.04812). The q-fin.PM and
+q-fin.TR recent listings added five new IDs. Nothing new is on the day's theme itself:
+the cost-aware-factor literature reachable by free search appears exhausted after five
+Thursdays.
+
+### 2604.04812 — SysTradeBench: An Iterative Build-Test-Patch Benchmark for Strategy-to-Code Trading Systems with Drift-Aware Diagnostics (Yuchen Cao, Hanlin Zhang, Jacky Wai Keung, Yang Chen, Linqi Song, submitted 2026-04-06)
+
+This benchmark scores LLM-generated trading code: 17 models, 12 strategies, 14 instruments
+(5 US large caps daily, 3 crypto pairs at 1-min, CSI300 + 5 constituents). Train/Dev runs
+2024-01-01 to 2025-01-01 and Test 2025. Gates: Parse → Schema → Exec → Determinism →
+Anti-Leak → Audit.
+- 61.8% of submissions pass every gate (parse alone: 78.4%). High-complexity strategies
+  fail 35–71% of the time (Spearman ρ = −0.68).
+- **Determinism gate:** 3 reruns with different seeds. SHA256 over the trade list
+  (entry, exit, side, pnl) must match, with 1e-6 tolerance on floats.
+- **Anti-leak gate:** an AST scan flags `shift(-k)` / forward indexing (a warning only).
+  A runtime `LeakageGuard` proxy over the market data raises if code reads past the
+  current bar, and that is a hard fail.
+- **Rule drift:** canonicalised strategy-card checksums, plus action-trace edit distance on
+  50-bar synthetic data (Δ ≥ 0.15 flagged).
+- **EVIDENCE-GRADE: weak as trading evidence, useful as software method.** The OOS check
+  is 235 sampled 10-bar windows at **zero cost**. The 0.1–20 bp sweep is "deferred to
+  future work". The paper does not report leakage or nondeterminism rates. It offers no
+  trading result to rely on, and none is taken from it.
+- **Doing-right (verified):**
+  - Threshold drift is hash-gated: `eval_contract.py:116,123-126,129-133`. The
+    threshold values are SHA256-digested and `verify()` raises `ContractViolation` if
+    they move without the recorded hash being updated. This is the same idea as the
+    paper's strategy-card checksum.
+  - A static grep for `shift(-` finds only research backtests building forward-return
+    labels (e.g. `backtest_ccc.py:240`, `value_quality_ls_backtest.py:88`,
+    `rloo_rescore.py:288`). It finds none in `custom_screener.py`, `price_bands.py`,
+    `build_mailer.py` or `signal_tracker.py`. The AST layer would add nothing beyond
+    that grep.
+- **Gap:**
+  - No runtime look-ahead test exists. `test_pipeline_invariants.py`, `test_strategies.py`,
+    `test_eval_contract.py` and `test_screener_in.py` are the repo's test files, and the
+    only "future" hit in them is EDGAR future instants (`test_pipeline_invariants.py:148`).
+  - Nothing checks that the production scorer's picks for date *t* are unchanged when
+    every bar after *t* is deleted.
+  - Nothing reruns a scan and compares hashes. A grep for determinism/rerun/sha256 hit
+    only `eval_contract.py` and the PPO `deterministic=True` flags.
+  - Queue item 11 (2607.04958) labels availability-time sites; it does not test them.
+- **Action queued:** item 47.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2609.39261** (Yuan, Zhang & Su, "Jacobian Rank Collapse in Decision-Focused Learning",
+  2026-09-30). Mostly ML theory. Its one equity result is a null: across 38 one-parameter
+  index-tracking configs, DFL beats MSE by under 1.8%. No universe, period or costs are
+  given in the abstract.
+- **2609.38545** (Alzahrani, "Say, Echo, Do", 2026-09-29). The narrative-vs-positioning
+  model is tested only in 29 *simulated* markets (AUC 0.90), and it needs a news corpus.
+- **2609.39420** (Chernysh, Ekhtibarov & Zmitrovich, "QuantCode Model", 2026-09-30). This
+  is a 35B–397B LLM fine-tune for Backtrader code generation. The metric is Judge Pass
+  rate, with no trading evaluation; it needs GPU training.
+- Listed but not triaged, off-scope by title: 2609.39569 (tontines), 2609.38765 (bond
+  portfolio MDP).
