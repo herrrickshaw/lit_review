@@ -1641,3 +1641,75 @@ is about life insurance.
   the crop-insurance entry (2026-08-25) and not a finding in itself.
 - **CareEdge, "Non-Life Premiums in FY26 End at Rs 3.4 Lakh Cr"** (search result, not
   fetched). A rating-agency summary of GI Council data. Cite the primary. WEAK.
+
+## Added 2026-10-01 (daily task, Thursday: seeds, plant variety rights and agricultural IP)
+
+An empty day: nothing commissionable.
+- **seednet.gov.in, retried.** It returned HTTP 503 again on `/`,
+  `/Material/Seed_Production.htm` and `/PDFFILES/SRR.pdf` (curl with a browser UA). It
+  stays NOT assessed; see the 2026-09-03 entry. Retry on a future Thursday.
+- **PPV&FR homepage, re-fetched** (HTTP 200, 171,505 bytes). It still reads "10885
+  Certificates issued as on 31.08.2026". No newer vintage, so nothing updates the
+  published `577-of-indias-plant-variety` (2026-09-17).
+- WEAK, one line each:
+  - **IBEF blog, "India's Seed Reforms and Agricultural Productivity Growth in 2025-26".**
+    Promotional summary; the SRR claims carry no dated table.
+  - **IMPRI, "National Mission on High-Yielding Seeds (2025)".** Policy explainer with no
+    primary dataset.
+  - **Draft Seeds Bill 2025 explainers** (universalinstitutions.com, countercurrents.org,
+    Deccan Herald). Already covered by `indias-draft-seeds-bill-cuts-states`
+    (2026-09-10), and none is primary.
+  - **EDV search.** It returned only FAQs and coaching pages restating the Act. The
+    "General Guidelines Regarding the Registration of EDV" notice (2026-09-07 entry) is
+    still the only primary EDV source.
+
+## Added 2026-10-02 (daily task, Friday: irrigation, water and soil)
+
+Dedup against manifest titles, using
+`water|irrig|soil|groundwater|aquifer|canal|fertili|monsoon|rain`. There are 20 hits.
+Three are on this beat: `india-irrigates-itself-966-of-its` (2026-09-17),
+`indias-irrigation-system-recovered-96` (2026-09-26) and the soil-testing post (2026-09-19).
+None is about **groundwater stock or depletion**. Groundwater appears only inside the
+Minor Irrigation Census piece, as an ownership count.
+
+### CGWB, *National Compilation on Dynamic Ground Water Resources of India, 2025* + PIB release "Dynamic Groundwater Resources Assessment, 2025" (29 Jan 2026) — COMMISSIONABLE
+- **Data**: the full report is a free PDF at `cgwb.gov.in/GWRA/GWRA_2025.pdf` (HTTP 200,
+  10.9 MB, ISBN 978-81-984761-6-6, no login). State/UT fact sheets (resources, water level,
+  quality) are linked from `cgwb.gov.in/.../fact_sheet_2025_website_links_0.pdf`, with a
+  2024 equivalent alongside. Block-level data is on the INGRES portal
+  (`ingres.iith.ac.in`, HTTP 200). The PIB release (PRID 2220203) needs a browser UA via curl.
+- **Finding**: nationally, recharge is 448.52 bcm, extractable 407.75 bcm and extraction
+  247.22 bcm, so the **Stage of Extraction is 60.63%**. Over-exploited units: **730 of 6,762
+  (10.80%)**. Report Table-1.2 gives a series back to 2004. The over-exploited share peaked
+  at 17.2% (1,186 units) in 2017. It was still **1,006 (14.2%) in 2022, then fell to 736
+  (11.2%) in 2023**: 270 units left the worst category in one year. Over the same year the
+  total number of assessed units **fell from 7,089 to 6,553**, while national extraction
+  *rose* (239 → 241 bcm, Table-1.1). Over the whole series, national SoE moves only
+  58–63%. Separately, the PIB release says that from September 2025 ("National Initiative
+  on Water Security") **at least 65% of MGNREGS funds** go to water-conservation works in
+  over-exploited and critical blocks, and 40% in semi-critical blocks. A block's SoE
+  category therefore now decides where rural-jobs money is spent.
+- **Blog fit**: this opens groundwater depletion, which has zero title coverage. It extends
+  `india-irrigates-itself-966-of-its`: that census says 94.8% of minor irrigation schemes
+  are groundwater, and this report says where that groundwater is running out. It also
+  ties to the rural-labour beat through the MGNREGS 65% rule (see the open VB-G RAM G
+  queue item).
+- **Caveat**:
+  1. The 2022→2023 drop of 536 assessment units is not explained in the passages read.
+     Check whether units were redrawn or merged before reading the 270-unit fall as an
+     improvement. It may be partly a change of denominator.
+  2. The series switched methodology from GEC 1997 to GEC 2015 in 2017, so pre-2017 and
+     post-2017 values are not comparable.
+  3. Recharge is modelled, not measured, so SoE is a ratio of two estimates. Cross-check
+     against CGWB's own well water-level trends in the state fact sheets.
+  4. The 65% MGNREGS rule is a stated decision in the PIB text. Spending against it has not
+     been verified.
+
+### Weak / background — one line each
+- **SANDRP, "Groundwater: Rising Depletion and Contamination in 2025 in India"**
+  (2026-03-25). Advocacy compilation, not fetched. Possibly useful later as a counter-view
+  to the official trend; it is not a dataset.
+- **BARC newsletter, "Groundwater Resource Assessment of India"** (2025). Not fetched; a
+  methodology background at best.
+- **C4S Courses / Vision IAS / Usthadian / Water Digest / EA Water explainers.** Exam-prep
+  and trade-press restatements of the PIB figures, with no primary data.

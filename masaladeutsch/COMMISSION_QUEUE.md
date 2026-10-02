@@ -781,3 +781,30 @@ moved above. Read this section before picking anything from Open.)*
   still not identified; the ThePrint and Hindu reports both name "the Rural Employment
   Dashboard".
   Logged from the 2026-09-28 register entry.
+
+- [ ] 270 blocks stopped being "over-exploited" in a year India pumped more groundwater
+      — and that label now steers 65% of MGNREGS water money
+      Source: CGWB, *National Compilation on Dynamic Ground Water Resources of India,
+      2025*, free PDF `cgwb.gov.in/GWRA/GWRA_2025.pdf` (fetched 2026-10-02), Tables 1.1
+      and 1.2 (2004–2025 series). PIB PRID 2220203 (29 Jan 2026, curl with browser UA) for
+      the 65%/40% MGNREGS allocation rule. Block-level data: INGRES `ingres.iith.ac.in`.
+      Argument: national extraction rose from 239 to 241 bcm between 2022 and 2023, yet
+      over-exploited units fell from 1,006 to 736. In the same year the count of
+      assessment units shrank by 536 (7,089 → 6,553). Since September 2025 that category
+      has decided where at least 65% of MGNREGS water-conservation money goes, so the
+      definition of a block now carries real money.
+      Checks:
+      (1) Find why the unit count fell between 2022 and 2023 (the 2023 report's notes,
+          state redelineation). If it was a redraw, recompute the OE share on comparable
+          units, or say plainly that it can't be done.
+      (2) Use the GEC 2015 series only (2017 onwards) for any trend claim.
+      (3) Cross-check SoE categories against well water-level trends in the 2025 state
+          fact sheets.
+      (4) Verify the 65% rule in the MoRD/MoJS order itself, not only PIB, and check
+          whether MGNREGS/VB-G RAM G spending data can show compliance.
+      (5) Date every figure to its assessment year.
+      Nearest published: `india-irrigates-itself-966-of-its` (groundwater = 94.8% of
+      minor-irrigation schemes).
+      Logged: 2026-10-02 from the CGWB DGWR 2025 register entry.
+      Opens: groundwater depletion (zero title coverage) and links the water beat to the
+      rural-labour beat.

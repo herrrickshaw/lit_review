@@ -74,6 +74,16 @@ data the repo doesn't already have (stock codes, sectors, prices).
 
 ## Weak evidence or narrow scope — logged, not actioned
 
+- **2608.27076** (Le Grice, Tabular DL / XGBoost+TabNet, 2026-08-27; triaged 2026-10-02)
+  — ~300 US large caps over 11 years. The headline is 51.26%/yr and Sharpe 2.44, and the
+  abstract does not say whether costs were modelled. The return looks implausibly high for
+  the setup. Not deep-read.
+- **SSRN 7099378** (Ayan Jain, "Survivorship Bias in Indian Equities is not a Number",
+  triaged 2026-10-02) — **not assessed.** SSRN returned HTTP 403 to both WebFetch and curl.
+  Only a search-engine snippet was seen, which claims a bias range of +0.8 to +3.3pp/yr
+  depending on vintage and filter. That has not been verified against the paper. Retry when
+  the page is reachable, because it is directly on-theme for India.
+
 - **1902.08684** (candlestick Word2Vec) — only paper of its batch that models costs
   and reports significance tests, but its own held-out result LOSES to buy-and-hold
   (Table 3/5). Repo already has both halves (Darvas boxes + KMeans clustering) at
@@ -3153,3 +3163,40 @@ Anti-Leak → Audit.
   rate, with no trading evaluation; it needs GPU training.
 - Listed but not triaged, off-scope by title: 2609.39569 (tontines), 2609.38765 (bond
   portfolio MDP).
+
+## Added 2026-10-02 (daily task, Friday gap query: point-in-time fundamentals / survivorship bias)
+
+Semantic Scholar (via WebFetch) still lists the same six papers citing the hub 2605.19337,
+all of them already registered. The Friday WebSearch returned five registered IDs and three
+new candidates. One of them passed triage.
+
+### 2603.19380 — Survivorship Bias in Emerging Market Small-Cap Indices: Evidence from India's NIFTY Smallcap 250 (Harjot Singh Ranse, submitted 2026-03-19)
+
+The paper rebuilds historical index membership from 2,459 NSE bhavcopy files
+(2016-09-01 to 2025-09-30, sourced from Samco's public archive). Bhavcopies keep delisted
+names. The universe is ranked 151–400, with **daily traded value used as a proxy for
+market cap**. It then compares two daily-rebalanced equal-weight portfolios: the 252 current
+survivors against all 1,437 stocks ever in the reconstructed index. The survivors return
+26.17%/yr, the full set 21.23% (+4.94pp). Sharpe is 1.160 against 1.063. Of the stocks that
+left the index, 16.1% delisted, 33.1% graduated and 33.2% were demoted. The paper itself
+says these are "no transaction costs, no slippage" constituent returns (PDF l.1056).
+- **Evidence grade: moderate-to-weak.**
+  - The traded-value ranking is said to match today's list "100% (252 of 252)". That is the
+    only ground truth available, and it is in-sample. The "85-90%" historical accuracy is an
+    estimate with no reference to check it against.
+  - The significance claim contradicts itself. The survivor return "exceeds 97.8% of
+    resamples", which implies p≈0.022, yet the paper prints "p < 0.001" (PDF l.585).
+  - The paper says delisting returns were inferred from last traded prices (l.1149).
+  - The direction of the bias and the bhavcopy-panel method are sound.
+- **Doing-right:** the repo already applies this paper's lesson, and more strictly.
+  `code/python_files/smallcap_screener.py:20-36` validates its rules only on the price panel
+  that keeps delisted names (DENABANK, DHFL, DISHMAN), approximates the small-cap band
+  point-in-time by trailing turnover rank, and explicitly refuses to backtest the current
+  constituent list. It also records that a market-cap reconstruction reproduces today's list
+  at only **71%** (`smallcap_screener.py:34`). That makes the paper's 100% match with a
+  similar liquidity proxy look tuned, not validated. `price_band_migration.py:23`
+  reports survivorship instead of dropping it.
+- **Gap:** none that is actionable. Real point-in-time membership would need NSE's
+  index-maintenance announcements, which the repo already flags as a separate collection job
+  (`smallcap_screener.py:34-36`).
+- **Action queued:** none.
