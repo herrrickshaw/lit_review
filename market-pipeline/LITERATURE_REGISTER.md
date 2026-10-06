@@ -420,7 +420,7 @@ kept in this session's transcript; key findings and grades below.
 - Hameed & Kusnadi (2002, J. Financial Research) — unrestricted momentum fails in 6 Asian markets incl. Korea. *High — direct Korea corroboration.*
 - Balvers & Wu (2006, J. Empirical Finance) — [already in repo] momentum+mean-reversion coexist, OPTIMAL WEIGHT DIFFERS BY COUNTRY. *Very high — closest thing to a direct endorsement of this repo's whole per-market design.*
 - India: JBF (2023), 3,956 BSE stocks 2000-2021 — momentum AND reversal both real, liquidity-conditional (momentum in liquid names, reversal in illiquid). *High.* Explains why this repo's India trend rule tests marginal (t<1.5): a uniform EMA rule averages two opposite-signed liquidity regimes.
-- Korea: Investment Analysts Journal (2024) + Emerging Markets Finance & Trade (2022) — individual-stock momentum REVERSES in Korea, explained by a "salience"/behavioral effect; foreign investors trade momentum, retail investors are contrarians. *Moderate-high — strongest literature match to any of this repo's own findings (Korea mom126 t=-2.13).*
+- Korea: two papers (Investment Analysts Journal, 2024; Emerging Markets Finance & Trade, 2022) — individual-stock momentum REVERSES in Korea, explained by a "salience"/behavioral effect; foreign investors trade momentum, retail investors are contrarians. *Moderate-high — strongest literature match to any of this repo's own findings (Korea mom126 t=-2.13).*
 - Japan: Asness (2011, JPM/AQR) — momentum Sharpe ~0.03 in Japan vs 0.22-0.48 elsewhere, argued to be within noise given momentum/value's negative correlation. *High but self-interested (AQR); later work on residual/industry-neutral momentum finds Japan momentum DOES work with better specification — treat "just noise" skeptically.*
 
 **Regime-dependence — bull vs bear:**
@@ -3200,3 +3200,35 @@ says these are "no transaction costs, no slippage" constituent returns (PDF l.10
   index-maintenance announcements, which the repo already flags as a separate collection job
   (`smallcap_screener.py:34-36`).
 - **Action queued:** none.
+
+## Added 2026-10-03 (daily task, Saturday gap query: correlation-matrix eigenvalues / regime / effective dimension)
+
+Nothing new today. Semantic Scholar still lists the same six papers citing the hub 2605.19337
+(2609.19705, 2609.04917, 2608.26990, 2607.19453, 2607.04958, 2606.08285), all already
+registered. Two WebSearches on the Saturday theme returned only registered IDs (2112.15321,
+2601.06090, 2608.09641, 2507.14325, 2608.26128, 1102.4076). The q-fin.ST/recent listing had
+one unregistered paper, 2610.00005 (a Solana/DeFi microstructure data corpus). It is off-scope
+by title and was not triaged. This is the fourth Saturday on this query, and free search has
+stopped surfacing new on-theme papers.
+
+## Added 2026-10-05 (daily task, Monday gap query: CPCV / purging / embargo)
+
+Nothing passed triage today. Semantic Scholar still lists the same six papers citing the hub
+2605.19337 (2609.19705, 2609.04917, 2608.26990, 2607.19453, 2607.04958, 2606.08285), all
+already registered. WebFetch got a 429; curl worked. The Monday WebSearch returned only
+tutorials and library docs, with no arXiv papers. The q-fin.PM/recent listing had three
+unregistered IDs:
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2610.00158** (Rodriguez Dominguez, "Causal Price-of-Risk Mandates under Overlapping
+  Information", 2026-09-11). Continuous-time multi-desk theory with no empirics. Off-scope.
+- **2610.00147** (Rodriguez Dominguez, "Admissible Portfolio Optimization: Information
+  Constraints, Conditional Efficient Frontiers, and the Price of Causal Identification",
+  2026-09-10). Mean-variance with pre-declared admissible conditioning information. The
+  empirics use 127 candidate drivers, give no date range on the abs page, and measure
+  turnover and residual correlation rather than net returns. EVIDENCE-GRADE: weak. The repo
+  runs no MV optimiser in its daily path.
+- **2610.01348** (Alzahrani, "Verify Claims, Not Scores: Evidence-Based Verification of
+  Modular Agents", 2026-10-01). An agent-audit protocol tested only on a *synthetic* market
+  with known regimes. No real-market evidence. Off-scope.

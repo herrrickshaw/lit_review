@@ -21,45 +21,7 @@ Format:
 
 ## Open
 
-- [x] Improving India's oil recovery factor: the IOR/EOR incentive framework and a technology compendium (CO2 injection, electric EOR, and the rest)
-      DONE — published 2026-09-19 as `indias-oil-fields-are-running-down`. Cabinet policy dated to October 2018 (not 2022, corrected from this entry's own note); compendium covers waterflood/IOR through polymer, ASP, CO2, thermal, microbial and electrical EOR with named India status per technique; three concrete deployments found (Mangala ASP, ONGC Bechraji polymer, Gandhar CO2 feasibility); electrical EOR confirmed pilot-only worldwide, none in India.
-      Source: MoPNG/DGH policy documents on the recovery-factor incentive framework (the
-      2022 Cabinet-approved changes to royalty/cess treatment and marketing/pricing
-      freedom for incremental output from IOR/EOR projects on nomination fields; check
-      DGH's own EOR/IOR policy page and PIB for the exact approval date and terms — not
-      yet verified here); ONGC and OIL's own investor/annual-report disclosures on named
-      IOR/EOR pilots (ONGC's Mehsana/Ankleshwar/Gandhar/Kalol/Sanand-cluster polymer and
-      waterflood work is well-publicized; the Hazira/Dahej CO2-EOR pilot already touched
-      on in this blog's where-indias-captured-carbon-would post, sourced there from a
-      December 2022 ONGC MoU); global technology reference (thermal/steam, polymer/chemical
-      flooding, miscible/immiscible gas injection including CO2, and lower-TRL routes like
-      electric/electromagnetic EOR) from a standard reserves-engineering source (e.g. an
-      SPE paper or the DGH/oil-ministry's own compendium if one is published) rather than
-      vendor marketing material.
-      Argument: India's own producing fields are running down (this blog's
-      indias-oil-fields-are-running-down-3696 already quantified the 36.96-to-28.70-MMT
-      decade decline) precisely because recovery factors on legacy nomination fields are
-      low by international standards — so the incentive framework and the technology
-      choice behind it matter more than new exploration acreage for near-term production,
-      and deserve the same scrutiny this blog gives PLI/incentive schemes elsewhere: what
-      the policy actually pays for, versus which of the technology options are at pilot
-      scale vs. genuinely commercial in India today.
-      Checks needed: confirm the exact incentive framework and its approval date/terms
-      from a primary or PIB source before citing figures; do not present a single
-      operator's pilot (e.g. ONGC's CO2-EOR test) as sector-wide adoption; electric/
-      electromagnetic EOR in particular has very few field deployments anywhere in the
-      world — verify TRL and named projects (if any) rather than treating it as
-      commercially available; distinguish IOR (waterflood, infill drilling, workovers —
-      already standard practice) from EOR (thermal/chemical/gas-injection/electric —
-      genuinely enhanced techniques) throughout, since the two get conflated in casual
-      usage. Cross-link to indias-oil-fields-are-running-down-3696,
-      where-indias-captured-carbon-would (CO2-EOR aside), dgh-has-awarded-172-oalp-blocks
-      and everyone-worries-about-who-pays-for (CCUS financing) in house style.
-      Logged: 2026-09-19 from user request (direct ask, not the literature-review-daily
-      register).
-
-- [x] 57.8% of India's plant-variety rights are cereals. Spices get 151.
-      DONE — published as `577-of-indias-plant-variety` (reconciled against the live archive 2026-09-19).
+- [ ] 57.8% of India's plant-variety rights are cereals. Spices get 151.
       Source: PPV&FR Authority registry — homepage certificate counter with crop-category
       breakdown, 10,802 certificates as of 31.07.2026 (verified by direct fetch
       2026-08-27: Cereals 6,246 · Vegetables 1,367 · Fibre 989 · Legumes 866 · Oilseeds
@@ -91,8 +53,7 @@ Format:
       industrial facility).
 
 
-- [x] 4,666 items on the defence indigenisation lists, ₹2,570 crore of substitution
-      CLOSED — superseded by the correction item below, which is done; the headline figures here were the ones corrected.
+- [ ] 4,666 items on the defence indigenisation lists, ₹2,570 crore of substitution
       Source: DDP Positive Indigenisation Lists 1–4 (2,851 + 107 + 780 + 928 items);
       DPSU-wise indigenised lists published as PDFs on srijandefence.gov.in (verified
       downloadable, HTTP 200, 1.9 MB); PIB releases PRID 1924426 and the ~18 Aug 2026
@@ -118,8 +79,7 @@ Format:
       official filter is not reproducible from trade data alone, and the piece must say so.
       Logged: 2026-08-22 from the 1,272-product register entry
 
-- [x] Does India have the feedstock for E20?
-      DONE — published as `india-hit-e20-on-maize-and-rice-not` (reconciled against the live archive 2026-09-19).
+- [ ] Does India have the feedstock for E20?
       Source: AERR, "Does India have enough feedstock to meet its E20 targets by 2025?";
       cross-check against the blog's existing maize-acreage and sugarcane-diversion posts.
       Argument: the target is set in blending percentage but bounded by a feedstock
@@ -128,8 +88,7 @@ Format:
       time-sensitive needs a newer source before publication.
       Logged: 2026-08-22 from the corpus survey (Tier 1, item 2)
 
-- [x] Nano-urea: does it substitute for anything?
-      DONE — published as `nano-urea-works-as-supplement-and-fails` (reconciled against the live archive 2026-09-19).
+- [ ] Nano-urea: does it substitute for anything?
       Source: IJAgS nano-nitrogen dosing trials; IFFCO deployment figures.
       Argument: test the marketing claim against the trial literature, following the
       blog's existing 4:2:1 and FOM/LFOM pieces.
@@ -144,8 +103,7 @@ Format:
       Checks needed: Agmarknet series continuity across the period chosen.
       Logged: 2026-08-22 from the corpus survey (Tier 1, item 4)
 
-- [x] Rural India's fastest quarter off the farm
-      DONE — published as `rural-indias-farm-employment-share` (reconciled against the live archive 2026-09-19).
+- [ ] Rural India's fastest quarter off the farm
       Source: PLFS Quarterly Bulletin, NSO/MoSPI — Jan-Mar 2026 and Apr-Jun 2026
       releases, both fetched directly (free PDFs, mospi.gov.in/uploads/).
       Argument: rural agriculture's employment share fell for two straight quarters,
@@ -164,8 +122,7 @@ Format:
       Logged: 2026-08-24 from the PLFS Quarterly Bulletin register entry; Apr-Jun 2026
       figure verified same day against the primary bulletin.
 
-- [x] India's largest crop insurer pays out ₹1.83 lakh crore. Farmers funded about 2% of it.
-      DONE — published 2026-09-19 as `pmfby-advertises-51-return-to-farmers`. Re-based to the March 2026 Lok Sabha figures (₹1.92 lakh cr claims / ₹36,055 cr farmer premium); farmer-funded share reframed as ~19% of gross premium (one season with all three shares published), not the ~2%-of-sum-insured cap this entry's own draft note had conflated with cost share; state waivers (Maharashtra/Odisha/Meghalaya/Puducherry/Jharkhand) flagged; applications-vs-farmers distinction kept explicit throughout.
+- [ ] India's largest crop insurer pays out ₹1.83 lakh crore. Farmers funded about 2% of it.
       Source: PIB Explainer ID 155010, "Empowering Annadatas: Pradhan Mantri Fasal Bima
       Yojana", Ministry of Agriculture & Farmers Welfare, 11 Aug 2025 — fetched 2026-08-25
       (needs a browser user-agent; plain fetchers get 403). Scheme rules in the compendium
@@ -189,8 +146,7 @@ Format:
       Logged: 2026-08-25 from the PMFBY register entry
 
 
-- [x] India irrigates itself. 96.6% of its irrigation is privately owned, and 79.5% of it
-      DONE — published as `india-irrigates-itself-966-of-its` (reconciled against the live archive 2026-09-19).
+- [ ] India irrigates itself. 96.6% of its irrigation is privately owned, and 79.5% of it
       was paid for out of farmers' own savings.
       Source: 6th Minor Irrigation Census, Ministry of Jal Shakti (DoWR-RD&GR), reference
       year **2017-18**, released 26 Aug 2023. Primary release PIB PRID 1952480 (fetched in
@@ -237,8 +193,7 @@ Format:
       none on irrigation; nearest post read in full and contains zero irrigation mentions).
 
 
-- [x] The fifth list was 346 items. Three numbers in the defence indigenisation post need correcting.
-      DONE — applied 2026-09-18 as v2.2.0 of `5071-items-you-cannot-import-and-rs` (retitled "5,417 Items You Cannot Import — and the Ministry's Own Two Numbers for What Replaced Them"): 5th PIL 346 items added, six-list total 5,417, both the 2023 and 2024 PILs 1-4 pairs shown, SRIJAN re-basing treated as a caveat. Reconciled 2026-09-19.
+- [ ] The fifth list was 346 items. Three numbers in the defence indigenisation post need correcting.
       Source: PIB PRID 2033571 (16 Jul 2024, MoD) and PIB PRID 2300723 (18 Aug 2026, MoD),
       both fetched in full 2026-08-29. Note PIB 403s plain fetchers — browser UA required,
       and use `PressReleasePage.aspx?PRID=<id>`, not `PressReleaseDetail.aspx`, which
@@ -271,8 +226,7 @@ Format:
       crore of substitution" logged 2026-08-22 — that item's headline figures are the ones
       now in question, and its "verify the 6th PIL against its own release" check is done.
 
-- [x] The wage beats the crop, in the survey that leaves the wage-earners out
-      DONE — published as `the-wage-beats-crop-in-survey-that` (reconciled against the live archive 2026-09-19).
+- [ ] The wage beats the crop, in the survey that leaves the wage-earners out
       Source: NSS 77th Round Situation Assessment of Agricultural Households, NSSO/MoSPI
       — PIB PRID 1753856 (10 Sep 2021), fetched in full 2026-08-31. 🔴 PIB 302-redirects
       to `?PRID=<id>&reg=48&lang=2`; you need `curl -L` **and** a browser user-agent or
@@ -316,8 +270,7 @@ Format:
       of agricultural households are indebted, ₹74,121 average outstanding, which is a
       second piece, not this one.
 
-- [x] The 4% every Indian insurance policy pays to one state reinsurer
-      DONE — published as `the-4-nobody-notices-and-three-other` (reconciled against the live archive 2026-09-19).
+- [ ] The 4% every Indian insurance policy pays to one state reinsurer
       Source: IRDAI's annual obligatory-cession notification for FY 1 Apr 2025 – 31 Mar
       2026, quoted verbatim in Reinsurance News (fetched 2026-09-01) — "The percentage
       cession of the sum insured on each General Insurance Policy to be reinsured with the
@@ -353,8 +306,7 @@ Format:
       never as confirmation.
 
 
-- [x] India built an offshore insurance hub. It writes USD 12 million of direct cover a year.
-      DONE — published as `india-built-offshore-insurance-hub-it` (reconciled against the live archive 2026-09-19).
+- [ ] India built an offshore insurance hub. It writes USD 12 million of direct cover a year.
       Source: IFSCA Bulletin, Jan-Mar 2025 (International Financial Services Centres
       Authority, Division of Economic Policy and Analysis) — free PDF on the regulator's
       own domain, no login, explicit reproduction permission with acknowledgement:
@@ -398,8 +350,7 @@ Format:
       `banking unit` return zero.
 
 
-- [x] The Ministry of Power published two different AT&C loss figures for the same year
-      DONE — published 2026-09-19 as `the-ministry-of-power-published-two`. Gate check (1) resolved as: the 15.04% traces to PFC's FY25 edition (65 utilities); the 16.16% traces to nothing public reachable, sits 0.04 pts from PFC's original FY24 figure, and is written up as an unlabeled-vintage/coverage problem rather than a contradiction, per the entry's own fallback.
+- [ ] The Ministry of Power published two different AT&C loss figures for the same year
       Source: two PIB releases, both fetched directly 2026-09-09 (pib.gov.in returns 403 to
       a plain fetch; a browser User-Agent over curl returns 200). PRID 2200450, "Key
       Initiatives to Bring Down AT&C Losses of Power Distribution Utilities", 08 DEC 2025
@@ -445,127 +396,6 @@ Format:
       exactly ONE, and that one is a calculator. The blog covers the molecule side of
       energy exhaustively and the electron side almost not at all.
 
-- [ ] Twenty states, forty years of irrigation capital, and a recovery rate nobody publishes
-      Source: Bathla, Kannan & Das, "Public investment in irrigation across the Indian states:
-      Financial recovery and governance", Agricultural Economics Research Review 37(1): 93-112
-      (2024) — abstract free at epubs.icar.org.in/index.php/AERR/article/view/154839, full PDF
-      behind a free ICAR-epubs registration (the galley link serves an HTML page whose only
-      download route is user/register). Rebuild primaries: RBI, *State Finances: A Study of
-      Budgets* (state-wise capital outlay, irrigation and flood control as a line — search-level,
-      NOT yet fetched) and Land Use Statistics / Ministry of Jal Shakti for net irrigated area
-      and potential utilised.
-      Argument: the blog has mapped what India commits to drinking water twice over
-      (₹7.9 lakh crore rural, ₹1.97 lakh crore urban) and never once asked what the far older
-      and far larger irrigation book returns. Bathla et al. cover 20 states from 1981-82 to
-      2019-20 and find capital formation rose through the 2000s while net irrigated area,
-      potential utilised and financial recovery "barely corresponded" — and that recovery tracks
-      area under rice and wheat, which means the systems that pay for themselves are the ones
-      already sitting on the two crops the blog's own urea map is drawn from.
-      Checks needed: (1) 🔴 the recovery percentages are NOT in the abstract — register and read
-      the PDF, or rebuild the ratio from primaries and attribute only the concept to the paper;
-      do not quote a recovery rate on abstract authority. (2) Define "financial recovery"
-      explicitly in the piece — receipts against working expenses, and whether interest on
-      capital is counted, changes the answer completely. (3) The series ends 2019-20: say so, and
-      do not let a reader carry it into the post-COVID capex surge. (4) Verify the RBI statement
-      number before building on it; it is search-level today. (5) Potential created vs potential
-      utilised is the oldest trap in Indian irrigation statistics — never let the two appear as
-      one number.
-      Cross-link to indias-79-lakh-crore-rural-water, amruts-197-lakh-crore-urban-portfolio,
-      tamil-nadus-water-infrastructure-runs and 379-kilos-hectare-in-punjab-44-in in house style
-      (cite the earlier post as reporting, never as confirmation).
-      Logged: 2026-09-18 from the AERR irrigation register entry
-      Opens: irrigation economics. Manifest dedup (273 posts): twelve water/soil hits, every one
-      supply-side or fertiliser; a precise pass on jal|pmksy|canal|command area|tank|borewell|
-      hectare|farm returns no irrigation post at all.
-
-
-- [ ] The $189 billion was the outer ring. The part being acted on is $51 billion and 100 items.
-      Source: Reuters via Business Standard, "Govt identifies $51 bn in critical imports for
-      domestic manufacturing push" (16 Jul 2026) — 🔴 WebFetch 403s the page; `curl` with a
-      browser user-agent returns HTTP 200 and the full Reuters copy sits in the page's
-      `articleBody` JSON-LD, read verbatim 2026-09-19. Second source: KNN India carrying PTI,
-      "Govt Forms Six Working Groups To Identify 100 Products For Import Substitution"
-      (5 Jun 2026), fetched clean same day. Reproducible primary for the outer rung only:
-      DGCI&S HSN-8 import data, which the blog already pulls.
-      Argument: the blog measured the $189 bn / 1,272-product target against a replaceable-imports
-      denominator it built itself ($776 bn less mineral fuels and gold = $464 bn, giving 41%).
-      The same exercise's own internal figure is $398 bn — $66 bn smaller, so the target is 47.5%
-      of what the government thinks is replaceable, not 41%. And beneath the $189 bn sits a tier
-      the post never mentions: $51 bn of "critical inputs", of which about 100 items are "taken up
-      for immediate action" — 27% of the headline and 6.6% of the import bill. The announcement is
-      four nested numbers deep, and the operative one is the smallest.
-      Checks needed: (1) 🔴 every new figure is anonymous-source press — "three government
-      sources … did not want to be identified because it was confidential", trade ministry did not
-      respond to Reuters; the PTI piece is "an official told PTI". Attribute to reporting, exactly
-      as the published post already does for $189 bn; do not upgrade any of them. (2) Reconcile
-      $775 bn (press) against the blog's own DGCI&S $776 bn — same quantity, different rounding;
-      pick one, name it, never subtract them. (3) 🔴 crude oil $174 bn (PTI) is NOT mineral fuels
-      $203 bn (the blog's chapter figure) — crude petroleum vs the whole chapter with LNG, coal
-      and products. Mixing them invents a $29 bn gap. Same for electronics $116.2 bn and machinery
-      $61.73 bn, which sit inside the post's $256 bn four-sector aggregate, not beside it.
-      (4) "Potential to be replaced by local manufacturing" is the government's own undefined term
-      — say so, as the defence posts had to say it of "import substitution value". (5) Establish
-      whether the 1,272/$189 bn and 100-item/$51 bn tracks are one exercise at two stages or two
-      exercises; the reports do not say. The three-week June deadline to the Cabinet Secretariat is
-      consistent with one pipeline — suggestive, not established. (6) Re-check PIB before
-      publication: today's search still found no release setting out either list, which means the
-      published post's "the list is not published" holds, but that is a negative worth re-testing.
-      House style: cite `you-cannot-substitute-crude-oil-or-gold` as the blog's own earlier
-      reporting being corrected, never as confirmation.
-      Logged: 2026-09-19 from the Reuters/$51 bn + DPIIT working-groups register entry
-      Updates: the published post `you-cannot-substitute-crude-oil-or-gold` (23 Aug 2026) — its
-      41% denominator and its silence on the $51 bn tier.
-      Relates to the open item "Rebuilding the $189 billion substitution list from public trade
-      data" (logged 2026-08-22), which does NOT need superseding: its reconstruction method is
-      still the right piece, and the six working groups' sector splits now give it a sector
-      partition to reconstruct against. The better target for that item is arguably the 100-item
-      list, not the 1,272 — it is smaller, sector-attributed, and the one with a deadline.
-
-- [ ] Half the work, in the first month: what VB-G RAM G's own dashboard says about July
-      Source: VB-G RAM G MIS dashboard as reported by Outlook, "Outlook Explains | India's Rural
-      Jobs Plunge Under New Scheme" (10 Aug 2026; data as of 9 Aug), corroborated by The Wire and
-      Oneindia. The MGNREGS comparison years come from nrega.nic.in. The rule text is in the DoRD
-      implementation PDF (dord.gov.in, Feb 2026, not yet fetched).
-      Argument: in its first month the scheme that replaced MGNREGA with a *larger* 125-day
-      guarantee delivered 7.67 crore person-days against 15.33 crore a year earlier (-49.94%), and
-      68.94 lakh households against 1.42 crore (-51.45%). The Ministry's own statement claims ~9
-      crore, so the government's two numbers for the same month differ by 1.3 crore person-days.
-      Checks needed: (1) 🔴 locate the dashboard URL and re-pull July yourself; a 9-Aug read of
-      month-one MIS data is revisable. Quote the settled figure and say which one it is. (2) Pull
-      August and make the comparison July+August against July+August. A one-month story is the
-      weak version. (3) Separate the seasonal pause from everything else: get from the DoRD PDF or
-      state notifications which states notified peak-season windows, and for which weeks, then
-      compare person-days in notifying and non-notifying states. If that cannot be done, say
-      plainly that the pause's share of the fall is unknown, as Outlook does. (4) Address the
-      drought and kharif shortfall (-26.50 lakh ha; half of districts rain-deficit): it argues for
-      *higher* demand, so it cannot explain the fall away, but it must be stated. (5) Put PLFS
-      August (rural unemployment 4.5% to 4.1%) beside it and explain why both can be true.
-      Cross-link to a-17-rural-pay-rise-that-nobody-received (which deferred exactly this question
-      on the scheme's age) in house style: cite it as earlier reporting, never as confirmation.
-      Logged: 2026-09-21 from the VB-G RAM G register entry
-      Opens: the deferred VB-G RAM G performance sub-angle. Manifest dedup (273 posts):
-      nrega|vb-g|ram g|rural job|employment guarantee|person-day returns zero posts.
-
-
-- [ ] Bigger premiums, the same customers: India's life insurance has stopped adding people
-      Source: IRDAI Annual Report 2024-25 (irdai.gov.in/annual-reports, free PDF) and earlier
-      annual reports / IRDAI Handbook tables of individual new-business and in-force policies,
-      FY2017-FY2025. Motivated by McKinsey (Sep 2026, via Business Today 24 Sep 2026), which puts
-      individual life policies "broadly flat at around 330 million" while demat accounts rose 8x.
-      Argument: life premium keeps growing (+~7% to ₹8.86 lakh crore in FY25), but penetration
-      has fallen three years running to 2.7% of GDP and the count of individual policies has
-      gone nowhere in eight years. India's life industry is selling bigger tickets to the same
-      households while the savings of new investors go to demat accounts.
-      Checks needed: (1) 🔴 rebuild the policy series from IRDAI tables yourself. Do not cite
-      McKinsey's 330 m, and establish whether it is in-force, lives or cumulative. (2) Verify
-      "270.22 lakh new individual policies, -7.39%" in the AR 2024-25 PDF; it is from a search
-      snippet only. (3) Split premium into single vs regular and ULIP vs traditional, and mark the
-      Budget-2023 ₹5 lakh tax-cap effect on FY23-FY24. (4) Penetration is premium/GDP: show the
-      GDP-denominator effect separately. (5) Use group-policy lives (PMJJBY etc.) as the
-      counter-argument: cover may be growing outside individual policies.
-      Logged: 2026-09-29 from the life-insurance register entry
-      Opens: life insurance, which has zero coverage (manifest 273 posts + posts/ body grep; see register).
-
 ## Done
 
 - [x] What a farm labourer earns, and why it stopped tracking output
@@ -608,8 +438,7 @@ moved above. Read this section before picking anything from Open.)*
   best record we have precisely because they were captured when the host was up.
 
 
-- [x] India tested its soil twice. The second time, a machine chose the spot.
-      DONE — published 2026-09-19 as `india-has-tested-its-soil-twice-second`. The BLOCKING check (pull a district-level OC table before writing about levels/trends) could not be passed — dashboard endpoint unreachable from this environment — so, per the entry's own fallback, published as the shorter methods note built on PIB PRID 2104403's own description of the April 2023 change, with no claim about carbon levels or trends. The 254,236-sample ICAR figure was NOT used, per check (2).
+- [ ] India tested its soil twice. The second time, a machine chose the spot.
       Source: Soil Health Card portal, `soilhealth.dac.gov.in` (DA&FW / NIC) — the
       Nutrient Dashboard, whose data comes from the app's own Apollo GraphQL endpoint
       `https://soilhealth4.dac.gov.in` (verified live 2026-09-04: portal and dashboard
@@ -687,124 +516,3 @@ moved above. Read this section before picking anything from Open.)*
   two series and two dates, but pull and keep a local copy — the host is intermittent
   (200 today, 503 four days ago).
   Logged: 2026-09-07 from the PPV&FR registry register entry.
-
-- **2026-09-15: the "4% every Indian insurance policy pays to one state reinsurer" item is
-  PARTLY PUBLISHED. Re-scope before commissioning.** The cession is the opening section of
-  `the-4-nobody-notices-and-three-other` (published 2026-09-01, the same day the item was
-  queued). Title-only manifest dedups missed it; a full-text grep of `posts/` finds it. What
-  that post does **not** do is the wholesale-plumbing argument the item planned: GIC Re's
-  share of reinsurance premium, the IRDAI Annual Report data, and the IFSCA offshore
-  counterpart. That residual can still be written, but as a follow-up that cites the published
-  post as reporting.
-  **Separately, the published post is stale:** it says "third straight year (FY2025-26)", but
-  IRDAI has since fixed 4% again for FY 2026-27. Per The Tribune, 17 Apr 2026, the notification
-  also removes the sum-insured cap and sets class-wise commission floors. The post also calls it
-  a share of **premium**, where the notification text says **sum insured**. Both need checking
-  against the `irdai.gov.in` notification before any revision. Flagged for a human; the daily
-  task edits no posts.
-  The IFSCA item's note "write the domestic one first" should now read: the domestic one is
-  already out.
-  Logged from the 2026-09-15 register entry.
-
-- **2026-09-17: two updates to the PPV&FR item ("57.8% of India's plant-variety rights are
-  cereals. Spices get 151.").**
-  - **(a) "Spices get 151" is re-fetchable again.** The homepage (HTTP 200 today, still as on
-    31.08.2026) breaks out the small crop groups once more: Spices 151 · Trees 45 · Flowers
-    36 · Medicinal & Aromatic 5 · Cash 5. That sums to the 242 "Other" of 2026-09-07. Spices
-    held at 151 across both vintages. Medicinal & Aromatic is now **5**, not 4, so update
-    the argument sentence.
-  - **(b) The "Opens: confirmed zero-coverage" line is out of date.**
-    `indias-draft-seeds-bill-cuts-states` (published 2026-09-10) now covers seed
-    *regulation*. Plant-variety *rights* are still unpublished, so the item stands. It
-    should cross-link that post (as reporting, in house style), and must not describe the
-    beat as untouched.
-
-  Separately, and not a commission: that published post's "up to 3 years' imprisonment" is
-  unsourced in the PIB primary. See the register entry for PIB PRID 2215353 (16 Jan 2026).
-  Logged: 2026-09-17 from the Thursday register entries.
-
-- **2026-09-18 — "India's largest crop insurer pays out ₹1.83 lakh crore" is already
-  published. Do not commission.** Drafted this item today and ran the standard
-  `research_crosscheck.py --auto --numbers` dedup pass before publishing, which caught it:
-  `the-4-nobody-notices-and-three-other` (published 2026-09-01) already carries this exact
-  argument — same 78.41 crore applications / ₹1.83 lakh crore claims / 2%-1.5%-5% capped
-  farmer premium table / 95–98.5% Centre+state split, near-verbatim in places — as one of
-  its four backstop stories (PMFBY sits alongside the GIC Re obligatory-cession item, i.e.
-  this queue item and the "4% every Indian insurance policy pays" item are covered by the
-  *same* published post). The published version is also more current: it adds the Kharif
-  2024 12%-p.a. late-claim interest penalty and the Kharif 2026 wild-animal-attack and
-  paddy-inundation add-on covers, neither in this queue item's source vintage. No residual
-  angle identified today. Draft discarded, not published.
-  Logged from a same-day drafting pass, superseding the "India's largest crop insurer"
-  item logged 2026-08-25.
-
-- **2026-09-23 — the AT&C item (line 401) now has its primary series, and it strengthens the
-  piece.** PFC's *Report on Performance of Power Utilities* FY 2023-24 — the source both PIB
-  releases quote from without naming — reports national AT&C losses **rising from 15.11% in
-  2022-23 to 16.12% in 2023-24**. Both ministry releases narrate the same metric as a clean
-  fall off a long baseline and neither mentions the increase in the last audited year. That is
-  a second, sharper contrast than the one the item was built on, and it should lead.
-  **Caveat (1) of that item is now half-resolved.** The item warns the two releases may not
-  share a denominator. PFC's aggregate distribution-utility loss on a subsidy-billed basis for
-  FY24 is **₹255.53 billion**, and the January PIB release's FY24 PAT is **−₹25,553 crore** —
-  the same number. So the PAT line and PFC's report are the same series over **63 of 72
-  utilities**, with **52 of 59** discoms on audited accounts. The denominator question is
-  answered for PAT. It is **still open for AT&C**, and remains the check that can kill the
-  piece.
-  Two operational notes for whoever writes it. **All of the above is trade press** — Power
-  Line Magazine, 8 July 2025, quoting the report — because **PFC's own site could not be
-  fetched: `pfcindia.com` fails TLS, its certificate covers `*.pfcindia.co.in` only.** Try the
-  `.co.in` host and pull the PDF; do not publish on the trade-press figures. And **check for an
-  FY 2024-25 edition first** — PFC's FY24 figure (16.12%) sits four hundredths of a point from
-  the December parliamentary answer's FY25 figure (16.16%), which either means the answer was
-  quoting an FY24-vintage number against an FY25 label or means FY25 was flat. The next edition
-  decides it, and the piece is better if it does not have to guess.
-  Logged from the 2026-09-23 register entry.
-
-- **2026-09-28: the VB-G RAM G item ("Half the work, in the first month") has August data,
-  and the headline no longer holds.** The data comes from the MoRD Rural Employment Dashboard
-  as reported by The Hindu on 16 Sep 2026 (read via a secondary summary, since the Hindu page
-  is paywalled on PressReader). **August 2026: 11.03 crore person-days, against 12.12 crore
-  in Aug 2025, down 9.01%.** On the same report **July has been revised to 9.18 crore against
-  17.65 crore (−48.01%)**, not the 9-Aug read of 7.67 vs 15.33.
-  **Both the numerator and the baseline moved.** Caveat (1)'s warning that month-one MIS is
-  revisable was right, and in both directions at once.
-  The July+August comparison that check (2) asked for is now possible. ThePrint (23 Sep 2026,
-  SKM statement, same dashboard) gives **20.21 vs 29.77 crore, down 9.56 crore**.
-  The sums reconcile: 9.18+11.03 = 20.21 and 17.65+12.12 = 29.77. **But SKM's "28.51%" does
-  not follow from its own figures: 9.56/29.77 = 32.1%.** Recompute the rate and never quote
-  28.51%.
-  **Recommended reframe:** "a collapse that narrowed to a 9% gap in month two". That leaves a
-  two-month shortfall of about a third, with the open question whether the recovery is
-  seasonal-pause timing or real catch-up. September's number decides it, so wait for
-  September if possible. Checks (1) and (3)–(5) of the item still stand. The dashboard URL is
-  still not identified; the ThePrint and Hindu reports both name "the Rural Employment
-  Dashboard".
-  Logged from the 2026-09-28 register entry.
-
-- [ ] 270 blocks stopped being "over-exploited" in a year India pumped more groundwater
-      — and that label now steers 65% of MGNREGS water money
-      Source: CGWB, *National Compilation on Dynamic Ground Water Resources of India,
-      2025*, free PDF `cgwb.gov.in/GWRA/GWRA_2025.pdf` (fetched 2026-10-02), Tables 1.1
-      and 1.2 (2004–2025 series). PIB PRID 2220203 (29 Jan 2026, curl with browser UA) for
-      the 65%/40% MGNREGS allocation rule. Block-level data: INGRES `ingres.iith.ac.in`.
-      Argument: national extraction rose from 239 to 241 bcm between 2022 and 2023, yet
-      over-exploited units fell from 1,006 to 736. In the same year the count of
-      assessment units shrank by 536 (7,089 → 6,553). Since September 2025 that category
-      has decided where at least 65% of MGNREGS water-conservation money goes, so the
-      definition of a block now carries real money.
-      Checks:
-      (1) Find why the unit count fell between 2022 and 2023 (the 2023 report's notes,
-          state redelineation). If it was a redraw, recompute the OE share on comparable
-          units, or say plainly that it can't be done.
-      (2) Use the GEC 2015 series only (2017 onwards) for any trend claim.
-      (3) Cross-check SoE categories against well water-level trends in the 2025 state
-          fact sheets.
-      (4) Verify the 65% rule in the MoRD/MoJS order itself, not only PIB, and check
-          whether MGNREGS/VB-G RAM G spending data can show compliance.
-      (5) Date every figure to its assessment year.
-      Nearest published: `india-irrigates-itself-966-of-its` (groundwater = 94.8% of
-      minor-irrigation schemes).
-      Logged: 2026-10-02 from the CGWB DGWR 2025 register entry.
-      Opens: groundwater depletion (zero title coverage) and links the water beat to the
-      rural-labour beat.
