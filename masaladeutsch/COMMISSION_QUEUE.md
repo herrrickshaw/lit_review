@@ -516,3 +516,53 @@ moved above. Read this section before picking anything from Open.)*
   two series and two dates, but pull and keep a local copy — the host is intermittent
   (200 today, 503 four days ago).
   Logged: 2026-09-07 from the PPV&FR registry register entry.
+
+- **2026-10-07: "India built an offshore insurance hub…" is PUBLISHED. Stop treating it as
+  Open.** It went out 2026-09-18 as `india-built-offshore-insurance-hub-it`, but the
+  `- [ ]` entry above was never ticked (append-only file).
+  **New update item, not a new article:** refresh that post against the IFSCA Bulletin, Q1
+  FY 2026–27 (see SOURCE_REGISTER, 2026-10-07).
+  - FY26 direct GWP is USD 40.72 Mn, not 12.42, so the headline number is stale.
+  - Reinsurance share is 93.7% (was 94.0%), so the argument survives.
+  - Direct life is 19.43 Mn for FY26 and 13.25 Mn in Q1 FY27 alone.
+  - Suggested form: a dated update box under the headline. Do not rewrite the post.
+  - Checks: (1) unaudited, so say so; (2) do not annualise Q1 FY27's USD 400.30 Mn
+    reinsurance, which is driven by Life and Trade Credit treaties; (3) never add IIIO
+    transacted premium (481.36) to IIO written premium; (4) re-read the post's own checks
+    1 and 3. The Jan–Mar 2025 "one IIO under examination" understatement is now superseded
+    by FY26 data.
+
+- **2026-10-09: "57.8% of India's plant-variety rights are cereals. Spices get 151." is
+  PUBLISHED. Stop treating it as Open.** It went out 2026-09-17 as
+  `577-of-indias-plant-variety`; the `- [ ]` entry above was never ticked (append-only file).
+  **Update item, not a new article:** the Authority's homepage now reads "10981 Certificates
+  issued as on 30.09.2026" (SOURCE_REGISTER, 2026-10-09).
+  - Cereals 6,324 of 10,981 = **57.6%** (post: 57.7%). Spices **still 151**. Headline holds.
+  - 🔴 The registration-type pie and the year-wise chart on the same page are still the
+    31.08.2026 series (sum 10,885). Keep the farmer share at 49.3% **as on 31.08.2026**; do
+    not divide 5,368 by 10,981.
+  - Suggested form: a dated update box under the headline, two sentences. Do not rewrite.
+  - Checks: (1) pull and keep a local copy of the page the day you write; (2) say the crop
+    and type series carry different as-on dates; (3) the two "Plantation crop" boxes (7 and
+    5) cannot be assigned to Cash vs Medicinal & Aromatic from the page — leave them lumped.
+
+- [ ] Half of India's plant-variety certificates were issued in the last three years.
+      Source: PPV&FR Authority homepage, year-wise "Certificates Issued" chart (literal in
+      page JavaScript), as on 31.08.2026: 2023 1,259 · 2024 2,017 · 2025 2,073 against a
+      2009–2022 run that never exceeded 833 (2014) and fell to 265 in 2022. 2023–2025 =
+      5,349 of 10,885 = 49.1%. See SOURCE_REGISTER 2026-10-09, Finding 3.
+      Argument: the register that the 2026-09-17 piece described as cereal-heavy and
+      spice-light has also, very recently, changed speed — and whether that is new breeding
+      or an administrative backlog being cleared decides what the piece can claim.
+      Checks needed: (1) applications-filed series from the PPV&FR Annual Report (2023-24
+      PDF is on the site; 2024-25 cited by the published post) — if filings did not jump,
+      this is clearance, not activity; (2) which registration type drove 2023–25 (farmer vs
+      new vs extant) — monthly Plant Variety Journal or the `/list-certificates?name=`
+      pages; (3) explain the 2022 trough (265); (4) re-fetch the chart on writing day and
+      date-stamp it — the series lags the headline counter by a month on 2026-10-09;
+      (5) the 2026-10-01 register already saw a snippet claiming "half in the last two
+      years" on a 9,210 base — cite the primary, not the snippet.
+      Logged: 2026-10-09 from the PPV&FR homepage register entry.
+      Extends: `577-of-indias-plant-variety` (2026-09-17). Area no longer zero-coverage;
+      manifest dedup 2026-10-09: 346 posts, 4 under Seeds & Plant Genetics, none on issuance
+      volume.

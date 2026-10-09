@@ -1010,3 +1010,59 @@ when it's been run; do not delete history.
     executable check. Cost: minutes of CPU, no new data.
     Motivated by: 2604.04812 (a runtime LeakageGuard is a hard gate there; static
     `shift(-k)` scans are only warnings).
+
+48. **Composition-matched random-pick benchmark for the signal ledger.** For IN and US,
+    which have a local panel, take each shortlist date's set of N picks per
+    (market, filter). Draw N names at random without replacement from that date's
+    *eligible scanned universe* (same market, same liquidity and price filters the screen
+    applied), 1,000 times. Price the draws over the same holding window as
+    `signal_tracker.py:644-655`, net of a flat cost assumption.
+    - Report per (filter, market): pick median return, the median of the draw-medians (the
+      **composition benchmark**), **selection value** = difference, and the pick's
+      percentile among draws.
+    - Keep `xret_pct` against NIFTYBEES/SPY alongside it, so the gap between the two
+      readings shows how much of "beats the market" is just the universe tilt.
+    - Optional stricter variant: stratify the draws by size or beta decile to match the
+      picks' composition.
+    - EU/JP/KR stay out until a universe panel exists. Do **not** draw from the shortlisted
+      names only (`signal_tracker.py:483-487` explains why that is circular).
+
+    Falsifiable prediction: for momentum-tilted screens (darvas), selection value is well
+    below `xret_pct` in the 2026 up-tape. Cost: one resampling loop over existing panel
+    closes. Research output only.
+    Motivated by: 2610.04040, where gross +15.2 bps/event split into +25.8 composition and
+    −10.6 selection.
+
+49. **Cost × holding-period sensitivity grid and breakeven cost for the screener filters.**
+    For each (filter, market) in the signal ledger (`research/stock_pick_performance.csv`),
+    recompute net excess return over a grid: round-trip cost ∈ {0, 10, 20, 40, 80, 120} bps
+    × holding period ∈ {5, 10, 21, 42, 63} trading days. Report the net-Sharpe surface, and
+    the **breakeven round-trip cost** per cell using the formula already in
+    `etf_builder.py:290` (edge ÷ annual turnover, plus the charged cost). Mark the repo's
+    own per-market cost assumptions from `confusion_matrix_eval.py:34` on each surface so the
+    reader sees how much headroom each filter has. Any filter whose breakeven is under about
+    2× the assumed cost at its default hold gets a `thin-margin` flag in the ledger.
+    Extend item 48's stratified variant while doing this: once the matched random draws
+    exist, also report each filter's return after a cross-sectional regression on beta,
+    12-1 momentum, 20-day vol and turnover, so the parametric and non-parametric style
+    adjustments sit side by side. Cost: a loop over existing ledger rows and panel closes.
+    Research output only.
+    Motivated by: 2610.06947, where long-only mined-factor CAGR stays positive up to 50 bps
+    but long–short falls to zero, and where style neutralisation flips the L/S net CAGR of
+    six of nine mining methods negative (Table 8) while the hand-written Alpha101 survives.
+
+50. **State-dependent cost: charge each rebalance at that month's spread, not the
+    whole-sample median.** `cost_vs_edge.py:118-119` collapses the Corwin–Schultz spread to
+    one median per symbol over the full history. Change the DuckDB query to group by
+    (symbol, month) and charge each rebalance date at that month's spread; keep the
+    whole-sample median as the comparison. Report, per market: net edge under static vs
+    time-varying cost, the share of total cost paid in top-decile-spread months, and the
+    drawdown difference in Mar-2020 and the 2022 drawdown. Apply the same monthly spread
+    series to `walk_forward_backtest.py:156` as an optional replacement for the flat 0.2%.
+    Falsifiable prediction: for IN small caps the time-varying cost cuts net edge by at least
+    a quarter more than the static median does, because the spread spikes land on the same
+    months the Piotroski rebalance fires after the March year-end. Cost: one GROUP BY change
+    and a join; no new data.
+    Motivated by: 2507.09196, where a 20-bp long-run spread spiking to 80 bp costs 97–150
+    bps/yr and stalls relative wealth in 1998, 2008 and 2020, and where the net edge decays
+    from +3.4–4.6 pp/yr (2000–09) to +0.6–1.1 (2020–24).

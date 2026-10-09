@@ -3232,3 +3232,225 @@ unregistered IDs:
 - **2610.01348** (Alzahrani, "Verify Claims, Not Scores: Evidence-Based Verification of
   Modular Agents", 2026-10-01). An agent-audit protocol tested only on a *synthetic* market
   with known regimes. No real-market evidence. Off-scope.
+
+## Added 2026-10-06 (daily task, Tuesday gap query: effective number of factors / redundancy / spanning)
+
+Semantic Scholar still lists the same six papers citing the hub 2605.19337, all already
+registered. The Tuesday WebSearch returned only Robeco's write-up of Swade et al. ("Factor
+Zoo (.zip)", SSRN 4605976, 2023). The q-fin.PM/TR/ST recent listings had 21 unregistered IDs.
+About 15 were off-scope by title (prediction markets, on-chain microstructure, crypto
+execution, RL execution games). Nine were triaged and one was deep-read.
+
+### 2610.04040 — Chen, Xu, Chen, Lu & Jin, "Agent Policy-Value Audit: Separating Transition Composition from Event Selection in Financial LLM Agents" (2026-10-02)
+
+- **What it is:** a test of whether a trading agent has selection skill. The usual paired
+  test compares the agent's return with a baseline, which credits passive drift exposure as
+  skill: an agent that often goes flat→long in an upward-drifting pool "wins" even when it
+  picks at random.
+  - The audit holds fixed the count of each ordered action change (flat→long, flat→short,
+    …) within each baseline-action pool. It then redraws, without replacement, which
+    eligible events receive those changes (5,000 Monte Carlo draws).
+  - The mean payoff of the redraws is the **composition benchmark**. Observed value minus
+    that benchmark is the **selection value**. CIs come from a 10,000-draw firm-cluster
+    bootstrap, and the p-value is the add-one Monte Carlo p.
+- **EVIDENCE-GRADE: medium (as method), weak (as a result).**
+  - For: the method is sound and simple. A semi-synthetic check cuts the rate of falsely
+    attributing skill from 11.6% (zero-centred paired test) to 5.3%. Costs are modelled at
+    40 bps per non-zero position, with 20 and 60 bps sensitivity.
+  - Against: the application is small. It covers 723 earnings events at 44 US consumer
+    firms, 2020–2024. Power reaches 80% only at about 142 bps per intervention. The authors
+    call it retrospective, with no held-out 2025 test.
+  - Headline: gross +15.2 bps/event splits into a +25.8 composition benchmark and −10.6
+    selection value (p = 0.63). The agent did not beat matched random assignment.
+- **Doing-right (verified):**
+  - Pick outcomes are tracked per shortlist date with excess return against a market
+    benchmark: `code/python_files/signal_tracker.py:644-655`, written to
+    `research/stock_pick_performance.csv` (`ret_pct`, `bench_ret_pct`, `xret_pct`).
+  - A staleness check guards the benchmark: `signal_tracker.py:586-612`.
+- **Gap:**
+  - The benchmark is a cap-weighted index (`BENCH = {"IN": "NIFTYBEES", "US": "SPY"}`,
+    `signal_tracker.py:174`). That is exactly the paired-against-baseline comparison the
+    paper shows confounds composition with selection. A screen that tilts toward small,
+    high-beta or recently-strong names beats the index in an up-tape whether or not it
+    selects well.
+  - EU/JP/KR have **no** benchmark at all, so `xret_pct` is NaN by design
+    (`signal_tracker.py:483-487`).
+  - No matched random-draw baseline exists anywhere. `grep -rniE
+    'permutation|placebo|random.?(pick|basket|draw)'` over `code/python_files/*.py` finds
+    only an unrelated Sharpe bootstrap (`r_analysis.py:399-402`), a comment
+    (`cluster_indices.py:22`) and an entropy surrogate test (`bond_equity_entropy.py:26`).
+    Item 34 is related but different: it runs the *selection workflow* on synthetic null
+    panels, not the live ledger against matched random picks.
+- **Action queued:** item 48.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2610.04122** (da Costa Nunes, "Cities of Signals: Compression, Separation, and the
+  Geometry of Novelty", 2026-10-02). When the angle between two signals' time-averaged
+  cross-sectional vectors conservatively bounds the angle between their full histories. The
+  empirical part is descriptive (266,815 positive-IC pairs, 776 competition signals) with no
+  return or cost evaluation. On theme for redundancy, but the repo has about 10 factors, so
+  full-history pairwise correlation is already cheap and the compression buys nothing.
+  Not deep-read.
+- **Swade, Hanauer, Lohre & Blitz, "Factor Zoo (.zip)"** (SSRN 4605976, 2023; seen only via
+  Robeco's summary). About 15 value-weighted factors span the alpha of 150+ US factors, and
+  equal-weighted needs 30+. Not arXiv. The SSRN full text was not fetched, so period, costs
+  and OOS design are unknown. Items 12/35/45 already cover spanning. Not deep-read.
+- **2610.03080** (Wang, Wang & He, "MintEval", 2026-10-02). A behavioural-equivalence
+  benchmark for LLM-written strategy code on BTCUSDT 15-min data. Even a frontier model
+  fails silently on 27.5% of tasks. Methodologically interesting (actions are compared bar
+  by bar, so alpha is differenced away), but it evaluates code generation, not a market
+  technique. Off-scope.
+- **2610.01325** (Kien & Huynh, "PPO-HRAP", 2026-10-01). RL on SPY alone, with a 2020–2022
+  test window and single-run QQQ/DIA checks. The authors flag high turnover. EVIDENCE-GRADE:
+  weak.
+- **2610.04221** (Cai & Song, robust enhanced index tracking, 2026-10-03). A DRO portfolio
+  model. The abstract names no universe or period, and the daily path runs no optimiser.
+  Weak/off-scope.
+- **2610.04990** (Maeda, "Buying at Support", 2026-10-04). Optimal entry under multi-skew
+  Brownian motion: buy exactly at support. Pure theory with no empirics. Off-scope,
+  although it is thematically adjacent to Darvas box entries.
+
+## Added 2026-10-09 (daily task, Thursday gap query: transaction-cost-aware factor evaluation)
+
+Semantic Scholar still lists the same six papers citing the hub 2605.19337 (2609.19705,
+2609.04917, 2608.26990, 2607.19453, 2607.04958, 2606.08285), all already registered. The
+Thursday WebSearch returned the classic cost literature (Novy-Marx & Velikov; Frazzini, Israel &
+Moskowitz; not arXiv) plus one unregistered arXiv ID on theme, 2507.09196. The q-fin.PM/TR/ST
+recent listings (fetched with curl; the `href =` spacing in arXiv's listing HTML breaks a naive
+parser) had 24 unregistered IDs, 16 off-scope by title (market-impact microfoundations, Hawkes
+processes, prediction markets, on-chain protocols, actuarial OT). Eight were triaged; two were
+deep-read.
+
+### 2610.06947 — FactorBench: A Portfolio-Aware Benchmark for Automated Factor Mining (Zhuohan Wang & Carmine Ventre, King's College London, submitted 2026-10-03, q-fin.PM / cs.LG)
+
+- **What it is:** a benchmark of ~5,000 mined factors from nine automated factor-mining methods
+  (GP, AlphaGen, AlphaCFG, AlphaQCM, AlphaForge, AlphaSAGE, R&D-Agent, AlphaAgent, QuantaAlpha)
+  plus the hand-written Alpha101 as reference, on five fixed large-cap universes from Yahoo
+  Finance: S&P 100, HSI (85), CSI 300 (272-name fixed subset), FTSE 100, Nikkei 225 — 782
+  tickers. Target is the 20-day forward close-to-close return. Chronological split: train
+  2017–2021, validation 2022–2023, test 2024–2025. Factor direction is fixed on the training
+  IC and held thereafter, so OOS sign flips count against the factor.
+  - Pool selection: rank by validation IC, keep a factor only if |Spearman| < 0.8 with every
+    factor already kept. No test-period metric touches selection.
+  - Composite: ridge (default), equal-weight or validation-IC weighting. Portfolios: long-only
+    top-20% equal-weighted, measured against an **equal-weight benchmark of every eligible
+    stock**; long–short top/bottom 20% at ±50%. 20-day rebalance, **10 bps per dollar
+    traded**, short-borrow cost on the L/S leg. Residual IC after cross-sectional
+    neutralisation against market beta, volatility, momentum, short-term reversal and
+    liquidity.
+- **EVIDENCE-GRADE: medium as a method, moderate as a result.** For: real after-cost
+  evaluation, honest temporal split, three seeds per method, five markets, cost sweep
+  0–50 bps and rebalance sweep 1–20 days (App. E.3), and an explicit limitations paragraph
+  (static universes, no survivorship, no impact, no borrow availability, no industry
+  classification). Against: the test period is two years of an up-tape; the universes are
+  100–272 mega-caps; and the long-only Sharpe range (1.03–1.31 at 4.7–8.8× annual turnover)
+  is reported against an EW universe, not an investable index.
+- **Findings worth keeping:**
+  - **Style neutralisation kills the L/S alpha of mined factors.** Table 8: at 10 bps and
+    20-day rebalance, L/S net CAGR goes 3.7→−2.0 (GP), 2.3→−2.4 (AlphaGen), 1.0→−1.4
+    (AlphaCFG), 2.9→−0.8 (AlphaForge), 2.9→−0.9 (AlphaSAGE), 6.5→−1.6 (R&D-Agent) after
+    neutralising beta/vol/momentum/reversal/liquidity. Only AlphaQCM (3.7→1.3) and the
+    hand-written Alpha101 (2.6→**3.0**) survive. Most "mined alpha" is style exposure plus
+    turnover.
+  - **Long-only survives costs, L/S does not.** E.3: long-only CAGR "declines steadily with
+    cost, although it still remains positive" up to 50 bps; L/S "most methods approach or fall
+    below zero as costs increase". Longer rebalance intervals help by cutting turnover.
+  - Train→test IC degradation is widespread for GP/RL/generative methods, especially in HSI,
+    CSI 300 and FTSE 100 (Fig. 8); LLM methods degrade less only because they start lower.
+  - Table 7: S&P 100 gives positive L/S Sharpe for every method; several methods are negative
+    in HSI, CSI 300 or FTSE 100. The pooled average hides materially different markets.
+  - No paradigm dominates; Alpha101 is competitive with every mined pool.
+- **Doing-right (verified):**
+  - Costs are modelled per market at retail scale: `confusion_matrix_eval.py:33-34`
+    (`COST_BPS = {"IN": 40, "US": 15, "KR": 30, "JP": 25, "EU": 30, "CN": 35}`),
+    `walk_forward_backtest.py:156` (0.2% round trip), `sector_rotation.py:60` (20 bp),
+    `etf_builder.py:60` (10 bp per side), `custom_indices.py:68` (100 bp).
+  - Selection-bias correction for picking the best of 10 factors: `deflated_sharpe.py:7-13`.
+  - An equal-weight composite baseline is kept next to the PPO factor-weighter:
+    `train_ppo_factor_weights.py:147,250-252`.
+  - A breakeven round-trip cost is computed — but only for the ETF weighting schemes:
+    `etf_builder.py:290` (`be = edge / (turnover × periods) + COST_BPS`).
+  - Factor directions are hand-specified, not learned, so the "orientation fixed on training
+    IC" problem does not arise. Spanning/redundancy of the ~10 factors is covered by queue
+    items 12/35/45.
+- **Gap:**
+  - **No style neutralisation anywhere.** `grep -rniE 'neutrali[sz]|residual_ic|beta.?neutral'`
+    over `code/python_files/*.py` hits only bad-print neutralisation in `stock_utils.py:171,186`
+    and `market_data_cache.py:653`. No backtest or the ledger reports a pick's return after
+    removing beta/momentum/vol/liquidity exposure. For a momentum-shaped screen (darvas,
+    price bands) this is the paper's exact failure mode. Item 48's "stratify draws by size or
+    beta decile" variant is the non-parametric version of this; it is extended there rather
+    than queued twice.
+  - **Costs are fixed scalars, never swept.** Every script above uses one cost number; the only
+    `for … cost` loops (`custom_indices.py:469-504`) pass a fixed cost into builders. No
+    net-Sharpe-vs-cost or vs-holding-period surface exists for the screener filters, and the
+    breakeven calculation at `etf_builder.py:290` is not applied to them.
+- **Action queued:** item 49.
+
+### 2507.09196 — Functionally Generated Portfolios Under Stochastic Transaction Costs: Theory and Empirical Evidence (Nader Karimi & Erfan Salavati, Amirkabir Univ. of Technology, v1 2025-07-12, q-fin.PM; HTML build dated 2026-08-24)
+
+- **What it is:** stochastic portfolio theory with a proportional cost κ_t that follows an
+  Ornstein–Uhlenbeck process (long-run 20 bps, spikes to 80 bps, correlation 0.4 with the
+  market so spreads widen in down moves). A pathwise "cost-adjusted master inequality" shows
+  diversity- and entropy-weighted portfolios stay relative arbitrages if the rebalancing mesh
+  is coarse enough; cumulative cost grows as O(√T).
+  - Empirics: the 1,000 smallest CRSP common stocks (share codes 10/11, NYSE/AMEX/NASDAQ),
+    1994-01-02 to 2024-12-31, 7,541 days, 981 permnos after filtering spreads > 500 bps.
+    Cost per name per day = **half the NBBO spread from TAQ**, charged on absolute dollar
+    turnover at a single end-of-day trade. Monthly rebalance. Delisted names replaced by the
+    next smallest stock. No impact, no commissions.
+  - Table 3: VW market 7.1% CAGR, −57% max DD; entropy FGP 11.0% gross / 10.0% net, 3.7%/mo
+    turnover, −63% DD; diversity (p = 0.7) 12.2% / 10.7%, 4.1%/mo, −65% DD. Cost burden 97
+    and 150 bps/yr. Sub-periods (Table 4, net excess over VW): entropy +2.7 / +3.4 / +2.9 /
+    **+1.1**; diversity +3.1 / +4.6 / +3.2 / **+0.6** for 1994–99 / 2000–09 / 2010–19 /
+    2020–24. Relative wealth stalls in 1998, 2008 and 2020 when spreads spike.
+- **EVIDENCE-GRADE: medium-weak.** For: 30 years, real quoted spreads, costs charged per
+  name per day, sub-period decomposition reported, and an honest note that the edge is
+  smallest in the latest window. Against: CAGR and max-DD only (no Sharpe, t-stat or
+  bootstrap); the universe is the smallest 1,000 so the "VW benchmark" is dominated by the
+  largest of them and diversity weighting is largely a size tilt inside small caps; no price
+  impact, which is the binding cost in that universe; delisting returns are not described.
+  The strategy itself is not relevant to a screener with no portfolio weighting step. The
+  cost **method** is.
+- **Doing-right (verified):**
+  - The repo already estimates a time-varying spread from daily OHLC: Corwin–Schultz in
+    `cost_vs_edge.py:20-25,80-119`, and Amihud impact at `:27,123-137`, reported across
+    capital levels (`:177-192`). Both are flagged as lower bounds (`:39-43`).
+  - The risk overlay compares equal-weight against inverse-vol sizing (`risk_management.py:
+    12-14,62`), but "Gross of costs" (`:136`).
+- **Gap:**
+  - **The spread is collapsed to one number per symbol over the whole sample.**
+    `cost_vs_edge.py:118-119`: `SELECT Symbol, median(spread) … GROUP BY 1`. Crisis-month
+    spreads (the paper's 80 bp spikes, its 2008/2020 stalls) are averaged away, so the net
+    edge is computed under calm-market costs. Every other cost constant in the repo is static
+    too (`confusion_matrix_eval.py:34`, `walk_forward_backtest.py:156`).
+  - Nothing reports what share of total cost is paid in high-spread months, which is where
+    both this paper and the register's own crash-regime findings (2609.35359, item 46) say the
+    damage concentrates.
+- **Action queued:** item 50.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2610.09613** (Peng & Wang, "Residual Learning in Empirical Asset Pricing", 2026-10-07).
+  Deep residual nets lift OOS VW long–short Sharpe from 1.92 (shallow) to 2.07; the abstract
+  names no universe, period or costs. GPU training. Off-scope for this pipeline.
+- **2610.07006** (Luo, Yi, Zhang & Sun, "STOCK-JEPA", 2026-10-04). Joint-embedding
+  representation learning anchored on a point-in-time linear prior. "Outperforms 13 baselines
+  on 5 key evaluation metrics" on China and US universes, metrics unnamed in the abstract, no
+  cost discussion. GPU. EVIDENCE-GRADE: weak.
+- **2610.09654** (Bohra & Vishwakarm, "DSTNet", 2026-10-07). Wavelet-transformer forecaster
+  for 7 equity indices + gold; headline metric is MAE/MAPE against a random-walk persistence
+  baseline (beats it by 0.7–0.9% at 1 day; paired tests "inconclusive against persistence").
+  Its own allocation diagnostic "does not support an equity-timing advantage". Honest, but a
+  price-level-MAPE paper with a null trading result. Weak.
+- **2610.10407** (Xie & Liu, "SOTA: Stock Options Trading Agents", NeurIPS 2026 Agenthon
+  workshop). Qwen-27B SFT+RL agent on options of 9 US large caps + SPY; six-month OOS, 18.3%
+  return, Sharpe 1.60. Ten instruments, half a year, GPU post-training. Weak/off-scope.
+- **2610.06856** (Singh, "The Agentic ETF", 2026-06-02). Positioning essay with a vendor
+  reference implementation and an AUM sizing exercise. No empirics. Off-scope.
+- **2610.08631** (Hoffmann & Rásonyi, "Exponential investors with weakly mean-reverting
+  prices", 2026-10-06). Continuous-time utility asymptotics, no data. Off-scope.
+- Listed but not triaged, off-scope by title: 2610.11822, 2610.09246, 2610.10256, 2610.11691,
+  2610.10053, 2610.10525, 2610.08169, 2610.07985, 2610.06412, 2610.05740, 2610.03922,
+  2610.03598, 2610.03369, 2610.02838, 2610.02834, 2610.10476, 2610.08797.

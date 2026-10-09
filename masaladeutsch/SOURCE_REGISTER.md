@@ -1151,3 +1151,154 @@ An empty day. Nothing commissionable and nothing queued.
 - **AERR, "Agricultural wages in India: trends and determinants"**
   (`epubs.icar.org.in/index.php/AERR/article/view/140527`). WEAK by dedup: already logged
   at SOURCE_REGISTER.md:877.
+
+## Added 2026-10-07 (daily task, Tuesday: insurance, reinsurance and financial plumbing)
+
+### IFSCA Bulletin, Q1 FY 2026–27 (Apr–Jun 2026) — materially updates a published post
+
+- **Source:** *IFSCA Bulletin, Q1 FY 2026–27 (Apr–Jun 2026)*, International Financial
+  Services Centres Authority, Division of Economic Policy and Analysis.
+  `ifsca.gov.in/Document/IFSCA_Bulletin.pdf` (a rolling URL that serves the latest edition).
+  Fetched 2026-10-07: HTTP 200, 14.6 MB, 72 pp; `pdftotext -layout` extracts cleanly. Free,
+  no login.
+- **Data:** the insurance tables have been renumbered since the Jan–Mar 2025 edition.
+  - **Table 43:** IIO/IIIO counts.
+  - **Table 44:** written/transacted premium by IIOs and IIIOs.
+  - **Table 45:** direct insurance by class.
+  - **Table 46:** reinsurance by class.
+  - **Table 47:** claims.
+  - All are quarterly for Q1–Q4 FY 2025–26 plus Q1 FY 2026–27, with an FY 2025–26 total.
+    Footnoted "Unaudited data".
+- **Finding (my sums tie to the printed FY totals):**
+  - **FY 2025–26:** direct GWP **USD 40.72 Mn** against reinsurance **USD 607.96 Mn**, so
+    reinsurance is **93.7%** of the IIO book (FY 2024–25: 94.0%). The *share* thesis holds.
+  - The *levels* do not:
+    - Direct cover is 3.3× the USD 12.42 Mn the post headlines.
+    - Direct **life** went from USD 2.54 Mn to **19.43 Mn** in FY26, and **13.25 Mn in Q1
+      FY27 alone**.
+    - Reinsurance went from 195.45 to 607.96 (3.1×).
+    - Q1 FY27 reinsurance was **USD 400.30 Mn**, two-thirds of all of FY26 in one quarter.
+      The jump comes mostly from reinsurance Life (0.8 → 96.66) and Trade Credit
+      (0.2 → 42.55), which look like single large treaties.
+  - IIOs: 36 → 37 (23 of them reinsurers). Outstanding claims rose from USD 173.94 Mn to
+    195.67 Mn.
+- **Blog fit:** a correction/update to `india-built-offshore-insurance-hub-it` (published
+  2026-09-18). That post uses FY 2024–25 figures only (grep: "12.42" ×5, "195.45" ×4,
+  "2024-25" ×8, no FY26 figure). Its headline "$12 Million of Direct Cover a Year" is now a
+  year stale. Labels: Insurance & Reinsurance; Markets & Finance.
+- **Caveats:**
+  1. Unaudited, and the disclaimer warns that figures may be revised for reclassification.
+  2. Q1 FY27 lumpiness. Do not annualise 400.30.
+  3. Crop reinsurance prints −11.5 in Q4 FY26 and Marine Cargo direct −0.01 in Q3:
+     reversals, not business written.
+  4. The old "Health + PA vs separate Health line" puzzle (the post's check 3) does not
+     appear here. FY26 has one Health + PA row in both tables, so it was a reclassification.
+  5. 🔴 The trade-press figure "USD 102 Mn (2020) → >USD 1.2 Bn (2025)" (Reinsurance News,
+     via search snippet; the page returned 403) is probably IIO written premium plus IIIO
+     *transacted* premium (FY26: 648.68 + 481.36 = 1,130.04). Intermediated premium is not
+     underwritten in the IFSC. Never add the two.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **Reinsurance News, "GIFT IFSC continues rapid growth as registrations and (re)insurance
+  activity rise"** (Q4 FY26 bulletin write-up). Returned 403 to WebFetch and a Cloudflare
+  stub to curl, so it was not read. Secondary anyway; the primary bulletin above supersedes
+  it.
+
+## Added 2026-10-09 (daily task, Thursday: seeds, plant variety rights and agricultural IP)
+
+**Step 1 paid off again, the same way it did on 2026-10-07.** The open queue item "57.8% of
+India's plant-variety rights are cereals. Spices get 151." was **published on 2026-09-17** as
+`577-of-indias-plant-variety` (manifest, 346 posts, snapshot 2026-10-07; labels Agriculture &
+Fertilisers · Seeds & Plant Genetics), but its `- [ ]` box was never ticked. The manifest now
+carries four posts under `Seeds & Plant Genetics` (`indias-draft-seeds-bill-cuts-states`
+2026-09-10, `577-of-indias-plant-variety` 2026-09-17, `indias-cotton-yield-fell-from-566-kg-to`
+2026-09-27), so "zero coverage" no longer describes the area; the dedup bar is now ordinary.
+Manifest grep for replacement rate / SRR / certified seed / quality seed / pulses: **zero hits**.
+
+### PPV&FR Authority homepage, as on 30.09.2026 — a new vintage, and the homepage's three series no longer agree with each other
+
+`https://plantauthority.gov.in/` returned HTTP 200, 173,092 bytes, browser UA, direct curl.
+
+- **Data (crop groups).** This month the crop counts are plain `<h3>` literals in the HTML
+  boxes, headed "**10981 Certificates issued as on 30.09.2026**": Cereals **6,324** · Fibre
+  1,014 · Vegetables 1,394 · Legumes 882 · Oilseeds 581 · Fruits 440 · **Spices 151** · Sugar
+  94 · Trees 50 · Flowers 39 · and two boxes both captioned "Plantation crop" showing 7 and 5
+  (the link targets are Cash and Medicinal & Aromatic plants; the alt text is identical, so
+  which is which cannot be read off the page). The twelve boxes sum to exactly 10,981.
+- **Finding 1 — the published headline survives on the newer vintage, with one digit moving.**
+  Cereals are **57.6%** (6,324 of 10,981); the post says 57.7% (6,280 of 10,885 as on
+  31.08.2026). Month on month: +96 certificates = cereals +44, fruits +11, legumes +10,
+  vegetables +8, fibre +8, oilseeds +4, sugar +1, other +10 (the 31.08 "Other" was 242; the
+  five small boxes now sum to 252). It reconciles exactly against the 31.08 capture.
+  **Spices are still 151** — zero new spice certificates since 31.07.2026 while the register
+  added 179. The homepage breaks spices out again, so the 2026-09-07 caveat ("do not expect to
+  re-fetch it") is lifted for now.
+- **Finding 2 — 🔴 the registration-type pie and the year-wise line were NOT updated.** The
+  pie literal in the page JavaScript is unchanged from 31.08: Extant Notified 2,025 · Extant
+  VCK 1,557 · **Farmer 5,368** · New 1,921 · **EDV 14**, summing to 10,885. The year-wise
+  series also sums to 10,885. So the homepage currently mixes a 30.09 crop count with 31.08
+  type and year series. **Do not recompute the farmer share against 10,981** — it would print
+  48.9% for no reason. The post's 49.3% as on 31.08.2026 stands, and must keep its date.
+- **Finding 3 — new, quantified, and not in the published post.** The year-wise series
+  (certificates issued, as on 31.08.2026) reads: 2009 168 · 2010 49 · 2011 116 · 2012 212 ·
+  2013 304 · 2014 833 · 2015 385 · 2016 606 · 2017 371 · 2018 477 · 2019 395 · 2020 424 ·
+  2021 508 · 2022 265 · **2023 1,259 · 2024 2,017 · 2025 2,073** · 2026 (to Aug) 423.
+  **2023–2025 = 5,349 = 49.1% of every certificate issued since 2009.** 2024 and 2025 each
+  issued more than the first five years (2009–13: 849) combined. A grep of the published post
+  for 1,259 / 2,017 / 2,073 / 2009 returns nothing, so the surge is unreported. It is
+  consistent with the search-result snippet seen on 2026-10-01 ("registration got a boost in
+  2023–25, about half of total registrations", on a 9,210 base) — now from the primary.
+- **Blog fit.** (a) An update box on `577-of-indias-plant-variety` (new vintage; spices still
+  151; the stale-chart caveat). (b) A **COMMISSIONABLE** follow-on: "half of India's
+  plant-variety certificates were issued in the last three years". Nearest posts:
+  `577-of-indias-plant-variety`, `indias-draft-seeds-bill-cuts-states`.
+- **Caveat.** HTML and chart literals with no schema; the three series are now at two
+  vintages; the "Plantation crop" alt-text collision; host intermittent (200 today, 503 on
+  2026-09-03). 🔴 For the surge piece: certificates issued ≠ applications filed. A 2023–25
+  jump can be a backlog clearance as easily as a filing boom. The Annual Report's application
+  series (and, if possible, which registration type drove it — farmer vs new) has to be read
+  before anyone writes "breeding activity doubled". The 2022 trough (265) is the other thing
+  to explain.
+
+### data.gov.in — State/UT-wise Seed Replacement Rate (SRR) of important crops, 2019 to 2021 — BACKGROUND, data not read
+
+- **Source.** Resource `11af01f5-6f54-4f7d-ab1c-d279aff4bdc0` in catalog "Answers Data of Rajya
+  Sabha Questions Session 259", published 30/10/2023. Page note: "Source - RAJYA SABHA
+  SESSION - 259 UNSTARRED QUESTION No 2742. ANSWERED ON, 24th March 2023. Data Figures are in
+  Percentage. NA - Not Available." Sector: Agriculture. Reference URL:
+  sansad.in/rs/questions/questions-and-answers.
+- **Data.** CSV, 5,255 bytes; fields: State/UT, Year, Wheat, Paddy (Variety / Hybrid), Maize
+  (V/H), Jowar (V/H), Bajra (V/H), Gram, Peas, Lentil, Urd, Moong, Arhar, Groundnut, R/M
+  (rapeseed-mustard), Soyabean, Sunflower (V/H), Cotton … Years 2019–2021. API available.
+- **Access today: failed on every path, so no number is claimed.** The resource page itself
+  came back with curl (1.0 MB, metadata read from the Nuxt state). The CSV returned 403 on
+  `files/ogdpv2dms/s3fs-public/…`, redirected to `page_not_found` on `system/files/2023-10/…`,
+  the API host refused the TLS handshake from this Mac, WebFetch got 403 / socket closed, and
+  the built-in browser was denied the API host. Obtainable from a registered data.gov.in
+  account, or from the RS answer annexure on sansad.in (the memory file holds the LS question
+  endpoint, not the RS one).
+- **Blog fit.** Would open the seed-*quality* half of the Thursday area, which the three
+  published seed posts (IP, bill, cotton yield) do not touch: SRR by state × crop, with
+  hybrid vs variety split for paddy/maize/jowar/bajra/sunflower. Zero manifest hits.
+- **Caveat.** State-reported percentages in a PQ answer; 2019–2021 vintage; the SRR concept
+  itself is contested (IIMA working paper, "Seed Replacement Rate: Some Methodological Issues",
+  seen in search results only, not fetched). Re-grade once the table is read.
+
+### Weak / background — one line each (triaged, not deep-read)
+
+- **seednet.gov.in** — HTTP 503 on `/`, `/Material/Seed_Production.htm` and `/PDFFILES/SRR.pdf`
+  for the third Thursday running (2026-09-03, 10-01, 10-09). Still NOT assessed. Stop
+  spending a retry on it every week; try once a month.
+- **ICAR-NAARM, "Enhancing the Availability of Quality Seed and Planting Material"**
+  (naarm.org.in, Nov 2025, 3-page PDF, fetched). Policy essay: Seeds Act 1966 → PPV&FR Act
+  2001 → draft Seeds Bill; "SRR for wheat, rice and maize has risen steadily" with no table,
+  no year, no state. BACKGROUND.
+- **Chauhan, Singh & Gupta, "Enhancing pulses production in India through improving seed and
+  variety replacement rates", Indian J. Genetics & Plant Breeding 76(4), 2016** (epubs ICAR,
+  abstract fetched; PDF open at `article/view/67292/28784`). Seed chain of six pulses kept
+  with 236 varieties, 44 of them doing the work; 39.38 and 46.87 lakh q quality seed needed in
+  2020 and 2025. Useful as the method reference distinguishing seed-replacement from
+  variety-replacement rate, but 2016 vintage with projections now in the past. BACKGROUND.
+- **PPV&FR Annual Report search** returned only the 2023-24 PDF and older; no 2024-25 PDF
+  surfaced in search today (the published post cites one — not re-verified). Not fetched.
