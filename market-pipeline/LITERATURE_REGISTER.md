@@ -3454,3 +3454,15 @@ deep-read.
 - Listed but not triaged, off-scope by title: 2610.11822, 2610.09246, 2610.10256, 2610.11691,
   2610.10053, 2610.10525, 2610.08169, 2610.07985, 2610.06412, 2610.05740, 2610.03922,
   2610.03598, 2610.03369, 2610.02838, 2610.02834, 2610.10476, 2610.08797.
+
+## Added 2026-10-12 (daily task, Monday gap query: CPCV / purging / embargo)
+
+Nothing passed triage. Semantic Scholar still lists the same six papers citing the hub 2605.19337, all registered. The Monday WebSearch returned only tutorials and library docs (Wikipedia, temporalcv, purgedcv). The q-fin.TR/PM/ST recent listings had five unregistered IDs:
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2610.13126** (Wang, "MLP-Initialized RL for Exit Timing in SPX Short-Straddle Portfolios", 2026-10-09). SPX options exit timing, OOS 2024-26 only, 7 seeds. Off-scope: the repo trades no options.
+- **2610.12537** (Thumm, "Market Impact Estimation via Causal Foundation Models", 2026-10-08). Proof-of-concept trained on a synthetic prior. The repo places no orders, so impact is irrelevant. Off-scope.
+- **2610.13162** (Cui, "Entropy Regularization under No-Shorting", 2026-10-09). Dynamic MV theory; empirics illustrative. Off-scope.
+- **2610.13574** (Mouangue, "L0 Feature Selection via MCTS", 2026-10-09). One target (weekly NASDAQ-100 return, explanatory, contemporaneous), 1,072 features, no net-return evaluation. EVIDENCE-GRADE: weak.
+- **2610.13044** (Prakash, "FOMO: FLEX Options and Market Outcomes", 2026-10-09). 41 underlyings, 250 days, options-market microstructure. Off-scope.

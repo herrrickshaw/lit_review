@@ -1302,3 +1302,17 @@ Manifest grep for replacement rate / SRR / certified seed / quality seed / pulse
   variety-replacement rate, but 2016 vintage with projections now in the past. BACKGROUND.
 - **PPV&FR Annual Report search** returned only the 2023-24 PDF and older; no 2024-25 PDF
   surfaced in search today (the published post cites one — not re-verified). Not fetched.
+
+## Added 2026-10-12 (daily task, Monday: agricultural labour and rural incomes)
+
+An empty day. Nothing commissionable and nothing queued.
+
+### Lok Sabha reply on MGNREGS average workdays, FY26 — BACKGROUND (primary not read)
+
+- **Source seen:** PTI via Deccan Chronicle (updated 28 Jul 2026) reporting a starred-question reply by the Rural Development Minister: average workdays per household fell from **50 (2024-25) to 43 (2025-26)**, a decade low; **24** till June 2026; series range 38 (2008-09) to 52 (2020-21 and 2023-24). Central allocation for 1 Jul 2026–31 Mar 2027 is Rs 95,692.31 crore (outlay with state share above Rs 1.51 lakh crore).
+- **Data:** the underlying Lok Sabha reply (sansad.in) is the primary, free. I did not fetch it; the question number and sitting date are not in the article.
+- **Blog fit:** extends `a-17-rural-pay-rise-that-nobody-received`, which covers the repeal and early VB-G RAM G person-days but explicitly held back on the scheme's performance. The FY26 workdays series is a legacy-scheme figure, not a VB-G RAM G one.
+- **Caveat:** secondary source only; the "households completing 100 days fell 40.5%" figure comes from a campaign group (NREGA Sangharsh Morcha) via Down To Earth, not read. Fetch the reply before any queue entry.
+
+### Weak, one line each
+- **Dataful MGNREGA dataset pages (20047/20048/24237/24239)** surfaced in search: paywalled aggregator listings, not read. WEAK.
