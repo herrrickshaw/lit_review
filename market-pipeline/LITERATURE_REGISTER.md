@@ -3466,3 +3466,11 @@ Nothing passed triage. Semantic Scholar still lists the same six papers citing t
 - **2610.13162** (Cui, "Entropy Regularization under No-Shorting", 2026-10-09). Dynamic MV theory; empirics illustrative. Off-scope.
 - **2610.13574** (Mouangue, "L0 Feature Selection via MCTS", 2026-10-09). One target (weekly NASDAQ-100 return, explanatory, contemporaneous), 1,072 features, no net-return evaluation. EVIDENCE-GRADE: weak.
 - **2610.13044** (Prakash, "FOMO: FLEX Options and Market Outcomes", 2026-10-09). 41 underlyings, 250 days, options-market microstructure. Off-scope.
+
+## Added 2026-10-14 (daily task, Wednesday gap query: learning to rank cross-sectional equity returns)
+
+Nothing passed triage. Semantic Scholar still lists the same eight hub-citers, all registered. The Wednesday WebSearch returned mostly registered IDs (2104.12484, 2603.13252, 2605.13407, 2604.20204, 2608.24786); one was new.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2606.08930** (Xiao, Xu, Qu, Xie & Li, "RankGLU: Residual Gated Score Formation for Cross-Sectional Stock Prediction", 2026-06-08, cs.CE). Metric is IC only (CSI300 mean IC 0.0727 vs 0.0654 backbone). The abstract gives no date range, Sharpe or transaction costs, and the trick is a neural prediction head that needs GPU training. EVIDENCE-GRADE: weak.
