@@ -33,6 +33,14 @@ This is a small, bounded, DAILY task — not a repeat of a full research sweep. 
    - Friday: "point-in-time fundamentals database survivorship bias equity"
    - Saturday: "correlation matrix eigenvalue market regime effective dimension"
 
+   **Alternate-week topics (added 2026-10-17)** — on odd ISO weeks use these instead of the list above, same weekday mapping:
+   - Monday: "overnight intraday return decomposition cross-market momentum"
+   - Tuesday: "liquidity-adjusted Piotroski F-score small-cap emerging markets"
+   - Wednesday: "regime-switching hidden Markov model equity allocation out-of-sample"
+   - Thursday: "post-earnings announcement drift emerging markets point-in-time"
+   - Friday: "backtest overfitting deflated Sharpe ratio multiple testing"
+   - Saturday: "LLM agent financial report extraction hallucination evaluation"
+
    Use WebSearch if available, else construct an arXiv search URL like `https://arxiv.org/list/q-fin.TR/recent` or `https://arxiv.org/abs/<id>` for anything you already have an ID for. If WebSearch is not available as a tool, use WebFetch on `https://arxiv.org/list/q-fin.TR/recent` and `https://arxiv.org/list/q-fin.PM/recent` and skim titles/abstracts for relevance to the day's query theme instead.
 
 3. Stop searching once you have ~8 candidates or have made 3 genuine search attempts, whichever comes first — this is a bounded daily task, not an exhaustive sweep.
@@ -111,6 +119,15 @@ Track B asks *can this carry an article*. A paper can pass one and fail the othe
    - **Saturday — trade, tariffs and industrial policy.** DGCI&S, MoSPI, WTO, PIB.
      The blog's single heaviest beat (63 posts), so the dedup bar is highest here: only log
      something that contradicts or materially updates an existing post.
+
+**Added beats (2026-10-17), used on even ISO weeks in place of the weekday list above:**
+   - Monday — biofuels, SAF and ethanol: DGCI&S/PPAC/MNRE/ICAO/CORSIA releases, GOBARdhan, CBG.
+   - Tuesday — carbon markets and compliance: EU ETS, CCTS India, CBAM, BEE notifications.
+   - Wednesday — critical minerals, batteries and PLI outcomes: MoM, USGS, PIB.
+   - Thursday — fertiliser, coal-to-urea and chemicals import substitution: DoF, FAI, DGCI&S.
+   - Friday — city gas, CGD and refinery economics: PNGRB, PPAC, CHT.
+   - Saturday — Gulf/DACH/India trade corridors: UAE FCSC, Destatis, Swiss FOCBS, CEPA/TEPA.
+   Same dedup bar, budget caps and WEAK-by-default rule for vendor estimates apply.
 
 3. **The estate, when a query needs a home.** ICAR `epubs.icar.org.in` hosts 67 open-access
    journals, of which fifteen map onto subjects the blog has never mentioned; AERR is the
