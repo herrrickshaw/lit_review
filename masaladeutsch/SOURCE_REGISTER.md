@@ -1316,3 +1316,12 @@ An empty day. Nothing commissionable and nothing queued.
 
 ### Weak, one line each
 - **Dataful MGNREGA dataset pages (20047/20048/24237/24239)** surfaced in search: paywalled aggregator listings, not read. WEAK.
+
+## Added 2026-10-13 (daily task, Tuesday: insurance, reinsurance and financial plumbing)
+
+### IRDAI Annual Report 2024-25 — grievances and claims chapter — BACKGROUND (primary PDF not read)
+
+- **Source seen:** IRDAI document page irdai.gov.in/document-detail?documentId=8375620 (12.2 MB PDF, free; listing shows updated 30-12-2025). Figures below come only from Outlook Money's write-up (updated 2 Jan 2026), not the PDF.
+- **Data:** Bima Bharosa grievances 2,57,790 (life 1,20,429; general+health 1,37,361); claim-related 33,280 life (vs 26.68 lakh claims) and 88,841 general+health (vs 11.26 crore claims); life mis-selling complaints 23,335 -> 26,667 (19.33% -> 22.14%).
+- **Blog fit:** extends the insurance beat; nearest posts `premium-now-claim-later-float-indias`, `india-built-offshore-insurance-hub-it`. Manifest grep for repudiat/ombudsman/bima bharosa found no insurance post covering claims or grievances.
+- **Caveat:** secondary article contradicts itself on the life claims count (2.66 million vs 26.68 lakh); search snippets conflict on whether 1,37,361 is health-only. Ombudsman 53,184 vs 53,102 also disputed. Read the PDF chapter before any use. Could be promoted to COMMISSIONABLE once the primary is read.
