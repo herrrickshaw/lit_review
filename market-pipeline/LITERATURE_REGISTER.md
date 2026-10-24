@@ -3474,3 +3474,32 @@ Nothing passed triage. Semantic Scholar still lists the same eight hub-citers, a
 ### Weak/off-scope, one line each (triaged, not deep-read)
 
 - **2606.08930** (Xiao, Xu, Qu, Xie & Li, "RankGLU: Residual Gated Score Formation for Cross-Sectional Stock Prediction", 2026-06-08, cs.CE). Metric is IC only (CSI300 mean IC 0.0727 vs 0.0654 backbone). The abstract gives no date range, Sharpe or transaction costs, and the trick is a neural prediction head that needs GPU training. EVIDENCE-GRADE: weak.
+
+## Added 2026-10-24 (daily task, Saturday odd-week gap query: LLM agent financial report extraction / hallucination evaluation)
+
+This is the first run since 2026-10-14; the runs from 10-15 to 10-23 hung on permission prompts and logged nothing. It is also the first run of the odd-week Saturday topic. Semantic Scholar now lists **one new hub-citer**, 2610.24289, triaged below. Two WebSearches made eight candidates in total. Why the extraction theme applies here when the 2026-08-28 "no LLM in the signal path" finding does not: this repo has exactly one LLM component, `llm_extract.py`. These papers grade that component, not a trading signal.
+
+### 2605.29586 — FinVerBench: Benchmark Validity and Calibration in Large Language Model Financial Statement Verification (Silu Panda, submitted 2026-05-28, cs.AI)
+
+- **What it is:** a test of whether LLMs can judge if a set of statements is numerically consistent. The statements are built from 10-K XBRL filings for 43 S&P 500 firms. Four error families are injected: arithmetic, cross-statement linkage, year-over-year and magnitude. 14 complete model runs are scored on a 105-instance observable subset (43 clean, 62 error-injected).
+- **EVIDENCE-GRADE: medium-weak.** The sample is small and the paper has a single author, but it is honest about construct validity, and the code and data are stated as public. Two findings transfer:
+  - Using the guided-checklist prompt, **9 of 14 runs flagged 95–100% of clean statements as wrong**. Without a false-positive rate on clean inputs, a recall number means nothing.
+  - **Rendering changes the answer.** The calibrated model scored 100% recall on unrounded numbers but 79.0% on a rounded rendering of the same subset (0% FPR). Number formatting is itself a test variable.
+- **Doing-right (verified):** `llm_extract.py:90-101` (`_verify_citation`) checks that each cited span appears verbatim in the source, ignoring whitespace. It also handles list-typed fields (`:97-98`). The docstring states the derived-value limitation openly (`:137-146`).
+- **Gap (verified): grounding never checks that the extracted *value* is in the cited span.** At `:199`, `grounded = (value is None) or _verify_citation(span, text)`, which tests only the span. Suppose the model returns `price_band_low: 220` and cites the real span "Rs. 210 to Rs. 222". That field is marked grounded=True. Nothing compares 220 with the numbers in the span. Nothing checks consistency across fields either (low ≤ high, or qty × avg_price summing to a stated total). These are FinVerBench's arithmetic and linkage error families, in the one place this repo emits LLM numbers.
+- **Action queued:** item 51.
+
+### 2603.22651 — Benchmarking Multi-Agent LLM Architectures for Financial Document Processing (Siddhant Kulkarni & Yukta Kulkarni, submitted 2026-03-24, cs.AI)
+
+- **What it is:** a comparison of four orchestration patterns (sequential, parallel fan-out, hierarchical supervisor-worker, reflexive self-correcting) and five unnamed LLMs. The test set is 10,000 SEC filings with 25 field types. Field-level F1: reflexive 0.943 at 2.3× sequential cost; hierarchical 0.921 at 1.4×. A hybrid configuration recovers 89% of the reflexive gain at 1.15×.
+- **EVIDENCE-GRADE: weak-medium.** The models are not named, and the abs page says nothing about a code or data release, so the result cannot be reproduced. It does report cost next to accuracy, which counts for it.
+- **Gap (verified, minor):** `llm_extract.py:178-207` falls back to the second provider **only on an exception or a JSON parse failure**. A response that parses but has grounded=False fields is returned as-is (`:202-204`). The cheap version of the paper's reflexive loop would be to re-ask once, for the ungrounded fields only. This is folded into item 51 rather than queued separately: the value-in-span check has to exist before a retry has a signal to act on.
+- **Not adopted:** multi-agent orchestration. The caller volume is one person parsing DRHPs and broker PDFs.
+
+### Weak/off-scope, one line each (triaged, not deep-read)
+
+- **2610.24289** (Wang & Saxena, "Unbounded Losses, Unchecked Inputs: Measuring the Safeguards of LLM Options-Trading Agents", 2026-10-16). A new hub-citer. It audits 26 options-trading agents: none authenticates text inputs, and 13 can reach unbounded loss. The repo places no orders and trades no options. Off-scope, same verdict as its companion 2609.19705.
+- **2508.05201** (Zhang et al., "FAITH", ICAIF'25). A masked-span tabular hallucination benchmark over S&P 500 annual reports. The abs page gives no size or results. Background to item 51, not deep-read.
+- **2603.20252** (FinBench-QA-Hallucination). Knowledge-graph QA groundedness, not extraction. The repo has no KG QA. Off-scope.
+- **2510.05710** (FinReflectKG-EvalBench). Knowledge-graph extraction from 10-Ks. Per the search snippet, single-pass extraction is most faithful. Not fetched, so nothing is asserted beyond that snippet.
+- **2603.19254** (hierarchical benchmark for financial research-report generation) and **2606.03918** (Hedge-Bench). These evaluate report generation and reasoning, and the repo generates no LLM reports. Not fetched; logged by title so they are not re-surfaced.

@@ -22,3 +22,6 @@ Do not re-log anything already listed under a repo's `prior_art` in the baseline
 ## Entries
 
 ## Weak / not relevant
+
+- **S&P Global Market Intelligence, "Point-in-Time relevance for APAC markets" (Joseph & Fruin, Oct 2019, spglobal.com PDF)**. Cluster A/B, logged 2026-10-24. Seen only through a search summary, not fetched. It is vendor research on period-end-to-report lags and restatements in Asia, and its message is that a fixed lag cannot mimic PIT. Fetch the PDF before anything is claimed: it is the one source found that could give measured JP/KR/IN reporting lags. Baseline `prior_art` was not checked today.
+- **tradevodata, "Your backtest saw the future: lookahead bias in fundamental data measured across 313,562 rows" (dev.to blog)**. Cluster A/B, logged 2026-10-24. A vendor blog on US SEC data only (mean lag 43 days, max 61, per the search summary). It does not cover non-US markets. Not fetched. WEAK.

@@ -13,8 +13,19 @@ Nobody is present to approve a permission prompt. Between 2026-10-15 and 2026-10
 shell command that needed approval ("Tool permission stream closed before response received") and wrote
 no log. Only these operations are pre-approved, so use **only** these:
 
-- **Read files** with the Read, Grep and Glob tools (everything under `/Users` is readable). Never use Bash to
-  `cd` into a folder and `grep`/`cat`/`wc`/`ls` there.
+- **Read files** with the **Read** tool (use `offset`/`limit` for long registers). Scheduled runs have **no
+  Grep or Glob tool**. To search or list local files use only
+  `bash /Users/Shared/lit_review/tools/repo_read.sh localgrep '<regex>' <path> [glob]` and
+  `bash /Users/Shared/lit_review/tools/repo_read.sh ls <dir>`, which work under `~/market-pipeline`,
+  `~/masaladeutsch-archive` and `/Users/Shared/lit_review`. **Never** run `cd`, `grep`, `cat`, `wc`, `ls`, `find`,
+  `for` loops or pipes yourself: each of those waits for an approval nobody is there to give. Every "grep" in
+  this file means `repo_read.sh localgrep` (local) or `repo_read.sh grep <repo>` (GitHub). Recipes:
+  - Is an arXiv ID already logged? `repo_read.sh localgrep '2610\.24289|2609\.19705' /Users/umashankar/market-pipeline/research/LITERATURE_REGISTER.md`
+    — IDs absent from the output are new.
+  - Does the pipeline already do X? `repo_read.sh localgrep '<regex>' /Users/umashankar/market-pipeline/code/python_files '*.py'`; cite the file:line it prints.
+  - Has the blog covered it? `repo_read.sh localgrep -i`-style matching is not supported, so use a case-class regex
+    such as `'[Gg]roundwater'` against `/Users/umashankar/masaladeutsch-archive/meta/manifest.json`.
+  - Latest logs: `repo_read.sh ls /Users/umashankar/market-pipeline/research/literature_runs`, then Read the file.
 - **Write** with the Write and Edit tools, and only to the append targets this file names:
   `~/market-pipeline/research/{LITERATURE_REGISTER.md,BACKTEST_QUEUE.md,literature_runs/*}`,
   `~/masaladeutsch-archive/docs/{SOURCE_REGISTER.md,COMMISSION_QUEUE.md}`,
@@ -37,13 +48,13 @@ than a run that hangs and writes nothing.
 - **Register (read this first)**: `/Users/umashankar/market-pipeline/research/LITERATURE_REGISTER.md` — every paper already reviewed, graded, with its doing-right/gap verdict. Check every candidate's arXiv ID against this file before triaging it — do not re-review a paper already logged.
 - **Backtest queue**: `/Users/umashankar/market-pipeline/research/BACKTEST_QUEUE.md` — concrete paper-motivated actions, consumed by hand later. Append to it; never execute anything from it.
 - **Per-day log**: write today's run to `/Users/umashankar/market-pipeline/research/literature_runs/YYYY-MM-DD.md` (use today's actual date).
-- **The pipeline** (for grep-verifying "does the repo already do this"): `/Users/umashankar/market-pipeline` (code in `code/python_files/`). It is a personal daily EOD multi-market equity screener (India/US/Europe/Japan/Korea) emitting an email brief. No orders placed, no intraday trading, one person on a Mac, no GPU cluster.
+- **The pipeline** (for verifying "does the repo already do this" with `repo_read.sh localgrep`): `/Users/umashankar/market-pipeline` (code in `code/python_files/`). It is a personal daily EOD multi-market equity screener (India/US/Europe/Japan/Korea) emitting an email brief. No orders placed, no intraday trading, one person on a Mac, no GPU cluster.
 
 ## Track A — 🔴 hard constraints
 - **Read-only.** Do not edit any file in `/Users/umashankar/market-pipeline` except appending to `research/LITERATURE_REGISTER.md`, `research/BACKTEST_QUEUE.md`, and writing today's file under `research/literature_runs/`. Do not run any pipeline script, any backtest, or any git write command **in this repo**. Do not touch `/tmp/daily_pipeline.lock`. (The one place git writes are allowed is the mirror repo in Track C — never here.)
 - **Budget cap.** Triage at most 8 new candidate papers today. Deep-read (extract techniques, grade evidence) at most 3 that pass triage. This must stay cheap enough to run unattended every day — do not try to repeat the full 12-paper sweep from 2026-08-22.
 - **Grade before reading deeply.** For every candidate, spend ~30 seconds first: what evaluation metric does it use (Sharpe/return/IR vs bare price-level MAPE/RMSE), how many instruments, what date range, are transaction costs modelled or addressed. A paper whose headline metric is price-level MAPE/RMSE with no cost discussion and a small undisclosed universe should be logged as EVIDENCE-GRADE: weak in one line and NOT deep-read. Past examples of this pattern already in the register: a Quantum-GAN paper whose own table contradicts its abstract, an LSTM+VADER paper on 4 correlated tech stocks. Do not spend deep-read budget on papers shaped like these.
-- **No fabrication.** Every claim about a paper must come from content you actually fetched (WebFetch the arXiv abs/html page). Every "the repo already does this" claim must come from a real `grep`/`Read` you ran yourself, cited as file:line — never assumed from the register's prior summaries, which may have drifted.
+- **No fabrication.** Every claim about a paper must come from content you actually fetched (WebFetch the arXiv abs/html page). Every "the repo already does this" claim must come from a real `repo_read.sh localgrep` or Read call you ran yourself, cited as file:line — never assumed from the register's prior summaries, which may have drifted.
 
 ## Track A — what to search, in this order
 
@@ -71,7 +82,7 @@ than a run that hangs and writes nothing.
 
 ## Track A — for each paper that passes triage (deep-read, max 3)
 
-Fetch the abs page, get exact title/authors/date/abstract, extract 2-5 concrete techniques. For each: does the repo already do this (verify by grep/read, cite file:line, or mark UNVERIFIED), is it a gap, and if it's a gap and genuinely actionable at this pipeline's scale (no GPU training, no paid data), append one line to `research/BACKTEST_QUEUE.md` describing the concrete change.
+Fetch the abs page, get exact title/authors/date/abstract, extract 2-5 concrete techniques. For each: does the repo already do this (verify with `repo_read.sh localgrep` or Read, cite file:line, or mark UNVERIFIED), is it a gap, and if it's a gap and genuinely actionable at this pipeline's scale (no GPU training, no paid data), append one line to `research/BACKTEST_QUEUE.md` describing the concrete change.
 
 Append one new section to `research/LITERATURE_REGISTER.md` per paper that passes triage, in the same format as existing entries (see the file for the exact style — one heading per paper, "Doing-right:" / "Gap:" / "Action queued:" bullets). For papers that fail triage, add ONE line each to the "Weak evidence" section, not a full write-up.
 
@@ -117,7 +128,7 @@ Track B asks *can this carry an article*. A paper can pass one and fail the othe
   modelled figures with undisclosed scope; one overstated an India figure by 6.5×. Log them
   as WEAK in one line. Never queue an article whose central number is a vendor estimate.
 - **No fabrication.** Every claim about a source must come from a page you actually fetched.
-  Every "the blog already covered this" claim must come from a real grep of the manifest,
+  Every "the blog already covered this" claim must come from a real `repo_read.sh localgrep` search of the manifest,
   cited by slug — never from memory of the register.
 
 ## Track B — what to search, in this order
@@ -170,7 +181,7 @@ For each candidate, answer three questions in about thirty seconds:
    released data, it is BACKGROUND at best.
 2. **Is there a finding worth reporting?** Something quantified that a reader would not
    already assume. A paper confirming the obvious is BACKGROUND.
-3. **Has the blog covered it?** Grep the manifest. If yes, it is WEAK unless it contradicts
+3. **Has the blog covered it?** Search the manifest with `repo_read.sh localgrep`. If yes, it is WEAK unless it contradicts
    or materially updates the published piece — in which case say which post, by slug.
 
 COMMISSIONABLE requires yes, yes, no. Anything else is BACKGROUND or WEAK.
@@ -236,7 +247,7 @@ standard its code gets wrong.
 - **Budget cap.** Triage at most **5** candidates; deep-read at most **2**. Same 30-second pre-grade as Track A:
   what does the source actually show, on what data, and is it reproducible (code/data released)?
 - **No fabrication.** Every claim about a source comes from a page you fetched. Every "the repo does / does not
-  do X" comes from a grep or read you ran today, cited `repo:path:line` — not from the baseline, which is a
+  do X" comes from a `repo_read.sh grep`/`file` call (or a Read) you ran today, cited `repo:path:line` — not from the baseline, which is a
   2026-10-24 snapshot and may be stale. If the code changed since the baseline, say so.
 - **Privacy.** Private repos may be read but quote at most 3 lines from them. Never quote data rows from
   `india-govt-yellow-pages` (named officials' contacts), and never open `personal-profile` or `working-files`.
@@ -271,7 +282,7 @@ standard its code gets wrong.
 ## Track D — for each source that passes triage (deep-read, max 2)
 
 Fetch the source; record exact title, authors, venue, date and id. Find the repo(s) it bears on in the day's
-baseline file, then check the CURRENT code (grep/read, cite file:line) for the specific point. Append one entry
+baseline file, then check the CURRENT code (`repo_read.sh grep`/`file`, cite file:line) for the specific point. Append one entry
 to `REPO_LITERATURE_REGISTER.md` under `## Entries` in the format at the top of that file. If the gap is concrete
 and doable without paid data or a GPU, append one line to `REPO_ACTIONS.md` under `## Open`. Sources that fail
 triage get one line each under `## Weak / not relevant`.

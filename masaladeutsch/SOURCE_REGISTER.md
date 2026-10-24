@@ -1325,3 +1325,10 @@ An empty day. Nothing commissionable and nothing queued.
 - **Data:** Bima Bharosa grievances 2,57,790 (life 1,20,429; general+health 1,37,361); claim-related 33,280 life (vs 26.68 lakh claims) and 88,841 general+health (vs 11.26 crore claims); life mis-selling complaints 23,335 -> 26,667 (19.33% -> 22.14%).
 - **Blog fit:** extends the insurance beat; nearest posts `premium-now-claim-later-float-indias`, `india-built-offshore-insurance-hub-it`. Manifest grep for repudiat/ombudsman/bima bharosa found no insurance post covering claims or grievances.
 - **Caveat:** secondary article contradicts itself on the life claims count (2.66 million vs 26.68 lakh); search snippets conflict on whether 1,37,361 is health-only. Ombudsman 53,184 vs 53,102 also disputed. Read the PDF chapter before any use. Could be promoted to COMMISSIONABLE once the primary is read.
+
+## Added 2026-10-24 (daily task, Saturday: trade, tariffs and industrial policy; reduced budget)
+
+Reduced budget today (triage 1, deep-read 0) because Track A ran long. **The manifest dedup could not be run.** This session has no Grep tool, and the 406-post manifest is too large to read whole. So nothing below can be graded COMMISSIONABLE, by rule.
+
+### Weak, one line each
+- **Commerce Ministry monthly trade release, Sep 2026 (15 Oct 2026)**, seen only via press (Business Today, Deccan Chronicle, devdiscourse). Exports $44.40 bn (+23% y/y), imports $74.61 bn, deficit $30.21 bn; Apr–Sep exports $259.89 bn; gold imports down to $1.8 bn. One outlet (indiaseatradenews) prints conflicting figures ($34.58 bn exports, $20.78 bn deficit), possibly an older month. The PIB primary was not fetched. This is a routine monthly headline on the blog's heaviest beat. WEAK unless a later run finds it contradicts a published post.

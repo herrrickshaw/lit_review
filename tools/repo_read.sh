@@ -5,11 +5,27 @@
 #   repo_read.sh tree <repo>                 list every file path in the default branch
 #   repo_read.sh file <repo> <path>          print one file
 #   repo_read.sh grep <repo> <regex> [glob]  grep the repo's files (shallow, blob-filtered clone, deleted after)
-# Only GET requests and clones; nothing is ever written to GitHub.
+#   repo_read.sh localgrep <regex> <path> [glob]   grep local files, only under the task's three folders:
+#                                            ~/market-pipeline, ~/masaladeutsch-archive, /Users/Shared/lit_review
+#   repo_read.sh ls <dir>                    list a local folder under those three roots
+# Only GET requests, clones and local reads; nothing is ever written anywhere.
 set -u
 die() { echo "repo_read: $*" >&2; exit 2; }
-[ $# -ge 2 ] || die "usage: tree|file|grep <repo> ..."
-cmd=$1; repo=$2
+[ $# -ge 2 ] || die "usage: tree|file|grep <repo> ... | localgrep <regex> <path> [glob] | ls <dir>"
+cmd=$1
+inroots() { local r; r=$(cd "$(dirname "$1")" 2>/dev/null && pwd -P)/$(basename "$1") || return 1
+  case $r in "$HOME"/market-pipeline/*|"$HOME"/market-pipeline|"$HOME"/masaladeutsch-archive/*|"$HOME"/masaladeutsch-archive|/Users/Shared/lit_review/*|/Users/Shared/lit_review) return 0;; esac; return 1; }
+if [ "$cmd" = localgrep ]; then
+  [ $# -ge 3 ] || die "usage: localgrep <regex> <path> [glob]"
+  inroots "$3" || die "path outside the allowed folders"
+  grep -rnE --exclude-dir=.git --exclude-dir=.venv --exclude-dir=node_modules ${4:+--include="$4"} -- "$2" "$3" | head -300
+  exit 0
+fi
+if [ "$cmd" = ls ]; then
+  inroots "$2" || die "path outside the allowed folders"
+  ls -la "$2"; exit 0
+fi
+repo=$2
 [[ $repo =~ ^[A-Za-z0-9._-]+$ ]] || die "bad repo name"
 case $repo in personal-profile|working-files) die "$repo is personal and off-limits";; esac
 case $cmd in

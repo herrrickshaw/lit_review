@@ -1066,3 +1066,21 @@ when it's been run; do not delete history.
     Motivated by: 2507.09196, where a 20-bp long-run spread spiking to 80 bp costs 97–150
     bps/yr and stalls relative wealth in 1998, 2008 and 2020, and where the net edge decays
     from +3.4–4.6 pp/yr (2000–09) to +0.6–1.1 (2020–24).
+
+51. **Value-in-span and cross-field checks for `llm_extract.py` (a test, not a backtest).**
+    `llm_extract.py:199` marks a field grounded when its cited span exists in the text. It
+    never checks that the extracted value is in that span. Three cheap changes, no new data:
+    - **(a) Numeric value-in-span.** For number-typed fields, parse every number in the
+      cited span. Handle Indian formatting ("Rs 2,410.50", "1,23,456", "crore"/"lakh"). Set
+      `value_matches_span=False` when the extracted value equals none of them. Keep
+      `grounded` as is and add the new key beside it.
+    - **(b) Cross-field assertions supplied by the caller.** For example
+      `price_band_low <= price_band_high`, or holdings `qty*avg_price` summing to a stated
+      total. Report violations under `_grounding`.
+    - **(c) Promptfoo cases.** Add three cases: a right span with a wrong number, a rounded
+      rendering of the same document ("Rs 2.4k"), and a clean document. The clean case must
+      report zero flags; FinVerBench shows FPR on clean inputs is the number that goes
+      unreported. Optional: re-ask once, for failing fields only, before returning (the
+      cheap form of 2603.22651's reflexive loop).
+    Motivated by: 2605.29586 (9 of 14 runs flagged 95–100% of clean statements; recall
+    fell from 100% to 79% on rounding alone) and 2603.22651.
