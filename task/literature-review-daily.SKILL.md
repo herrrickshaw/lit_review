@@ -7,6 +7,30 @@ Three independent daily reviews, run in order A, B, D, then the C sync. **Track 
 
 This is a small, bounded, DAILY task — not a repeat of a full research sweep. You have no memory of prior runs; everything you need is in the files below.
 
+## 🔴 Running unattended: which tools to use (added 2026-10-24)
+
+Nobody is present to approve a permission prompt. Between 2026-10-15 and 2026-10-24 every run hung on a
+shell command that needed approval ("Tool permission stream closed before response received") and wrote
+no log. Only these operations are pre-approved, so use **only** these:
+
+- **Read files** with the Read, Grep and Glob tools (everything under `/Users` is readable). Never use Bash to
+  `cd` into a folder and `grep`/`cat`/`wc`/`ls` there.
+- **Write** with the Write and Edit tools, and only to the append targets this file names:
+  `~/market-pipeline/research/{LITERATURE_REGISTER.md,BACKTEST_QUEUE.md,literature_runs/*}`,
+  `~/masaladeutsch-archive/docs/{SOURCE_REGISTER.md,COMMISSION_QUEUE.md}`,
+  `/Users/Shared/lit_review/portfolio/{REPO_LITERATURE_REGISTER.md,REPO_ACTIONS.md}`.
+  To append, Read the file then Edit (or Write the whole new day log). No `cat >>`, `printf >>` or heredocs.
+- **Web** with WebSearch and WebFetch (arXiv, Semantic Scholar and the usual government sources are allowed).
+  Never `curl`.
+- **Bash, only these two commands:**
+  - `bash /Users/Shared/lit_review/tools/repo_read.sh tree|file|grep <repo> ...` — Track D's read-only access to
+    any herrrickshaw repo (`tree <repo>`, `file <repo> <path>`, `grep <repo> <regex> [glob]`).
+  - `bash /Users/Shared/lit_review/tools/sync_mirror.sh "<commit subject>"` — all of Track C.
+- Today's date and weekday are in your context; do not run `date`. Work out the ISO week from the date.
+
+If a step seems to need anything else, skip that step and say so in the log. A partial log is far better
+than a run that hangs and writes nothing.
+
 **Run Track A first.** If it consumed an unusual amount of effort, do Track B at reduced budget (triage 2, deep-read 0) or skip it with one line in the log saying so. A skipped Track B is fine; a Track A that never finished is not. The same rule applies to Track D after Tracks A and B: reduce it (triage 2, deep-read 0) or skip it with one line rather than letting the run sprawl.
 
 ## Track A — where things live
@@ -200,9 +224,10 @@ standard its code gets wrong.
 - **Action queue:** `/Users/Shared/lit_review/portfolio/REPO_ACTIONS.md` — append only; never executed by this task.
 - **Per-day log:** append a `## Track D` section to the same `research/literature_runs/<today>.md` file
   Track A writes. Do not create another log file.
-- **Repos:** `github.com/herrrickshaw/<repo>`. Read code with `gh api repos/herrrickshaw/<repo>/contents/<path>`
-  (add `-H "Accept: application/vnd.github.raw"`) or a `git clone --depth 1 --filter=blob:none` into a NEW
-  empty directory under the scratchpad (never under `$HOME`), read with grep/Read, and delete it at the end.
+- **Repos:** `github.com/herrrickshaw/<repo>`. Read code only through
+  `bash /Users/Shared/lit_review/tools/repo_read.sh tree <repo>` (file list),
+  `... file <repo> <path>` (one file) and `... grep <repo> <regex> [glob]` (grep with repo-relative file:line).
+  It makes GET requests and a throwaway shallow clone only; it refuses `personal-profile` and `working-files`.
 
 ## Track D — hard constraints
 
@@ -313,39 +338,22 @@ force-add it into the `$HOME` repo.
 
 ## Steps
 
-1. Copy the seven source paths in the table above (everything except `portfolio/`, which is already in place), source → mirror (`literature_runs/` copies the
-   whole directory, so back-dated files that were added by hand get picked up too).
+Run **one** command; it does the copying, change check, secret scan, commit and push exactly as below:
 
-2. Check whether anything actually changed:
-   ```
-   git -C /Users/Shared/lit_review status --porcelain
-   ```
-   **If the output is empty, stop here.** Nothing to do — do not create an empty commit.
-   A quiet day is a legitimate result; note it in one line in today's log.
+```
+bash /Users/Shared/lit_review/tools/sync_mirror.sh "Sync literature review — YYYY-MM-DD (<a few words on what the day produced>)"
+```
 
-3. Secret-scan the working tree before staging anything:
-   ```
-   grep -rniE --exclude-dir=task 'api[_-]?key|secret|password|passwd|token|bearer|BEGIN [A-Z ]*PRIVATE KEY|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{20,}|xox[baprs]-|AIza[0-9A-Za-z_-]{35}' --include='*.md' /Users/Shared/lit_review
-   ```
-   **`--exclude-dir=task` is required, not optional.** `task/` holds a copy of this very
-   file, which contains the pattern above verbatim — without the exclusion the scan
-   always matches itself and the push would be blocked every single day. `task/` is a
-   hand-edited spec, not generated output, so excluding it loses nothing.
+What it does, for the record (read `/Users/Shared/lit_review/tools/sync_mirror.sh`; do not re-implement it by hand):
+1. Copies the seven source paths in the table above (everything except `portfolio/`, which Track D writes in place).
+2. If `git status --porcelain` is empty, stops: no empty commits.
+3. Secret-scans the CHANGED `.md` files (`task/` excluded, since it holds the pattern verbatim). On any hit it
+   prints the hits and does not push; read them, and if they are prose, say so in the log for a human to push.
+4. Commits with your subject and pushes. If the push is rejected as non-fast-forward (someone pushed to the
+   mirror from elsewhere), it rebases the unpushed commits onto the remote once and pushes again — never a
+   force-push. If that rebase does not apply cleanly it aborts and reports "needs a human".
 
-   Any hit outside `task/` → stop, do not push, log it. (Registers quote papers and
-   government releases; a false positive on a word like "token" in prose is possible, so
-   read the hit before concluding — but when genuinely unsure, do not push.)
+It always prints one summary line (pushed SHA, nothing to do, stopped, or failed) and never fails the run.
 
-4. Stage, commit with today's real date, and push:
-   ```
-   git -C /Users/Shared/lit_review add -A
-   git -C /Users/Shared/lit_review commit -q -m "Sync literature review — YYYY-MM-DD"
-   git -C /Users/Shared/lit_review push
-   ```
-   Extend the commit subject with a few words on what the day produced when there is
-   something worth naming (e.g. `Sync literature review — 2026-08-25 (queued items 12-14;
-   opened crop-insurance beat)`). An empty day still gets a plain dated subject, provided
-   step 2 found a real change.
-
-5. Add one line to today's log under a `## Track C` heading: what was synced, the commit
+Then add one line to today's log under a `## Track C` heading: what was synced, the commit
    short SHA, or what failed. One line — this is bookkeeping, not a report.
