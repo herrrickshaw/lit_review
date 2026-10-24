@@ -1,0 +1,984 @@
+{
+ "cluster": "E_trade_industry_policy",
+ "cluster_summary": "Judged from code, the open ground in this cluster is company-level linkage of India's industrial filings: iem-tracker (IEM Part A to Part B to CIN, checked against GLEIF) has no free equivalent, and the PIB/CCI/SEBI SQLite indexes in india-trade-sector-policy-recommendations plus the PARIVESH bulk-endpoint pivot in india-ec-subsector-analysis are useful new tooling. The five trade repos overlap heavily: india-trade-tracker is the only tested collector (HS-2 TradeStat + World Bank); india-trade-data-analysis and india-commodity-trade-deficit are JSON/HTML narratives with no generating code and share the same 98-chapter TradeStat file; india-trade-export-analysis holds one-off pandas scripts whose write-ups were copied, reformatted, into india-forex-analysis, which has no code. The biggest README-vs-code gap is in those last two: headline totals ($875B exports, -$567B deficit, -$769.5B projection) are about 2x official TradeStat figures, consistent with the scripts summing every xlsx row including the total row, and the reserve-cover, debt and budget figures have no generating script. digital-twin-for-ipa does not simulate PLI schemes: it tabulates hand-verified scheme records and counts sectors per state, so the 'incentive simulation against a company database' gap the August survey credited to it is still open. india-ec-subsector-analysis's grant rate drops rejected proposals from the denominator, which inflates every activity's rate. No repo implements RCA, Grubel-Lloyd or import penetration, though several are framed around those questions.",
+ "literature": [
+  {
+   "cite": "Balassa, B. (1965). Trade Liberalisation and 'Revealed' Comparative Advantage. The Manchester School, 33(2), 99-123. doi:10.1111/j.1467-9957.1965.tb00050.x",
+   "url": "https://doi.org/10.1111/j.1467-9957.1965.tb00050.x",
+   "used_by": [
+    "india-trade-sector-policy-recommendations",
+    "india-trade-export-analysis",
+    "chemical_import_substitution"
+   ],
+   "how": "Not implemented in any repo; india-trade-sector-policy-recommendations README (Methodology notes) explicitly says RCA is not computed, and export_opportunities.py uses fixed value/growth thresholds instead."
+  },
+  {
+   "cite": "Grubel, H. G. & Lloyd, P. J. (1975). Intra-Industry Trade: The Theory and Measurement of International Trade in Differentiated Products. London: Macmillan.",
+   "url": "https://catalog.princeton.edu/catalog/SCSB-3661497",
+   "used_by": [
+    "india-trade-export-analysis",
+    "chemical_import_substitution"
+   ],
+   "how": "Not implemented; import_export_comparison.py:173 computes Export_Share_% = X/(X+M), which is the raw ingredient of a Grubel-Lloyd index (1 - |X-M|/(X+M)) but no GL index is calculated."
+  },
+  {
+   "cite": "OECD STAN / Main Industrial Indicators: import penetration ratio = 100 x M / (Production - X + M).",
+   "url": "https://allthatstats.com/en/statistics/stanind/stan-indicators-database/notes",
+   "used_by": [
+    "chemical_import_substitution",
+    "india-trade-sector-policy-recommendations"
+   ],
+   "how": "Not implemented; hsn8_signal_analysis.py docstring line 20 states IPR is missing because TradeStat lacks domestic production."
+  },
+  {
+   "cite": "Working, H. (1949). The Theory of the Price of Storage. American Economic Review, 39, 1254-1262.",
+   "url": "https://ageconsearch.umn.edu/record/170593/files/AAEA2014_Zulauf_Kim.pdf",
+   "used_by": [
+    "FCI-warehouse-MSPvsMSV"
+   ],
+   "how": "Related but not cited; data/holding_economics.py tests whether price appreciation beats full carrying cost, the empirical question the price-of-storage literature frames."
+  },
+  {
+   "cite": "Gokhan, T., Wang, K., Gurevych, I. & Briscoe, T. (2024). RegNLP in Action: Facilitating Compliance Through Automated Information Retrieval and Answer Generation. arXiv:2409.05677.",
+   "url": "https://arxiv.org/abs/2409.05677v2",
+   "used_by": [
+    "reg-intel"
+   ],
+   "how": "Not cited; reg_intel/extract.py's verbatim-citation gate and score.py's gold-set recall address the obligation-grounding problem ObliQA/RePASs evaluate."
+  },
+  {
+   "cite": "High Level Committee on Reorienting the Role and Restructuring of FCI (Shanta Kumar Committee), Govt. of India, report submitted January 2015.",
+   "url": "https://en.wikipedia.org/wiki/Shanta_Kumar_Committee",
+   "used_by": [
+    "FCI-warehouse-MSPvsMSV"
+   ],
+   "how": "Cited in report prose (README scope item 2); no code implements its estimates."
+  }
+ ],
+ "repos": [
+  {
+   "repo": "india-trade-tracker",
+   "does": "Selenium-drives the TradeStat/EIDB Livewire form to scrape one fiscal year of 2-digit HS chapter export and import values (US$ mn) into DuckDB, plus a urllib loop over 10 World Bank trade indicators x 8 countries; both collectors are unit-tested with mocked drivers.",
+   "claims_vs_code": [
+    {
+     "claim": "Description: 'free Volza alternative'",
+     "evidence": "Volza sells shipment/buyer-level records; collectors/eidb_trade.py:26-29 only hits commodity_wise_export/import and keeps 2-digit chapter totals (README itself says 'at HS-chapter granularity'). Country-wise and 4/6/8-digit drill-downs are listed as Roadmap, not implemented."
+    },
+    {
+     "claim": "reports/India_Fodder_Exports_Global_Market_Report.md presents a 4-digit HS (2301-2309, 1213/1214) series FY18-FY26",
+     "evidence": "No script generates it: eidb_trade.py fetches 2-digit chapters for one FY per run (scrape_flow, lines 54-115); there is no 4-digit or multi-year code path in the repo."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "2 small collectors (~210 LOC) with 3 test files and a tests.yml CI workflow; CSV snapshots are real pulls; last code commit is the 2026-10-12 docs helper.",
+   "snippets": [
+    {
+     "path": "collectors/eidb_trade.py",
+     "lines": "85-100",
+     "lang": "python",
+     "code": "    rows, seen = [], set()\n    while True:\n        header = [c.text.strip() for c in driver.find_elements(\n            By.XPATH, \"//table//tr[1]/th | //table//tr[1]/td\")]\n        for tr in driver.find_elements(By.XPATH, \"//table//tr[position()>1]\"):\n            cells = [c.text.strip() for c in tr.find_elements(By.XPATH, \"./td\")]\n            if len(cells) < 4 or not cells[1]:\n                continue\n            key = (cells[1], cells[2])\n            if key in seen:\n                continue\n            seen.add(key)\n            rows.append((flow, year, cells[1], cells[2],\n                         _num(cells[3]), _num(cells[5]) if len(cells) > 5 else None,\n                         _num(cells[7]) if len(cells) > 7 else None,\n                         \" | \".join(header)))",
+     "why": "The scraping core: walks the JS-rendered DataTable, dedups on (HS code, commodity) and maps prev-year/current-year/growth columns - the same chapter table TradeStat itself publishes, just made machine-readable."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "TradeStat / Export Import Data Bank (Dept. of Commerce, DGCI&S data)",
+     "kind": "official",
+     "url": "https://tradestat.commerce.gov.in/eidb/",
+     "overlap": "The exact source table eidb_trade.py scrapes; TradeStat also offers 4/6/8-digit and country-wise reports the collector does not cover."
+    },
+    {
+     "name": "Dataful (Factly) - TradeStat HS-8 commodity-wise export/import datasets 2007-2025",
+     "kind": "dataset",
+     "url": "https://dataful.in/datasets/18236",
+     "overlap": "Already republishes TradeStat commodity-wise exports/imports at HS-8 for 2007-2025 as downloadable datasets - deeper than this repo's 2-digit annual pull."
+    },
+    {
+     "name": "comtradeapicall (official UN Comtrade Python client)",
+     "kind": "library",
+     "url": "https://github.com/uncomtrade/comtradeapicall",
+     "overlap": "Official client for partner-wise HS-6 trade; covers India as reporter plus mirror data, with no Selenium needed."
+    },
+    {
+     "name": "wbgapi (World Bank data API Python client)",
+     "kind": "library",
+     "url": "https://pypi.org/project/wbgapi",
+     "overlap": "Does what collectors/worldbank_trade.py does (WDI indicators x countries) as a maintained library."
+    },
+    {
+     "name": "Volza (shipment-level import/export records)",
+     "kind": "commercial",
+     "url": "https://www.capterra.in/software/1071412/Volza",
+     "overlap": "The commercial shipment-level product the description compares against; the repo does not reach that granularity."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "The value is a reproducible, tested scraper around a CSRF/Livewire form; the data itself is already free (TradeStat, Dataful, Comtrade) and at finer granularity.",
+   "change_since_aug": "Partly overturned: Aug survey called the 'free Volza alternative' framing 'Open' for trend-watching; the code reaches only HS-2 annual totals, which official and free mirrors already publish, so it is crowded rather than open."
+  },
+  {
+   "repo": "india-trade-data-analysis",
+   "does": "No .py modules: two notebooks (one loads the repo's committed JSON datasets from GitHub raw and plots them, with a live RBI WSS reserves scraper and a Frankfurter USD/INR call; the other HTTP-checks that both companion repos' Pages links resolve). All 23 JSON datasets and 12 HTML charts were produced in Claude sessions via a MoSPI MCP connector, not by code in the repo.",
+   "claims_vs_code": [
+    {
+     "claim": "Real (PPP-adjusted) rupee depreciation +37.6%, buying power down ~27% (README line 77/112)",
+     "evidence": "No file computes a real exchange rate; data/rupee_real_exchange_rate_2015_to_2026.json is only loaded by notebooks/mospi_live_reference.ipynb cell 4. No generating script."
+    },
+    {
+     "claim": "HSN growth trends, trade balance, CPI/WPI heatmaps, GDP revision history, fertiliser/fuel price transmission",
+     "evidence": "All figures live in committed JSON/HTML; README line 56 concedes the MoSPI workflow 'is not (yet) a standalone script'. No generating code for any of the 23 datasets."
+    },
+    {
+     "claim": "FY2025-26 sample report 'every figure re-derived from the datasets'",
+     "evidence": "No script derives reports/FY2025-26_sample_report.html; the notebook only reprints totals (cell computing exports_m - imports_m)."
+    }
+   ],
+   "maturity": "data-only",
+   "maturity_note": "Docs + hand-assembled JSON/HTML with 2 notebooks; CI is only quality-gates; no tests; the only live code is two fetch helpers in a notebook.",
+   "snippets": [
+    {
+     "path": "notebooks/mospi_live_reference.ipynb",
+     "lines": "cell 10, source lines 1-18",
+     "lang": "python",
+     "code": "import re\n\ndef fetch_latest_rbi_reserves(start_id=28590, lookback=60):\n    \"\"\"Walk backward from start_id looking for the latest published WSS release\n    with a parseable 'Total Reserves' row. Increase start_id over time as RBI\n    publishes new weekly releases (~+1/week since 19 Sep 1998 = Id 2; Id 28579\n    published 17 Jul 2026 was the latest confirmed release when this was written).\"\"\"\n    row_pattern = re.compile(\n        r\"Total Reserves</td>\\s*<td[^>]*>([\\d,]+)</td>\\s*<td[^>]*>([\\d,]+)</td>\"\n    )\n    date_pattern = re.compile(r\"As on\\s+([A-Za-z]+\\.?\\s+\\d{1,2},\\s+\\d{4})\")\n    for wss_id in range(start_id, start_id - lookback, -1):\n        url = f\"https://rbi.org.in/scripts/WSSView.aspx?Id={wss_id}\"\n        try:\n            r = requests.get(url, timeout=15)\n        except requests.RequestException:\n            continue\n        if r.status_code != 200:",
+     "why": "The only genuine data-access logic in the repo: walks RBI's sequential WSSView Id archive and regex-parses Total Reserves - a scrape of what RBI DBIE already serves as a series."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "RBI DBIE / External Sector statistics (reserves, reference rates, REER)",
+     "kind": "official",
+     "url": "https://website.rbi.org.in/web/rbi/statistics/sdds/external-sector",
+     "overlap": "Publishes the same weekly reserves, reference rates and REER/NEER indices the repo's JSON snapshots hold, as official series."
+    },
+    {
+     "name": "TradeStat / Export Import Data Bank (Dept. of Commerce, DGCI&S data)",
+     "kind": "official",
+     "url": "https://tradestat.commerce.gov.in/eidb/",
+     "overlap": "Source of the HSN chapter trade-balance data the repo re-presents."
+    },
+    {
+     "name": "datagovindia (Python/R wrapper for data.gov.in OGD APIs)",
+     "kind": "library",
+     "url": "https://pypi.org/project/datagovindia/0.4",
+     "overlap": "Scriptable access to MoSPI/OGD resources the repo reached only via an MCP connector."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "A curated narrative over official series; reproducibility is the gap, since none of the derived numbers (real-rate, growth ranks) has code behind it.",
+   "change_since_aug": "Confirmed crowded (Aug: 'largely re-packages a source that already publishes the same series free'); new finding: the repo contains no generating code at all."
+  },
+  {
+   "repo": "india-trade-export-analysis",
+   "does": "Pandas scripts read locally downloaded TradeStat commodity-wise xlsx files from ~/Downloads, sum values per year, merge years on commodity name, compute 2020->2023 growth and tag MEGA_GROWTH/HIGH_VALUE/EMERGING buckets, and project 2026 trade balance with CAGR scenarios; the rest is markdown write-ups plus an unrelated Claude Code markitdown hook.",
+   "claims_vs_code": [
+    {
+     "claim": "Trade totals in the write-ups (exports $583.6B (2020) -> $875.4B (2023), deficit -$567B, projected -$769.5B, mirrored in india-forex-analysis)",
+     "evidence": "import_export_comparison.py:101-105 sums Value_Current_Million over every row the xlsx yields after skiprows=2 (lines 13-16) with no exclusion of the TradeStat total row; $583.6B and $875.4B are ~2x India's official FY2020-21 (~$292B) and FY2023-24 (~$437B) merchandise exports, consistent with double counting. india-commodity-trade-deficit's own TradeStat pull gives a FY26 deficit of -$334B, not -$769B."
+    },
+    {
+     "claim": "Import side of the comparison",
+     "evidence": "import_export_comparison.py:71-78 loads one undated import file and assigns it the latest export year ('Assume it's the same year'); line 251 sets import CAGR = export CAGR x 0.9 by assumption."
+    },
+    {
+     "claim": "'Growth_5yr_%' / five-year growth",
+     "evidence": "export_opportunities.py:41 computes growth between 2020 and 2023 files - a 3-year window."
+    },
+    {
+     "claim": "RBI reserves, tax collection, debt/borrowing, budget reconciliation analyses (*_ANALYSIS.md)",
+     "evidence": "No script reads RBI, budget or debt data; all 5 code files read only TradeStat export/import xlsx. These numbers have no generating script."
+    },
+    {
+     "claim": "README Run section implies reproducibility",
+     "evidence": "Inputs are hardcoded to /Users/umashankar/Downloads/... (export_opportunities.py:12-18, import_export_comparison.py:37) and are not in the repo."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "~900 LOC of one-off pandas scripts, no tests, no CI, inputs not committed; 3 commits; markitdown-preprocessor.py is an unrelated tooling hook.",
+   "snippets": [
+    {
+     "path": "import_export_comparison.py",
+     "lines": "98-114",
+     "lang": "python",
+     "code": "    export_summary = {}\n    import_summary = {}\n\n    for year, df in data['exports'].items():\n        export_summary[year] = df['Value_Current_Million'].sum()\n\n    for year, df in data['imports'].items():\n        import_summary[year] = df['Value_Current_Million'].sum()\n\n    # Create comparison table\n    comparison_data = []\n    for year in sorted(export_summary.keys()):\n        exp = export_summary.get(year, 0)\n        imp = import_summary.get(year, 0)\n        if exp > 0 or imp > 0:\n            balance = exp - imp\n            ratio = exp / imp if imp > 0 else 0",
+     "why": "The total-trade step: a straight sum of Value_Current_Million over all parsed rows per file - the step where a TradeStat total row would be counted twice, explaining the ~2x totals in the write-ups."
+    },
+    {
+     "path": "export_opportunities.py",
+     "lines": "40-56",
+     "lang": "python",
+     "code": "    # Calculate 5-year growth\n    merged['Growth_5yr_%'] = ((merged['Value_2023_M'] - merged['Value_2020_M']) / merged['Value_2020_M'] * 100)\n\n    # Classify by opportunity\n    def classify_opportunity(row):\n        if row['Value_2023_M'] > 5000 and row['Growth_5yr_%'] > 50:\n            return 'MEGA_GROWTH'\n        elif row['Value_2023_M'] > 1000 and row['Growth_5yr_%'] > 20:\n            return 'HIGH_VALUE_GROWING'\n        elif row['Value_2023_M'] > 100 and row['Growth_5yr_%'] > 100:\n            return 'EMERGING_OPPORTUNITY'\n        elif row['Value_2023_M'] > 500:\n            return 'PREMIUM_STABLE'\n        else:\n            return 'OTHER'\n\n    merged['Opportunity'] = merged.apply(classify_opportunity, axis=1)",
+     "why": "The 'opportunity' classifier: fixed value/growth thresholds on a 2020->2023 change, a simpler stand-in for RCA-style export-potential measures (ITC Export Potential Map, WITS RCA)."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "World Bank WITS (World Integrated Trade Solution)",
+     "kind": "official",
+     "url": "https://wits.worldbank.org/about_wits.html",
+     "overlap": "Computes RCA, export growth and market-share indicators per HS product for India, the standard way to rank export opportunities."
+    },
+    {
+     "name": "TradeStat / Export Import Data Bank (Dept. of Commerce, DGCI&S data)",
+     "kind": "official",
+     "url": "https://tradestat.commerce.gov.in/eidb/",
+     "overlap": "Source xlsx; also publishes the official totals the scripts' sums should reconcile to."
+    },
+    {
+     "name": "Dataful (Factly) - TradeStat HS-8 commodity-wise export/import datasets 2007-2025",
+     "kind": "dataset",
+     "url": "https://dataful.in/datasets/18236",
+     "overlap": "Pre-cleaned HS-8 multi-year TradeStat panels that avoid the manual xlsx/name-merge step."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Threshold bucketing over TradeStat files adds nothing over WITS/TradeStat, and the headline totals appear double-counted; the write-ups should not be cited.",
+   "change_since_aug": "Not covered in Aug survey (new to this sweep)."
+  },
+  {
+   "repo": "india-trade-sector-policy-recommendations",
+   "does": "Real code is infrastructure around a hand-curated policy research program: SQLite indexers for PIB releases (pib_index.py), CCI combination orders, SEBI DRHP filings; regex extraction of company/M&A/startup-grant mentions from PIB titles; a state FDI-share / IEM-Part-B-share intensity ratio; and WeasyPrint/Chrome renderers that turn the curated JSON into quarterly PDFs/DOCX/PPTX.",
+   "claims_vs_code": [
+    {
+     "claim": "Sector verdicts, tiered recommendations, PLI coverage scorecard, CBAM exposure ($20.7bn), country priority rankings",
+     "evidence": "No script computes them: data/sector_and_policy_recommendations_*.json, *_pli_coverage_*.json, sector_master_scorecard_*.json are only read by report_synthesizer.py/build_compendium.py. Scores are hand-assigned ('this repo's own transparent, stated scoring choice', README line 343)."
+    },
+    {
+     "claim": "Quarterly report 'built by scripts/build_quarterly_report.py'",
+     "evidence": "The script renders figures typed into its CONTENT block (docstring line 17: 'edit CONTENT below'); it does not compute them from data."
+    },
+    {
+     "claim": "State FDI vs IEM intensity ratio is reproducible",
+     "evidence": "scripts/build_state_fdi_iem.py:29-31 reads its input from another Claude session's /private/tmp scratchpad (state_fdi_iem_full.json), which is not in the repo."
+    },
+    {
+     "claim": "Game-theory frame for top-10 FDI sectors",
+     "evidence": "No file implements any game-theoretic model (no payoff/equilibrium code); it is prose in the HTML bulletin."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "~2.9k LOC of scrapers/renderers with real outputs (122k-row PIB index); no tests; a quarterly CI job re-renders PDFs but explicitly does not refresh data; README states RCA/TII are not computed.",
+   "snippets": [
+    {
+     "path": "scripts/build_state_fdi_iem.py",
+     "lines": "103-119",
+     "lang": "python",
+     "code": "    tot_f, tot_i = sum(fdi.values()), sum(iem.values())\n    states = sorted(set(fdi) | set(iem))\n    rows = []\n    for st in states:\n        f, i = fdi.get(st), iem.get(st)\n        fs = (f / tot_f * 100) if (f is not None and tot_f) else None\n        isf = (i / tot_i * 100) if (i is not None and tot_i) else None\n        # NB: test for None, not truthiness -- a state with a genuinely tiny share\n        # (Assam: 0.004% of FDI) rounds to 0.00 and would be silently dropped.\n        ratio = (fs / isf) if (fs is not None and isf) else None\n        rows.append({\n            \"state\": st,\n            \"fdi_usd_mn\": round(f, 2) if f is not None else None,\n            \"fdi_share_pct\": round(fs, 2) if fs is not None else None,\n            \"iem_implemented_rs_cr\": round(i, 2) if i is not None else None,\n            \"iem_share_pct\": round(isf, 2) if isf is not None else None,\n            \"intensity_ratio\": round(ratio, 4) if ratio is not None else None,",
+     "why": "The one quantitative indicator coded here: a state's FDI share divided by its share of implemented IEM investment - a location-quotient-style ratio, not RCA/TII."
+    },
+    {
+     "path": "scripts/pib_company_scan.py",
+     "lines": "123-136",
+     "lang": "python",
+     "code": "SUFFIX_RE = re.compile(\n    r\"\\b([A-Z][A-Za-z0-9&.\\'\\-]*(?:\\s+(?:[A-Z][A-Za-z0-9&.\\'\\-]*|and|of|&))*\\s+\"\n    r\"(?:Pvt\\.?\\s*Ltd\\.?|Private\\s+Limited|Ltd\\.?|Limited|LLP|Inc\\.?|Corp\\.?|Corporation|Co\\.))\\b\"\n)\n\n\ndef pattern_legal_suffix(date, ministry, title, url):\n    out = []\n    for m in SUFFIX_RE.finditer(title):\n        name = m.group(1).strip()\n        if name.lower() in GENERIC_HEADS or len(name) < 6:\n            continue\n        out.append({\"pattern\": \"legal_suffix\", \"role\": \"company\", \"company_name\": name})\n    return out",
+     "why": "Legal-suffix regex + generic-head blocklist that mines company names from 122k PIB titles - the PIB-register indexing is the repo's most original data asset."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "NITI Aayog Trade Watch Quarterly",
+     "kind": "official",
+     "url": "https://newsonair.gov.in/niti-aayog-launches-second-edition-of-trade-watch-quarterly",
+     "overlap": "The template the quarterly report imitates; NITI publishes the official quarterly trade-performance and sector analysis."
+    },
+    {
+     "name": "World Bank WITS (World Integrated Trade Solution)",
+     "kind": "official",
+     "url": "https://wits.worldbank.org/about_wits.html",
+     "overlap": "Computes the RCA/trade-intensity measures the README says this repo does not compute."
+    },
+    {
+     "name": "India Investment Grid (Invest India / DPIIT)",
+     "kind": "official",
+     "url": "https://www.indembarg.gov.in/section/news/india-investment-grid-portal/",
+     "overlap": "Official investor-facing listing of schemes/projects by sector and state, overlapping the investor-map and workflow bulletins."
+    },
+    {
+     "name": "CMIE CapEx (project-lifecycle database, announcement to completion/abandonment)",
+     "kind": "commercial",
+     "url": "https://library.iimcal.ac.in/cmie-capex/",
+     "overlap": "Commercial project tracker that covers the 'did the investment show up' question with project-level status."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "The searchable PIB/CCI/SEBI SQLite indexes and PIB-title company extraction are new tooling; the recommendations themselves are curated judgment with no model behind them.",
+   "change_since_aug": "Not covered in Aug survey (it was inside the '6 more' of cluster 02); new assessment."
+  },
+  {
+   "repo": "india-commodity-trade-deficit",
+   "does": "No code. Three committed JSON files (98-chapter TradeStat panel, 4-digit metal imports with partner splits, recycler business-model notes), one blog HTML and a README; JSON 'method' fields describe a session-cookie/CSRF workaround that was run interactively.",
+   "claims_vs_code": [
+    {
+     "claim": "Headline table: commodity imports $372.3bn = 48% of imports; 46-53% in each of 8 years; copper complex compounding ~13%/yr",
+     "evidence": "No script in the repo computes any of these shares or growth rates; the repo contains no .py/.R/.ipynb files at all."
+    },
+    {
+     "claim": "Rupee slide is 'essentially all real' (PPP comparison, 0.93% vs ~2.7% inflation)",
+     "evidence": "No code computes a real exchange rate or PPP decomposition; no generating script."
+    },
+    {
+     "claim": "Recycler validation (Jain, Gravita, Pondy Oxides, Nile TTM financials via yfinance)",
+     "evidence": "No yfinance call or financial computation exists in the repo; values are hard-entered in data/metal_recyclers_business_model_validation.json."
+    },
+    {
+     "claim": "All pulls use a session-cookie + CSRF-token workaround",
+     "evidence": "Documented in JSON 'method' text only; no collector script is committed."
+    }
+   ],
+   "maturity": "data-only",
+   "maturity_note": "12 files, 6 commits, JSON + HTML only, CI is quality-gates only; data/tradestat_hsn_export_import_2018-19_to_2025-26.json duplicates the same-named file in india-trade-data-analysis.",
+   "snippets": [],
+   "prior_art": [
+    {
+     "name": "TradeStat / Export Import Data Bank (Dept. of Commerce, DGCI&S data)",
+     "kind": "official",
+     "url": "https://tradestat.commerce.gov.in/eidb/",
+     "overlap": "Publishes the 2- and 4-digit HS import values (incl. 7108 gold, 7106 silver, copper lines) the JSON files hold."
+    },
+    {
+     "name": "Dataful (Factly) - TradeStat HS-8 commodity-wise export/import datasets 2007-2025",
+     "kind": "dataset",
+     "url": "https://dataful.in/datasets/18236",
+     "overlap": "Free HS-8 TradeStat panels that cover the same metal lines with longer history."
+    },
+    {
+     "name": "comtradeapicall (official UN Comtrade Python client)",
+     "kind": "library",
+     "url": "https://github.com/uncomtrade/comtradeapicall",
+     "overlap": "Partner-wise mirror data for bullion sourcing (Ghana/Chile dore shifts) the README discusses."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "The contribution is the narrative (bullion migration across HS lines, lead as the recycling existence proof), not data access or method; no snippet because there is no code.",
+   "change_since_aug": "Confirmed as part of the 'crowded' trade/forex group; new finding: the repo has no code, so every headline number is unreproducible from the repo."
+  },
+  {
+   "repo": "india-forex-analysis",
+   "does": "No code: 12 markdown files (numbered 1-9 plus index/README) that are reformatted versions of the write-ups in india-trade-export-analysis (same titles; contents edited, not byte-identical).",
+   "claims_vs_code": [
+    {
+     "claim": "Trade deficit -$567B (2023) -> -$769.5B (2026 projected); exports +44% $583.6B -> $875.4B; '14,980+ commodities tracked'",
+     "evidence": "No generating script in this repo. The upstream script (india-trade-export-analysis/import_export_comparison.py:101-105) sums all xlsx rows; the totals are ~2x official TradeStat figures (FY2023-24 exports ~$437B), so the 'AMBER ALERT' deficit is very likely double-counted."
+    },
+    {
+     "claim": "FX reserves $691.11B, 10.8 months import cover",
+     "evidence": "No code reads RBI data or computes import cover; with the doubled import bill the cover ratio is also off. No generating script."
+    },
+    {
+     "claim": "Interest burden 26% of revenue by 2026-27; refinancing 17% -> 32%; maturity wall $65.8B",
+     "evidence": "No code reads Union Budget or debt data anywhere in this repo or its upstream; no generating script."
+    },
+    {
+     "claim": "'Strategic analysis... projections through 2027' with base/bull/bear scenarios",
+     "evidence": "Scenario multipliers exist only upstream (import_export_comparison.py: Export-Led 1.2x/0.8x, Import-Heavy 0.9x/1.1x); not in this repo."
+    }
+   ],
+   "maturity": "docs-only",
+   "maturity_note": "4 commits, markdown only, no CI; duplicates india-trade-export-analysis content.",
+   "snippets": [],
+   "prior_art": [
+    {
+     "name": "RBI DBIE / External Sector statistics (reserves, reference rates, REER)",
+     "kind": "official",
+     "url": "https://website.rbi.org.in/web/rbi/statistics/sdds/external-sector",
+     "overlap": "Official reserves, import-cover and external-debt series that the documents' figures should come from."
+    },
+    {
+     "name": "TradeStat / Export Import Data Bank (Dept. of Commerce, DGCI&S data)",
+     "kind": "official",
+     "url": "https://tradestat.commerce.gov.in/eidb/",
+     "overlap": "Official merchandise totals that contradict the documents' ~2x export/import figures."
+    }
+   ],
+   "verdict": "n/a",
+   "verdict_note": "Docs-only duplicate of another repo's write-ups with a likely 2x error in its headline numbers; candidate for archiving or correction rather than survey positioning.",
+   "change_since_aug": "Overturned: Aug grouped it under 'crowded macro/forex time series'; the code check shows it has no code, duplicates india-trade-export-analysis, and its key numbers are likely double-counted."
+  },
+  {
+   "repo": "agri-commodity-tracker",
+   "does": "Pulls the daily Agmarknet mandi-price resource from data.gov.in, partitioned by state to stay under the Elasticsearch 10k result window, paginating on the server's actual page size and reconciling to the reported grand total; also decrypts/encrypts FCI's AES+HMAC API envelope to download the 478-depot directory, and loads a World Bank agri indicator panel.",
+   "claims_vs_code": [
+    {
+     "claim": "Builds a 'mandi-level price history over time'",
+     "evidence": "Only if run daily from 2026-07-23; README itself warns earlier days are ~10-row stubs from a pagination bug, and the API serves only the current day, so no history exists before that date (honest caveat, not a code gap)."
+    },
+    {
+     "claim": "docs/gobardhan/* (bulk-sale notifications, FOM SOP)",
+     "evidence": "No collector or analysis code touches GOBARdhan; these are reference documents unrelated to the price collectors."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "3 collectors (~340 LOC) with a test file and tests.yml CI; real daily pulls committed as CSV snapshots; 61 commits.",
+   "snippets": [
+    {
+     "path": "collectors/mandi_prices.py",
+     "lines": "99-116",
+     "lang": "python",
+     "code": "        if not page:\n            if offset >= min(total, WINDOW):\n                break\n            # Throttled responses can be HTTP 200 with an empty records\n            # list — don't mistake one for end-of-data mid-partition.\n            empties += 1\n            if empties > 5:\n                print(f\"WARNING: {state}: repeated empty pages at \"\n                      f\"{offset}/{total} — giving up on this partition\")\n                break\n            time.sleep(60)\n            continue\n        empties = 0\n        recs.extend(page)\n        offset += len(page)\n        if offset >= min(total, WINDOW):\n            break\n        time.sleep(0.3)",
+     "why": "Robust pagination against a throttled API: paginate on returned page length and server total, treat 200-with-empty-records as throttling, cap at the 10k window - the engineering CEDA/datagovindia users otherwise do by hand."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "CEDA Agri Market Data (Ashoka University, cleaned Agmarknet 2000-present)",
+     "kind": "dataset",
+     "url": "https://agmarknet.ceda.ashoka.edu.in",
+     "overlap": "Cleaned, deduplicated Agmarknet prices and arrivals for 300+ commodities and 2,700+ mandis back to 2000, with district mapping - far longer history than this repo's daily accumulation."
+    },
+    {
+     "name": "datagovindia (Python/R wrapper for data.gov.in OGD APIs)",
+     "kind": "library",
+     "url": "https://pypi.org/project/datagovindia/0.4",
+     "overlap": "Generic wrapper for the same data.gov.in resource API the collector calls by hand."
+    },
+    {
+     "name": "UPAg - Unified Portal for Agricultural Statistics (MoA&FW)",
+     "kind": "official",
+     "url": "https://www.vikaspedia.in/agriculture/agri-directory/unified-portal-for-agricultural-statistics",
+     "overlap": "Official portal that vets Agmarknet prices and consolidates production/price/trade data."
+    },
+    {
+     "name": "wbgapi (World Bank data API Python client)",
+     "kind": "library",
+     "url": "https://pypi.org/project/wbgapi",
+     "overlap": "Covers collectors/worldbank_agri.py's World Bank panel."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Prices are well served by CEDA; the only less-common piece is the FCI depot-directory collector that replays the site's client-side crypto envelope.",
+   "change_since_aug": "Confirmed (Aug: 'Crowded - CEDA already ships a cleaned, queryable version')."
+  },
+  {
+   "repo": "FCI-warehouse-MSPvsMSV",
+   "does": "Mostly a cited research report set (44 markdown chapters) with a few calculators: holding_economics.py compares WPI-based commodity price CAGR and harvest-trough buy/sell returns against a CWC-tariff + interest + loss carrying-cost hurdle; build_trade_parity.py turns APEDA/TradeStat values into unit values and parity gaps vs MSP; plus RFII, biodiesel and RBO scenario scripts.",
+   "claims_vs_code": [
+    {
+     "claim": "Interactive dashboard (procurement vs storage vs disposal) and 'MSV case' fiscal-cost analysis",
+     "evidence": "dashboard/dashboard_data.json is not produced by any committed script (no .py references it); MSV fiscal costing is in report markdown, not code."
+    },
+    {
+     "claim": "data/ CSVs from DFPD Foodgrain Bulletin, FCI, UPAg",
+     "evidence": "No collector scripts for these sources; MANIFEST.md records manual collection. build_trade_parity.py hardcodes rows transcribed from raw_trade/*.json (ROWS list from line 46)."
+    },
+    {
+     "claim": "Holding-economics 'harvest trough' returns",
+     "evidence": "holding_economics.py:69-73 uses monthly WPI commodity indices, not mandi prices, so 'buy at harvest' is approximated by a national wholesale index month (MODEL trough months are assumptions, lines 41-59)."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "~550 LOC of small calculators over hand-collected official CSVs; no tests; 86 commits; heavy, cited report content is the main output.",
+   "snippets": [
+    {
+     "path": "data/holding_economics.py",
+     "lines": "89-101",
+     "lang": "python",
+     "code": "def horizon_returns(series, trough_month, months):\n    \"\"\"Buy every year in the harvest trough month, sell `months` later.\"\"\"\n    s = series.dropna()\n    out = []\n    for dt, v in s.items():\n        if dt.month != trough_month:\n            continue\n        sell_dt = dt + pd.DateOffset(months=months)\n        w = s[(s.index >= sell_dt - pd.Timedelta(days=16)) & (s.index <= sell_dt + pd.Timedelta(days=16))]\n        if w.empty:\n            continue\n        out.append({'buy_date': dt.strftime('%Y-%m'), 'ret_pct': 100 * (w.iloc[0] / v - 1)})\n    return pd.DataFrame(out)",
+     "why": "Harvest-trough buy, sell-after-N-months returns on WPI: an empirical check of the storage-return question Working's (1949) price-of-storage theory addresses."
+    },
+    {
+     "path": "data/holding_economics.py",
+     "lines": "134-144",
+     "lang": "python",
+     "code": "    for c in comms:\n        s = wide[c]\n        carry, storage_pct = annual_carry_pct(c)\n        for label, yrs in [('5y', 5), ('10y', 10), ('14y_full', 14)]:\n            g = cagr(s, yrs)\n            summary.append({'commodity': c, 'window': label,\n                            'price_cagr_pct': round(g, 2),\n                            'carry_cost_pct': round(carry, 2),\n                            'storage_component_pct': round(storage_pct, 2),\n                            'net_annual_pct': round(g - carry, 2),\n                            'verdict': 'HOLD PAYS' if g - carry > 0 else 'CARRY EXCEEDS APPRECIATION'})",
+     "why": "The verdict rule: price CAGR minus all-in carrying cost (storage + insurance + interest + loss) decides 'HOLD PAYS' vs 'CARRY EXCEEDS APPRECIATION'."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Shanta Kumar High Level Committee on restructuring FCI (Jan 2015)",
+     "kind": "official",
+     "url": "https://en.wikipedia.org/wiki/Shanta_Kumar_Committee",
+     "overlap": "The reference official review of FCI procurement concentration and MSP reach that the report's 'MSP = rice + wheat' argument builds on."
+    },
+    {
+     "name": "UPAg - Unified Portal for Agricultural Statistics (MoA&FW)",
+     "kind": "official",
+     "url": "https://www.vikaspedia.in/agriculture/agri-directory/unified-portal-for-agricultural-statistics",
+     "overlap": "Official consolidated production/price data the repo's CSVs were partly hand-copied from."
+    },
+    {
+     "name": "CEDA Agri Market Data (Ashoka University, cleaned Agmarknet 2000-present)",
+     "kind": "dataset",
+     "url": "https://agmarknet.ceda.ashoka.edu.in",
+     "overlap": "Mandi-level prices that would let the holding analysis use actual harvest-season mandi prices instead of WPI."
+    }
+   ],
+   "verdict": "prior-art",
+   "verdict_note": "MSP coverage and FCI reform are heavily studied; the repo adds a transparent carry-cost vs appreciation calculator and MSV framing, but its data is hand-collected.",
+   "change_since_aug": "Not covered in Aug survey (no description at the time)."
+  },
+  {
+   "repo": "apeda-exporter-directory",
+   "does": "A ~80-line Flask proxy that forwards state/product/type/name queries to APEDA's traceability API server-side (avoiding CORS) and filters results by a free-text city/address match; a second script bulk-dumps all exporters for six southern states to CSV.",
+   "claims_vs_code": [
+    {
+     "claim": "README 'Files' lists only app.py and templates/index.html",
+     "evidence": "export_south_india.py (bulk dump) and the committed south_india_exporters.csv are undocumented; the CSV columns include email, mobile and keyPerson (export_south_india.py:18-19), i.e. personal contact data committed to the repo (private repo, but still a data-handling concern)."
+    }
+   ],
+   "maturity": "thin",
+   "maturity_note": "135 LOC, 2 commits, no tests, no CI; works only against APEDA's live undocumented API.",
+   "snippets": [
+    {
+     "path": "app.py",
+     "lines": "89-105",
+     "lang": "python",
+     "code": "    try:\n        r = requests.post(f\"{API_BASE}/ExporterDirectory_AllResult\", json=payload, timeout=TIMEOUT)\n        r.raise_for_status()\n        data = r.json()\n    except requests.RequestException as exc:\n        return jsonify({\"error\": f\"APEDA's live directory could not be reached: {exc}\"}), 502\n\n    rows = data.get(\"table\", [])\n\n    if district:\n        rows = [\n            row for row in rows\n            if district in (row.get(\"city\") or \"\").lower()\n            or district in (row.get(\"address\") or \"\").lower()\n        ]\n\n    return jsonify({\"count\": len(rows), \"results\": rows})",
+     "why": "The whole method: server-side POST to APEDA's ExporterDirectory_AllResult plus a substring filter on city/address - a CORS workaround, not new data."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Volza (shipment-level import/export records)",
+     "kind": "commercial",
+     "url": "https://www.capterra.in/software/1071412/Volza",
+     "overlap": "Commercial exporter/buyer directories with shipment history, a superset of the APEDA listing."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "A convenience wrapper around an official directory; little beyond CSV export.",
+   "change_since_aug": "Not covered in Aug survey."
+  },
+  {
+   "repo": "chemical_import_substitution",
+   "does": "Reads TradeStat HS-8 import value, export value and import quantity workbooks, keeps chemical chapters (28-39) with a net deficit >= $0.5M, derives unit-value change, and classifies each line as SCISSORS / INELASTIC_TARGET / DEEPENING / NO_SIGNAL from one-year value, volume and price growth, plus a regex-keyword 'rationale' tag.",
+   "claims_vs_code": [
+    {
+     "claim": "README",
+     "evidence": "README is a 226-byte stub with no description, so nothing is claimed; the script's own docstring (lines 17-23) lists limits honestly: 1-FY window only, no Import Penetration Ratio, no partner-country check."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "One 186-line script, 2 commits, no tests; inputs hardcoded to ~/Downloads; output JSON + HTML registry committed.",
+   "snippets": [
+    {
+     "path": "scripts/hsn8_signal_analysis.py",
+     "lines": "108-124",
+     "lang": "python",
+     "code": "def classify_signal(o, p75_value):\n    if o['imp_fy25']:\n        vg = (o['imp_fy26'] - o['imp_fy25']) / o['imp_fy25'] * 100\n    else:\n        vg = None\n    qg = o.get('qty_growth_pct')\n    pg = o.get('price_growth_pct')\n\n    if vg is None or qg is None or pg is None:\n        return 'C_INSUFFICIENT_DATA'\n    if vg <= -10 and qg <= -10 and pg >= 5:\n        return 'A_SCISSORS'\n    if o['imp_fy26'] >= p75_value and abs(pg) <= 8 and vg > -5:\n        return 'B_INELASTIC_TARGET'\n    if vg >= 15 and qg >= 15:\n        return 'D_DEEPENING'\n    return 'E_NO_CLEAR_SIGNAL'",
+     "why": "The signal rule: joint value/volume/unit-price growth thresholds on HS-8 imports - a price-quantity decomposition, distinct from the import penetration ratio the docstring says it cannot compute."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Dataful (Factly) - TradeStat HS-8 commodity-wise export/import datasets 2007-2025",
+     "kind": "dataset",
+     "url": "https://dataful.in/datasets/18236",
+     "overlap": "Same HS-8 TradeStat import/export values and quantities, multi-year, which would lift the 1-FY limit."
+    },
+    {
+     "name": "comtradeapicall (official UN Comtrade Python client)",
+     "kind": "library",
+     "url": "https://github.com/uncomtrade/comtradeapicall",
+     "overlap": "HS-6 partner-wise data that would add the country-of-origin/FTA rerouting check the script lacks."
+    },
+    {
+     "name": "World Bank WITS (World Integrated Trade Solution)",
+     "kind": "official",
+     "url": "https://wits.worldbank.org/about_wits.html",
+     "overlap": "Standard trade indicators (RCA, growth, unit values) per product."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "The HS-8 'scissors' classification is a small original screen; without production data it cannot reach the import-penetration measure it is aiming for.",
+   "change_since_aug": "Not covered in Aug survey."
+  },
+  {
+   "repo": "iem-tracker",
+   "does": "Parses DPIIT monthly IEM Part A/Part B PDFs (column edges from whitespace gutters, text-layout and OCR fallbacks), links Part B to Part A by memorandum number+date then by name, and identifies companies by CIN through threaded web lookups with a plant-state vs registered-office-state two-tier rule, cross-checked against the full GLEIF India LEI file.",
+   "claims_vs_code": [
+    {
+     "claim": "Tier 2 accepted 'only if the company type in the CIN (private or public) agrees with the name'",
+     "evidence": "iem_verify.py:273-274 also accepts CIN classes NPL/GAP/GOI/FTC/FLC regardless of the name's Pvt/Ltd form, a looser rule than stated."
+    },
+    {
+     "claim": "Registry source via data.gov.in company master",
+     "evidence": "ogd_fetch_master.py exists but README notes the host was unreachable and the data is 'up to 3 November 2023'; identification in practice relies on scraped third-party company pages."
+    }
+   ],
+   "maturity": "substantive",
+   "maturity_note": "~2.4k LOC, CLI wrapper, documented validation against GLEIF (6%/16% wrong-company rates for tier 1/2); no tests, no CI; data deliberately not committed; private repo.",
+   "snippets": [
+    {
+     "path": "parse_partA_coords.py",
+     "lines": "57-73",
+     "lang": "python",
+     "code": "        for w in words:\n            if w[1] <= cut: continue\n            for x in range(int(w[0]), int(w[2]) + 1): cov[x] = cov.get(x, 0) + 1\n    if not cov: return None\n    peak = max(cov.values()); lo, hi = min(cov), max(cov)\n    low = [x for x in range(lo, hi + 1) if cov.get(x, 0) <= 0.02 * peak]\n    blocks, start, prev = [], None, None\n    for x in range(lo, hi + 1):\n        empty = cov.get(x, 0) <= 0.02 * peak\n        if not empty and start is None: start = x\n        if empty and start is not None:\n            # a gutter must be >= 3pt wide to split blocks\n            if all(cov.get(x + k, 0) <= 0.02 * peak for k in range(3)):\n                blocks.append(start); start = None\n    if start is not None: blocks.append(start)\n    if len(blocks) != len(roles) + 1: return None\n    return list(zip(roles, [b - 2 for b in blocks[1:]])), blocks[0]",
+     "why": "Column detection from empty vertical gutters in word coverage - the same idea as Camelot's stream mode, hand-rolled for DPIIT's borderless lists."
+    },
+    {
+     "path": "iem_verify.py",
+     "lines": "271-282",
+     "lang": "python",
+     "code": "            if cin:\n                nm = names[cid]\n                want = \"PTC\" if re.search(r\"\\b(PVT|PRIVATE)\\b|\\(P\\)\", nm.upper()) else \"PLC\"\n                class_ok = cin[12:15] in (want, \"NPL\", \"GAP\", \"GOI\", \"FTC\", \"FLC\", \"PTC\" if want == \"PTC\" else \"PLC\")\n                if state and CIN_STATE.get(cin[6:8]) == state:\n                    k.execute(\"update co set cin=?,status=?,src='web-slug+state',score=90 where id=?\", [cin, st, cid]); got += 1\n                elif state and class_ok:\n                    # plant state (IEM) differs from registered-office state (CIN): the page is the exact-name company; keep as tier 2\n                    k.execute(\"update co set cin=?,status=?,src='web-slug-name-only',score=70 where id=?\", [cin, st, cid]); tier2 += 1\n                elif not state:\n                    k.execute(\"update co set cand=? where id=? and cin is null\",\n                              [json.dumps([{\"cin\": cin, \"name\": \"web\", \"status\": st}]), cid]); parked += 1",
+     "why": "The two-tier identity rule: accept a CIN when its state code matches the IEM plant state (score 90), otherwise only on matching company class (score 70)."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "CMIE CapEx (project-lifecycle database, announcement to completion/abandonment)",
+     "kind": "commercial",
+     "url": "https://library.iimcal.ac.in/cmie-capex/",
+     "overlap": "Tracks investment projects from announcement to completion/abandonment - the commercial answer to 'which intentions became plants'."
+    },
+    {
+     "name": "data.gov.in: State-wise IEMs implemented (Part B) catalog",
+     "kind": "official",
+     "url": "https://data.gov.in/catalog/state-wise-iems-implemented-industrial-undertakings-based-part-b-iem-form",
+     "overlap": "Official state-wise aggregate of implemented IEMs (Part B), without the company-level linkage."
+    },
+    {
+     "name": "GLEIF Golden Copy (free daily LEI files) + OpenCorporates ID-to-LEI mapping",
+     "kind": "dataset",
+     "url": "https://www.gleif.org/lei-data/gleif-golden-copy/download-the-golden-copy",
+     "overlap": "The free LEI register the repo uses for validation; OpenCorporates-LEI mapping is an alternative identity bridge."
+    },
+    {
+     "name": "Camelot (PDF table extraction; 'stream' mode infers columns from whitespace)",
+     "kind": "library",
+     "url": "https://camelot-py.readthedocs.io/en/latest/user/how-it-works.html",
+     "overlap": "General PDF table extraction that could replace the custom gutter parser."
+    }
+   ],
+   "verdict": "open",
+   "verdict_note": "No free tool links IEM Part A to Part B at company level with CIN status; CMIE CapEx covers the question commercially from different sources.",
+   "change_since_aug": "Not covered in Aug survey."
+  },
+  {
+   "repo": "company-database",
+   "does": "DuckDB build of a multi-country company universe from open registries (Companies House, SIRENE, Brreg, Estonia, GLEIF-derived India CINs, Damodaran listed, IEM CINs, a defence list), mapping each source's activity code to UK SIC 2007 sections (India via NIC embedded in the CIN, with a 2023 NIC-2004/2008 switch) and deduplicating on country + normalised name.",
+   "claims_vs_code": [
+    {
+     "claim": "Finland listed as 'Not covered' yet RANK includes fi_prh",
+     "evidence": "build.py:175 ranks 'fi_prh' but load() has no fi_prh branch; fetch_fi.py downloads pages that nothing ingests (consistent with the README's 'not covered')."
+    },
+    {
+     "claim": "Docstring usage 'fetch ... | load ... | export'",
+     "evidence": "Minor: README rebuild uses dedupe/lists, which exist (build.py:176, 204); no gap in function, only a stale docstring."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "1 commit, ~225 LOC, no tests; 200-row samples and count tables committed, full 1.2 GB build not in git; private repo.",
+   "snippets": [
+    {
+     "path": "build.py",
+     "lines": "107-115",
+     "lang": "python",
+     "code": "    elif what == \"in_mca\":\n        f = unzip(path)\n        c.execute(f\"\"\"INSERT INTO companies\n          SELECT 'in_mca', cin, \"Entity.LegalName\", 'IN', \"Entity.LegalAddress.City\", NULL, 'NIC (from CIN)', substr(cin,2,5),\n                 CASE WHEN try_cast(substr(cin,9,4) AS INTEGER) >= 2023 THEN sic_sector(substr(cin,2,5)) ELSE nic_sector(try_cast(substr(cin,2,2) AS INTEGER)) END, NULL, \"Entity.EntityStatus\"\n          FROM (SELECT *, \"Entity.RegistrationAuthority.RegistrationAuthorityEntityID\" AS cin\n                FROM read_csv('{f}', all_varchar=true, header=true))\n          WHERE \"Entity.RegistrationAuthority.RegistrationAuthorityID\"='RA000394'\n            AND regexp_matches(cin, '^[LU][0-9]{{5}}[A-Z]{{2}}[0-9]{{4}}[A-Z]{{3}}[0-9]{{6}}$')\"\"\")",
+     "why": "India sector coding from the CIN itself (chars 2-6 = NIC), switching scheme by incorporation year at 2023 - a cheap sector proxy registries do not expose directly."
+    },
+    {
+     "path": "build.py",
+     "lines": "184-190",
+     "lang": "python",
+     "code": "    c.execute(\"\"\"CREATE OR REPLACE TABLE tgt AS\n      SELECT n.rid, n.source, CASE WHEN n.nn='' OR n.country IS NULL THEN n.rid WHEN n.rnk<=2 THEN n.rid\n             WHEN rs.rid IS NOT NULL THEN rs.rid WHEN rc.cnt>0 THEN n.rid ELSE fn.rid END AS target\n      FROM norm n\n      LEFT JOIN (SELECT country,nn,min(rid) rid FROM norm WHERE rnk<=2 GROUP BY 1,2 HAVING count(*)=1) rs USING(country,nn)\n      LEFT JOIN (SELECT country,nn,count(*) cnt FROM norm WHERE rnk<=2 GROUP BY 1,2) rc USING(country,nn)\n      LEFT JOIN (SELECT country,nn,arg_min(rid, CAST(rnk AS BIGINT)*1000000000+rid) rid FROM norm WHERE rnk>2 GROUP BY 1,2) fn USING(country,nn)\"\"\")",
+     "why": "Dedup rule: registry rows win; a listed/defence row merges only when exactly one registry row has the same normalised name in that country."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "GLEIF Golden Copy (free daily LEI files) + OpenCorporates ID-to-LEI mapping",
+     "kind": "dataset",
+     "url": "https://www.gleif.org/lei-data/gleif-golden-copy/download-the-golden-copy",
+     "overlap": "Free daily LEI files (one of this build's inputs); OpenCorporates links its company IDs to LEIs."
+    },
+    {
+     "name": "Damodaran Online global company/industry datasets",
+     "kind": "dataset",
+     "url": "https://pages.stern.nyu.edu/adamodar/New_Home_Page/datafile/indreg.html",
+     "overlap": "The listed-company/industry layer used here as an input."
+    },
+    {
+     "name": "OpenCorporates",
+     "kind": "commercial",
+     "url": "https://knowledge.opencorporates.com/?p=20490",
+     "overlap": "Aggregates official company registers across jurisdictions (the same registry-first idea at larger scale); free access is limited, bulk is paid."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Registry aggregation is OpenCorporates' core business; the small additions are SIC-harmonised sector lists and CIN-derived NIC sectors for India.",
+   "change_since_aug": "Not covered in Aug survey."
+  },
+  {
+   "repo": "focus-sector-investor-map",
+   "does": "Maps Damodaran industry groups to 12 Indian focus sectors, joins to a local multi-market universe on ticker+country, screens on $250k/day turnover and 200DMA/1-year return, then checks profitability per name via yfinance (margin>0 and ROE>0) with a revenue-growth/return 'expansion' proxy.",
+   "claims_vs_code": [
+    {
+     "claim": "Foreign investor <-> government initiative pairings 'PRID-cited'",
+     "evidence": "data/foreign_investor_initiative_pairs.json is not produced by any script (none of the 5 scripts reference it); pairings are hand-curated."
+    },
+    {
+     "claim": "Reproduce with build_screen.py + enrich_profitability.py",
+     "evidence": "Inputs come from ~/repos/global-stock-screener parquet files (build_screen.py:60-61) not in this repo; enrich_medical_devices_unswept.py docstring documents an unfixed bug in enrich_profitability.py (NULL Market -> silent UNVERIFIED for ~20 countries)."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "~530 LOC, 10 commits, no tests/CI; outputs committed; depends on a sibling repo's local cache.",
+   "snippets": [
+    {
+     "path": "scripts/build_screen.py",
+     "lines": "63-77",
+     "lang": "python",
+     "code": "    ind_to_focus = {ind: sec for sec, inds in FOCUS.items() for ind in inds}\n    dam = dam[dam[\"Industry Group\"].isin(ind_to_focus)].copy()\n    dam[\"FocusSector\"] = dam[\"Industry Group\"].map(ind_to_focus)\n    dam[\"Market\"] = dam[\"Country\"].map(COUNTRY_TO_MARKET)\n    dam = dam.dropna(subset=[\"Market\"])\n\n    j = uni.merge(\n        dam[[\"Ticker\", \"Market\", \"FocusSector\", \"Industry Group\", \"Country\"]],\n        left_on=[\"Symbol\", \"Market\"], right_on=[\"Ticker\", \"Market\"], how=\"inner\",\n    ).drop(columns=[\"Ticker\"]).drop_duplicates(subset=[\"Market\", \"Symbol\"])\n\n    screened = j[(j[\"Turnover_USD\"] >= MIN_TURNOVER_USD)\n                 & ((j[\"Above200DMA\"] == True) | (j[\"Ret252\"] > 0))].copy()\n    screened[\"Region\"] = screened[\"Market\"].map(lambda m: \"India\" if m == \"IN\" else \"Foreign\")\n    screened = screened.sort_values([\"FocusSector\", \"Region\", \"Turnover_USD\"], ascending=[True, True, False])",
+     "why": "The method in full: industry-group -> focus-sector map, ticker+market join, liquidity and momentum gates - a standard stock screen keyed to India's PLI sectors."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Damodaran Online global company/industry datasets",
+     "kind": "dataset",
+     "url": "https://pages.stern.nyu.edu/adamodar/New_Home_Page/datafile/indreg.html",
+     "overlap": "Supplies the industry classification the sector map is built on."
+    },
+    {
+     "name": "India Investment Grid (Invest India / DPIIT)",
+     "kind": "official",
+     "url": "https://www.indembarg.gov.in/section/news/india-investment-grid-portal/",
+     "overlap": "Official matching of investors to sector opportunities and schemes."
+    },
+    {
+     "name": "yfinance",
+     "kind": "library",
+     "url": "https://pypi.org/project/yfinance/",
+     "overlap": "Source of the per-name profitability fields; yfinance itself now ships Sector/Industry lookups and an EquityQuery Screener that cover the same margin/ROE/sector screen."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "A screen over commodity data; the hand-curated investor<->scheme pairing file is the only distinctive artifact and has no code.",
+   "change_since_aug": "Not covered in Aug survey."
+  },
+  {
+   "repo": "digital-twin-for-ipa",
+   "does": "Builds ~49 JSON 'layers' about India's investment-promotion apparatus, mostly by scripts that embed hand-verified records as Python literals (e.g. layer 46 PLI bulk-drugs list, layer 33 policy finance), plus collectors (state press-release wires, PIB, EDGAR/EDINET/DART/ESEF India sweeps, RSS), portal health checks (refresh_twin.py), and set-based cross-tabs such as state x sector 'revealed vs policy-eligible' convergence; renders an HTML national dashboard.",
+   "claims_vs_code": [
+    {
+     "claim": "'Digital twin' of the incentive apparatus / (Aug survey) PLI schemes 'modeled as a simulation against a company database'",
+     "evidence": "No simulation anywhere: grep for simulat/scenario/what-if/incentive amount over scripts/*.py finds none; no code computes PLI eligibility or incentive payable (incremental sales x rate over a base year). 'Policy-eligible' in build_layer43_state_sector_convergence.py:140-151 is read from a stored state_landings list, and convergence (lines 205-218) is a count of distinct sectors per state."
+    },
+    {
+     "claim": "Core layers 01-12 (ministry master, incentive catalog, scheme registry, interlinkage graph, PRS overlay, state catalog)",
+     "evidence": "No script writes them; only build_national_dashboard.py reads 02/03/10. They are hand-authored JSON."
+    },
+    {
+     "claim": "Layer 46 'PLI Bulk Drugs' sourcing",
+     "evidence": "Docstring (lines 4-5) states it is a 'Static, hand-verified dataset ... NOT a live scrape'; transcribed from an image-only PDF."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "15k LOC across 69 scripts, 157 commits, quality CI but no tests; much of the 'code' is data-as-Python-literals; collectors are real and refreshable.",
+   "snippets": [
+    {
+     "path": "scripts/build_layer43_state_sector_convergence.py",
+     "lines": "205-218",
+     "lang": "python",
+     "code": "    all_states = set(state_sectors_revealed) | set(state_sectors_policy)\n    convergence = []\n    for st in all_states:\n        convergence.append({\n            \"state\": st,\n            \"revealed_sector_count\": len(state_sectors_revealed.get(st, ())),\n            \"revealed_sectors\": sorted(state_sectors_revealed.get(st, ())),\n            \"revealed_event_count\": len(state_events_revealed.get(st, ())),\n            \"policy_sector_count\": len(state_sectors_policy.get(st, ())),\n            \"policy_sectors\": sorted(state_sectors_policy.get(st, ())),\n            \"policy_company_count\": len(state_companies_policy.get(st, ())),\n        })\n    convergence.sort(key=lambda x: (x[\"revealed_sector_count\"], x[\"policy_sector_count\"]), reverse=True)\n    hubs = [c for c in convergence if c[\"revealed_sector_count\"] >= 3 or c[\"policy_sector_count\"] >= 5]",
+     "why": "Representative of the 'twin' logic: set counts of distinct sectors per state from revealed events vs stored eligibility lists, then a threshold for 'hubs' - tabulation, not simulation."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "National Single Window System - Know Your Approvals (DPIIT)",
+     "kind": "official",
+     "url": "https://en.vikaspedia.in/viewcontent/e-governance/online-citizen-services/government-to-business-services-g2b/national-single-window-system",
+     "overlap": "Official 'Know Your Approvals' that maps an investor's activity to required central/state approvals - overlaps the investor-workflow layer."
+    },
+    {
+     "name": "India Investment Grid (Invest India / DPIIT)",
+     "kind": "official",
+     "url": "https://www.indembarg.gov.in/section/news/india-investment-grid-portal/",
+     "overlap": "Official listing of investible projects by state, sector and scheme."
+    },
+    {
+     "name": "CMIE CapEx (project-lifecycle database, announcement to completion/abandonment)",
+     "kind": "commercial",
+     "url": "https://library.iimcal.ac.in/cmie-capex/",
+     "overlap": "Commercial project-level investment tracking (announcement to completion), overlapping the MoU/news follow-through layers."
+    },
+    {
+     "name": "Sector PLI scheme guidelines (e.g. White Goods PLI 4-6% on incremental sales over base year)",
+     "kind": "official",
+     "url": "https://www.amsshardul.com/wp-content/uploads/2021/06/PLI_Scheme_White_Goods_June_2021.pdf",
+     "overlap": "Define the incentive formula a simulator would need; search found no public PLI incentive simulator, and this repo does not implement one either."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "A large, sourced registry/knowledge graph of schemes and leads; the simulation gap the Aug survey credited is still open because this code does not fill it.",
+   "change_since_aug": "Overturned: Aug said 'Open - no tool simulates incentive schemes against a company database'; the code only tabulates (no eligibility or incentive computation), so the repo does not occupy that open ground."
+  },
+  {
+   "repo": "india-ec-subsector-analysis",
+   "does": "Downloads the full PARIVESH 2.0 EC register in one unauthenticated GET (~114k proposals), parses each proposal's EIA activity code, buckets status, and writes a state x activity x status matrix with per-activity grant rates and top-4 granting states; a sibling script does the same for Forest, Wildlife and CRZ clearances.",
+   "claims_vs_code": [
+    {
+     "claim": "README: 'Grant rate excludes delisted proposals from the denominator'",
+     "evidence": "refresh_ec.py:34 and 102-107 define grant rate = granted / (granted + tor_granted + in_process); rejected/withdrawn/closed ('dead') are also excluded, so rejections never lower the rate - an inflated, mislabelled grant rate."
+    },
+    {
+     "claim": "Other clearances 'grant rate of decided'",
+     "evidence": "refresh_other_clearances.py:44 and 124-127 use granted / (granted + in_process): the denominator includes undecided proposals and excludes rejected ones, the opposite of 'of decided'."
+    },
+    {
+     "claim": "IEM vs EC by activity table (4.3x), ec_funnel.json, ec_fresh_vs_reuse.json",
+     "evidence": "No script generates data/iem_ec_activity_comparison.json, ec_funnel.json or ec_fresh_vs_reuse.json; the DIPP-to-EIA many-to-many mapping is hand-built."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "~550 LOC, reproducible one-call refresh, no tests, no CI; snapshot (not time series) as README says.",
+   "snippets": [
+    {
+     "path": "scripts/refresh_ec.py",
+     "lines": "97-109",
+     "lang": "python",
+     "code": "    analysis = []\n    for code, st in sorted(subsec.items(), key=lambda kv: -sum(kv[1].values())):\n        tot = sum(st.values())\n        if tot < 50 or code in (\"UNCLASSIFIED\",) or \")\" not in code:\n            continue\n        live = sum(v for k, v in st.items() if k in LIVE)\n        gtot = sum(sub_state[code].values()) or 1\n        analysis.append({\"activity\": code, \"label\": acts.get(code, \"?\"), \"total\": tot,\n                         \"granted\": st[\"granted\"], \"tor_granted\": st[\"tor_granted\"],\n                         \"in_process\": st[\"in_process\"], \"dead\": st[\"dead\"], \"delisted\": st[\"delisted\"],\n                         \"grant_rate_pct\": round(st[\"granted\"] / live * 100, 1) if live else None,\n                         \"top_states\": [{\"state\": s.title(), \"granted\": n, \"share_pct\": round(n / gtot * 100, 1)}\n                                        for s, n in sub_state[code].most_common(4)]})",
+     "why": "The per-activity grant rate and state leaders; note the denominator `live` (granted+ToR+in-process) omits rejected proposals."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "PARIVESH 2.0 portal (MoEFCC) dashboards/MIS + parliamentary state-wise clearance annexures",
+     "kind": "official",
+     "url": "https://eparlib.nic.in/bitstream/123456789/973547/1/AU4590.pdf",
+     "overlap": "PARIVESH's own dashboards/MIS and state-wise clearance annexures in parliamentary answers publish the base counts; the repo's addition is the EIA-activity x state pivot."
+    },
+    {
+     "name": "data.gov.in: State-wise IEMs implemented (Part B) catalog",
+     "kind": "official",
+     "url": "https://data.gov.in/catalog/state-wise-iems-implemented-industrial-undertakings-based-part-b-iem-form",
+     "overlap": "Official IEM Part B aggregates used in the IEM-vs-EC comparison."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "Discovering the open bulk endpoint and pivoting by EIA activity is useful; the grant-rate definition needs fixing before the activity comparisons are cited.",
+   "change_since_aug": "Partly overturned: Aug said 'Crowded - PARIVESH already publishes state/sub-sector cross-tabs'; no source found that publishes the activity-code x state grant matrix, so 'adjacent' fits better, but the code's grant-rate formula is flawed."
+  },
+  {
+   "repo": "india-quality-regulation",
+   "does": "A documentation repo (36 regulator/mark entries with mirrored Acts and gazette PDFs) backed by tooling: PDF-to-markdown extraction with tesseract OCR fallback, a compendium builder and verifier, a coverage-table generator, and a CI check that every cited sources/ path exists, plus lychee link checking.",
+   "claims_vs_code": [
+    {
+     "claim": "'BIS and ~36 other statutory regulators' (tagline) vs 'all 36 entries' (coverage)",
+     "evidence": "Minor wording inconsistency: docs/coverage.md counts 36 entries including the BIS entries; not a code gap."
+    }
+   ],
+   "maturity": "substantive",
+   "maturity_note": "~1k LOC of verification/extraction scripts with link-check CI; content is primary-source-mirrored docs; no unit tests but scripts act as CI oracles.",
+   "snippets": [
+    {
+     "path": "scripts/check_source_refs.py",
+     "lines": "31-43",
+     "lang": "python",
+     "code": "def main():\n    broken = []\n    checked = 0\n    for md_file in find_markdown_files():\n        if not md_file.is_file():\n            continue\n        text = md_file.read_text(encoding=\"utf-8\", errors=\"replace\")\n        for match in SOURCE_REF.finditer(text):\n            ref = match.group(1)\n            checked += 1\n            if not (REPO_ROOT / ref).is_file():\n                line_no = text.count(\"\\n\", 0, match.start()) + 1\n                broken.append((md_file.relative_to(REPO_ROOT), line_no, ref))",
+     "why": "The integrity check: every inline `sources/...` citation in the docs must resolve to a mirrored file - a guard lychee cannot provide because these are code spans, not links."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "BIS 'Products under Compulsory Certification' list + QCO FAQs",
+     "kind": "official",
+     "url": "https://www.bis.gov.in/scheme-x-certification/faq-scheme-x-certification",
+     "overlap": "Official list of products under compulsory certification and QCOs - the authoritative source for the BIS part of the guide."
+    },
+    {
+     "name": "lychee / lychee-action (link checker for Markdown/HTML)",
+     "kind": "tool",
+     "url": "https://awesome.ecosyste.ms/projects/github.com%2Flycheeverse%2Flychee-action",
+     "overlap": "The link checker already used in the repo's CI."
+    },
+    {
+     "name": "National Single Window System - Know Your Approvals (DPIIT)",
+     "kind": "official",
+     "url": "https://en.vikaspedia.in/viewcontent/e-governance/online-citizen-services/government-to-business-services-g2b/national-single-window-system",
+     "overlap": "Official approval-discovery tool that maps business activities to required licences, overlapping the 'which regulator applies' question."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "A primary-source-mirrored map across ~36 bodies has no single official equivalent; the code is support tooling, not the contribution.",
+   "change_since_aug": "Not covered in Aug survey."
+  },
+  {
+   "repo": "reg-intel",
+   "does": "Fetches RBI Master Directions, extracts obligations with an OpenAI-compatible LLM (Groq default) in two modes (v1 quote-and-verify with a verbatim citation gate; v2 classify numbered source lines with rule-based lead-in context), logs every call in a SHA-256 hash-chained SQLite ledger, and scores recall against a small gold set.",
+   "claims_vs_code": [
+    {
+     "claim": "Description: 'for Indian banks/insurers'",
+     "evidence": "Only RBI is fetched (reg_intel/fetch_rbi.py); no IRDAI source exists. README scopes this as 'step 1', so it is a scope note, not a hidden gap."
+    },
+    {
+     "claim": "Recall v2 = 1.00 (gold/README.md)",
+     "evidence": "Gold set is 2 documents labelled by Claude, marked DRAFT and not human-reviewed; v2 citations are source lines, so the grounding gate is trivially satisfied (extract.py:107-111 says so)."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "~500 LOC package with an offline pytest file; 7 commits; no CI; honest, documented evaluation caveats.",
+   "snippets": [
+    {
+     "path": "reg_intel/extract.py",
+     "lines": "28-38",
+     "lang": "python",
+     "code": "def _norm(s: str) -> str:\n    return re.sub(r\"\\s+\", \" \", s).strip()\n\n\ndef verify_citation(span: object, source: str) -> bool:\n    if isinstance(span, list):\n        return bool(span) and all(verify_citation(s, source) for s in span)\n    if not isinstance(span, str) or not span.strip():\n        return False\n    return _norm(span) in _norm(source)\n",
+     "why": "The grounding gate: an extracted obligation counts only if its citation appears verbatim (whitespace-normalised) in the source chunk."
+    },
+    {
+     "path": "reg_intel/store.py",
+     "lines": "37-49",
+     "lang": "python",
+     "code": "def log_event(db, step: str, input_text: str, output_text: str,\n              model: str = \"\", prompt_ver: str = \"\") -> str:\n    \"\"\"Append a provenance event chained to the previous one's hash.\"\"\"\n    row = db.execute(\"SELECT hash FROM prov_event ORDER BY id DESC LIMIT 1\").fetchone()\n    prev = row[0] if row else \"\"\n    ts = time.time()\n    body = json.dumps([prev, step, model, prompt_ver, sha(input_text), sha(output_text), ts])\n    h = sha(body)\n    db.execute(\"INSERT INTO prov_event(prev_hash,step,model,prompt_ver,input_sha,output_sha,ts,hash)\"\n               \" VALUES(?,?,?,?,?,?,?,?)\",\n               (prev, step, model, prompt_ver, sha(input_text), sha(output_text), ts, h))\n    db.commit()\n    return h",
+     "why": "Tamper-evident provenance: each LLM event hashes the previous event's hash with input/output digests, so verify_chain can detect edits."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Gokhan, Wang, Gurevych, Briscoe (2024) 'RegNLP in Action' - ObliQA dataset, arXiv:2409.05677",
+     "kind": "paper",
+     "url": "https://arxiv.org/abs/2409.05677v2",
+     "overlap": "Regulatory QA benchmark built on ADGM financial regulations with an obligation-aware answer metric (RePASs); the closest public dataset/method line, different jurisdiction and task (QA, not extraction)."
+    },
+    {
+     "name": "RIRAG-2025 shared task (RegNLP workshop, COLING 2025)",
+     "kind": "paper",
+     "url": "https://aclanthology.org/2025.regnlp-1.1.pdf",
+     "overlap": "Shared task on regulatory retrieval and answer generation over ObliQA; systems there address grounding of obligations, as this repo's citation gate does."
+    }
+   ],
+   "verdict": "prior-art",
+   "verdict_note": "Obligation extraction with grounding is an active research line; the repo's India/RBI corpus, verbatim gate and hash-chained audit ledger are its practical additions.",
+   "change_since_aug": "Not covered in Aug survey."
+  },
+  {
+   "repo": "indian-wine-market-blog",
+   "does": "No wine-market analysis code: it is Blogger publishing tooling ported from blogger_writeups_code (Blogger API client, snapshotter, cross-link analysis, research cross-check, SVG chart lint, mobile overflow check, 10-rule HTML consistency checker) with one draft post in out/.",
+   "claims_vs_code": [
+    {
+     "claim": "Repo is the home for an in-depth wine-market blog (production, imports, tariffs, market size)",
+     "evidence": "No data or analysis code for wine exists; README states 'No canonical data file exists yet' and status is pre-launch. All 2.5k LOC is generic blog tooling."
+    },
+    {
+     "claim": "svg_chart_lint.py: 'Always visually confirm a fix with scripts/render_svg_figure.py'",
+     "evidence": "scripts/render_svg_figure.py is not in the repo (tools/svg_chart_lint.py:22-23)."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "Tooling is real and has CI, but it is a near-copy of another repo; no posts published, no tests.",
+   "snippets": [
+    {
+     "path": "consistency-check/checks.py",
+     "lines": "22-30",
+     "lang": "python",
+     "code": "\ndef _declares_dark(body):\n    \"\"\"Whether the post actually declares a dark palette -- ignoring the\n    strings inside HTML/CSS comments, so a comment that only *discusses*\n    prefers-color-scheme (e.g. to explain why it was deliberately left out)\n    doesn't trip a false BLOCKER. Caught on quarterly-reportage-4034-scheme,\n    whose own explanatory comment contains the literal phrase.\"\"\"\n    stripped = _COMMENT_RE.sub(\"\", body)\n    return (\"prefers-color-scheme\" in stripped) or ('data-theme=\"dark\"' in stripped)",
+     "why": "Typical house-style rule: strip comments before deciding whether a post declares a dark palette, a rule born from a real false positive."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "lychee / lychee-action (link checker for Markdown/HTML)",
+     "kind": "tool",
+     "url": "https://awesome.ecosyste.ms/projects/github.com%2Flycheeverse%2Flychee-action",
+     "overlap": "Generic link/HTML checking for static content; the repo's checks are blog-specific additions on top of this kind of tool."
+    }
+   ],
+   "verdict": "n/a",
+   "verdict_note": "Infrastructure for a blog that does not exist yet; duplicates blogger_writeups_code tooling and has no market-analysis survey question to answer.",
+   "change_since_aug": "Not covered in Aug survey."
+  }
+ ]
+}

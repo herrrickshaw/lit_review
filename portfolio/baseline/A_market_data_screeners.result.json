@@ -1,0 +1,837 @@
+{
+ "cluster": "A_market_data_screeners",
+ "cluster_summary": "Judged from code, this cluster is mostly crowded screener ground (classic Piotroski/Darvas/Coffee-Can/QMJ/DVM screens over yfinance) spread across heavily duplicated repos: global-market-scanners is a 92%-identical subset of BazaarTalks, stock-screener-platform is 78% duplicate code, and global-stock-screener/global-market-data share 44%; market-pipeline is ~79% generated CQL. Both Aug 'open' headlines are overturned: (1) PIT fundamentals are real only for the US (BazaarTalks/pit_fundamentals.py filters SEC 'filed' <= as-of), global-market-data's fundamentals ignore filing dates and admit survivorship bias, and India/JP/KR PIT exists only as collectors in market-pipeline (India values parsed for ~2% of filings; JP/KR dates previously fabricated); (2) the put-call parity bot sells futures alongside a synthetic short (and buys alongside a synthetic long), so it is directional, its cost model omits stamp duty and slippage, and the question was published by Vipul (2008). Where genuine ground remains is the India NSE-XBRL filing-timestamp index and an honestly-labelled multi-market PIT backtest, plus the C++ port's golden-fixture parity testing. Biggest README gaps: OCaml and 'production-ready' claims with no OCaml code, 'Piotroski' labels on non-Piotroski scores, FinanceDatabase 'validation' with no such code, and empty DDD contexts.",
+ "literature": [
+  {
+   "cite": "Piotroski, J. D. (2000). Value Investing: The Use of Historical Financial Statement Information to Separate Winners from Losers. Journal of Accounting Research, 38 (Supplement).",
+   "url": "https://test2.ivey.uwo.ca/media/3775523/value_investing_the_use_of_historical_financial_statement_information.pdf",
+   "used_by": [
+    "global-stock-screener",
+    "global-market-data",
+    "BazaarTalks",
+    "global-market-scanners",
+    "global-market-research-platform",
+    "stock-screener-platform",
+    "europe-stock-screener"
+   ],
+   "how": "Faithful 9-signal version in global-stock-screener/strategies/piotroski.py and BazaarTalks/pit_fundamentals.py:248-266; the platform daily_scanner and europe-stock-screener use a different level/momentum score under the same name."
+  },
+  {
+   "cite": "Vipul (2008). Cross-market efficiency in the Indian derivatives market: a test of put-call parity. Journal of Futures Markets, 28(9), 889-910.",
+   "url": "https://ideas.repec.org/a/wly/jfutmk/v28y2008i9p889-910.html",
+   "used_by": [
+    "global-market-research-platform",
+    "stock-screener-platform"
+   ],
+   "how": "put_call_parity/parity_engine.py implements the same put-call-futures parity; not cited in the code."
+  },
+  {
+   "cite": "Ofek, E., Richardson, M., & Whitelaw, R. F. (2004). Limited arbitrage and short sales restrictions: evidence from the options markets. Journal of Financial Economics, 74(2), 305-342. doi:10.1016/j.jfineco.2003.05.008",
+   "url": "https://www.nber.org/papers/w9423",
+   "used_by": [
+    "global-market-research-platform",
+    "stock-screener-platform"
+   ],
+   "how": "Not implemented: the parity engine has no short-sale/borrow constraint term."
+  },
+  {
+   "cite": "Asness, C. S., Frazzini, A., & Pedersen, L. H. (2019). Quality minus junk. Review of Accounting Studies, 24(1), 34-112. doi:10.1007/s11142-018-9470-2",
+   "url": "https://research-api.cbs.dk/ws/portalfiles/portal/60211462/lasse_heje_pedersen_et_al_quality_minus_junk_publishersversion.pdf",
+   "used_by": [
+    "BazaarTalks",
+    "global-market-scanners",
+    "Bazartalks_Py2Cplus"
+   ],
+   "how": "quality_factor.py and libs/quant_core/quality_factor/src/quality_factor.cpp build the profitability/growth/safety/payout z-rank composite."
+  },
+  {
+   "cite": "Bernard, V. L., & Thomas, J. K. (1989). Post-Earnings-Announcement Drift: Delayed Price Response or Risk Premium? Journal of Accounting Research, 27, 1-36.",
+   "url": "https://en.wikipedia.org/wiki/Post%E2%80%93earnings-announcement_drift",
+   "used_by": [
+    "market-pipeline",
+    "BazaarTalks",
+    "global-market-scanners"
+   ],
+   "how": "market-pipeline/pit_event_studies.py (India, filing-timestamp-dated) and pead_factor.py (price-based event study)."
+  },
+  {
+   "cite": "Amihud, Y. (2002). Illiquidity and stock returns: cross-section and time-series effects. Journal of Financial Markets, 5(1), 31-56.",
+   "url": "https://www.cis.upenn.edu/~mkearns/finread/amihud.pdf",
+   "used_by": [
+    "BazaarTalks",
+    "global-market-scanners",
+    "global-stock-screener"
+   ],
+   "how": "liquidity_factor.py implements Amihud illiquidity; global-stock-screener/liquidity.py uses median USD turnover tiers instead."
+  },
+  {
+   "cite": "Bailey, D. H., & Lopez de Prado, M. (2014). The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting, and Non-Normality. Journal of Portfolio Management, 40(5), 94-107. doi:10.3905/jpm.2014.40.5.094",
+   "url": "https://papers.ssrn.com/abstract=2460551",
+   "used_by": [
+    "market-pipeline"
+   ],
+   "how": "multiple_testing.py:46 deflated_sharpe helper."
+  },
+  {
+   "cite": "Benjamini, Y., & Hochberg, Y. (1995). Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing. Journal of the Royal Statistical Society Series B, 57(1), 289-300. doi:10.1111/j.2517-6161.1995.tb02031.x",
+   "url": "https://www.dcscience.net/Benjamini-Hochberg-1995-FDR.pdf",
+   "used_by": [
+    "market-pipeline"
+   ],
+   "how": "multiple_testing.py:34 bh_fdr across the whole strategy x market grid."
+  }
+ ],
+ "repos": [
+  {
+   "repo": "market-pipeline",
+   "does": "An export of the author's working directory: ~315 Python modules under code/python_files that collect market data (NSE bhavcopy, NSE XBRL quarterly results with filing timestamps, EDINET/DART/yfinance fundamentals), build a year-partitioned parquet+DuckDB OHLCV warehouse, run screens/backtests/event studies and a daily mailer. The bulk of its LOC (about 302k of 381k) is generated CQL UPDATE/INSERT dumps under reports/ and reports_local/.",
+   "claims_vs_code": [
+    {
+     "claim": "README describes nothing (213 bytes, only an AI-helper link); the repo has no stated scope or entry point.",
+     "evidence": "README.md is 4 lines; the real content is three imported trees (from-global-market-research-platform/, from-lit_review/, from-working-files/) plus a nested duplicate market-pipeline/market-pipeline/code/.../reports/*.cql."
+    },
+    {
+     "claim": "Point-in-time fundamentals for India/JP/KR/CN (the cluster-level 'PIT warehouse' claim).",
+     "evidence": "Collectors exist (nse_xbrl_results.py, yf_intl_pit_fundamentals.py, dart_history_collect.py) but write to local parquet/Postgres that is not in the repo; pit_event_studies.py:9-11 itself states financials are parsed for only ~2% of the 66k India filing events; yf_intl_pit_fundamentals.py:7-13 documents that the earlier JP/KR/CN 'filed' column was fabricated as fy_end+90d."
+    },
+    {
+     "claim": "Fundamentals coverage of the Cassandra store looks complete.",
+     "evidence": "reports_local/FUNDAMENTALS_TOPUP.cql and FUNDAMENTALS_IMPUTE.cql fill null ratios with market medians (e.g. roce set to a market median with fundamentals_source='median_imputed'); the flag is kept, but screens reading these columns see imputed values."
+    },
+    {
+     "claim": "test_*.py files suggest a test suite.",
+     "evidence": "test_jquants_fundamentals.py, test_sec_edgar_fundamentals.py, test_dart_financials.py, test_marketaux_api.py are live API probe scripts, not unit tests; no CI workflow is present."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "Large, real and frequently-touched code (377 commits, last push 2026-10-12) with careful PIT/data-quality reasoning in docstrings, but no CI, no unit tests, data lives outside the repo; ~79% of LOC is generated CQL and ~15% of the Python is byte-identical to sibling repos.",
+   "snippets": [
+    {
+     "path": "from-global-market-research-platform/market-pipeline/code/python_files/nse_xbrl_results.py",
+     "lines": "312-327",
+     "lang": "python",
+     "code": "    for col, els in FIELDS.items():\n        best = None\n        for el in els:\n            for m in re.finditer(\n                    rf'<in-bse-fin:{el}\\b[^>]*contextRef=\"([^\"]+)\"[^>]*>(-?[\\d.]+)</', x):\n                cid, val = m.groups()\n                if cid not in ctx or not _period_ok(cid):\n                    continue\n                dim = ctx[cid][2]\n                if best is None or (best[1] and not dim):   # plain beats dimensional\n                    best = (float(val), dim, cid)\n            if best is not None:\n                break                    # first alias with a period-matched value\n        if best is not None:\n            out[col] = best[0]\n            chosen_period = chosen_period or ctx[best[2]][:2]",
+     "why": "Binds each XBRL value to the filing's own fiscal-period context (plain beats dimensional), which is what makes the NSE results index usable as a point-in-time India fundamentals source keyed on the filing timestamp; edgartools/companyfacts solve the same problem for SEC filers only."
+    },
+    {
+     "path": "from-global-market-research-platform/market-pipeline/code/python_files/yf_intl_pit_fundamentals.py",
+     "lines": "306-318",
+     "lang": "python",
+     "code": "    out_rows, ai = [], 0\n    for _, r in rows.iterrows():\n        fy_end = pd.Timestamp(r[\"fy_end\"])\n        while ai < len(announce_dates) and announce_dates[ai] < fy_end:\n            ai += 1\n        if ai >= len(announce_dates) or (announce_dates[ai] - fy_end).days > 240:\n            continue\n        filing_date = announce_dates[ai]\n        ai += 1  # consumed — the next fy_end row can't reuse this announcement\n        eps_row = ed.loc[filing_date]\n        row = {\n            \"symbol\": symbol, \"period_end\": fy_end.date(),\n            \"filing_date\": filing_date.to_pydatetime(),",
+     "why": "Replaces a fabricated fy_end+90d 'filed' date with the real yfinance announcement date via a greedy two-pointer match (<=240 days); J-Quants and OpenDART expose official disclosure dates directly for JP/KR."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "SEC EDGAR XBRL APIs (companyfacts / frames)",
+     "kind": "official",
+     "url": "https://www.sec.gov/page/sec-api-documentation",
+     "overlap": "The US half of the PIT problem is solved upstream: companyfacts already carries a 'filed' date per fact, which market-pipeline and BazaarTalks consume."
+    },
+    {
+     "name": "J-Quants API (JPX) /fins/summary and /fins/details",
+     "kind": "official",
+     "url": "https://jpx-jquants.com/en/spec/fin-details",
+     "overlap": "Official JPX API returning BS/PL/CF with disclosure date and time (DiscDate/DiscTime), i.e. the PIT dating that yf_intl_pit_fundamentals.py reconstructs from yfinance announcement dates."
+    },
+    {
+     "name": "OpenDART (Korea FSS) via OpenDartReader / dart-fss",
+     "kind": "official",
+     "url": "https://docsearch.algolia.com/mcp/docs/repo/financedata/opendartreader",
+     "overlap": "Official Korean filings API with rcept_dt per filing; market-pipeline's dart_* modules wrap it rather than replace it."
+    },
+    {
+     "name": "EDINET API v2 (FSA Japan)",
+     "kind": "official",
+     "url": "https://disclosure2dl.edinet-fsa.go.jp/guide/static/disclosure/WZEK0090_001.html",
+     "overlap": "Official Japanese XBRL disclosure API that edinet_xbrl_historical_fetcher.py calls."
+    },
+    {
+     "name": "Sharadar Core US Fundamentals (via Nasdaq Data Link / QuantRocket)",
+     "kind": "commercial",
+     "url": "https://www.quantrocket.com/docs/data/fundamental/sharadar/",
+     "overlap": "Commercial US PIT fundamentals since 1990; covers the US piece only, but with survivorship-free history that this repo lacks."
+    }
+   ],
+   "verdict": "prior-art",
+   "verdict_note": "Real contribution is the India NSE-XBRL filing-timestamp index and the per-market PIT dating discipline, not a finished warehouse; JP/KR have official PIT APIs, and India values are parsed for only ~2% of events.",
+   "change_since_aug": "Partly overturned: Aug called multi-market PIT fundamentals 'open'; the code shows US PIT (filed-date) is real, India has filing timestamps but sparse values, JP/KR/CN PIT dates were fabricated until a yfinance-based fix, and none of it is shipped as data in the repo."
+  },
+  {
+   "repo": "global-stock-screener",
+   "does": "A pip-installable screener kit: 11 strategy modules (Piotroski, Coffee Can, Magic Formula, GARP, Darvas, CCC, ...) over a StockData object, an LMDB bhavcopy store, a USD-turnover liquidity tier index, SEC-EDGAR and screener.in fundamental adapters, and a daily HTML mailer, with ~134 pytest test functions and a tests CI workflow.",
+   "claims_vs_code": [
+    {
+     "claim": "Ships with ~1 year of cached price data (~40,000 symbols) so it runs without API keys.",
+     "evidence": "Data lives in Git LFS (cache_seed/), not inspectable here; market-pipeline's warehouse_build.py docstring and global-market-data/cache_seed/ltm/README.md say these monolithic panels were superseded on 2026-07-22 and the US copy in the sister repo is a known-broken collection."
+    },
+    {
+     "claim": "Cash Conversion Cycle screen mirrors screener.in's CCC.",
+     "evidence": "strategies/cash_conversion_cycle.py:41 treats any missing component as 0 ((dio or 0)+(dso or 0)-(dpo or 0)), so a name with only payables data gets a negative CCC and passes CCC_MAX=45."
+    },
+    {
+     "claim": "'20 tests, no network'.",
+     "evidence": "Understated rather than unbacked: tests/ holds ~35 files with ~134 test functions; CI runs them (.github/workflows/tests.yml)."
+    }
+   ],
+   "maturity": "substantive",
+   "maturity_note": "Tests + CI (tests, integrity, docker workflows), last push 2026-10-12; 44% of its Python is byte-identical to global-market-data, so the two repos are largely one codebase.",
+   "snippets": [
+    {
+     "path": "strategies/piotroski.py",
+     "lines": "38-46",
+     "lang": "python",
+     "code": "    add(\"ROA>0\", roa is not None and roa > 0)\n    add(\"CFO>0\", cfo is not None and cfo > 0)\n    add(\"dROA>0\", roa is not None and roa_p is not None and roa > roa_p)\n    add(\"Accrual(CFO>NI)\", cfo is not None and ni is not None and cfo > ni)\n    add(\"dLeverage<0\", lev is not None and lev_p is not None and lev < lev_p)\n    add(\"dCurrentRatio>0\", cr is not None and cr_p is not None and cr > cr_p)\n    add(\"NoDilution\", sh is not None and sh_p is not None and sh <= sh_p)\n    add(\"dGrossMargin>0\", gm is not None and gm_p is not None and gm > gm_p)\n    add(\"dAssetTurnover>0\", at is not None and at_p is not None and at > at_p)",
+     "why": "A faithful 9-signal Piotroski (2000) F-score using year-over-year deltas, the same definition Screener.in and Finviz-style screeners expose; correctness depends on *_prev fields being point-in-time, which this module does not itself enforce."
+    },
+    {
+     "path": "strategies/cash_conversion_cycle.py",
+     "lines": "35-42",
+     "lang": "python",
+     "code": "    if ccc is None:\n        dio = _days(inv, cogs)\n        dso = _days(rec, rev)\n        dpo = _days(pay, cogs)\n        if dio is None and dso is None and dpo is None:\n            return None\n        ccc = (dio or 0) + (dso or 0) - (dpo or 0)\n    passed = ccc <= CCC_MAX",
+     "why": "Standard CCC = DIO + DSO - DPO; note the `or 0` coercion that lets missing inputs pass the screen."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Screener.in",
+     "kind": "commercial",
+     "url": "https://www.stork.ai/en/screener-in",
+     "overlap": "Screener.in offers formula-based Indian screens incl. Piotroski and CCC on 10y data, which is the India half of what strategies/ re-implements."
+    },
+    {
+     "name": "Finviz screener",
+     "kind": "commercial",
+     "url": "https://daytradingz.com/how-to-use-finviz/",
+     "overlap": "US filter screener covering valuation, profitability, growth and technical signals; overlaps the US strategy set but has no multi-market reach."
+    },
+    {
+     "name": "OpenBB Platform",
+     "kind": "tool",
+     "url": "https://pypi.org/project/openbb/",
+     "overlap": "Open-source multi-provider research platform (Yahoo, SEC, FMP connectors) that could supply the same price/fundamental inputs."
+    },
+    {
+     "name": "FinanceDatabase (JerBouma)",
+     "kind": "dataset",
+     "url": "https://github.com/JerBouma/FinanceDatabase/releases",
+     "overlap": "Community symbol database across 117 countries; overlaps the per-market universe sourcing."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Value is in packaging 11 classic screens over 20 markets with liquidity tiers and tests; each screen and the data sources are standard.",
+   "change_since_aug": "Confirmed crowded (Aug grouped it under 'multi-market screeners'); new finding: ~44% code is duplicated with global-market-data."
+  },
+  {
+   "repo": "global-market-research-platform",
+   "does": "FastAPI backend (routers for Cassandra scan, live yfinance fetch, portfolio P&L, options strategies) with a React/Vite frontend, a vectorized 'daily scanner' (Darvas-style + 'Piotroski-simplified' point scores), R Pegu/Sarvas scoring, and a put_call_parity/ package that computes futures-based parity deviations on Kite/Upstox/Angel option chains, subtracts an Indian F&O cost estimate and places 3-leg orders.",
+   "claims_vs_code": [
+    {
+     "claim": "Put-call parity arbitrage bot: SHORT_CALL_LONG_PUT is hedged so the package is market-neutral.",
+     "evidence": "put_call_parity/trade_manager.py:110-117 and parity_engine.py:21-24 SELL futures alongside a short call + long put (itself a synthetic short), and BUY futures alongside a synthetic long. A conversion/reversal needs the opposite futures side; as written each 'arbitrage' is roughly a 2x directional futures position, not an arbitrage."
+    },
+    {
+     "claim": "Cost-adjusted signals ('full transaction-cost model').",
+     "evidence": "parity_engine.py:129-151 covers brokerage, STT, exchange charges, GST and SEBI fees but no stamp duty, no slippage/impact, and multiplies a flat per-order brokerage by lots (line 151); detection (lines 243-246) uses mid prices although observed_cp_spread() (lines 94-113) implements bid/ask-side pricing and is never called."
+    },
+    {
+     "claim": "--backtest mode.",
+     "evidence": "main.py:65-131 only re-scans a single option_chain_snapshot.json; no snapshot file or historical chain data is in the repo and no P&L simulation exists."
+    },
+    {
+     "claim": "Production-ready, OCaml screens, 22.4% blended return, weekly win-rate validation.",
+     "evidence": "No .ml/dune file exists; morning_ocaml_routine.sh:65 logs 'No dune file found, skipping OCaml build'. The README's own 2026-07-14 banner says the return figures came from a 272-stock sample and are not validated."
+    },
+    {
+     "claim": "Piotroski scan.",
+     "evidence": "backend/scanners/daily_scanner.py:356-366 scores level thresholds (ROE>0, D/E<0.5, OPM>15%) plus EMA/RSI/ATR momentum, not Piotroski's nine year-over-year change signals."
+    },
+    {
+     "claim": "Has tests.",
+     "evidence": "tests/test_bms.py is the only test and imports a bms package (battery management) that is not in this repo."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "Real FastAPI/React app and parity engine, but no working tests (the only test file targets a missing package), CI is gitleaks/security/pages only, 336 commits, last push 2026-10-22; parity module has no tests and a sign error in the hedge leg.",
+   "snippets": [
+    {
+     "path": "put_call_parity/parity_engine.py",
+     "lines": "129-146",
+     "lang": "python",
+     "code": "    # --- brokerage (flat per order; 4 orders per leg pair for round-trip) ---\n    brokerage = cm.brokerage_per_order * 6   # 3 legs × 2 (entry+exit)\n\n    # --- STT (only on sell side for options, both sides for futures) ---\n    option_stt = (call_mid * lot * cm.stt_options_sell_rate +\n                  put_mid * lot * cm.stt_options_sell_rate) * 2\n    futures_stt = futures_notional * cm.stt_futures_rate * 2\n\n    # --- Exchange charges ---\n    exc_rate = cm.exchange_charge_nse if cfg.exchange == \"NSE\" else cm.exchange_charge_mcx\n    exchange_charges = (\n        (call_mid + put_mid) * lot * exc_rate * 2 +\n        futures_notional * exc_rate * 2\n    )\n\n    # --- GST on brokerage + exchange charges ---\n    gst = (brokerage + exchange_charges) * cm.gst_rate\n",
+     "why": "The cost model: brokerage, STT on option sells and futures, exchange charges, GST and SEBI fees per round trip. Vipul (2008) shows NSE parity violations largely vanish after such costs; this code has no stamp duty or slippage term."
+    },
+    {
+     "path": "put_call_parity/trade_manager.py",
+     "lines": "110-117",
+     "lang": "python",
+     "code": "        if signal.direction == \"SHORT_CALL_LONG_PUT\":\n            call_side = \"SELL\"\n            put_side  = \"BUY\"\n            fut_side  = \"SELL\"\n        else:\n            call_side = \"BUY\"\n            put_side  = \"SELL\"\n            fut_side  = \"BUY\"",
+     "why": "Order-side mapping for the three legs: short call + long put is paired with a futures SELL, the same direction as the synthetic, so the trade is not the textbook conversion/reversal."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Vipul (2008), Cross-market efficiency in the Indian derivatives market: a test of put-call parity, Journal of Futures Markets 28(9):889-910",
+     "kind": "paper",
+     "url": "https://ideas.repec.org/a/wly/jfutmk/v28y2008i9p889-910.html",
+     "overlap": "Tests exactly this put-call-futures parity on NSE Nifty options with transaction costs and finds violations vanish quickly after costs; parity_engine.py implements the same identity as a live scanner."
+    },
+    {
+     "name": "Ofek, Richardson & Whitelaw (2004), Limited arbitrage and short sales restrictions: evidence from the options markets, JFE, doi:10.1016/j.jfineco.2003.05.008",
+     "kind": "paper",
+     "url": "https://www.nber.org/papers/w9423",
+     "overlap": "Classic put-call parity violation study explaining persistent deviations by short-sale constraints, which any parity bot must treat as a non-arbitrage component."
+    },
+    {
+     "name": "QuantConnect tutorial: Put-Call Parity and Arbitrage Strategies",
+     "kind": "tool",
+     "url": "https://www.quantconnect.com/tutorials/introduction-options-put-call-parity-and-arbitrage-strategies/",
+     "overlap": "Public tutorial implementing put-call parity conversion/reversal arbitrage scanning in a backtesting engine; shows the correct leg directions."
+    },
+    {
+     "name": "Opstra / Quantsapp / Sensibull (India options analytics)",
+     "kind": "commercial",
+     "url": "https://algotest.in/blog/sensibull-alternatives-india/",
+     "overlap": "Indian options analytics platforms with scanners and strategy builders; none found marketing a dedicated parity-arbitrage scanner, so the India-specific niche remains thinly served."
+    }
+   ],
+   "verdict": "prior-art",
+   "verdict_note": "The idea (cost-adjusted put-call-futures parity on NSE) is published and studied; the implementation adds India broker adapters and a cost table, but the hedge-leg sign error means it does not currently implement arbitrage.",
+   "change_since_aug": "Overturned: Aug called the India put-call parity bot with full cost model 'open'. Code shows the parity math and a partial cost model, but the futures leg is on the wrong side, detection uses mids, the cost model omits stamp duty/slippage, and there is no backtest or test; prior academic work (Vipul 2008) covers the same question."
+  },
+  {
+   "repo": "stock-screener-platform",
+   "does": "Public near-copy of global-market-research-platform (same FastAPI backend, daily_scanner, put_call_parity minus the bayesian/black_scholes/strategy add-ons) plus a Downloads/code/ tree whose 76 of 77 Python filenames also exist in market-pipeline (walk-forward backtest, daily reports, us_stocks_colab).",
+   "claims_vs_code": [
+    {
+     "claim": "Cleaned successor to the archived ocaml-stock-screener; 'Production-ready ... with OCaml'.",
+     "evidence": "No OCaml source (.ml/dune) anywhere in the repo; the README banner itself disclaims the production-ready and return claims and lists five referenced docs that do not exist."
+    },
+    {
+     "claim": "Backtesting across India/US/Europe/Japan/Korea.",
+     "evidence": "Backed in part: Downloads/code/python_files/walk_forward_backtest.py implements a walk-forward loop, but it is India-defaulted (--market IN) and duplicated from market-pipeline; no committed result files tie claims to it."
+    },
+    {
+     "claim": "Put-call parity engine (inherited).",
+     "evidence": "put_call_parity/trade_manager.py and parity_engine.py are byte-identical to global-market-research-platform, so the same futures-leg sign error applies."
+    },
+    {
+     "claim": "Quality gates in CI.",
+     "evidence": ".github/workflows/quality-gates.yml runs gitleaks only; there is no tests/ directory."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "No tests, CI is secrets/security/pages only; 78% of its Python is byte-identical to other repos (47% with global-market-research-platform alone).",
+   "snippets": [
+    {
+     "path": "backend/scanners/daily_scanner.py",
+     "lines": "324-341",
+     "lang": "python",
+     "code": "    c_f1   = _vcrit(roe > 0,                              v_f1)\n    c_f5   = _vcrit(de < 0.5,                             v_f5)\n    c_f8   = _vcrit(opm > 15,                             v_f8)\n    c_f9   = _vcrit(rg > 0,                               v_f9)\n    c_fx1  = _vcrit(cmp > e50,                            v_fx1)\n    c_fx2  = _vcrit(rsi.between(40, 70),                  v_fx2)\n    c_fx3  = _vcrit((h52 - cmp) / h52s <= 0.20,          v_fx3)\n    c_fx4  = _vcrit(cr > 1.5,                             v_fx4)\n    c_fx5  = _vcrit(pb < 3,                               v_fx5)\n    c_fx6  = _vcrit(e20 > e50,                            v_fx6)\n    c_fx7  = _vcrit(atr / cmp.where(cmp > 0) < 0.03,     v_fx7)\n\n    score = (\n        _pts(c_f1) + _pts(c_f5) + _pts(c_f8) + _pts(c_f9) +\n        _pts(c_fx1) + _pts(c_fx2) + _pts(c_fx3) + _pts(c_fx4) +\n        _pts(c_fx5) + _pts(c_fx6) + _pts(c_fx7)\n    )\n",
+     "why": "The 'Piotroski' used across the platform is a level/momentum point score with availability-scaled thresholds, not Piotroski's (2000) nine change signals."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Screener.in",
+     "kind": "commercial",
+     "url": "https://www.stork.ai/en/screener-in",
+     "overlap": "Hosts Piotroski and other formula screens on Indian data, the main use case of the backend scanners."
+    },
+    {
+     "name": "Trendlyne DVM score",
+     "kind": "commercial",
+     "url": "https://help.trendlyne.com/support/solutions/articles/84000347982-what-is-the-trendlyne-dvm-score-and-how-does-it-work-",
+     "overlap": "Commercial India screener combining durability, valuation and momentum scores, conceptually the same blend as daily_scanner's mixed Darvas/Buffett/Piotroski score."
+    },
+    {
+     "name": "QuantConnect LEAN engine",
+     "kind": "tool",
+     "url": "https://www.quantconnect.com/docs/v2/lean-engine/getting-started",
+     "overlap": "Open-source engine for research, backtesting and live trading, overlapping the walk-forward backtest and broker-execution pieces."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Duplicate of global-market-research-platform with no independent contribution; useful only as the public mirror.",
+   "change_since_aug": "New finding: largely a mirror (78% duplicate code); inherits the parity bot's sign error and the unbacked OCaml/production claims."
+  },
+  {
+   "repo": "global-market-data",
+   "does": "Same strategy library as global-stock-screener plus a walk-forward price-screen backtest (.bt_bin/backtest.py) that, at monthly as-of dates, applies 5 price screens using only closes up to t and compares 21-day forward returns to an equal-weight market; US fundamentals come from SEC companyfacts keyed by fiscal period-end.",
+   "claims_vs_code": [
+    {
+     "claim": "Point-in-time, survivorship-bias-free fundamentals warehouse across markets (Aug survey framing; README: 'Point-in-time backtest engine').",
+     "evidence": "The only PIT logic is price-based (.bt_bin/backtest.py:31-52). sec_fundamentals.py:36-51 keeps the latest value per period-end and ignores the 'filed' date, i.e. restated, not as-reported, values. BACKTEST_FINDINGS.md:54 states the LTM holds currently-listed symbols only (survivorship bias)."
+    },
+    {
+     "claim": "python backtest.py re-runs the backtest.",
+     "evidence": "No backtest.py at the repo root; the engine is in the hidden directory .bt_bin/backtest.py."
+    },
+    {
+     "claim": "10 years x 20 markets in cache_seed/ltm/*.parquet.",
+     "evidence": "cache_seed/ltm/README.md says the panels are SUPERSEDED (2026-07-22) by an external warehouse/ and that this repo's US.parquet is the known-broken interrupted collection."
+    },
+    {
+     "claim": "Docs describe this repo.",
+     "evidence": "README's own note says QUICK_START.md and several SGX_*/DDD_* docs describe unrelated projects (shared-working-directory contamination)."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "13 test files and CI exist; backtest engine is small but genuinely lookahead-free on prices; fundamentals are not PIT; data superseded; 44% code duplicated with global-stock-screener.",
+   "snippets": [
+    {
+     "path": ".bt_bin/backtest.py",
+     "lines": "91-104",
+     "lang": "python",
+     "code": "    for sym in syms:\n        df = data.get(sym)\n        if df is None or len(df) < 200 + horizon + 1:\n            continue\n        close = df[\"Close\"].to_numpy(\"float64\")\n        n = len(close)\n        for t in range(200, n - horizon - 1, step):\n            fwd = (close[t + horizon] / close[t] - 1) * 100 if close[t] else np.nan\n            if not np.isfinite(fwd) or abs(fwd) > 500:\n                continue  # drop Yahoo glitch bars (a 21d return >500% is a data error)\n            mkt_rets.append(fwd)  # every eligible name = the equal-weight market sample\n            f = _pit(close, t)\n            if f and pred(f):\n                pick_rets.append(fwd)",
+     "why": "The walk-forward loop: features from close[:t+1] only, forward return over `horizon`, every eligible name also feeds the equal-weight benchmark. This is price-only PIT; vectorbt/Qlib provide the same mechanics generically."
+    },
+    {
+     "path": "sec_fundamentals.py",
+     "lines": "42-51",
+     "lang": "python",
+     "code": "    rows = []\n    for unit_vals in node.get(\"units\", {}).values():\n        for r in unit_vals:\n            if r.get(\"form\") == \"10-K\" and r.get(\"fp\") == \"FY\" and r.get(\"val\") is not None:\n                rows.append((r.get(\"end\"), r[\"val\"]))\n    # dedup by period-end (keep last), newest first\n    by_end = {}\n    for end, val in rows:\n        by_end[end] = val\n    out = [by_end[k] for k in sorted(by_end, reverse=True)]",
+     "why": "Annual SEC values deduplicated by period-end with the last-seen value kept and the 'filed' date ignored, so backtests see restated numbers; compare BazaarTalks/pit_fundamentals.py which filters filed <= as-of."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Sharadar Core US Fundamentals (via Nasdaq Data Link / QuantRocket)",
+     "kind": "commercial",
+     "url": "https://www.quantrocket.com/docs/data/fundamental/sharadar/",
+     "overlap": "Commercial PIT US fundamentals (dimension-dated) since 1990, the thing the Aug survey thought this repo replicated for free."
+    },
+    {
+     "name": "Norgate Data",
+     "kind": "commercial",
+     "url": "https://norgatedata.com/",
+     "overlap": "Survivorship-bias-free US/AU/CA price data including delisted securities and historical index membership, which this repo explicitly lacks."
+    },
+    {
+     "name": "vectorbt",
+     "kind": "library",
+     "url": "https://pypi.org/project/vectorbt/0.23.0",
+     "overlap": "Vectorized backtesting of many screen variants over price panels; covers the same walk-forward price-screen edge measurement."
+    },
+    {
+     "name": "Microsoft Qlib",
+     "kind": "tool",
+     "url": "https://github.com/microsoft/qlib/blob/main/README.md",
+     "overlap": "Open-source quant platform with data handling, backtesting and evaluation; overlaps the backtest layer."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "The backtest is a clean, small price-only walk-forward; neither PIT fundamentals nor survivorship-free data are implemented here.",
+   "change_since_aug": "Overturned: Aug flagged this repo as 'open' for free PIT, survivorship-bias-free fundamentals across 5 markets. Its fundamentals ignore filing dates, its own findings admit survivorship bias, and the real US PIT code lives in BazaarTalks/global-market-scanners."
+  },
+  {
+   "repo": "BazaarTalks",
+   "does": "Superset of global-market-scanners: full-universe Darvas/Piotroski/Coffee-Can scanners for 5 markets, a US point-in-time backtest whose fundamentals are filtered by SEC 'filed' <= as-of date, a price-only PIT backtest for 18 other markets, QMJ/PEAD/Amihud/DVM factor modules, a FastAPI+HTML dashboard, and Cassandra/Kafka/Flink demo plumbing; adds 7 modules (ticker_view, charts, pipeline, live_fundamentals, screener/trendlyne sessions, build_india_seed).",
+   "claims_vs_code": [
+    {
+     "claim": "Point-in-time backtesting engine (multi-market).",
+     "evidence": "Fundamental PIT is US-only: pit_global.py:5-19 says non-US markets have only a current fundamentals snapshot and any fundamental overlay there is a look-ahead 'STATIC' overlay; pit_backtest.py:16-18 uses ~100 current US large caps (survivorship) and pit_backtest.py:111 picks liquid names using the last 252 days of volume (a look-ahead filter)."
+    },
+    {
+     "claim": "Darvas box scanner.",
+     "evidence": "full_us_market_scan.py:396-400 fillna(0)s highs/lows/closes before box detection, so a missing latest bar yields current=0 and a BREAKDOWN_SELL, the exact failure market-brief-base's README documents."
+    },
+    {
+     "claim": "Cassandra/Kafka/Flink data backbone.",
+     "evidence": "Code exists (market_store.py, stream_pipeline.py, flink_screens.py) but flink_screens.py:6-13 describes itself as a single-machine topology demo and recommends the pure-Python consumer instead."
+    }
+   ],
+   "maturity": "substantive",
+   "maturity_note": "One large test file (~119 tests in tests/test_core.py) + CI; 104 commits, last push 2026-10-23; 86% of its Python is byte-identical to global-market-scanners.",
+   "snippets": [
+    {
+     "path": "pit_fundamentals.py",
+     "lines": "174-191",
+     "lang": "python",
+     "code": "    for unit_vals in node.get(\"units\", {}).values():\n        for r in unit_vals:\n            if r.get(\"form\") != \"10-K\" or r.get(\"fp\") != \"FY\":\n                continue\n            filed, val, end, start = r.get(\"filed\"), r.get(\"val\"), r.get(\"end\"), r.get(\"start\")\n            if val is None or not filed or not end or filed > asof:\n                continue\n            # Duration concepts (income/revenue/cashflow) carry 'start': keep only\n            # ~annual periods (≈365d), dropping quarterly frames mis-tagged fp=FY.\n            # Instantaneous balance-sheet concepts have no 'start' — accept as-is\n            # (10-K snapshots are fiscal-year-end only).\n            if start:\n                days = (_d(end) - _d(start)).days\n                if not (350 <= days <= 385):\n                    continue\n            if end not in best or filed > best[end][0]:\n                best[end] = (filed, val)\n    return [best[k][1] for k in sorted(best, reverse=True)][:n]",
+     "why": "The real point-in-time rule in this cluster: keep only 10-K FY facts with filed <= as-of and, per period-end, the latest version public by then; Sharadar sells the same as-reported dating for the US."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "SEC EDGAR XBRL APIs (companyfacts / frames)",
+     "kind": "official",
+     "url": "https://www.sec.gov/page/sec-api-documentation",
+     "overlap": "companyfacts supplies the per-fact 'filed' date that pit_fundamentals.py filters on."
+    },
+    {
+     "name": "edgartools (dgunning/edgartools)",
+     "kind": "library",
+     "url": "https://edgartools.readthedocs.io/",
+     "overlap": "Open-source Python access to all XBRL facts and statements from EDGAR; replaces the fetch/cache half of pit_fundamentals.py."
+    },
+    {
+     "name": "Sharadar Core US Fundamentals (via Nasdaq Data Link / QuantRocket)",
+     "kind": "commercial",
+     "url": "https://www.quantrocket.com/docs/data/fundamental/sharadar/",
+     "overlap": "Commercial US PIT fundamentals; the as-of filtering here is a free, narrower (annual-only, ~10 concepts) equivalent."
+    },
+    {
+     "name": "Asness, Frazzini & Pedersen (2019), Quality minus junk, Review of Accounting Studies 24(1):34-112, doi:10.1007/s11142-018-9470-2",
+     "kind": "paper",
+     "url": "https://research-api.cbs.dk/ws/portalfiles/portal/60211462/lasse_heje_pedersen_et_al_quality_minus_junk_publishersversion.pdf",
+     "overlap": "quality_factor.py implements the QMJ profitability/growth/safety/payout composite from this paper."
+    },
+    {
+     "name": "Trendlyne DVM score",
+     "kind": "commercial",
+     "url": "https://help.trendlyne.com/support/solutions/articles/84000347982-what-is-the-trendlyne-dvm-score-and-how-does-it-work-",
+     "overlap": "dvm_engine.py/dvm_global.py reproduce Trendlyne's Durability/Valuation/Momentum scoring idea across 19 markets."
+    }
+   ],
+   "verdict": "prior-art",
+   "verdict_note": "A broad, tested factor-research kit; its genuine extra is a free US as-reported Piotroski/Coffee-Can backtest and honest labelling of where PIT stops, not new methods.",
+   "change_since_aug": "Partly confirmed: Aug listed it among crowded screeners; code shows it (not global-market-data) holds the only filed-date PIT fundamentals, and they are US-only. Near-duplicate of global-market-scanners."
+  },
+  {
+   "repo": "global-market-scanners",
+   "does": "Subset of BazaarTalks: the same 74 Python paths, 69 byte-identical (17,628 LOC), with 5 files differing by 15-104 lines (serve.py, warehouse.py, dashboard.py, marketdata.py, full_indian_market_scan.py) and none unique to it.",
+   "claims_vs_code": [
+    {
+     "claim": "Standalone full-universe Darvas + Piotroski + Coffee Can scanners.",
+     "evidence": "Backed: full_{us,indian,japan,korea,european}_market_scan.py implement them (real Darvas box at full_us_market_scan.py:380-439), with the same fillna(0) close issue as BazaarTalks (lines 396-398)."
+    },
+    {
+     "claim": "Lookahead-free Triple-Hit backtest (SEC EDGAR, filed-date filtered).",
+     "evidence": "Backed for the US only (pit_fundamentals.py, identical to BazaarTalks); pit_backtest.py:111 liquidity filter uses the trailing 252 days from the end of the sample."
+    },
+    {
+     "claim": "Screen viability net of tax and brokerage.",
+     "evidence": "apply_costs.py:35-41 subtracts a flat per-market round-trip % (India 0.30, US 0.10, ...), not an itemised cost model."
+    }
+   ],
+   "maturity": "substantive",
+   "maturity_note": "Same test file/CI as BazaarTalks; 97% of its Python is byte-identical elsewhere in the cluster. Measured overlap: 69/74 files identical, 17,628 of 19,118 LOC (92%).",
+   "snippets": [
+    {
+     "path": "full_us_market_scan.py",
+     "lines": "405-418",
+     "lang": "python",
+     "code": "    box_top_idx, box_top = None, None\n    for i in range(n - confirm - 1, -1, -1):\n        candidate = highs[i]\n        if candidate == 0:\n            continue\n        window = highs[i + 1: i + 1 + confirm]\n        if len(window) == confirm and all(h < candidate for h in window):\n            box_top_idx, box_top = i, candidate\n            break\n\n    if box_top is None:\n        return {\"signal\": \"NO_BOX\", \"box_top\": None, \"box_bottom\": None,\n                \"current_price\": round(current, 2)}\n",
+     "why": "The box-top rule: the most recent high not exceeded by the next `confirm` highs, excluding the current bar; this is the Darvas (1960) box as typically coded, and the bar exclusion matches market-brief-base."
+    },
+    {
+     "path": "pit_backtest.py",
+     "lines": "62-68",
+     "lang": "python",
+     "code": "def darvas_breakout(close: pd.Series, t) -> bool:\n    \"\"\"New high vs the prior BREAKOUT_LB closes (Darvas box breakout proxy).\"\"\"\n    loc = close.index.get_loc(t)\n    if loc < BREAKOUT_LB:\n        return False\n    prior = close.iloc[loc - BREAKOUT_LB:loc]\n    return bool(close.iloc[loc] >= prior.max())",
+     "why": "The backtest's 'Darvas breakout' is a 60-day new-high proxy, simpler than the scanner's box, so backtest results do not test the scanner's actual rule."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Finviz screener",
+     "kind": "commercial",
+     "url": "https://daytradingz.com/how-to-use-finviz/",
+     "overlap": "Offers new-high/breakout and fundamental filters for US names that overlap the US scan."
+    },
+    {
+     "name": "Screener.in",
+     "kind": "commercial",
+     "url": "https://www.stork.ai/en/screener-in",
+     "overlap": "Hosts Piotroski and Coffee-Can-style screens for India."
+    },
+    {
+     "name": "vectorbt",
+     "kind": "library",
+     "url": "https://pypi.org/project/vectorbt/0.23.0",
+     "overlap": "Generic engine for the screen-viability and breakout backtests."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Redundant with BazaarTalks; no unique files. Candidate for archiving or for being made the canonical repo with BazaarTalks' 7 extra modules merged in.",
+   "change_since_aug": "Confirmed near-duplicate (Aug listed both separately); measured 92% LOC identity with BazaarTalks."
+  },
+  {
+   "repo": "Bazartalks_Py2Cplus",
+   "does": "A CMake/vcpkg C++20 port of BazaarTalks' factor, stats, storage (DuckDB/Cassandra/SQLite/Parquet), Kafka and HTTP (Drogon) layers, each module validated by Catch2 golden-fixture tests generated from the unmodified Python originals; Python is kept as a data-acquisition/ML-training sidecar.",
+   "claims_vs_code": [
+    {
+     "claim": "5.94x end-to-end speedup over Python.",
+     "evidence": "Backed by benchmarks/pipeline_cutover drivers and docs/MIGRATION_PLAN.md:262-263 (release build); measured on the author's machine, not reproduced in CI."
+    }
+   ],
+   "maturity": "substantive",
+   "maturity_note": "46 C++ test files with golden/parity fixtures, CI (ci.yml), 48 commits, last push 2026-10-12; ~9.5k C++ LOC.",
+   "snippets": [
+    {
+     "path": "libs/quant_core/quality_factor/src/quality_factor.cpp",
+     "lines": "86-103",
+     "lang": "cpp",
+     "code": "  // profitability: roe(+1), roa(+1), op_margin(+1)\n  auto profitability = row_mean_skipna({\n      signed_zrank(extract(&QualityInputs::roe), +1),\n      signed_zrank(extract(&QualityInputs::roa), +1),\n      signed_zrank(extract(&QualityInputs::op_margin), +1),\n  });\n  // growth: rev_growth(+1), earn_growth(+1)\n  auto growth = row_mean_skipna({\n      signed_zrank(extract(&QualityInputs::rev_growth), +1),\n      signed_zrank(extract(&QualityInputs::earn_growth), +1),\n  });\n  // safety: de(-1), beta(-1), vol(-1)\n  auto safety = row_mean_skipna({\n      signed_zrank(extract(&QualityInputs::de), -1),\n      signed_zrank(extract(&QualityInputs::beta), -1),\n      signed_zrank(extract(&QualityInputs::vol), -1),\n  });\n  // payout: div_yield(+1)",
+     "why": "QMJ-style quality composite (profitability, growth, safety, payout) as cross-sectional z-ranks, ported 1:1 from quality_factor.py; follows Asness-Frazzini-Pedersen's construction with a reduced input set."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "QuantConnect LEAN engine",
+     "kind": "tool",
+     "url": "https://www.quantconnect.com/docs/v2/lean-engine/getting-started",
+     "overlap": "Open-source C# engine covering backtest, data and live layers that a C++ rewrite would otherwise build."
+    },
+    {
+     "name": "Microsoft Qlib",
+     "kind": "tool",
+     "url": "https://github.com/microsoft/qlib/blob/main/README.md",
+     "overlap": "Covers the factor/backtest/serving stack in Python with compiled internals."
+    },
+    {
+     "name": "Asness, Frazzini & Pedersen (2019), Quality minus junk, Review of Accounting Studies 24(1):34-112, doi:10.1007/s11142-018-9470-2",
+     "kind": "paper",
+     "url": "https://research-api.cbs.dk/ws/portalfiles/portal/60211462/lasse_heje_pedersen_et_al_quality_minus_junk_publishersversion.pdf",
+     "overlap": "The quality factor ported here follows this paper's construction."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "An engineering exercise (Python-to-C++ port with golden-fixture parity tests) rather than a research contribution; the methodology of validating a port against frozen Python outputs is the reusable part.",
+   "change_since_aug": "Not individually covered in Aug; new: verified real C++ with tests, not a README-only rewrite."
+  },
+  {
+   "repo": "global-ticker-universe",
+   "does": "universe_builder.py concatenates per-market ticker JSON/CSV files (or hardcoded fallback lists) into one universe JSON; global_scanner.py and daily_scan_excel.py run a breakpoint-table 'Pegu' 0-100 score and a 'Sarvas' signal over yfinance fundamentals and export Excel.",
+   "claims_vs_code": [
+    {
+     "claim": "60,971 validated tickers, cross-referenced against FinanceDatabase, deduplicated and filtered for active listings.",
+     "evidence": "No code imports or queries FinanceDatabase or checks listing status; universe_builder.py:50-63 and 727-729 only read local files and drop exact duplicates. Counts like Austria 8,813 / Germany 17,121 are implausible for domestic listings and suggest foreign cross-listings."
+    },
+    {
+     "claim": "German Eurex derivatives universe from the Eurex T7 GraphQL API.",
+     "evidence": "No Python file references Eurex or GraphQL."
+    },
+    {
+     "claim": "Pegu score ranks quality.",
+     "evidence": "global_scanner.py:279-281 returns the last breakpoint's score for missing values, so a missing ROE scores the maximum 30 and missing current ratio the maximum 15; missing fundamentals inflate scores."
+    },
+    {
+     "claim": "Repo purpose.",
+     "evidence": "README opens with a personal GitHub profile blurb before the project description."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "3 small test files + CI; logic is list concatenation plus a hand-set scoring table; daily_scan_excel.py falls back to built-in sample data under --mock.",
+   "snippets": [
+    {
+     "path": "global_scanner.py",
+     "lines": "279-296",
+     "lang": "python",
+     "code": "def _score(val, breakpoints):\n    if val is None or (isinstance(val, float) and math.isnan(val)):\n        return breakpoints[-1][1]\n    for threshold, score in breakpoints:\n        if val < threshold:\n            return score\n    return breakpoints[-1][1]\n\n\ndef pegu_score(row: dict) -> Tuple[float, str]:\n    \"\"\"Compute Pegu score (0-100) and grade for a stock data dict.\"\"\"\n\n    # Valuation (30 pts)\n    pe  = _score(row.get(\"pe_ratio\"),  [(0,0),(10,4),(15,8),(20,12),(25,10),(35,6),(50,2),(1e9,0)])\n    peg = _score(row.get(\"peg_ratio\"), [(0,0),(0.5,6),(1.0,10),(1.5,8),(2.0,4),(3.0,2),(1e9,0)])\n    pb  = _score(row.get(\"pb_ratio\"),  [(0,0),(1,6),(2,10),(3,8),(5,4),(10,2),(1e9,0)])\n    val = min(pe + peg + pb, 30)\n",
+     "why": "Breakpoint scoring for Pegu; the first branch shows missing values receiving the final (often highest) bucket. Commercial composites such as Trendlyne DVM do the same job with documented methodology."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "FinanceDatabase (JerBouma)",
+     "kind": "dataset",
+     "url": "https://github.com/JerBouma/FinanceDatabase/releases",
+     "overlap": "300k+ symbols across 117 countries with exchange/sector classification, i.e. the dataset the README says it validates against."
+    },
+    {
+     "name": "OpenBB Platform",
+     "kind": "tool",
+     "url": "https://pypi.org/project/openbb/",
+     "overlap": "Multi-provider equity search/price access that covers the scanner's yfinance data path."
+    },
+    {
+     "name": "Trendlyne DVM score",
+     "kind": "commercial",
+     "url": "https://help.trendlyne.com/support/solutions/articles/84000347982-what-is-the-trendlyne-dvm-score-and-how-does-it-work-",
+     "overlap": "Commercial composite stock score (durability/valuation/momentum) analogous to Pegu."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "A ticker list plus a heuristic score; FinanceDatabase already provides a larger, maintained universe.",
+   "change_since_aug": "Aug listed it in the screener group without detail; code shows the validation claim is not implemented."
+  },
+  {
+   "repo": "europe-stock-screener",
+   "does": "A standalone extraction of the platform's daily_scanner for European tickers: fetch.py pulls yfinance OHLCV, technicals.py computes EMA/RSI/MACD/BB/ATR/stochastic, scanner.py assigns Darvas/Buffett and 'Piotroski-simplified' point scores, run_scan.py writes reports.",
+   "claims_vs_code": [
+    {
+     "claim": "Darvas/Buffett screen.",
+     "evidence": "screener/scanner.py:154-166 uses 'within 15% of 52W high' and EMA/RSI conditions; no Darvas box is formed."
+    },
+    {
+     "claim": "Piotroski-simplified.",
+     "evidence": "Same level/momentum score as the platform's daily_scanner (scan_piotroski is identical apart from comments and an exchange key)."
+    },
+    {
+     "claim": "EMA-200 trend filter.",
+     "evidence": "screener/technicals.py:118 computes ema200 whenever n >= 50 bars, so 'above EMA-200' is evaluated on under-warmed EMAs for short histories."
+    },
+    {
+     "claim": "1,063 stocks across 23 exchanges (GitHub description says 966/17).",
+     "evidence": "Description and README disagree; data/ is not in the code clone, so the count cannot be checked here."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "~780 LOC, no tests, no CI, 7 commits; BUY threshold fixed at 5 while max score varies 6-16.",
+   "snippets": [
+    {
+     "path": "screener/scanner.py",
+     "lines": "158-173",
+     "lang": "python",
+     "code": "    c_roe         = _vcrit(roe > 12,                                  v_d5)\n    c_pe          = _vcrit(pe.between(5, 30),                         v_d6)\n    c_de          = _vcrit(de < 1.0,                                  v_d7)\n    c_above_e200  = _vcrit(cmp > e200,                                v_d8)\n    c_macd_bull   = _vcrit(macd > msig,                               v_d9)\n    c_vol_surge   = _vcrit(vr > 1.5,                                  v_d10)\n    c_ema_cross   = _vcrit(e20 > e50,                                 v_d11)\n    c_bb_upper    = _vcrit(bb_pct > 0.5,                              v_d12)\n    c_stoch_bull  = _vcrit(stk.between(20, 80) & (stk > std),        v_d13)\n\n    score = (\n        _pts(c_near_high, 2) + _pts(c_above_e50, 2) + _pts(c_range_str) +\n        _pts(c_rsi_health) + _pts(c_roe) + _pts(c_pe) + _pts(c_de) +\n        _pts(c_above_e200) + _pts(c_macd_bull) + _pts(c_vol_surge) +\n        _pts(c_ema_cross) + _pts(c_bb_upper) + _pts(c_stoch_bull)\n    )",
+     "why": "The whole method: thirteen threshold tests summed with weights, BUY >= 5; Finviz/TradingView screeners expose the same filters interactively."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Finviz screener",
+     "kind": "commercial",
+     "url": "https://daytradingz.com/how-to-use-finviz/",
+     "overlap": "Equivalent technical and valuation filters (SMA, RSI, P/E, ROE) though US-focused."
+    },
+    {
+     "name": "OpenBB Platform",
+     "kind": "tool",
+     "url": "https://pypi.org/project/openbb/",
+     "overlap": "Provides the Yahoo-backed price and fundamentals data path for European tickers."
+    },
+    {
+     "name": "Trendlyne DVM score",
+     "kind": "commercial",
+     "url": "https://help.trendlyne.com/support/solutions/articles/84000347982-what-is-the-trendlyne-dvm-score-and-how-does-it-work-",
+     "overlap": "Momentum + valuation + durability composite scoring offered commercially."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "A thin regional wrapper over a generic technical point score.",
+   "change_since_aug": "Confirmed crowded; new: Darvas label is not backed by a box algorithm."
+  },
+  {
+   "repo": "stock-screener-ddd",
+   "does": "A DDD skeleton: value objects (Ticker, Price, Criterion), aggregates (MarketData, Stock), abstract + in-memory repositories, an in-process event bus, and a ScreeningService that evaluates criteria and publishes events; 29 test functions.",
+   "claims_vs_code": [
+    {
+     "claim": "Six bounded contexts incl. Portfolio Strategy, Backtesting, Risk & Signals, Reporting.",
+     "evidence": "src/backtesting, src/portfolio_strategy, src/risk_signals, src/reporting contain only empty __init__.py files."
+    },
+    {
+     "claim": "A stock screening system.",
+     "evidence": "Only in-memory repositories exist (MarketDataRepositoryMemory, StockRepositoryMemory); no data adapter, no real screen definitions."
+    }
+   ],
+   "maturity": "thin",
+   "maturity_note": "~1.1k LOC of src, 12 test files, no CI, 5 commits; architecture demo rather than a working screener.",
+   "snippets": [
+    {
+     "path": "src/stock_analysis/domain/models.py",
+     "lines": "35-50",
+     "lang": "python",
+     "code": "    def matches(self, value: Decimal) -> bool:\n        \"\"\"\n        Evaluate if value matches this criterion\n        Pure business logic - no side effects\n        \"\"\"\n        if self.operator == \"<\":\n            return value < self.threshold\n        elif self.operator == \">\":\n            return value > self.threshold\n        elif self.operator == \"==\":\n            return value == self.threshold\n        elif self.operator == \"<=\":\n            return value <= self.threshold\n        elif self.operator == \">=\":\n            return value >= self.threshold\n        return False",
+     "why": "The domain logic is a comparison-operator value object, illustrating Evans' value-object pattern rather than any screening method."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Evans (2003), Domain-Driven Design: Tackling Complexity in the Heart of Software, Addison-Wesley, ISBN 0-321-12521-5",
+     "kind": "paper",
+     "url": "https://oreil.ly/3fGwK",
+     "overlap": "The bounded-context, aggregate, value-object and repository patterns the repo demonstrates come from this book."
+    },
+    {
+     "name": "Finviz screener",
+     "kind": "commercial",
+     "url": "https://daytradingz.com/how-to-use-finviz/",
+     "overlap": "A working screener with the same threshold-criterion model exposed as filters."
+    }
+   ],
+   "verdict": "n/a",
+   "verdict_note": "Architecture exercise; no survey question about screening novelty.",
+   "change_since_aug": "Not covered in Aug; new: four of six advertised contexts are empty packages."
+  },
+  {
+   "repo": "us-stock-picks",
+   "does": "Reads the newest us_full_scan_*.xlsx produced by the scanners, applies price/turnover/liquidity-tier gates, sums hand-weighted screen flags into a 0-100 conviction score, assigns sleeves, caps names per sector and writes an HTML report, ranked CSV/JSON and an equal-weight paper portfolio.",
+   "claims_vs_code": [
+    {
+     "claim": "Investor + quant product.",
+     "evidence": "No tests and no backtest of the conviction weights (config.WEIGHTS are hand-set); CI is gitleaks only. Depends on a scan workbook from market-pipeline that is not in the repo."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "~880 LOC, 5 commits, no tests; README candidly notes the as-of date comes from the workbook filename, not the data session.",
+   "snippets": [
+    {
+     "path": "us_stock_picks/engine.py",
+     "lines": "220-237",
+     "lang": "python",
+     "code": "def _conviction_score(df: pd.DataFrame) -> pd.Series:\n    w = cfg.WEIGHTS\n    score = (\n        df[\"scr_breakout\"].astype(int) * w[\"breakout\"]\n        + df[\"scr_piotroski\"].astype(int) * w[\"piotroski_strong\"]\n        + df[\"scr_coffee\"].astype(int) * w[\"coffee_can\"]\n        + df[\"scr_magic\"].astype(int) * w[\"magic_formula\"]\n        + df[\"scr_bull\"].astype(int) * w[\"bull_cartel\"]\n        + df[\"scr_gc\"].astype(int) * w[\"golden_cross\"]\n        + df[\"scr_quality_ab\"].astype(int) * w[\"quality_ab\"]\n        + df[\"scr_actionable\"].astype(int) * w[\"actionable\"]\n        + df[\"scr_ml\"].astype(int) * w[\"ml_bullish\"]\n        + df[\"scr_above_ema50\"].astype(int) * w[\"above_ema50\"]\n    ).astype(float)\n\n    # Continuous boosts from quality / F-score / liquidity\n    qs = _num(df[\"Quality_Score\"]) if \"Quality_Score\" in df.columns else pd.Series(0.0, index=df.index)\n    score = score + (qs.fillna(0).clip(0, 100) / 100.0) * 8.0",
+     "why": "Conviction = weighted count of screen hits plus quality/F-score boosts; an unvalidated linear ensemble, the same idea as Trendlyne-style composite scores."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Finviz screener",
+     "kind": "commercial",
+     "url": "https://daytradingz.com/how-to-use-finviz/",
+     "overlap": "US screener with signal presets that produce comparable shortlists."
+    },
+    {
+     "name": "Trendlyne DVM score",
+     "kind": "commercial",
+     "url": "https://help.trendlyne.com/support/solutions/articles/84000347982-what-is-the-trendlyne-dvm-score-and-how-does-it-work-",
+     "overlap": "Composite multi-signal stock scoring offered as a product."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "A presentation/ranking layer over existing scan output; no new method.",
+   "change_since_aug": "Not covered in Aug; new repo."
+  },
+  {
+   "repo": "market-brief-base",
+   "does": "One 400-line script run by GitHub Actions: fetches 30 large caps (15 India, 15 US) from yfinance, computes last settled close, day change, 50/200 SMA cross and a Darvas box on settled bars with the current bar excluded, renders HTML and optionally emails it; includes a --self-test of the signal logic.",
+   "claims_vs_code": [],
+   "maturity": "scripts-only",
+   "maturity_note": "Small but deliberate: self-test, scheduled CI workflow (daily-brief.yml), no zero-filling; 9 commits.",
+   "snippets": [
+    {
+     "path": "brief.py",
+     "lines": "106-123",
+     "lang": "python",
+     "code": "    h, l = highs[:-1], lows[:-1]             # historical only\n    top = top_i = None\n    for i in range(len(h) - DARVAS_CONFIRM - 1, -1, -1):\n        c = h[i]\n        if c != c or c <= 0:\n            continue\n        w = h[i + 1: i + 1 + DARVAS_CONFIRM]\n        if len(w) == DARVAS_CONFIRM and all(x < c for x in w):\n            top, top_i = c, i\n            break\n    if top is None:\n        return {\"signal\": \"NO_BOX\", \"top\": None, \"bottom\": None}\n\n    seg = [x for x in l[top_i:] if x == x and x > 0]\n    bottom = min(seg) if seg else None\n    if bottom is None:\n        return {\"signal\": \"NO_BOX\", \"top\": None, \"bottom\": None}\n",
+     "why": "Darvas box on settled bars with NaN-safe handling, fixing the fillna(0) BREAKDOWN_SELL failure still present in global-market-scanners/BazaarTalks."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Finviz screener",
+     "kind": "commercial",
+     "url": "https://daytradingz.com/how-to-use-finviz/",
+     "overlap": "Free daily view of new highs, SMA crosses and price changes for US names."
+    },
+    {
+     "name": "OpenBB Platform",
+     "kind": "tool",
+     "url": "https://pypi.org/project/openbb/",
+     "overlap": "Can pull the same daily prices and produce reports."
+    }
+   ],
+   "verdict": "n/a",
+   "verdict_note": "Reliability floor for the author's own mailer; no research claim.",
+   "change_since_aug": "Not covered in Aug; new repo."
+  },
+  {
+   "repo": "market-data-artifacts",
+   "does": "No code: README, DATA_ACCESS.md and Git LFS pointers for derived caches (edgar_facts.db, fundamentals_cache.db, market.duckdb, backtest DBs) and a 19-market OHLC seed from global-market-scanners.",
+   "claims_vs_code": [
+    {
+     "claim": "'Private backup'.",
+     "evidence": "The repo is public per the audit (vis: pub) while the README and description call it private."
+    }
+   ],
+   "maturity": "data-only",
+   "maturity_note": "4 commits; LFS pointers only; regenerable per README.",
+   "snippets": [],
+   "prior_art": [],
+   "verdict": "n/a",
+   "verdict_note": "Data backup; no code or survey question. No snippet because there is no code.",
+   "change_since_aug": "Not covered in Aug; data-only repo."
+  }
+ ]
+}

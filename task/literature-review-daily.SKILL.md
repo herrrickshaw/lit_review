@@ -1,13 +1,13 @@
 ---
 name: literature-review-daily
-description: "Mon-Sat 07:30 IST: two review tracks plus a sync. A) trading-strategy literature for market-pipeline, triaged and graded into the literature register. B) commissioning sources for the masaladeutsch blog, graded into its source register. C) mirror both repos' review files into the private lit_review repo and push. Read-only in both source repos apart from the named append targets; no backtests run, no blog post published; the Track C mirror is the task's only git write."
+description: "Mon-Sat 07:30 IST: three review tracks plus a sync. A) trading-strategy literature for market-pipeline, triaged and graded into the literature register. B) commissioning sources for the masaladeutsch blog, graded into its source register. D) papers, tools and datasets for the other herrrickshaw repos (energy/process, battery/health, trade policy, civic records, dev tooling, finance toolkits), checked against what each repo's code actually does. C) mirror the review files into the private lit_review repo and push. Read-only in every source repo apart from the named append targets; no backtests run, no blog post published; the Track C mirror is the task's only git write."
 ---
 
-Two independent daily reviews, run in order. **Track A** extends the market-pipeline literature review (trading techniques). **Track B** finds commissioning material for the masaladeutsch blog (article sources). They share nothing but this file: different repos, different registers, different grading bars.
+Three independent daily reviews, run in order A, B, D, then the C sync. **Track A** extends the market-pipeline literature review (trading techniques). **Track B** finds commissioning material for the masaladeutsch blog (article sources). **Track D** (added 2026-10-24) keeps the code-grounded portfolio review of the other herrrickshaw repos current. They share nothing but this file: different repos, different registers, different grading bars.
 
 This is a small, bounded, DAILY task — not a repeat of a full research sweep. You have no memory of prior runs; everything you need is in the files below.
 
-**Run Track A first.** If it consumed an unusual amount of effort, do Track B at reduced budget (triage 2, deep-read 0) or skip it with one line in the log saying so. A skipped Track B is fine; a Track A that never finished is not.
+**Run Track A first.** If it consumed an unusual amount of effort, do Track B at reduced budget (triage 2, deep-read 0) or skip it with one line in the log saying so. A skipped Track B is fine; a Track A that never finished is not. The same rule applies to Track D after Tracks A and B: reduce it (triage 2, deep-read 0) or skip it with one line rather than letting the run sprawl.
 
 ## Track A — where things live
 - **Register (read this first)**: `/Users/umashankar/market-pipeline/research/LITERATURE_REGISTER.md` — every paper already reviewed, graded, with its doing-right/gap verdict. Check every candidate's arXiv ID against this file before triaging it — do not re-review a paper already logged.
@@ -180,9 +180,88 @@ than full and padded. An empty day is a legitimate result and should be recorded
 
 ---
 
+# Track D — literature for the rest of the repo portfolio
+
+Added 2026-10-24 after a code-grounded review of all 118 `herrrickshaw` GitHub repos. Track A covers
+market-pipeline's trading strategies only; Track D covers everything else that review found: energy and
+process design, batteries and health, India trade and industrial policy, civic records, dev tooling, and
+the corporate-finance toolkits. It asks a third question: **does this source change what we know about a
+repo** — new prior art that overturns an "open" verdict, a method the repo should adopt, or a dataset or
+standard its code gets wrong.
+
+## Track D — where things live
+
+- **Baseline (read the day's cluster first):** `/Users/Shared/lit_review/portfolio/baseline/<CLUSTER>.result.json`.
+  For each repo: `does` (what the code actually does), `claims_vs_code` (README claims the code does not back),
+  `snippets` (the method's real lines), `prior_art` (already found — do not re-log), `verdict`
+  (open / prior-art / adjacent / crowded / n/a). `baseline/code_audit.json` has LOC, tests and CI per repo.
+- **Register:** `/Users/Shared/lit_review/portfolio/REPO_LITERATURE_REGISTER.md` — entry format at its top.
+  Check every candidate against it and the baseline `prior_art` before triage.
+- **Action queue:** `/Users/Shared/lit_review/portfolio/REPO_ACTIONS.md` — append only; never executed by this task.
+- **Per-day log:** append a `## Track D` section to the same `research/literature_runs/<today>.md` file
+  Track A writes. Do not create another log file.
+- **Repos:** `github.com/herrrickshaw/<repo>`. Read code with `gh api repos/herrrickshaw/<repo>/contents/<path>`
+  (add `-H "Accept: application/vnd.github.raw"`) or a `git clone --depth 1 --filter=blob:none` into a NEW
+  empty directory under the scratchpad (never under `$HOME`), read with grep/Read, and delete it at the end.
+
+## Track D — hard constraints
+
+- **Read-only in every herrrickshaw repo.** No commits, pushes, branches, issues, PRs or comments. The only
+  writes are the two `portfolio/` files above and today's log section. `portfolio/` is versioned by Track C.
+- **Budget cap.** Triage at most **5** candidates; deep-read at most **2**. Same 30-second pre-grade as Track A:
+  what does the source actually show, on what data, and is it reproducible (code/data released)?
+- **No fabrication.** Every claim about a source comes from a page you fetched. Every "the repo does / does not
+  do X" comes from a grep or read you ran today, cited `repo:path:line` — not from the baseline, which is a
+  2026-10-24 snapshot and may be stale. If the code changed since the baseline, say so.
+- **Privacy.** Private repos may be read but quote at most 3 lines from them. Never quote data rows from
+  `india-govt-yellow-pages` (named officials' contacts), and never open `personal-profile` or `working-files`.
+- **Vendor market-size estimates are WEAK by default** (same rule as Track B).
+- **Do not re-queue fixed items.** `REPO_ACTIONS.md` lists what was already fixed on 2026-10-24.
+
+## Track D — what to search
+
+1. **Open-ground check (one triage slot, when the day's cluster has one).** The baseline marks these repos
+   `open` (no direct equivalent found on 2026-10-24): saf-monitoring-system, cng-cgd-retail-outlet-mapping,
+   discom-debt-and-revenue-models (C); prenatal-care-toolkit (D); iem-tracker (E); gazette-translated-indexed,
+   CBSE_paper_patterns (F). Search once for a new tool or paper doing the same thing. If one exists, that is
+   the most valuable finding of the day: log it with `Verdict effect: open -> prior-art`.
+
+2. **One rotating query for the day's cluster.** Even ISO weeks use the first query, odd ISO weeks the second.
+
+   | Day | Cluster (baseline file) | Even week | Odd week |
+   |---|---|---|---|
+   | Mon | C energy, process & fuels (`C_energy_process_fuels`) | "techno-economic analysis open-source process model validation lignocellulosic ethanol biogas" | "CORSIA SAF life-cycle emissions ILUC default values update" |
+   | Tue | D battery, health & ML (`D_battery_health_ml`) | "battery state of charge estimation extended Kalman filter real-cell open dataset benchmark" | "echocardiography valvular heart disease deep learning public dataset validation" |
+   | Wed | E trade, industry & policy (`E_trade_industry_policy`) | "revealed comparative advantage import penetration India HS6 trade data" | "production linked incentive scheme evaluation firm-level India" |
+   | Thu | F civic records & govt text (`F_civic_govt_text`) | "statute amendment citation graph legal document versioning NLP" | "exam question classification Bloom taxonomy recurrence NLP" |
+   | Fri | G dev tooling, RAG & publishing (`G_devtools_rag_content`) | "hybrid retrieval BM25 dense reciprocal rank fusion domain-specific RAG evaluation" | "data provenance tamper-evident lineage hash chain reproducible pipelines" |
+   | Sat | A/B finance toolkits & data (`A_market_data_screeners`, `B_quant_research_finance`) | "put-call-futures parity arbitrage emerging market transaction costs" | "point-in-time fundamentals filing date look-ahead bias non-US equities" |
+
+   Saturday is for the toolkits and data engineering (parity mechanics, DCF/valuation methods, point-in-time
+   data), **not** trading-strategy alpha papers, which stay in Track A. Use WebSearch, or arXiv/Semantic Scholar
+   via WebFetch if WebSearch is unavailable.
+
+3. Stop at ~5 candidates or 3 genuine search attempts, whichever comes first.
+
+## Track D — for each source that passes triage (deep-read, max 2)
+
+Fetch the source; record exact title, authors, venue, date and id. Find the repo(s) it bears on in the day's
+baseline file, then check the CURRENT code (grep/read, cite file:line) for the specific point. Append one entry
+to `REPO_LITERATURE_REGISTER.md` under `## Entries` in the format at the top of that file. If the gap is concrete
+and doable without paid data or a GPU, append one line to `REPO_ACTIONS.md` under `## Open`. Sources that fail
+triage get one line each under `## Weak / not relevant`.
+
+## Track D — output
+
+Append `## Track D` to today's log: the cluster and query used, candidates with a one-line verdict each, the
+write-ups, any verdict changes, and what was queued. Under ~250 words. An empty day is a legitimate result:
+one line saying so, nothing padded.
+
+---
+
 # Track C — sync the mirror repo
 
-Runs **last**, after both tracks have finished writing. Purely mechanical: no research,
+Runs **last**, after Tracks A, B and D have finished writing. Purely mechanical: no research,
 no judgement, no budget. Its only job is to version today's review output somewhere
 independent of the two repos it was written into.
 
@@ -204,6 +283,7 @@ It is a **mirror**. The source of truth stays where Tracks A and B wrote it:
 | `masaladeutsch/COMMISSION_QUEUE.md` | `~/masaladeutsch-archive/docs/COMMISSION_QUEUE.md` |
 | `masaladeutsch/LITERATURE_SURVEY.md` | `~/masaladeutsch-archive/docs/LITERATURE_SURVEY.md` |
 | `task/literature-review-daily.SKILL.md` | `~/.claude/scheduled-tasks/literature-review-daily/SKILL.md` (this file) |
+| `portfolio/` | **itself** — Track D writes here directly; this is the one directory whose source of truth is the mirror repo. Never overwrite it from anywhere else. |
 
 Copy source → mirror, never the reverse. If the two ever disagree, the source repo wins.
 
@@ -233,7 +313,7 @@ force-add it into the `$HOME` repo.
 
 ## Steps
 
-1. Copy the six paths in the table above, source → mirror (`literature_runs/` copies the
+1. Copy the seven source paths in the table above (everything except `portfolio/`, which is already in place), source → mirror (`literature_runs/` copies the
    whole directory, so back-dated files that were added by hand get picked up too).
 
 2. Check whether anything actually changed:

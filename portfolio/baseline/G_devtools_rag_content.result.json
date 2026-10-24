@@ -1,0 +1,1165 @@
+{
+ "cluster": "G_devtools_rag_content",
+ "cluster_summary": "Judged from code, the open ground in this cluster is narrow and operational rather than methodological: ship2shore_rag's free, legally-sourced, offline-shippable maritime corpus (MAIB/NTSB/NtM ingestion + SQLite vessel snapshot) and repo-traffic-analytics' CI-checkout and owner-activity subtraction are the two pieces with no packaged equivalent found. ship2shore_rag does now implement dense+sparse RRF hybrid retrieval with cross-encoder rerank and an eval harness, but the method itself was published for maritime accident reports in June 2026 (arXiv:2606.13249), and only its vessel path uses true BM25 (the shore path uses Postgres ts_rank). claude-lmstudio-router is now fully superseded: LM Studio 0.4.1 (its own target) and Ollama both serve native Anthropic /v1/messages for Claude Code. memory-map-optimizer's search re-implements what qmd already ships (BM25+vector, RRF k=60, Qwen3 reranker). The biggest README-vs-code gaps are in data_validator (Kaggle 'discovery' is a hardcoded list, cross-source consistency samples 20 symbols x 5 dates with exceptions swallowed, leakage detection is line regexes), cache_memory_cleaner (archive-evict 'byte-verifies' by size only before rm -rf), claude-provenance ('tamper-evidence' hashes are recomputed on re-ingest), and blog-consistency-check (screenshot baselines are never diffed). Roughly 13 of the 33 repos are infra, docs, data stubs or personal files with no survey question; cloud-map is public but maps personal cloud folders and should be private.",
+ "literature": [
+  {
+   "cite": "Cormack, G. V., Clarke, C. L. A., & Büttcher, S. (2009). Reciprocal rank fusion outperforms Condorcet and individual rank learning methods. SIGIR 2009, pp. 758-759. doi:10.1145/1571941.1572114",
+   "url": "https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf",
+   "used_by": [
+    "ship2shore_rag",
+    "memory-map-optimizer"
+   ],
+   "how": "retrieval/retriever.py:54-58 and sqlite_store.py:167-170 (ship2shore, 0-based rank), memory_map_optimizer.py:363-367 (k=60)."
+  },
+  {
+   "cite": "Nogueira, R., & Cho, K. (2019). Passage Re-ranking with BERT. arXiv:1901.04085",
+   "url": "https://arxiv.org/abs/1901.04085",
+   "used_by": [
+    "ship2shore_rag",
+    "memory-map-optimizer"
+   ],
+   "how": "Cross-encoder rerank stage: ship2shore retrieval/rerank.py (ms-marco MiniLM cross-encoder); memory-map-optimizer rerank() with Qwen3-Reranker."
+  },
+  {
+   "cite": "Kim, S., & Kim, S. (2026). Multi-Field Hybrid Retrieval-Augmented Generation for Maritime Accident Root Cause Analysis. arXiv:2606.13249",
+   "url": "https://arxiv.org/abs/2606.13249",
+   "used_by": [
+    "ship2shore_rag"
+   ],
+   "how": "Cited in retriever.py docstring; ship2shore implements the sparse+dense RRF but not the multi-field (summary/causes/disposition) indexing."
+  },
+  {
+   "cite": "Traag, V. A., Waltman, L., & van Eck, N. J. (2019). From Louvain to Leiden: guaranteeing well-connected communities. Scientific Reports 9, 5233. doi:10.1038/s41598-019-41695-z",
+   "url": "https://arxiv.org/abs/1810.08473",
+   "used_by": [
+    "memory-map-optimizer"
+   ],
+   "how": "memory_map_optimizer.py:148-183 via leidenalg."
+  },
+  {
+   "cite": "Yang, C., Brower-Sinning, R. A., Lewis, G. A., & Kästner, C. (2022). Data Leakage in Notebooks: Static Detection and Better Processes. ASE 2022. arXiv:2209.03345",
+   "url": "https://arxiv.org/abs/2209.03345",
+   "used_by": [
+    "data_validator"
+   ],
+   "how": "Not implemented; data_validator.py:408-451 uses line regexes instead of dataflow analysis."
+  },
+  {
+   "cite": "Islam, P., et al. (2023). FinanceBench: A New Benchmark for Financial Question Answering. arXiv:2311.11944",
+   "url": "https://arxiv.org/abs/2311.11944",
+   "used_by": [
+    "llm-extract-citation-fix"
+   ],
+   "how": "Cited in llm_extract.py:122-124 as motivation for citation grounding."
+  },
+  {
+   "cite": "Verga, P., Hofstätter, S., et al. (2024). Replacing Judges with Juries: Evaluating LLM Generations with a Panel of Diverse Models. arXiv:2404.18796",
+   "url": "https://arxiv.org/abs/2404.18796",
+   "used_by": [
+    "blogger_writeups_code"
+   ],
+   "how": "Panel idea applied in tools/multi_model_factcheck.py run_one (not cited there)."
+  },
+  {
+   "cite": "W3C Web Content Accessibility Guidelines 2.1, Success Criterion 1.4.3 Contrast (Minimum)",
+   "url": "https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html",
+   "used_by": [
+    "blog-consistency-check"
+   ],
+   "how": "Contrast rules in checks.py/audit.py, but at a 3:1 threshold for all text rather than 4.5:1 for normal text."
+  }
+ ],
+ "repos": [
+  {
+   "repo": "ship2shore_rag",
+   "does": "Ingests arXiv, Wikipedia, UK MAIB, NTSB (via CAROL's JSON endpoint), UKHO Notices to Mariners and local files; chunks to 220-word windows, embeds with all-MiniLM-L6-v2, and retrieves by fusing pgvector cosine with Postgres full-text (shore) or sqlite-vec with FTS5 BM25 (vessel snapshot) via RRF, then cross-encoder rerank, then a per-source/near-duplicate diversity cut; optional Claude answer with a no-LLM [n] citation checker. Also carries a separate vessel operations CRUD module and a Kafka->DuckDB telemetry sketch.",
+   "claims_vs_code": [
+    {
+     "claim": "Hybrid BM25+dense retrieval (the August brief's recommendation)",
+     "evidence": "Implemented, but only the vessel/SQLite path is true BM25 (FTS5 'ORDER BY rank', retrieval/sqlite_store.py:159). The default shore path ranks the sparse side with Postgres ts_rank (retrieval/retriever.py:43-51), a term-frequency score, not BM25."
+    },
+    {
+     "claim": "Retrieval quality is measurable (Recall@k/MRR, MRR 0.633->0.933 with rerank, CHANGELOG.md:657)",
+     "evidence": "Harness is real (eval/evaluate.py) but eval/queries.yaml holds 17 hand-picked queries with exactly one expected URL each; numbers are from a tiny single-annotator set, not a benchmark."
+    },
+    {
+     "claim": "Filters by --since/--source-filter",
+     "evidence": "Applied as a post-filter after RRF (retrieval/retriever.py:97-111, docstring admits it can shrink the pool below top_k); not pushed down into the SQL."
+    }
+   ],
+   "maturity": "substantive",
+   "maturity_note": "23 test files run in CI (quality-gates.yml lists them explicitly), 53 commits, real eval harness and committed SQLite snapshot; last code commit Oct 2026.",
+   "snippets": [
+    {
+     "path": "retrieval/retriever.py",
+     "lines": "43-60",
+     "lang": "python",
+     "code": "            cur.execute(\n                \"\"\"\n                SELECT id FROM chunks\n                WHERE content_tsv @@ plainto_tsquery('english', %s)\n                ORDER BY ts_rank(content_tsv, plainto_tsquery('english', %s)) DESC\n                LIMIT %s\n                \"\"\",\n                (query, query, fetch_k),\n            )\n            sparse_rank = {row[0]: i for i, row in enumerate(cur.fetchall())}\n\n            fused: dict[int, float] = {}\n            for chunk_id, rank in dense_rank.items():\n                fused[chunk_id] = fused.get(chunk_id, 0.0) + 1.0 / (rrf_k + rank)\n            for chunk_id, rank in sparse_rank.items():\n                fused[chunk_id] = fused.get(chunk_id, 0.0) + 1.0 / (rrf_k + rank)\n            if not fused:\n                return []",
+     "why": "The shore-side hybrid core: Postgres full-text rank and pgvector cosine rank fused with 1/(k+rank) Reciprocal Rank Fusion (Cormack et al. 2009), the same fusion used by the 2606.13249 maritime RAG paper; note rank is 0-based and the sparse side is ts_rank, not BM25."
+    },
+    {
+     "path": "retrieval/diversify.py",
+     "lines": "39-55",
+     "lang": "python",
+     "code": "    kept: list[dict] = []\n    kept_contents: list[str] = []\n    per_source_count: dict[str, int] = {}\n\n    for p in passages:\n        if len(kept) >= top_k:\n            break\n        url = p.get(\"url\")\n        if per_source_count.get(url, 0) >= max_per_source:\n            continue\n        if _is_near_duplicate(p[\"content\"], kept_contents):\n            continue\n        kept.append(p)\n        kept_contents.append(p[\"content\"])\n        per_source_count[url] = per_source_count.get(url, 0) + 1\n\n    return kept",
+     "why": "Final top-k cut after cross-encoder rerank: per-source cap plus SequenceMatcher near-duplicate skip, a greedy diversity filter in the spirit of MMR but text-overlap based rather than embedding based."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Multi-Field Hybrid RAG for Maritime Accident Root Cause Analysis (Kim & Kim, 2026, arXiv:2606.13249)",
+     "kind": "paper",
+     "url": "https://arxiv.org/abs/2606.13249",
+     "overlap": "Same sparse+dense RRF hybrid over maritime accident reports (13,329 Korean KMST cards, multi-field indexing); ship2shore uses MAIB/NTSB and single-field chunks, and adds offline SQLite deployment."
+    },
+    {
+     "name": "RAG for Maritime Accident Report Analysis: Evaluating LLMs on Performance and Cybersecurity (Escribano Arias et al., JMSE 14(11):983, 2026)",
+     "kind": "paper",
+     "url": "https://doi.org/10.3390/jmse14110983",
+     "overlap": "Academic RAG over maritime accident reports with an LLM/prompt-injection evaluation; ship2shore has no prompt-injection testing beyond a promptfoo config kept in another repo."
+    },
+    {
+     "name": "Haystack DocumentJoiner (reciprocal_rank_fusion mode)",
+     "kind": "library",
+     "url": "https://docs.haystack.deepset.ai/docs/documentjoiner",
+     "overlap": "Generic framework component doing exactly the BM25+embedding RRF join that retriever.py hand-rolls."
+    },
+    {
+     "name": "Llamarine (open maritime LLM)",
+     "kind": "tool",
+     "url": "https://sotaverified.org/papers/llamarine-open-source-maritime-industry",
+     "overlap": "Open maritime-domain model rather than a retrieval corpus; complementary, not a RAG competitor."
+    }
+   ],
+   "verdict": "prior-art",
+   "verdict_note": "The hybrid-RRF-over-accident-reports method is now published (2606.13249, June 2026); the repo's real contribution is an open, legally-sourced, offline-shippable corpus+pipeline (MAIB/NTSB/NtM ingestion, SQLite vessel snapshot), which still has no packaged open-source equivalent found.",
+   "change_since_aug": "Partly overturned: Aug called the maritime RAG vertical 'open'; the code does now do dense+sparse RRF hybrid (as its research brief recommended), but two 2026 papers now occupy the method, so the open ground is the free offline corpus/deployment, not the retrieval technique."
+  },
+  {
+   "repo": "research-toolkit",
+   "does": "Scripts that walk rclone remotes with timeout-triggered recursive subdivision, bulk-import documents into Zotero via its local CRUD API with JSONL resume logs, extract archives one at a time under a disk-space guard, enrich failed items from Open Library/Google Books via filename parsing, build a DuckDB catalog, and batch-convert the catalog to Markdown (PyMuPDF/python-docx/pptx/openpyxl, batched soffice, markitdown fallback) plus a daily TF-IDF/KMeans 'insights' report.",
+   "claims_vs_code": [
+    {
+     "claim": "Generic reference implementation: 'swap in a different remote ... the same structure applies'",
+     "evidence": "Several scripts hardcode the author's home paths: build_duckdb_catalog.py:42-46, backfill_tags.py:22-27, discover_folder_files.py:33-36, dedupe_items.py:28-33 (sys.path.insert and DB/checkpoint paths under /Users/<user>/research-toolkit)."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "No tests, no CI, 6 commits; scripts were run for real at scale (12k-PDF backfill per docstrings) but only verified by ad-hoc check_*_done.py scripts.",
+   "snippets": [
+    {
+     "path": "sweep_all_folders.py",
+     "lines": "123-140",
+     "lang": "python",
+     "code": "def walk(remote_root, folder_path, depth, max_depth, per_call_timeout, found, archives, skipped):\n    \"\"\"folder_path is relative to remote_root ('' = root itself).\"\"\"\n    target = f\"{remote_root}{folder_path}\" if folder_path else remote_root\n    rows = rclone_lsf_recursive(target, per_call_timeout)\n    if rows is not None:\n        for rel_path, size_str, mtime_str in rows:\n            full_path = f\"{folder_path}/{rel_path}\" if folder_path else rel_path\n            ext = Path(full_path).suffix.lstrip(\".\").lower()\n            if ext in DOCUMENT_EXTENSIONS:\n                found.append((full_path, size_str, mtime_str))\n            elif ext in ARCHIVE_EXTENSIONS:\n                archives.append({\"path\": full_path, \"size\": size_str, \"mtime\": mtime_str})\n        log(f\"  ✓ {target} — {len(rows)} file(s) listed (depth {depth})\")\n        return\n\n    if depth >= max_depth:\n        skipped.append({\"path\": target, \"reason\": f\"timed out at max depth {max_depth}\"})\n        log(f\"  ✗ {target} — timed out, at max depth, SKIPPED\")",
+     "why": "The 'recursive subdivision on timeout' listing strategy: try a full recursive rclone listing, and only if it times out descend into subfolders, which is the toolkit's main non-obvious method."
+    },
+    {
+     "path": "remediate_failed.py",
+     "lines": "72-89",
+     "lang": "python",
+     "code": "def parse_filename(basename):\n    stem = os.path.splitext(basename)[0]\n    m = NAME_RE.match(stem)\n    if not m:\n        return {\"title\": stem, \"authors\": [], \"year\": None}\n    authors_raw = m.group(\"authors\").strip(\" ,\")\n    authors = []\n    for part in re.split(r\",| and |;\", authors_raw):\n        part = part.strip()\n        if not part or part.lower() in (\"et al\", \"et al.\"):\n            continue\n        bits = part.split()\n        if len(bits) >= 2:\n            authors.append({\"lastName\": bits[-1], \"firstName\": \" \".join(bits[:-1]), \"creatorType\": \"author\"})\n        elif bits:\n            authors.append({\"lastName\": bits[0], \"firstName\": \"\", \"creatorType\": \"author\"})\n    title = re.sub(r\"[_]+\", \" \", m.group(\"title\")).strip(\" -_\")\n    return {\"title\": title or stem, \"authors\": authors, \"year\": m.group(\"year\")}",
+     "why": "Filename-as-metadata parsing (Author - Title (Year)) feeding Open Library/Google Books lookups; Zotero's own 'Retrieve Metadata' does this from PDF content instead."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Microsoft MarkItDown",
+     "kind": "library",
+     "url": "https://github.com/microsoft/markitdown",
+     "overlap": "Same any-format-to-Markdown conversion; pdf_to_markdown.py already shells out to it as the slow-path fallback."
+    },
+    {
+     "name": "Docling (Auer et al., IBM, 2024, arXiv:2408.09869)",
+     "kind": "library",
+     "url": "https://arxiv.org/abs/2408.09869",
+     "overlap": "Layout-aware PDF/DOCX/PPTX to Markdown with optional OCR; would cover the scanned-page gap pdf_to_markdown.py explicitly leaves open."
+    },
+    {
+     "name": "Paperless-ngx",
+     "kind": "tool",
+     "url": "https://docs.paperless-ngx.com/",
+     "overlap": "Self-hosted ingest-OCR-tag-full-text-search pipeline for document piles; different destination (its own DB, not Zotero) but the same 'unsorted pile to searchable library' job."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "Conversion and search are crowded; the contribution is operational glue for cloud-scale rclone listing + Zotero bulk import with resumable logs, which no single tool packages.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "data_validator",
+   "does": "A rescued grab-bag: data_validator.py inventories local parquet/CSV files, scores per-file quality, compares close prices across sources for a sample, and regex-scans scripts for leakage patterns; alongside sit ~45 market-screener/backtest/ML/RL scripts, a DDD-style src/ package, a pick-validation module (validation.py: % of picks inside Screener.in-style popular screens) and vCRUD repo tooling.",
+   "claims_vs_code": [
+    {
+     "claim": "'Checked cross-source consistency (0 major discrepancies)' (DATA_VALIDATION_HONEST_SUMMARY.md)",
+     "evidence": "data_validator.py:361 checks only the first 20 common symbols and :383 only 5 dates per pair, and :402-403 swallows every exception with 'pass' — zero discrepancies is partly a sampling/exception artefact."
+    },
+    {
+     "claim": "Kaggle dataset discovery/integration",
+     "evidence": "Hardcoded lists, no API call: data_validator.py:250-269 returns fixed dataset names marked 'Not yet downloaded'; KaggleDataIntegrator (584-609) returns a literal list with invented record counts ('These would be fetched from Kaggle API in production')."
+    },
+    {
+     "claim": "Leakage detection",
+     "evidence": "Regex on raw lines of the first 50 .py files (data_validator.py:413-430); the repo's own honest-summary doc concedes the flags were false positives."
+    },
+    {
+     "claim": "Portable validator",
+     "evidence": "Default base_path hardcoded to the author's Downloads tree (data_validator.py:120); cache_seed data was never recovered (README 'Data not recovered')."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "22 test files and CI exist, but only 3 commits (bulk rescue import 2026-07-17); seed data absent, so tests that need cache_seed cannot reproduce results.",
+   "snippets": [
+    {
+     "path": "data_validator.py",
+     "lines": "408-425",
+     "lang": "python",
+     "code": "    def _detect_data_leakage(self) -> List[DataLeakageIssue]:\n        \"\"\"Scan Python scripts for potential data leakage.\"\"\"\n        issues = []\n\n        # Patterns that suggest data leakage\n        leakage_patterns = {\n            \"future_data\": [\n                r\"\\.shift\\(-\\d+\\)\",  # Negative shift = looking forward\n                r\"\\.rolling\\(.*\\)\\.mean\\(\\).*\\[-1\\]\",  # Future-looking rolling\n            ],\n            \"test_in_train\": [\n                r\"test.*=.*\\[:len\",  # Overlapping splits\n                r\"train.*=.*all_data\",  # Training on all data\n            ],\n            \"unfair_split\": [\n                r\"split.*random_state.*=.*None\",  # Non-reproducible split\n                r\"sample\\(\\).*frac\",  # Random sampling without seed\n            ],",
+     "why": "The 'data-leakage detector' is a handful of line regexes (negative shift, rolling-then-[-1]); static dataflow analysis (Yang et al. 2022) is the real prior art and catches what this cannot."
+    },
+    {
+     "path": "data_validator.py",
+     "lines": "584-600",
+     "lang": "python",
+     "code": "        # These would be fetched from Kaggle API in production\n        datasets = [\n            {\n                \"title\": \"NSE/BSE Historical Stock Data\",\n                \"url\": \"kaggle.com/datasets/rohanrao/nifty50-stock-market-data\",\n                \"records\": 1_500_000,\n                \"last_updated\": \"2024-06-30\",\n                \"coverage\": \"India (NSE/BSE)\",\n            },\n            {\n                \"title\": \"S&P 500 Historical Data\",\n                \"url\": \"kaggle.com/datasets/camnugent/sandp500\",\n                \"records\": 8_000_000,\n                \"last_updated\": \"2024-06-30\",\n                \"coverage\": \"US (S&P 500)\",\n            },\n            {",
+     "why": "Shows the Kaggle 'discovery' is a hardcoded literal list, not an integration."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Data Leakage in Notebooks: Static Detection and Better Processes (Yang, Brower-Sinning, Lewis, Kästner, ASE 2022, arXiv:2209.03345)",
+     "kind": "paper",
+     "url": "https://arxiv.org/abs/2209.03345",
+     "overlap": "Dataflow-based leakage detector evaluated on 100k+ notebooks, versus this repo's line regexes."
+    },
+    {
+     "name": "Pandera",
+     "kind": "library",
+     "url": "https://pandera.readthedocs.io/",
+     "overlap": "Declarative dataframe schema/statistical checks that cover _validate_single_source's per-file checks."
+    },
+    {
+     "name": "Great Expectations",
+     "kind": "library",
+     "url": "https://greatexpectations.io/",
+     "overlap": "Data-quality suites with profiling and data docs; covers inventory + validation reports."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "The validation part is thin relative to Pandera/GE; the repo is really an archive of older screener/backtest experiments and should be read as such.",
+   "change_since_aug": "Confirmed 'crowded' (Aug lumped it with validators that 'have solid free alternatives'); code inspection adds that several headline checks are sampled, stubbed or hardcoded."
+  },
+  {
+   "repo": "data-library-toolkit",
+   "does": "A packaged 'dlt' CLI (discover/convert/analyze) that generalises research-toolkit's pipeline: rclone recursive-subdivision discovery and optional Zotero indexing into DuckDB, batched in-process + soffice + markitdown conversion to Markdown with Create-only upload back to the cloud, and a markdown status report.",
+   "claims_vs_code": [
+    {
+     "claim": "Independent toolkit",
+     "evidence": "dlt/convert.py's extract_* / convert_batch_soffice functions are near line-for-line copies of research-toolkit/pdf_to_markdown.py (diff shows only docstrings and config.* prefixes changed); it is a refactor, not a separate method."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "No tests, no CI, 2 commits; cleaner config (.env.example, config.py) than its parent but unexercised outside the original run.",
+   "snippets": [
+    {
+     "path": "dlt/convert.py",
+     "lines": "140-157",
+     "lang": "python",
+     "code": "def convert_batch_soffice(items):\n    \"\"\"items: list of (item_key, staged_path, ext, filetype). One `soffice\n    --convert-to` call PER FILTER GROUP (doc/ppt share one, xls needs\n    another — see module docstring point 3).\"\"\"\n    if not items:\n        return {}\n    results = {}\n    by_filter = {}\n    for item_key, staged_path, ext, filetype in items:\n        soffice_filter, out_ext = SOFFICE_FILTER_BY_FILETYPE.get(filetype, (\"txt:Text\", \".txt\"))\n        by_filter.setdefault(soffice_filter, []).append((item_key, staged_path, ext, out_ext))\n\n    for soffice_filter, group in by_filter.items():\n        batch_in = config.STAGE_DIR / \"soffice_in\"\n        batch_out = config.STAGE_DIR / \"soffice_out\"\n        profile_dir = config.STAGE_DIR / \"soffice_profile\"\n        batch_in.mkdir(parents=True, exist_ok=True)\n        batch_out.mkdir(parents=True, exist_ok=True)",
+     "why": "Groups legacy Office files by LibreOffice export filter and runs one headless soffice call per group — the batching trick the README credits with the ~10x speedup; MarkItDown/Docling convert per file."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Microsoft MarkItDown",
+     "kind": "library",
+     "url": "https://github.com/microsoft/markitdown",
+     "overlap": "Per-file any-format to Markdown converter, used here as fallback."
+    },
+    {
+     "name": "Docling (arXiv:2408.09869)",
+     "kind": "library",
+     "url": "https://arxiv.org/abs/2408.09869",
+     "overlap": "Batch document conversion with layout/table recovery and OCR."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "Same contribution as research-toolkit (rclone-scale discovery + batched conversion); recommend merging the two so the CLI package replaces the script copies.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "claude-lmstudio-router",
+   "does": "router.py: one-shot CLI that calls the Anthropic API and falls back to LM Studio's OpenAI-compatible endpoint on failure, logging each call. claude_code_proxy.py: a FastAPI server that accepts Anthropic /v1/messages (incl. tool_use/tool_result and SSE streaming), translates to OpenAI chat-completions for LM Studio, and translates responses/streams back, with an approximate count_tokens endpoint.",
+   "claims_vs_code": [
+    {
+     "claim": "Proxy is needed to run Claude Code on LM Studio",
+     "evidence": "No longer true for current LM Studio: LM Studio 0.4.1 (Jan 30 2026) ships a native POST /v1/messages Anthropic-compatible endpoint and an official Claude Code integration guide; the translation layer (claude_code_proxy.py:139-212) duplicates it."
+    },
+    {
+     "claim": "Faithful translation",
+     "evidence": "Images are replaced by the text '[image omitted]' (claude_code_proxy.py:169-170) and thinking blocks are dropped (192-194); token counts are approximations (_approx_tokens, :293)."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "No tests, no CI, 3 commits; small and readable, single-user tool.",
+   "snippets": [
+    {
+     "path": "claude_code_proxy.py",
+     "lines": "183-200",
+     "lang": "python",
+     "code": "        elif role == \"assistant\":\n            text_parts2: List[str] = []\n            tool_calls: List[Dict[str, Any]] = []\n            for b in content:\n                if not isinstance(b, dict):\n                    continue\n                bt = b.get(\"type\")\n                if bt == \"text\":\n                    text_parts2.append(b.get(\"text\", \"\"))\n                elif bt == \"thinking\":\n                    # drop thinking blocks; not all locals understand them\n                    pass\n                elif bt == \"tool_use\":\n                    tool_calls.append({\n                        \"id\": b.get(\"id\", \"\"),\n                        \"type\": \"function\",\n                        \"function\": {\n                            \"name\": b.get(\"name\", \"\"),",
+     "why": "The core Anthropic->OpenAI message translation for assistant turns (tool_use -> tool_calls, thinking dropped) — exactly what LiteLLM, claude-code-router and now LM Studio/Ollama natively do."
+    },
+    {
+     "path": "router.py",
+     "lines": "180-197",
+     "lang": "python",
+     "code": "    # Default: Claude first, local fallback\n    try:\n        print(f\"Trying Claude API ({CLAUDE_MODEL})...\")\n        text = call_claude(prompt, system)\n        log_call(\"claude\", preview, True)\n        return text, \"claude\"\n    except RuntimeError as e:\n        print(f\"Claude unavailable: {e}\", file=sys.stderr)\n        print(\"Falling back to local LM Studio model...\")\n        try:\n            text = call_local(prompt, system, local_base_url, local_model)\n            log_call(\"local\", preview, True, f\"fallback_after: {e}\")\n            return text, \"local\"\n        except RuntimeError as local_e:\n            log_call(\"none\", preview, False, f\"both failed: claude={e} | local={local_e}\")\n            raise RuntimeError(\n                f\"Both Claude and local LM Studio failed.\\n\"\n                f\"  Claude error: {e}\\n\"",
+     "why": "Claude-first, local-fallback routing on any RuntimeError — a fixed failover, versus RouteLLM-style learned routing or LiteLLM's configurable fallbacks."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "LM Studio native Anthropic-compatible /v1/messages (v0.4.1, Jan 2026)",
+     "kind": "tool",
+     "url": "https://lmstudio.ai/docs/developer/anthropic-compat",
+     "overlap": "Directly replaces claude_code_proxy.py for its stated target; official Claude Code guide at lmstudio.ai/docs/integrations/claude-code."
+    },
+    {
+     "name": "Ollama Anthropic compatibility",
+     "kind": "tool",
+     "url": "https://docs.ollama.com/api/anthropic-compatibility",
+     "overlap": "Native /v1/messages with streaming, tools and thinking; still lacks tool_choice, count_tokens, prompt caching, citations and PDF documents."
+    },
+    {
+     "name": "LiteLLM proxy (Claude Code client setup)",
+     "kind": "tool",
+     "url": "https://docs.litellm.ai/docs/proxy/client_setup/claude_code",
+     "overlap": "Serves /v1/messages to Claude Code and routes to any backend with fallbacks; note Anthropic's warning that LiteLLM PyPI 1.82.7/1.82.8 were compromised."
+    },
+    {
+     "name": "musistudio/claude-code-router",
+     "kind": "tool",
+     "url": "https://github.com/musistudio/claude-code-router",
+     "overlap": "Proxy that routes Claude Code requests to Ollama/OpenRouter/DeepSeek etc. by task type."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Both halves are now covered natively (LM Studio 0.4.1, Ollama) or by mature proxies; the only residual value is the tiny Claude-first/local-fallback CLI.",
+   "change_since_aug": "Confirmed and stronger: Aug said Ollama's native support was 'closing the gap'; as of Oct 2026 Ollama documents full Anthropic Messages compatibility (streaming, tools, thinking) and LM Studio itself — this repo's target — shipped native /v1/messages in 0.4.1, so the gap is closed for this use case. Recommend archive."
+  },
+  {
+   "repo": "claude-provenance",
+   "does": "Parses local Claude Code session/subagent JSONL transcripts, ~/.claude/history.jsonl and an optional claude.ai data export into one SQLite DB (one row per message: file+line, session, uuid/parentUuid, model, tools used, content length, sha256, 300-char preview), with mtime/size-based incremental re-ingest and a markdown summary.",
+   "claims_vs_code": [
+    {
+     "claim": "'sha256 of the full content (tamper-evidence)'",
+     "evidence": "The hash is stored in the same mutable DB and recomputed on re-ingest: a changed source file is DELETEd and re-inserted with fresh hashes (provenance_log.py:176-179); there is no hash chain, signature or external anchor, so it detects nothing about tampering with the source transcript."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "Single 369-line script, no tests, CI is only the gitleaks/lint gate; ran against real data (summary committed).",
+   "snippets": [
+    {
+     "path": "provenance_log.py",
+     "lines": "160-177",
+     "lang": "python",
+     "code": "            msg = d.get(\"message\") if isinstance(d.get(\"message\"), dict) else {}\n            text, tools = extract_content(msg)\n            if rtype == \"system\":\n                text = text or d.get(\"slug\") or d.get(\"subtype\") or \"\"\n            rows.append((\n                str(path), lineno, source, project, sid,\n                d.get(\"uuid\"), d.get(\"parentUuid\"), rtype,\n                msg.get(\"role\") or rtype, msg.get(\"model\"),\n                d.get(\"requestId\"), d.get(\"timestamp\"),\n                d.get(\"cwd\"), d.get(\"gitBranch\"), d.get(\"version\"),\n                d.get(\"entrypoint\"), 1 if d.get(\"isSidechain\") else 0,\n                d.get(\"promptSource\"),\n                \",\".join(tools) if tools else None,\n                len(text), sha256_text(text) if text else None,\n                text[:PREVIEW_CHARS], now_iso(),\n            ))\n    cur.execute(\"DELETE FROM messages WHERE src_file=?\", (str(path),))\n    cur.executemany(",
+     "why": "The per-message provenance row (uuid/parentUuid DAG, model, cwd, gitBranch, tools, sha256): essentially a structured index of Claude Code's own transcript schema, similar in input to ccusage but keeping lineage instead of cost."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "ccusage",
+     "kind": "tool",
+     "url": "https://github.com/ryoppippi/ccusage",
+     "overlap": "Reads Claude Code's local usage data into daily/session reports; overlaps on ingestion, not on lineage/content hashing."
+    },
+    {
+     "name": "Claude Code OpenTelemetry monitoring",
+     "kind": "official",
+     "url": "https://code.claude.com/docs/en/monitoring-usage",
+     "overlap": "Official events (api_request, tool_result, user_prompt with shared prompt.id) give a live, exportable audit trail that this repo reconstructs after the fact."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "Useful personal audit index; the 'tamper-evidence' framing overstates it, and official OTel export now covers forward-looking provenance.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "llm-extract-citation-fix",
+   "does": "One file: extract_structured() prompts an OpenAI-compatible LLM (Groq, fallback Gemini) to return fields plus verbatim citation spans, then marks each field grounded only if its span (now also a list of spans for array fields) appears in the source after whitespace normalisation.",
+   "claims_vs_code": [
+    {
+     "claim": "The promptfoo pilot that found the bug is documented in prompt-efficiency-tracker",
+     "evidence": "That repo is private; public readers of this repo cannot see the config or results, and this repo has no test reproducing the array case."
+    },
+    {
+     "claim": "Docstring: 'on FinanceBench ... GPT-4-Turbo with retrieval got 81% of questions wrong' (llm_extract.py:123-124)",
+     "evidence": "The FinanceBench abstract says 81% were answered incorrectly OR refused; the FinTagging '17% accurate' figure could not be verified in this sweep."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "215-line file extracted from a private repo; no tests or CI; the fix itself is 2 lines.",
+   "snippets": [
+    {
+     "path": "llm_extract.py",
+     "lines": "90-101",
+     "lang": "python",
+     "code": "def _verify_citation(span: object, source_text: str) -> bool:\n    \"\"\"True if *span* appears verbatim (allowing whitespace differences) in\n    source_text. Array-typed fields (e.g. a list of holdings) legitimately\n    come back as a list of per-item citations rather than one string --\n    found via the promptfoo pilot, where a correctly-extracted `holdings`\n    array was silently flagged grounded=False because this only accepted\n    str. Every element must verify for the field to count as grounded.\"\"\"\n    if isinstance(span, list):\n        return bool(span) and all(_verify_citation(item, source_text) for item in span)\n    if not isinstance(span, str) or not span.strip():\n        return False\n    return _normalize_whitespace(span) in _normalize_whitespace(source_text)",
+     "why": "The whole fix: recursive verification of list-typed citation spans as verbatim substrings — a string-match form of source grounding that LangExtract and Anthropic's Citations API provide with character offsets."
+    },
+    {
+     "path": "llm_extract.py",
+     "lines": "192-204",
+     "lang": "python",
+     "code": "            fields = parsed.get(\"fields\", {})\n            citations = parsed.get(\"citations\", {})\n            grounding = {}\n            for key in schema:\n                value = fields.get(key)\n                span = citations.get(key)\n                grounding[key] = {\n                    \"grounded\": (value is None) or _verify_citation(span, text),\n                    \"span\": span,\n                }\n            result = dict(fields)\n            result[\"_grounding\"] = grounding\n            return result",
+     "why": "Grounding is advisory: ungrounded fields are kept and flagged, not dropped."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Google LangExtract",
+     "kind": "library",
+     "url": "https://github.com/google/langextract",
+     "overlap": "LLM structured extraction that maps every extracted entity to exact character offsets in the source, with ungrounded alignment status — a superset of _verify_citation."
+    },
+    {
+     "name": "Anthropic Citations API",
+     "kind": "official",
+     "url": "https://platform.claude.com/docs/build-with-claude/citations",
+     "overlap": "Model returns cited_text with char_location offsets for plain-text documents, removing the need to trust a self-reported span."
+    },
+    {
+     "name": "FinanceBench (Islam et al., 2023, arXiv:2311.11944)",
+     "kind": "paper",
+     "url": "https://arxiv.org/abs/2311.11944",
+     "overlap": "The benchmark the docstring cites to motivate grounding."
+    },
+    {
+     "name": "FinTagging (Wang et al., arXiv:2505.20650)",
+     "kind": "paper",
+     "url": "https://arxiv.org/abs/2505.20650",
+     "overlap": "XBRL extraction+concept-linking benchmark cited in the docstring; finds LLMs extract numbers well but link concepts poorly."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "A correct small bug fix, published as a standalone repo; source-grounded extraction is a solved, packaged problem — better as a gist or merged back into its parent.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "memory-map-optimizer",
+   "does": "CLI with cluster (Leiden via igraph/leidenalg on graphify's global-graph.json, optional write-back), embed (sentence-transformers over memory markdown, default Qwen3-Embedding-0.6B), search (BM25Okapi + cosine fused by RRF k=60, optional Qwen3-Reranker), dedup (cosine union-find groups with threshold sweep) and an HTML report.",
+   "claims_vs_code": [
+    {
+     "claim": "qmd's embedding model is 'unspecified/dated' and search needs a hybrid replacement",
+     "evidence": "qmd itself already does BM25 (FTS5) + vector search, RRF k=60, and Qwen3 reranking, and allows Qwen3-Embedding via QMD_EMBED_MODEL (github.com/tobi/qmd README); search here re-implements that in-memory."
+    },
+    {
+     "claim": "Produces a v2 of the memory map 'driven by real numbers'",
+     "evidence": "cmd_report (memory_map_optimizer.py:606-642) renders only counts, cluster sizes and dupe groups into a template; no memory_map_v2.html is in the repo tree, only v1 html per audit (data excluded)."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "One test file (10 tests) run in CI, 12 commits; models load lazily so tests mock them.",
+   "snippets": [
+    {
+     "path": "memory_map_optimizer.py",
+     "lines": "355-369",
+     "lang": "python",
+     "code": "    corpus = [_tokenize(d.text) for d in docs]\n    bm25 = BM25Okapi(corpus)\n    bm25_scores = bm25.get_scores(_tokenize(query))\n    bm25_rank = {i: r for r, i in enumerate(sorted(range(len(docs)), key=lambda i: -bm25_scores[i]))}\n\n    cos_scores = [cosine(query_embedding, d.embedding) for d in docs]\n    cos_rank = {i: r for r, i in enumerate(sorted(range(len(docs)), key=lambda i: -cos_scores[i]))}\n\n    RRF_K = 60\n    fused = [\n        (docs[i], 1.0 / (RRF_K + bm25_rank[i]) + 1.0 / (RRF_K + cos_rank[i]))\n        for i in range(len(docs))\n    ]\n    fused.sort(key=lambda x: -x[1])\n    return fused[:k]",
+     "why": "BM25 + embedding RRF with k=60 (Cormack et al. 2009) — the same fusion qmd already ships."
+    },
+    {
+     "path": "memory_map_optimizer.py",
+     "lines": "164-176",
+     "lang": "python",
+     "code": "    index = {n: i for i, n in enumerate(nodes)}\n    g = ig.Graph(n=len(nodes), edges=[(index[a], index[b]) for a, b in edges])\n\n    partition = leidenalg.find_partition(\n        g, leidenalg.RBConfigurationVertexPartition,\n        resolution_parameter=resolution, seed=seed,\n    )\n\n    node_to_cluster = {n: partition.membership[index[n]] for n in nodes}\n    sizes: dict[int, int] = {}\n    for c in node_to_cluster.values():\n        sizes[c] = sizes.get(c, 0) + 1\n",
+     "why": "Leiden partitioning (Traag, Waltman & van Eck 2019) with RBConfiguration and a resolution parameter — the stock leidenalg call."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "qmd (tobi/qmd)",
+     "kind": "tool",
+     "url": "https://github.com/tobi/qmd",
+     "overlap": "Local markdown search with BM25 + vector + RRF(k=60) + Qwen3 reranker; supersedes embed/search here."
+    },
+    {
+     "name": "From Louvain to Leiden (Traag, Waltman, van Eck, Sci Rep 9:5233, 2019, doi:10.1038/s41598-019-41695-z)",
+     "kind": "paper",
+     "url": "https://arxiv.org/abs/1810.08473",
+     "overlap": "The algorithm cluster wraps."
+    },
+    {
+     "name": "Qwen3 Embedding (Zhang et al., 2025, arXiv:2506.05176)",
+     "kind": "paper",
+     "url": "https://arxiv.org/abs/2506.05176",
+     "overlap": "The default embedding/reranker models used."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Only the Leiden write-back into graphify output and the dedup sweep are unique; the search half duplicates qmd.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "prompt-efficiency-tracker",
+   "does": "Holds the Stop/SubagentStop hook that logs per-message token usage and estimated cost to a SQLite DB with a per-transcript dedup state, attributes rows to the git toplevel of the session cwd and marks a turn failed if a tool_result with is_error appeared; a heartbeat script checks the hooks are still wired and the DB is fresh; plus two promptfoo configs (one run, one never run).",
+   "claims_vs_code": [
+    {
+     "claim": "'Real outcome/attribution tracking' (description)",
+     "evidence": "The only outcome signal is whether any tool_result had is_error since the last assistant message (hooks/claude-code-usage-hook.py:88-136); task success is not measured. README itself calls it 'real (if approximate)'."
+    },
+    {
+     "claim": "ship2shore-rag promptfoo pilot",
+     "evidence": "README: 'Config complete, not yet live' — no results file for it in the tree (only promptfoo/market-pipeline/results-2026-09-09.json)."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "No tests, no CI, 3 commits; deployed live per README with a launchd heartbeat plist in the tree.",
+   "snippets": [
+    {
+     "path": "hooks/claude-code-usage-hook.py",
+     "lines": "120-136",
+     "lang": "python",
+     "code": "            if _has_tool_error(obj):\n                error_since_last = True\n            if obj.get(\"type\") != \"assistant\":\n                continue\n            msg = obj.get(\"message\") or {}\n            usage = msg.get(\"usage\")\n            if not usage:\n                continue\n            msg_id = msg.get(\"id\") or obj.get(\"uuid\")\n            if not msg_id:\n                continue\n            # real message time (ISO) → sqlite-friendly 'YYYY-MM-DD HH:MM:SS'\n            ts = obj.get(\"timestamp\")\n            if ts:\n                ts = ts.replace(\"T\", \" \").replace(\"Z\", \"\").split(\".\")[0]\n            yield msg_id, msg.get(\"model\", \"unknown\"), usage, ts, error_since_last\n            error_since_last = False",
+     "why": "The 'outcome' proxy: an assistant message is tagged with had_tool_error if any is_error tool_result preceded it; Claude Code's OTel tool_result event carries success/error_type natively."
+    },
+    {
+     "path": "hooks/claude-code-usage-hook.py",
+     "lines": "154-167",
+     "lang": "python",
+     "code": "def _infer_market(event):\n    \"\"\"Best-effort repo/project attribution: git toplevel dir name, else cwd basename.\"\"\"\n    cwd = event.get(\"cwd\") or os.getcwd()\n    try:\n        import subprocess\n        top = subprocess.run(\n            [\"git\", \"-C\", cwd, \"rev-parse\", \"--show-toplevel\"],\n            capture_output=True, text=True, timeout=3,\n        )\n        if top.returncode == 0 and top.stdout.strip():\n            return os.path.basename(top.stdout.strip())\n    except Exception:\n        pass\n    return os.path.basename(cwd.rstrip(\"/\")) or \"unknown\"",
+     "why": "Attribution by git toplevel of the session cwd."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Claude Code OpenTelemetry monitoring",
+     "kind": "official",
+     "url": "https://code.claude.com/docs/en/monitoring-usage",
+     "overlap": "claude_code.token.usage, claude_code.cost.usage and tool_result (success, error_type) events with prompt.id — the same signals, exported natively."
+    },
+    {
+     "name": "ccusage",
+     "kind": "tool",
+     "url": "https://github.com/ryoppippi/ccusage",
+     "overlap": "Token/cost reports from Claude Code local data, no hook needed."
+    },
+    {
+     "name": "promptfoo",
+     "kind": "tool",
+     "url": "https://github.com/promptfoo/promptfoo",
+     "overlap": "The eval tool the pilots use; this repo is configs for it, not an alternative."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "A personal ops patch; official OTel telemetry now provides cost and tool-error signals without a hand-maintained hook.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "cache_memory_cleaner",
+   "does": "A 585-line bash dispatcher for macOS: disk report, browser/package-manager cache clearing, brew/npm cleanup, dormant-tool report, git gc, Podman VM trim, archive-evict (tar+zstd, rclone upload to N remotes, then delete), HFS/APFS transparent compression, and a read-only data-tier classifier using path/name heuristics.",
+   "claims_vs_code": [
+    {
+     "claim": "archive-evict 'byte-verifies each' remote before deleting",
+     "evidence": "Verification compares only total byte size from 'rclone size' (cache_memory_cleaner.sh:279-285); no checksum (rclone check/hashsum compares MD5/SHA1 by default) before 'rm -rf' at :293."
+    },
+    {
+     "claim": "Distilled tool, not a log dump",
+     "evidence": "Three compress_run*.log files from a personal run are committed alongside the script."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "Single bash script with DRY_RUN mode; no tests; CI is the generic gitleaks gate; 10 commits.",
+   "snippets": [
+    {
+     "path": "cache_memory_cleaner.sh",
+     "lines": "272-289",
+     "lang": "bash",
+     "code": "  local local_size all_ok=1 rem remote_size\n  local_size=$(stat -f%z \"$archive\" 2>/dev/null || stat -c%s \"$archive\" 2>/dev/null)\n  for rem in $remotes; do\n    log \"=== Uploading to $rem ===\"\n    if ! rclone copy \"$archive\" \"$rem\" --log-level ERROR; then\n      log \"FAIL upload -> $rem\"; all_ok=0; continue\n    fi\n    remote_size=$(rclone size \"$rem/$(basename \"$archive\")\" --json 2>/dev/null \\\n      | python3 -c \"import json,sys; print(json.load(sys.stdin)['bytes'])\" 2>/dev/null || echo -1)\n    if [ \"$local_size\" = \"$remote_size\" ]; then\n      log \"OK   verified on $rem ($remote_size bytes)\"\n    else\n      log \"FAIL verify on $rem (local=$local_size remote=$remote_size)\"\n      all_ok=0\n    fi\n  done\n\n  if [ \"$all_ok\" = 1 ]; then",
+     "why": "The safety gate before deletion is a size equality check per remote — weaker than rclone check's hash comparison."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Mole (tw93/Mole)",
+     "kind": "tool",
+     "url": "https://github.com/tw93/Mole",
+     "overlap": "Open-source macOS CLI that clears caches/logs, uninstalls apps with leftovers and visualises disk usage."
+    },
+    {
+     "name": "rclone check",
+     "kind": "tool",
+     "url": "https://rclone.org/commands/rclone_check/",
+     "overlap": "Hash+size verification that archive-evict should call before deleting."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Cache cleaning is commodity; archive-evict-to-multiple-clouds is the only distinctive piece and needs hash verification.",
+   "change_since_aug": "Confirmed 'crowded' (Aug: cleaners have solid free alternatives); new finding that the verify-then-delete step is size-only."
+  },
+  {
+   "repo": "repo-data-dedup",
+   "does": "audit_lfs.py lists every repo via gh, makes --filter=blob:limit=2048 no-checkout clones, parses all small blobs for LFS pointer text, maps them to HEAD paths and aggregates per-repo/global LFS bytes without downloading LFS objects; shell scripts do cloud backup, Postgres backup, archive-twin deletion, restore drills and a disk guard; docs hold the audit, playbook and data-tier policy.",
+   "claims_vs_code": [
+    {
+     "claim": "Remediation 'audit -> deduplicate -> compress -> eliminate LFS'",
+     "evidence": "Only the audit is code with logic (audit_lfs.py); dedup/elimination is a manual PLAYBOOK.md plus delete_archive_twins.sh; no script rewrites history or migrates off LFS."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "3 Python functions, 7 shell scripts, state/*.log run logs committed; no tests; 26 commits of operational use.",
+   "snippets": [
+    {
+     "path": "scripts/audit_lfs.py",
+     "lines": "62-79",
+     "lang": "python",
+     "code": "        proc = subprocess.run([\"git\", \"cat-file\", \"--batch\"], cwd=dest,\n                              input=\"\\n\".join(small_blobs).encode(),\n                              capture_output=True)\n        data = proc.stdout\n        idx = 0\n        while idx < len(data):\n            nl = data.find(b\"\\n\", idx)\n            if nl < 0:\n                break\n            hdr = data[idx:nl].split()\n            if len(hdr) < 3:\n                break\n            oid, _typ, size = hdr[0].decode(), hdr[1], int(hdr[2])\n            body = data[nl + 1: nl + 1 + size].decode(\"utf-8\", \"ignore\")\n            m = PTR_RE.search(body)\n            if m:\n                pointers[oid] = (m.group(1), int(m.group(2)))\n            idx = nl + 1 + size + 1",
+     "why": "Batch-reads every small blob and regex-matches the LFS pointer spec to recover (sha256, size) from history without fetching LFS content — the one trick not offered by git-sizer or git lfs migrate info, which work on a single local repo."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "git-sizer",
+     "kind": "tool",
+     "url": "https://github.com/github/git-sizer",
+     "overlap": "Per-repo size statistics and problem metrics."
+    },
+    {
+     "name": "git lfs migrate (info/import/export)",
+     "kind": "tool",
+     "url": "https://github.com/git-lfs/git-lfs/blob/main/docs/man/git-lfs-migrate.adoc",
+     "overlap": "Summarises sizes and converts files to/from LFS pointers — the elimination step the playbook does by hand."
+    },
+    {
+     "name": "git-filter-repo",
+     "kind": "tool",
+     "url": "https://github.com/newren/git-filter-repo",
+     "overlap": "History rewriting for removing large files."
+    },
+    {
+     "name": "BFG Repo-Cleaner",
+     "kind": "tool",
+     "url": "https://rtyley.github.io/bfg-repo-cleaner/",
+     "overlap": "Removes large files from history."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Cross-repo, account-wide LFS pointer inventory is a small genuine addition; the rest is the standard toolchain plus runbooks.",
+   "change_since_aug": "Confirmed 'crowded'."
+  },
+  {
+   "repo": "repo-traffic-analytics",
+   "does": "Daily snapshot of GitHub clones/views/release downloads for every repo (private included), upserted by date into per-repo JSON; fetches Actions run counts per day and subtracts them from clones, detects the owner's own activity from Claude transcripts and git reflogs to drop self-days, records GitHub's 14-day deduplicated uniques, and writes summary CSVs plus a portfolio review that scores repos keep/archive.",
+   "claims_vs_code": [],
+   "maturity": "substantive",
+   "maturity_note": "2 test files (367-line test_snapshot.py) run in a tests.yml workflow, 65 commits of real daily data; private repo.",
+   "snippets": [
+    {
+     "path": "scripts/snapshot.py",
+     "lines": "645-662",
+     "lang": "python",
+     "code": "        recent_clone_days = [d for d in clones if d >= since_7]\n        dropped = [d for d in recent_clone_days if is_self_day(self_days, name, d)]\n        external = sum(\n            max(0, (clones[d].get(\"count\", 0) or 0) - ci_runs.get(d, 0))\n            for d in recent_clone_days\n            if d not in set(dropped)\n        )\n\n        # A cloner GitHub deduplicates across the window: CI is one identity,\n        # the owner's machine another. Only subtract for evidence of each.\n        ci_14 = sum(n for d, n in ci_runs.items() if d >= since_14)\n        self_14 = any(is_self_day(self_days, name, d) for d in clones if d >= since_14)\n        raw_cloners = latest.get(\"clones\", {}).get(\"uniques\", \"\")\n        ext_cloners = (\n            max(0, raw_cloners - bool(ci_14) - bool(self_14))\n            if isinstance(raw_cloners, int)\n            else \"\"\n        )",
+     "why": "External-clone estimate: per-day clones minus Actions runs (clamped at 0) excluding self-activity days, and window uniques minus one identity each for CI and owner — a correction none of the archive-only traffic tools make."
+    },
+    {
+     "path": "scripts/snapshot.py",
+     "lines": "135-145",
+     "lang": "python",
+     "code": "    workflows = gh_api(f\"repos/{OWNER}/{name}/actions/workflows\")\n    if not workflows or not workflows.get(\"total_count\"):\n        return {}\n    stamps = gh_api_lines(\n        f\"repos/{OWNER}/{name}/actions/runs?per_page=100&created=%3E%3D{since}\",\n        \".workflow_runs[].created_at\",\n    )\n    daily = {}\n    for stamp in stamps:\n        daily[stamp[:10]] = daily.get(stamp[:10], 0) + 1\n    return daily",
+     "why": "Paginated per-day Actions run counts used as the CI-checkout floor (runs, not matrix jobs, so the subtraction under-counts)."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "jgehrcke/github-repo-stats",
+     "kind": "tool",
+     "url": "https://github.com/jgehrcke/github-repo-stats",
+     "overlap": "GitHub Action that snapshots traffic daily and persists it beyond the 14-day window — covers the accumulation half."
+    },
+    {
+     "name": "GitHub repository traffic API (14-day retention)",
+     "kind": "official",
+     "url": "https://docs.github.com/en/rest/metrics/traffic",
+     "overlap": "The data source; no CI or owner filtering available."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "Accumulating traffic is crowded; subtracting CI checkouts and owner activity to estimate external readership is the real, apparently unique contribution.",
+   "change_since_aug": "Refined: Aug said 'narrow gap — 14-day retention is why people build this'; existing Actions already solve retention, and the code's distinct value is the CI/self-traffic correction."
+  },
+  {
+   "repo": "transmission-client",
+   "does": "A minimal Python client for Transmission's JSON RPC (409 session-id handshake, torrent get/add/start/stop/remove, session stats), a click-style CLI, and a small Flask/JS web UI.",
+   "claims_vs_code": [
+    {
+     "claim": "Console script 'transmission-cli'",
+     "evidence": "pyproject.toml registers transmission-cli, the same name as Transmission's own bundled (deprecated) transmission-cli binary; installing both collides on PATH."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "359 LOC, no tests, egg-info committed, 4 commits.",
+   "snippets": [
+    {
+     "path": "transmission_client/rpc.py",
+     "lines": "78-93",
+     "lang": "python",
+     "code": "    def _request(self, method: str, arguments: dict[str, Any] | None = None) -> dict[str, Any]:\n        payload = {\"method\": method, \"arguments\": arguments or {}, \"tag\": next(self._tags)}\n        headers = {SESSION_ID_HEADER: self._session_id} if self._session_id else {}\n\n        response = self._http.post(self.url, json=payload, headers=headers, timeout=self.timeout)\n\n        if response.status_code == 409:\n            self._session_id = response.headers[SESSION_ID_HEADER]\n            headers[SESSION_ID_HEADER] = self._session_id\n            response = self._http.post(self.url, json=payload, headers=headers, timeout=self.timeout)\n\n        response.raise_for_status()\n        body = response.json()\n        if body.get(\"result\") != \"success\":\n            raise TransmissionError(body.get(\"result\", \"unknown error\"))\n        return body.get(\"arguments\", {})",
+     "why": "The X-Transmission-Session-Id 409 retry handshake from rpc-spec.md — the core of every Transmission client library."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "transmission-rpc (trim21)",
+     "kind": "library",
+     "url": "https://github.com/trim21/transmission-rpc",
+     "overlap": "Mature, typed Python wrapper for the same RPC protocol."
+    },
+    {
+     "name": "Transmission (transmission-remote + built-in web UI)",
+     "kind": "tool",
+     "url": "https://github.com/transmission/transmission",
+     "overlap": "Ships a supported CLI (transmission-remote) and a web UI for remote control — both halves of this repo."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Learning project duplicating the daemon's own CLI/web UI and an existing library; archive or rename the entry point.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "research-design-system",
+   "does": "A CSS token contract (palette/scale/semantic layers), four themes that only rebind ~12 --c-* tokens, one component sheet and print CSS, plus a Blogger theme XML with a validator and blog-build scripts that wrap generated content into post HTML.",
+   "claims_vs_code": [
+    {
+     "claim": "'components never reference a raw palette value'",
+     "evidence": "Holds almost entirely (components.css uses var(--c-*), scale and font tokens), with one hardcoded color: components.css:68 sets table header text to #fff instead of var(--c-on-accent)."
+    },
+    {
+     "claim": "tokens.json 'carries the same values for tooling'",
+     "evidence": "It uses a custom '$schema: research-design-system/tokens@1' groups format, not the W3C DTCG format (stable 2025.10), so Style Dictionary/Tokens Studio cannot consume it without a transform."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "No tests apart from validate.py checks on the Blogger XML; CI is the generic gate; 7 commits.",
+   "snippets": [
+    {
+     "path": "themes/report.css",
+     "lines": "3-17",
+     "lang": "css",
+     "code": ".rds.theme-report{\n  --c-bg:#fff;\n  --c-surface:var(--panel-1);\n  --c-surface-2:var(--panel-2);\n  --c-border:#d0d5d9;\n  --c-text:var(--navy);\n  --c-text-mut:#5a666e;\n  --c-accent:var(--blue);\n  --c-accent-soft:var(--cyan);\n  --c-on-accent:#fff;\n  --c-rule:var(--navy);\n  --c-neg:var(--warn);\n  --font-body:var(--font-serif);\n  --font-display:var(--font-sans);\n}",
+     "why": "A theme is only a rebinding of the semantic --c-* tokens to palette values — the standard three-tier token pattern Style Dictionary/DTCG formalise."
+    },
+    {
+     "path": "blogger-theme/validate.py",
+     "lines": "10-27",
+     "lang": "python",
+     "code": "cda = [m.span() for m in re.finditer(r'<!\\[CDATA\\[.*?\\]\\]>', src, re.S)]\ninc = lambda i: any(a <= i < b for a, b in cda)\nfor m in re.finditer(r'<!--(.*?)-->', src, re.S):          # '--' inside a comment is illegal XML\n    if not inc(m.start()) and '--' in m.group(1):\n        fails.append(f\"illegal '--' in XML comment: {' '.join(m.group(1).split())[:50]}\")\nclean = re.sub(r'<!--.*?-->', lambda m: '' if not inc(m.start()) else m.group(0), src, flags=re.S)\nfor label, needle in [(\"b:version\", \"b:version='2'\"), (\"b namespace\", \"xmlns:b=\"),\n                      (\"all-head-content\", \"name='all-head-content'\"),\n                      (\"b:skin\", \"<b:skin><![CDATA[\"), (\"Blog widget\", \"type='Blog'\")]:\n    if needle not in src: fails.append(f\"missing {label}\")\nindex = clean.split(\"cond='data:blog.pageType\")[1].split('<b:else/>', 1)[1].split('</b:includable>')[0]\nif 'data:post.body' in index: fails.append(\"index branch renders post.body -- will empty the post list\")\nif 'data:post.snippet' not in index: fails.append(\"index branch missing data:post.snippet\")\nif '<script' in clean.lower(): fails.append(\"contains a <script> tag\")\next = re.findall(r'(?:src|href)=[\\'\"](https?://(?!www\\.w3\\.org|www\\.google\\.com/2005)[^\\'\"]+)', clean)\nif ext: fails.append(f\"external host referenced: {ext}\")\nslots = re.findall(r\"<b:section[^>]*id='(main-top|main-bottom)'[^>]*showaddelement='yes'\", clean)\nif len(slots) != 2: fails.append(f\"page-body gadget slots missing: {slots}\")",
+     "why": "Blogger-specific guardrails (illegal '--' in XML comments, index branch must use post.snippet, no external hosts or <script>) — the genuinely niche piece."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Design Tokens Community Group format (W3C CG, stable 2025.10)",
+     "kind": "official",
+     "url": "https://www.designtokens.org/",
+     "overlap": "Standard JSON token format this repo's tokens.json does not follow."
+    },
+    {
+     "name": "Style Dictionary",
+     "kind": "tool",
+     "url": "https://github.com/style-dictionary/style-dictionary",
+     "overlap": "Builds platform styles from token JSON; would generate tokens.css from tokens.json."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Token systems are commodity; the value is a house style for research bulletins plus Blogger theme validation.",
+   "change_since_aug": "Confirmed 'crowded but none purpose-built for research reports'; code shows the contract is real but the JSON is non-standard."
+  },
+  {
+   "repo": "blog-consistency-check",
+   "does": "Fetches every masaladeutsch post, runs static rules on post HTML (JS syntax via node, disclaimer spliced into <script>, inverted dark-mode media query, unlocked dark palette, WPI mis-attribution, house-style checks) and optionally a Playwright pass computing text contrast and overflow in light and dark; fix.py auto-repairs several defect classes and re-verifies on a local server.",
+   "claims_vs_code": [
+    {
+     "claim": "'screenshot baseline for visual-regression diffing' (audit.py:8)",
+     "evidence": "--baseline only writes PNGs (audit.py:153-155); no file compares screenshots to a baseline."
+    },
+    {
+     "claim": "'Exits non-zero ... so it can gate CI'",
+     "evidence": "Exit code is implemented (audit.py:274) but the repo has no CI workflow and generated out/ reports and fixes/ are committed instead."
+    },
+    {
+     "claim": "contrast-light/dark checks WCAG",
+     "evidence": "Threshold is 3:1 for all text (README rule table); WCAG 2.1 SC 1.4.3 requires 4.5:1 for normal-size text, 3:1 only for large text."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "No tests or CI; real run outputs committed (out/report.json, broken_urls); 5 commits.",
+   "snippets": [
+    {
+     "path": "checks.py",
+     "lines": "49-66",
+     "lang": "python",
+     "code": "def r_no_inverted_media_query(body, **kw):\n    \"\"\"`@media not all and (prefers-color-scheme:dark)` matches in LIGHT mode.\n    Blocks doing this set --text:#e8e8e8 / .artx{color:#ddd} -> near-white text on\n    white. On one post 242 of 645 text nodes were invisible.\"\"\"\n    n = body.count(INVERTED_MQ)\n    return (n == 0), (f\"{n} inverted dark-mode media query block(s)\" if n else \"\")\n\n\ndef r_dark_vars_locked(body, **kw):\n    \"\"\"A post that declares its own dark palette must also pin the light values\n    with !important, or the BW-override blackens text while the surface goes dark.\"\"\"\n    declares_dark = ('prefers-color-scheme' in body) or ('data-theme=\"dark\"' in body)\n    if not declares_dark:\n        return True, \"n/a (no dark palette)\"\n    # only a hazard if something actually consumes the vars\n    consumes = bool(re.search(r'var\\(\\s*--(surface|surface-alt|border|text|text-mut|ink|page-bg)\\b', body))\n    if not consumes:\n        return True, \"n/a (vars declared but never consumed)\"",
+     "why": "Site-specific defect rules encoded from real incidents (inverted prefers-color-scheme query, dark vars without !important lock) — the part generic tools like axe/BackstopJS don't know."
+    },
+    {
+     "path": "audit.py",
+     "lines": "141-155",
+     "lang": "python",
+     "code": "        for scheme in (\"light\", \"dark\"):\n            ctx = br.new_context(viewport={\"width\": 1280, \"height\": 900},\n                                 color_scheme=scheme, user_agent=UA)\n            pg = ctx.new_page()\n            for post in posts:\n                try:\n                    pg.goto(post[\"url\"], wait_until=\"networkidle\", timeout=45000)\n                    pg.wait_for_timeout(700)\n                    con = pg.evaluate(CONTRAST_JS)\n                    ovf = pg.evaluate(OVERFLOW_JS)\n                    key = (post[\"id\"], scheme)\n                    out[key] = {\"contrast\": con, \"overflow\": ovf}\n                    if baseline:\n                        pg.screenshot(path=os.path.join(SHOTS, f\"{post['id']}.{scheme}.png\"),\n                                      full_page=True)",
+     "why": "Playwright pass in both color schemes computing contrast/overflow; screenshots are saved but never diffed."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "axe-core",
+     "kind": "library",
+     "url": "https://github.com/dequelabs/axe-core",
+     "overlap": "Accessibility engine with a color-contrast rule at WCAG thresholds."
+    },
+    {
+     "name": "BackstopJS",
+     "kind": "tool",
+     "url": "https://github.com/garris/BackstopJS",
+     "overlap": "Playwright/Puppeteer screenshot diffing against approved references — what --baseline promises."
+    },
+    {
+     "name": "WCAG 2.1 SC 1.4.3 Contrast (Minimum)",
+     "kind": "official",
+     "url": "https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html",
+     "overlap": "Defines 4.5:1 (normal) / 3:1 (large) thresholds."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "Generic checks are crowded; the incident-derived Blogger rules plus auto-fix are site-specific value — best merged into blogger_writeups_code (which already has a consistency-check dir).",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "blogger_writeups_code",
+   "does": "Version-history mirror of the masaladeutsch blog (posts/meta snapshots committed per run) plus ~58 tools: snapshot.py with a heuristic prose-semver classifier, Blogger API client, link/mobile/SVG/table linters, GA/GSC/AdSense reports, OpenAlex/scholarly search, a multi-provider LLM fact-check panel, index/hub page builders, and the IEM company-records pipeline that feeds posts.",
+   "claims_vs_code": [
+    {
+     "claim": "Multi-model fact-check",
+     "evidence": "Output is explicitly unverified model text (tools/multi_model_factcheck.py:476-479); posts above MAX_CHARS are skipped, not chunked (:445-454)."
+    },
+    {
+     "claim": "Repo scope = blog version history",
+     "evidence": "Largest file is tools/iem_records.py (1,171 lines), an industrial-entrepreneur records pipeline that belongs with the IEM project rather than the blog archive."
+    }
+   ],
+   "maturity": "substantive",
+   "maturity_note": "1,594 commits (mostly automated snapshots), 12.6k Python LOC, CI present but no test files; private; last commit 2026-10-23.",
+   "snippets": [
+    {
+     "path": "tools/snapshot.py",
+     "lines": "256-273",
+     "lang": "python",
+     "code": "    ot, nt = visible_text(old_body), visible_text(new_body)\n    if ot == nt:\n        return \"patch\", \"visible text identical; only markup/styling changed\"\n\n    on, nn = sorted(_NUM.findall(ot)), sorted(_NUM.findall(nt))\n    if on != nn:\n        added, removed = len(set(nn) - set(on)), len(set(on) - set(nn))\n        return \"major\", f\"figures changed (+{added}/-{removed} distinct numbers)\"\n\n    oh, nh = headings(old_body), headings(new_body)\n    gone = [h for h in oh if h not in nh]\n    if gone:\n        return \"major\", f\"section(s) removed: {', '.join(gone[:3])}\"\n\n    fresh = [h for h in nh if h not in oh]\n    if fresh:\n        return \"minor\", f\"section(s) added: {', '.join(fresh[:3])}\"\n    if len(nt) > len(ot) * 1.02:",
+     "why": "Semver applied to prose: any change in the multiset of numbers is MAJOR, removed heading MAJOR, added heading or >2% growth MINOR, else PATCH — an original heuristic over semver.org's API-compatibility rule."
+    },
+    {
+     "path": "tools/multi_model_factcheck.py",
+     "lines": "456-473",
+     "lang": "python",
+     "code": "    results = []\n    if \"gemini\" in panel:\n        m, out = ask_with_fallback(ask_gemini, gk, text, [GEMINI_MODEL] + GEMINI_FALLBACKS)\n        results.append((\"Gemini \" + m, out))\n    if \"groq\" in panel:\n        for m in GROQ_MODELS:\n            results.append((f\"Groq {m}\", ask_groq(qk, m, text)))\n            time.sleep(1)  # be polite to the free tier\n    if \"mistral\" in panel:\n        m, out = ask_with_fallback(ask_mistral, mk, text, [MISTRAL_MODEL] + MISTRAL_FALLBACKS)\n        results.append((f\"Mistral {m}\", out))\n        time.sleep(1)\n    if kk:\n        results.append((f\"Kimi {KIMI_MODEL}\", ask_kimi(kk, text)))\n        time.sleep(1)\n    if ck:\n        results.append((f\"Cerebras {CEREBRAS_MODEL}\", ask_cerebras(ck, text)))\n        time.sleep(1)",
+     "why": "A cross-vendor panel of LLM reviewers per post — the 'jury' approach of Verga et al. 2024, used for flagging rather than scoring."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Blogger API v3",
+     "kind": "official",
+     "url": "https://developers.google.com/blogger/docs/3.0/using",
+     "overlap": "List/insert/update/delete posts; tools/blogger_api.py wraps it."
+    },
+    {
+     "name": "Replacing Judges with Juries (Verga et al., 2024, arXiv:2404.18796)",
+     "kind": "paper",
+     "url": "https://arxiv.org/abs/2404.18796",
+     "overlap": "Panel of diverse smaller models as evaluator; multi_model_factcheck.py applies the panel idea to fact-flagging."
+    },
+    {
+     "name": "Semantic Versioning 2.0.0",
+     "kind": "official",
+     "url": "https://semver.org/",
+     "overlap": "The MAJOR/MINOR/PATCH contract the snapshot classifier maps onto prose."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "Hand-rolled Blogger automation is sparse ground; the prose-semver classifier and fact-check panel are the novel bits, the rest is site ops.",
+   "change_since_aug": "Confirmed 'sparse but native' for Blogger automation; code shows it is the main working engine of the content cluster."
+  },
+  {
+   "repo": "masaladeutsch",
+   "does": "GitHub Pages front door for the blog: static index/topics pages, large JSON data files (trade, FDI, gazette trail, IEM), and accordion.js injected into every post that adds an accessibility bar (text size, SpeechSynthesis read-aloud) and a label index filled via Blogger JSONP feeds.",
+   "claims_vs_code": [
+    {
+     "claim": "'Built by tools/build_index_page.py'",
+     "evidence": "The generator lives in the private blogger_writeups_code repo; this public repo has no build script, so pages cannot be regenerated from it."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "One 340-line JS file plus ~17MB of data/HTML; CI is the generic gate; 109 commits of content updates.",
+   "snippets": [
+    {
+     "path": "accordion.js",
+     "lines": "313-330",
+     "lang": "javascript",
+     "code": "  function fill(d, lbl) {\n    var ul = d.querySelector('ul');\n    if (ul.getAttribute('data-done')) return;\n    ul.setAttribute('data-done', '1');\n    jsonp(BASE + '/feeds/posts/summary/-/' + encodeURIComponent(lbl) +\n      '?alt=json-in-script&orderby=published&max-results=150', function (res) {\n        if (!res) { ul.innerHTML = '<li>Could not load.</li>'; return; }\n        var es = res.feed.entry || []; ul.innerHTML = '';\n        for (var i = 0; i < es.length; i++) {\n          var e = es[i], href = '';\n          for (var j = 0; j < (e.link || []).length; j++)\n            if (e.link[j].rel === 'alternate') href = e.link[j].href;\n          var li = document.createElement('li'), a = document.createElement('a');\n          a.href = href; a.textContent = e.title.$t; li.appendChild(a);\n          var t = document.createElement('span'); t.className = 'gi-d';\n          t.textContent = ' · ' + (e.published.$t || '').slice(0, 10);\n          li.appendChild(t); ul.appendChild(li);\n        }",
+     "why": "Lazy per-label JSONP fetch of the Blogger summary feed to build the topic index on first open, so the index never needs a post edit."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Blogger feeds / API v3",
+     "kind": "official",
+     "url": "https://developers.google.com/blogger/docs/3.0/using",
+     "overlap": "The feed source the widget consumes."
+    }
+   ],
+   "verdict": "n/a",
+   "verdict_note": "A site, not a tool; no survey question.",
+   "change_since_aug": "Aug listed it in the content cluster without a verdict; unchanged."
+  },
+  {
+   "repo": "lit_review",
+   "does": "Mirror of the daily literature-review scheduled task's outputs (registers, backtest queue, ~40 dated run logs, task SKILL.md) plus build_lit_graph.py, which parses file.py:LINE citations in the registers and resolves them to the enclosing graphify AST node to bridge a literature graph to the code graph.",
+   "claims_vs_code": [],
+   "maturity": "scripts-only",
+   "maturity_note": "Mostly LLM-generated markdown; 3 small scripts, no tests/CI; hardcoded /Users/Shared and ~/.graphify paths; private.",
+   "snippets": [
+    {
+     "path": "tools/build_lit_graph.py",
+     "lines": "60-77",
+     "lang": "python",
+     "code": "def resolve(fname, line, prefer_repo=\"market-pipeline\"):\n    \"\"\"Return the node whose definition most tightly encloses fname:line.\"\"\"\n    for repo in (prefer_repo, None):\n        cands = (by_file.get((repo, fname)) if repo\n                 else [v for (r, f), v in by_file.items() if f == fname])\n        if not cands:\n            continue\n        flat = cands if repo else [x for sub in cands for x in sub]\n        flat = sorted(flat, key=lambda t: t[0])\n        best = None\n        for ln, node in flat:\n            if ln <= line:\n                best = (ln, node)\n            else:\n                break\n        if best:\n            return best[1], best[0]\n        if flat:                      # cited line precedes every def -> file node",
+     "why": "Resolves a 'file.py:LINE' citation to the nearest preceding definition node in graphify's AST graph — a simple literature-to-code traceability link."
+    }
+   ],
+   "prior_art": [],
+   "verdict": "n/a",
+   "verdict_note": "Personal research log; the citation-to-AST bridge is a neat small idea but not a product.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "job-search",
+   "does": "Private personal job-hunt aggregator: queries Exa, Adzuna and a LinkedIn MCP plus an iimjobs scrape via Jina Reader, dedups by normalised URL against a seen-cache, and scores each posting by the share of a fixed domain keyword vocabulary present in both the posting and a local CV file. Tree also holds personal fundraising-plan documents (file names only noted).",
+   "claims_vs_code": [],
+   "maturity": "scripts-only",
+   "maturity_note": "2 scripts, committed result JSON and personal office files; no README content, tests or CI; private.",
+   "snippets": [
+    {
+     "path": "job_search.py",
+     "lines": "43-49",
+     "lang": "python",
+     "code": "def score(text, cv):\n    d = re.sub(r\"[^a-z0-9&+\\- ]\", \" \", (text or \"\").lower())\n    pres = [v for v in VOCAB if v in d]\n    if not pres: return None\n    hit = [v for v in pres if v in cv]\n    return {\"cov\": round(100*len(hit)/len(pres)), \"n\": len(pres),\n            \"miss\": [v for v in pres if v not in cv][:10]}",
+     "why": "Keyword-coverage match score: fraction of vocabulary terms present in the posting that also appear in the CV."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "JobSpy",
+     "kind": "library",
+     "url": "https://github.com/speedyapply/JobSpy",
+     "overlap": "Aggregates LinkedIn, Indeed, Glassdoor, Naukri and others into one dataframe — covers the collection half."
+    }
+   ],
+   "verdict": "n/a",
+   "verdict_note": "Personal utility; keep private.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "data-source-mining",
+   "does": "One script that pulls 12 World Bank indicators for 7 countries via the v2 API (paginated) and the data.gov.in Agmarknet daily mandi price resource into a committed DuckDB file.",
+   "claims_vs_code": [
+    {
+     "claim": "README",
+     "evidence": "Empty apart from the boilerplate AI-helper line."
+    },
+    {
+     "claim": "Fully open sources",
+     "evidence": "Mandi pull targets api.data.gov.in (mine_underused_sources.py:92) with the public sample key; the account's own notes record that host as unreachable and recommend the www.data.gov.in/backend path — not re-tested here."
+    }
+   ],
+   "maturity": "thin",
+   "maturity_note": "117 LOC, no tests; CI is the generic gate; DuckDB output committed.",
+   "snippets": [
+    {
+     "path": "mine_underused_sources.py",
+     "lines": "62-79",
+     "lang": "python",
+     "code": "    rows = []\n    for iso in WB_COUNTRIES:\n        for code, name in WB_INDICATORS.items():\n            page = 1\n            while True:\n                url = (f\"https://api.worldbank.org/v2/country/{iso}/indicator/\"\n                       f\"{code}?format=json&per_page=1000&page={page}\")\n                d = get_json(url)\n                if not d or len(d) < 2 or not d[1]:\n                    break\n                for obs in d[1]:\n                    if obs.get(\"value\") is None:\n                        continue\n                    rows.append((iso, code, name, int(obs[\"date\"]),\n                                 float(obs[\"value\"]), d[0].get(\"lastupdated\")))\n                if page >= d[0].get(\"pages\", 1):\n                    break\n                page += 1",
+     "why": "Plain paginated World Bank API loop — exactly what wbgapi wraps."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "wbgapi",
+     "kind": "library",
+     "url": "https://pypi.org/project/wbgapi/",
+     "overlap": "Pythonic client for World Bank data/metadata APIs."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Thin fetcher of well-served open data; merge into a data-collection repo.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "delivery-playbook",
+   "does": "Single self-contained index.html: an SDLC/Agile/DevOps/CS-theory/DDD/TOGAF field guide, source of a published claude.ai artifact.",
+   "claims_vs_code": [],
+   "maturity": "docs-only",
+   "maturity_note": "No code; one HTML page + README; 5 commits.",
+   "snippets": [],
+   "prior_art": [],
+   "verdict": "n/a",
+   "verdict_note": "Keep as docs. (no snippet: docs/data-only or trivial scripts)",
+   "change_since_aug": "Not covered in Aug (infra/docs/meta repos were left out)."
+  },
+  {
+   "repo": "ai-tools-tracker",
+   "does": "Markdown tables comparing token-optimisation tools (prompt caching, LLMLingua-2, RouteLLM, semantic caching) with savings claims.",
+   "claims_vs_code": [],
+   "maturity": "docs-only",
+   "maturity_note": "No code; savings figures are quoted, not measured by any script in the repo.",
+   "snippets": [],
+   "prior_art": [],
+   "verdict": "n/a",
+   "verdict_note": "Keep as docs, or merge into prompt-efficiency-tracker; savings numbers are unsourced in-repo. (no snippet: docs/data-only or trivial scripts)",
+   "change_since_aug": "Not covered in Aug (infra/docs/meta repos were left out)."
+  },
+  {
+   "repo": "Ai_for_exploration",
+   "does": "Data scaffolding for an Aravalli mineral-prospectivity idea: a USGS MRDS extract (60 records), a NASA EMIT granule inventory CSV, a concept doc and a 14-line Bhukosh watcher script; no model.",
+   "claims_vs_code": [],
+   "maturity": "data-only",
+   "maturity_note": "Started 2026-08-01; no modelling code.",
+   "snippets": [],
+   "prior_art": [],
+   "verdict": "n/a",
+   "verdict_note": "Archive until a model exists, or keep as a data stub. (no snippet: docs/data-only or trivial scripts)",
+   "change_since_aug": "Not covered in Aug (infra/docs/meta repos were left out)."
+  },
+  {
+   "repo": "bin",
+   "does": "Two personal shell scripts (cloud-backup alignment, Downloads backup) and a Google Drive setup notes file.",
+   "claims_vs_code": [],
+   "maturity": "scripts-only",
+   "maturity_note": "66 LOC, no README content.",
+   "snippets": [],
+   "prior_art": [],
+   "verdict": "n/a",
+   "verdict_note": "Merge into repo-data-dedup (which already holds the backup scripts). (no snippet: docs/data-only or trivial scripts)",
+   "change_since_aug": "Not covered in Aug (infra/docs/meta repos were left out)."
+  },
+  {
+   "repo": "colab",
+   "does": "One Colab runner notebook template (3 cells).",
+   "claims_vs_code": [],
+   "maturity": "docs-only",
+   "maturity_note": "37 LOC notebook, no README content.",
+   "snippets": [],
+   "prior_art": [],
+   "verdict": "n/a",
+   "verdict_note": "Merge into a shared templates repo or archive. (no snippet: docs/data-only or trivial scripts)",
+   "change_since_aug": "Not covered in Aug (infra/docs/meta repos were left out)."
+  },
+  {
+   "repo": "mlflow",
+   "does": "A 348-byte Dockerfile for an MLflow server.",
+   "claims_vs_code": [],
+   "maturity": "docs-only",
+   "maturity_note": "No README content.",
+   "snippets": [],
+   "prior_art": [],
+   "verdict": "n/a",
+   "verdict_note": "Archive or merge with k8s into one infra repo. (no snippet: docs/data-only or trivial scripts)",
+   "change_since_aug": "Not covered in Aug (infra/docs/meta repos were left out)."
+  },
+  {
+   "repo": "k8s",
+   "does": "One Kubernetes pod manifest for a Cassandra market-data pod.",
+   "claims_vs_code": [],
+   "maturity": "docs-only",
+   "maturity_note": "No README content.",
+   "snippets": [],
+   "prior_art": [],
+   "verdict": "n/a",
+   "verdict_note": "Merge with mlflow into one infra repo. (no snippet: docs/data-only or trivial scripts)",
+   "change_since_aug": "Not covered in Aug (infra/docs/meta repos were left out)."
+  },
+  {
+   "repo": "cloud-map",
+   "does": "Markdown listings of the owner's Dropbox and Google Drive folder trees plus a cloud file index.",
+   "claims_vs_code": [],
+   "maturity": "docs-only",
+   "maturity_note": "PUBLIC repo; folder listings include names matching sensitive-document keywords (8 keyword hits across dropbox_folders.md/gdrive_folders.md; contents not quoted).",
+   "snippets": [],
+   "prior_art": [],
+   "verdict": "n/a",
+   "verdict_note": "Make private (it publicly maps personal cloud storage), then keep as docs. (no snippet: docs/data-only or trivial scripts)",
+   "change_since_aug": "Not covered in Aug (infra/docs/meta repos were left out)."
+  },
+  {
+   "repo": "interpreter_toolkit",
+   "does": "Empty: README title plus the boilerplate AI-helper file; already archived.",
+   "claims_vs_code": [],
+   "maturity": "docs-only",
+   "maturity_note": "1 commit, archived.",
+   "snippets": [],
+   "prior_art": [],
+   "verdict": "n/a",
+   "verdict_note": "Delete or leave archived. (no snippet: docs/data-only or trivial scripts)",
+   "change_since_aug": "Not covered in Aug (infra/docs/meta repos were left out)."
+  },
+  {
+   "repo": ".github",
+   "does": "Account-wide reusable quality workflow (gitleaks full-history + ruff/black) and a new-repo checklist.",
+   "claims_vs_code": [],
+   "maturity": "docs-only",
+   "maturity_note": "Workflow YAML only; README links to repos.yaml in the private repo-traffic-analytics repo, unreachable for public readers.",
+   "snippets": [],
+   "prior_art": [],
+   "verdict": "n/a",
+   "verdict_note": "Keep (it is the shared CI); point the catalog link somewhere public or drop it. (no snippet: docs/data-only or trivial scripts)",
+   "change_since_aug": "Not covered in Aug (infra/docs/meta repos were left out)."
+  },
+  {
+   "repo": "lfs_archive_work",
+   "does": "Working files from an LFS evacuation: a log, a sha256 of a tarball, and OID/path lists (1.2MB).",
+   "claims_vs_code": [],
+   "maturity": "data-only",
+   "maturity_note": "No code; 4 commits.",
+   "snippets": [],
+   "prior_art": [],
+   "verdict": "n/a",
+   "verdict_note": "Merge into repo-data-dedup/audit or archive. (no snippet: docs/data-only or trivial scripts)",
+   "change_since_aug": "Not covered in Aug (infra/docs/meta repos were left out)."
+  },
+  {
+   "repo": "working-files",
+   "does": "Private: three files only (.gitattributes, DATA_ACCESS.md, README.md); contents not described per instructions.",
+   "claims_vs_code": [],
+   "maturity": "docs-only",
+   "maturity_note": "Last commit 2026-09-01; former dumping ground whose code was extracted to data_validator.",
+   "snippets": [],
+   "prior_art": [],
+   "verdict": "n/a",
+   "verdict_note": "Archive (its useful contents were already rescued into data_validator). (no snippet: docs/data-only or trivial scripts)",
+   "change_since_aug": "Not covered in Aug (infra/docs/meta repos were left out)."
+  },
+  {
+   "repo": "personal-profile",
+   "does": "Private: five personal-profile markdown files (GitHub profile, LinkedIn summary, photo guide, photo setup, README); contents not described per instructions.",
+   "claims_vs_code": [],
+   "maturity": "docs-only",
+   "maturity_note": "Moved out of a public repo for privacy; last commit 2026-10-12.",
+   "snippets": [],
+   "prior_art": [],
+   "verdict": "n/a",
+   "verdict_note": "Keep private as docs. (no snippet: docs/data-only or trivial scripts)",
+   "change_since_aug": "Not covered in Aug (infra/docs/meta repos were left out)."
+  }
+ ]
+}

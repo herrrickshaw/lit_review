@@ -1,0 +1,640 @@
+{
+ "cluster": "F_civic_govt_text",
+ "cluster_summary": "Judged from code, the real open ground in this cluster is narrow. It is gazette-translated-indexed's test-backed amend/supersede citation graph across ~53 ministries, which no official tool (eGazette, India Code, Indian Kanoon) provides, and CBSE_paper_patterns' year-deduplicated, marks-weighted recurrence index over a 30.7k-question corpus. lok-rajya-sabha-qa adds a real 18th-LS + Rajya Sabha extension of TCPD-IPD and a novel PQ-vs-PIB scrutiny join, but its methods are simple: lift ratios, Louvain and unigram counts. The biggest README-vs-code gaps are these. kalki_flooding's IUDX archive holds no observations (access pending), and its real analysis is an undocumented IMD-rainfall study. The two mospi repos contain no code (their outputs came from an MCP session), and the private one is a 97% blob-identical duplicate of -public. india-govt-yellow-pages' 'DDD/Graphify' layer is a stub over CSVs. jai_kisan_jai_javan's README advertises ~30 files that don't exist, and jal_jeevan_lottery's JJM and lottery-market baselines are off ~3x and more than 10x against official figures. Neither docs-only repo engages the binding constraints (Lotteries Act 1998 state-only rule; FCI is not a meal processor and DFRL owns ration technology). Two risk flags: india-govt-yellow-pages publicly republishes de-obfuscated contact details of named officials (privacy/DPDP), and CBSE_paper_patterns redistributes the full CBSE/NCERT text despite its description saying papers are not redistributed. india-election-analysis cites a 'Mitra 2026 PLOS ONE' model that could not be verified, and its implementation is a simplified bloc-mean.",
+ "literature": [
+  {
+   "cite": "Blondel V.D., Guillaume J.-L., Lambiotte R., Lefebvre E. (2008). Fast unfolding of communities in large networks. J. Stat. Mech. P10008. doi:10.1088/1742-5468/2008/10/P10008; arXiv:0803.0476",
+   "url": "https://arxiv.org/abs/0803.0476",
+   "used_by": [
+    "lok-rajya-sabha-qa"
+   ],
+   "how": "scripts/build_graph.py:274 louvain_communities on party lift-similarity graph."
+  },
+  {
+   "cite": "Banzhaf J.F. III (1965). Weighted Voting Doesn't Work: A Mathematical Analysis. Rutgers Law Review 19(2):317-343",
+   "url": "https://orbi.uliege.be/handle/2268/95537",
+   "used_by": [
+    "india-election-analysis"
+   ],
+   "how": "coalition-game-theory/scripts/02_bloc_level_game_theory.py:64-80 exact Banzhaf index."
+  },
+  {
+   "cite": "Anderson L.W., Krathwohl D.R. (eds.) (2001). A Taxonomy for Learning, Teaching, and Assessing: A Revision of Bloom's Taxonomy of Educational Objectives. New York: Addison Wesley Longman",
+   "url": "https://docs.edtechhub.org/lib/SEJKR6FG",
+   "used_by": [
+    "CBSE_paper_patterns"
+   ],
+   "how": "scripts/methods2.py:62-81 verb-lexicon classifier over three collapsed levels (CBSE typology); not cited in the repo."
+  },
+  {
+   "cite": "Reimers N., Gurevych I. (2019). Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks. EMNLP 2019. arXiv:1908.10084",
+   "url": "https://arxiv.org/abs/1908.10084",
+   "used_by": [
+    "CBSE_paper_patterns"
+   ],
+   "how": "scripts/embed_units.py all-MiniLM-L6-v2 cosine assignment of questions to syllabus units (floor 0.28)."
+  },
+  {
+   "cite": "Pai D.S., Sridhar L., Rajeevan M., Sreejith O.P., Satbhai N.S., Mukhopadhyay B. (2014). Development of a new high spatial resolution (0.25°×0.25°) long period (1901-2010) daily gridded rainfall data set over India. MAUSAM 65(1):1-18. doi:10.54302/mausam.v65i1.851",
+   "url": "https://mausamjournal.imd.gov.in/index.php/MAUSAM/article/view/851",
+   "used_by": [
+    "kalki_flooding"
+   ],
+   "how": "Dataset behind analysis/data/city_daily*.csv and city_rain_metrics.py; the Pune-cell artifact in DATA_CAVEATS.md follows from its station-weighted gridding."
+  },
+  {
+   "cite": "Adhya S. et al. (2023). What Does the Indian Parliament Discuss? An Exploratory Analysis of the Question Hour in the Lok Sabha (on TCPD-IPD)",
+   "url": "https://deepai.org/publication/what-does-the-indian-parliament-discuss-an-exploratory-analysis-of-the-question-hour-in-the-lok-sabha",
+   "used_by": [
+    "lok-rajya-sabha-qa"
+   ],
+   "how": "Not implemented; dynamic topic modelling would replace build.py's unigram counts."
+  },
+  {
+   "cite": "Mitra A., Dey P. (2023/2024). Evaluating District-based Election Surveys with Synthetic Dirichlet Likelihood. arXiv:2312.15179; AAMAS 2024",
+   "url": "https://arxiv.org/abs/2312.15179v1",
+   "used_by": [
+    "india-election-analysis"
+   ],
+   "how": "Nearest verifiable source for the repo's Dirichlet election modelling; the repo instead cites an unverified 'Mitra (2026, PLOS ONE)'."
+  }
+ ],
+ "repos": [
+  {
+   "repo": "gazette-translated-indexed",
+   "does": "Builds a SQLite citation graph of Government of India gazette notifications (what each notification amends, supersedes, corrects) across ~53 ministries: fetches official PDFs from egazette.gov.in by gazette ID, extracts text, runs regex/anchor 'drafting template' matchers (5 shared templates + ~40 per-ministry modules) to propose cross-reference candidates, stores hand-verified rows in per-ministry SQL seed files, and renders HTML pages, an LLM-ready JSONL export and Gemini/LibreTranslate translations of the project's own metadata.",
+   "claims_vs_code": [
+    {
+     "claim": "GitHub description: 'piloted on CBIC customs notifications'",
+     "evidence": "Out of date in the other direction: the code now covers ~53 ministries (extract/*_patterns.py, db/seed_*.sql); CBIC is just extract/citation_patterns.py's original form."
+    },
+    {
+     "claim": "Repo name/README 'translated' implies the gazette text is translated",
+     "evidence": "render/translate.py:1-20 translates only the index's own metadata (ministry, instrument title, thread summary), not the legal text; the README says this, but the repo name over-promises."
+    },
+    {
+     "claim": "'2,591 notifications, 2,113 cross-references' are produced by the extraction pipeline",
+     "evidence": "The rows live in hand-curated db/seed_*.sql files (a regex count of the INSERT tuples gives about 2.5k notifications and 2.0k cross-refs). The extractors (extract/cross_ref.py, ingest/mistral_extract.py) only produce candidates for human review (verify/review_queue.py), so the index is a curated dataset assisted by code, not output generated by code."
+    }
+   ],
+   "maturity": "substantive",
+   "maturity_note": "52 test files (~190 test functions) built on quoted real notification text; CI is only a gitleaks secrets gate (tests are not run in CI); 55 commits, last push 2026-10-12; real primary-source data.",
+   "snippets": [
+    {
+     "path": "extract/common_templates.py",
+     "lines": "115-128",
+     "lang": "python",
+     "code": "    text = _normalize(text)\n    lower = text.lower()\n    citations = find_gazette_citations(text)\n    out: list[TemplateLink] = []\n    start = 0\n    while True:\n        idx = lower.find(anchor, start)\n        if idx == -1:\n            break\n        window_end = idx + len(anchor) + window_chars\n        for c in citations:\n            if idx < c.start < window_end and c.normalized != self_citation:\n                out.append(TemplateLink(target_citation=c.normalized))\n        start = idx + len(anchor)",
+     "why": "The core linking method: normalise whitespace, find a drafting-template anchor phrase, and treat any G.S.R./S.O. citation within a fixed character window after it as the amended/superseded target. This is the same anchor-plus-citation-pattern idea as eyecite's reporter-pattern extraction, applied to Indian gazette numbering."
+    },
+    {
+     "path": "extract/citation_patterns.py",
+     "lines": "61-70",
+     "lang": "python",
+     "code": "_GSR_RE = re.compile(r'G\\.\\s*S\\.\\s*R\\.?\\s*[.,-]?\\s*(?:No\\.?\\s*)?(\\d+)\\s*\\(([A-Z])\\)')\n_SO_RE = re.compile(r'S\\.\\s*O\\.?[.,]?\\s*(?:No\\.?\\s*)?(\\d+)\\s*\\(([A-Z])\\)')\n\n# S.R.O. (\"Statutory Rules and Orders\") is a third standard Gazette-of-India\n# citation series alongside G.S.R./S.O. — confirmed via three real Ministry\n# of Defence notifications (Cantonment Board and Navy Act amendments) that\n# use it exclusively; that ministry's corrigenda never use G.S.R./S.O. at\n# all. Same optional-whitespace/comma tolerance as the other two, on the\n# same evidentiary basis.\n_SRO_RE = re.compile(r'S\\.\\s*R\\.\\s*O\\.?[.,]?\\s*(\\d+)\\s*\\(([A-Z])\\)')",
+     "why": "Citation grammar for Gazette of India numbering (G.S.R./S.O./S.R.O. with (E) suffix), tolerant of real typesetting defects. eyecite and India Code have no equivalent for subordinate-legislation numbers."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "eGazette (Directorate of Printing)",
+     "kind": "official",
+     "url": "https://egazette.gov.in/",
+     "overlap": "The primary source ingest/egazette.py fetches from. It lists notifications by ministry/date but has no amends/superseded-by links, which is the gap this repo fills."
+    },
+    {
+     "name": "India Code",
+     "kind": "official",
+     "url": "https://www.indiacode.nic.in/about.jsp?locale=en",
+     "overlap": "Hosts Acts with linked subordinate legislation (rules, notifications), and a 2026 revamp reportedly adds e-Gazette linkage. That is the closest official overlap with the act_or_rule → notification threads in db/schema.sql, but it does not model notification-to-notification amendment chains."
+    },
+    {
+     "name": "Indian Kanoon",
+     "kind": "tool",
+     "url": "https://en.wikipedia.org/wiki/Indian_Kanoon",
+     "overlap": "Free legal search that links statute clauses to judgments. It covers Acts and case law, not gazette notification lineage."
+    },
+    {
+     "name": "eyecite (Free Law Project)",
+     "kind": "library",
+     "url": "https://github.com/freelawproject/eyecite",
+     "overlap": "Mature regex-pattern citation extractor for US case and statute citations. It solves the same problem as extract/citation_patterns.py, but it has no Indian G.S.R./S.O. grammar."
+    },
+    {
+     "name": "CBIC Tax Information Portal",
+     "kind": "official",
+     "url": "https://taxinformation.cbic.gov.in/",
+     "overlap": "Hosts customs notifications, overlapping the CBIC pilot (seed_cbic.sql), but only for CBIC and without a cross-ministry citation graph."
+    }
+   ],
+   "verdict": "open",
+   "verdict_note": "No official or open tool found that links Indian gazette notifications into amend/supersede chains across ministries. The contribution is the curated, test-backed citation graph plus the template grammar, and it stays open while India Code's e-Gazette linkage remains Act-level.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "lok-rajya-sabha-qa",
+   "does": "Joins ~34.7k 18th-Lok-Sabha questions (sansad.in api_ls metadata) and ~24.7k Rajya Sabha questions (rsdoc.nic.in) to MP party/state rosters with alias/fuzzy name matching, then computes party×ministry lift, Louvain communities on cosine similarity of the lift vectors, hand-rolled PageRank, unigram 'topic' counts, and comparisons against PIB releases, PLI, MeitY/DoT/DPIIT scheme catalogues and PARIVESH; outputs CSVs, DuckDB, an xlsx and a D3 dashboard.",
+   "claims_vs_code": [
+    {
+     "claim": "Reproducible pipeline ('Reproducing it' section)",
+     "evidence": "No fetch script exists. README step 1 says each raw pull was 'a one-off paginated/bulk curl' documented only in scripts/build.py's docstring, and the PIB comparison needs an external sibling repo's SQLite (scripts/ministry_registry.py) plus india-govt-yellow-pages' CSV by local path."
+    },
+    {
+     "claim": "'topic' analysis / question text 'treated as a data source'",
+     "evidence": "scripts/build.py:385-421 tokenises subject lines and counts top unigrams per party. There is no topic model or phrase mining."
+    },
+    {
+     "claim": "'Knowledge graph'",
+     "evidence": "A NetworkX graph built in memory (scripts/build_graph.py) and exported to GraphML. The analyses are lift ratios plus Louvain and PageRank, which is a standard bipartite network analysis rather than a KG with an ontology or reasoning."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "~2.2k LOC of Python, no tests, no CI, 9 commits; real scraped data (117 MB) is committed; the dashboard and workbook are generated from the code.",
+   "snippets": [
+    {
+     "path": "scripts/build_graph.py",
+     "lines": "204-220",
+     "lang": "python",
+     "code": "    lift_rows = []\n    for party, counter in party_ministry.items():\n        party_share = party_question_count[party] / total_questions\n        for ministry, cnt in counter.items():\n            expected = ministry_total[ministry] * party_share\n            lift = cnt / expected if expected > 0 else 0\n            lift_rows.append(\n                {\n                    \"party\": party,\n                    \"ministry\": ministry,\n                    \"questions\": cnt,\n                    \"ministry_total\": ministry_total[ministry],\n                    \"party_total\": party_question_count[party],\n                    \"lift\": round(lift, 3),\n                }\n            )\n    lift_rows.sort(key=lambda r: (-r[\"lift\"], -r[\"questions\"]))",
+     "why": "'Signature ministry' = observed party×ministry questions over the count expected from the party's overall share (a lift/observed-over-expected ratio). This is the repo's core metric, a simple cross-tab statistic rather than anything TCPD-IPD or PRS publish."
+    },
+    {
+     "path": "scripts/build_graph.py",
+     "lines": "258-274",
+     "lang": "python",
+     "code": "    party_graph = nx.Graph()\n    for p in parties:\n        party_graph.add_node(p)\n    for p1, p2 in combinations(parties, 2):\n        v1, v2 = lift_by_party[p1], lift_by_party[p2]\n        shared = set(v1) & set(v2)\n        if not shared:\n            continue\n        dot = sum(v1[m] * v2[m] for m in shared)\n        norm1 = sum(v * v for v in v1.values()) ** 0.5\n        norm2 = sum(v * v for v in v2.values()) ** 0.5\n        if norm1 and norm2:\n            sim = dot / (norm1 * norm2)\n            if sim > 0.15:\n                party_graph.add_edge(p1, p2, weight=sim)\n\n    communities = louvain_communities(party_graph, weight=\"weight\", seed=42)",
+     "why": "Party communities come from cosine similarity of lift vectors (edge if >0.15) followed by Louvain (Blondel et al. 2008), so clustering runs on relative emphasis rather than raw volume."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "TCPD-IPD: TCPD Indian Parliament Dataset (Question Hour) 1.0",
+     "kind": "dataset",
+     "url": "https://qh.lokdhaba.ashoka.edu.in/static/media/qh_codebook.712c9103.pdf",
+     "overlap": "Full-text Lok Sabha questions 1999-2019 with MP and party metadata, i.e. the same table this repo scrapes, but ending at the 16th Lok Sabha. This repo extends it to the 18th LS and adds Rajya Sabha."
+    },
+    {
+     "name": "PRS Legislative Research MP Track",
+     "kind": "official",
+     "url": "https://en.wikipedia.org/wiki/PRS_Legislative_Research",
+     "overlap": "Per-MP counts of questions, debates and attendance. It covers the per-MP ranking part of build.py, but not party×ministry lift or the PIB comparison."
+    },
+    {
+     "name": "Digital Sansad / eParlib (sansad.in)",
+     "kind": "official",
+     "url": "https://eparlib.sansad.in/",
+     "overlap": "The official source of every question and answer PDF. It has search but no cross-tab analytics."
+    },
+    {
+     "name": "Adhya et al. 2023, 'What Does the Indian Parliament Discuss? An Exploratory Analysis of the Question Hour in the Lok Sabha'",
+     "kind": "paper",
+     "url": "https://deepai.org/publication/what-does-the-indian-parliament-discuss-an-exploratory-analysis-of-the-question-hour-in-the-lok-sabha",
+     "overlap": "Applies dynamic topic modelling to TCPD-IPD question text, which is a stronger topic method than this repo's unigram counts."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "The data layer is covered by TCPD-IPD (to 2019), PRS and Sansad. The new parts are the 18th-LS + RS extension, the lift/community analysis, and the PQ-vs-PIB/PARIVESH 'scrutiny vs self-publicity' join, which no surveyed tool does.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "india-govt-yellow-pages",
+   "does": "Crawls igod.gov.in for ~9.5k government organisation listings and contact blocks, then deep-scrapes each union ministry's own who's-who page (NIC Drupal tables with header-role detection, linked PDF rosters via pdfplumber, Next.js payloads) into a directory of named officials with phones and emails. It also parses the MHA IPS and DoPT civil-list PDFs, joins officials to open incentive schemes and PIB activity, and generates outreach email/phone-script templates. A separate src/ 'DDD + LangGraph' layer mostly wraps the CSVs.",
+   "claims_vs_code": [
+    {
+     "claim": "DDD architecture with a Graphify knowledge-graph backend and a refresh workflow (docs/ARCHITECTURE.md, docs/DDD_LANGGRAPH_SUMMARY.md, src/main.py)",
+     "evidence": "src/infrastructure/graphify_client.py:26-30 _load_graph is a stub ('For now, we initialize with empty state'). src/workflows/refresh_workflow.py:126-128 says 'In production, call the actual scraper modules / For now, read from cached CSV data'. scripts/refresh.sh calls the scripts/ crawlers directly and never touches src/."
+    },
+    {
+     "claim": "README tables state data volumes (1,807 officials, 1,466 emails, 9,461 orgs)",
+     "evidence": "Consistent with scripts/ministry_whoswho.py + igod_crawl.py outputs. Data files were not cloned, so the row counts were not re-checked."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "Scrapers are real and run monthly via cron (refresh.sh auto-commits and pushes data). No tests. CI is a gitleaks gate only. 43 stub/pass bodies, mostly ABC interfaces in src/domain plus the non-functional DDD layer.",
+   "snippets": [
+    {
+     "path": "scripts/ministry_whoswho.py",
+     "lines": "100-116",
+     "lang": "python",
+     "code": "        if not header_cells:\n            continue\n        roles = {}\n        for idx, cell in enumerate(header_cells):\n            text = clean(cell.get_text(\" \"))\n            for role, pat in COLROLE.items() if isinstance(COLROLE, dict) else COLROLE:\n                if pat.search(text) and role not in roles.values():\n                    roles[idx] = role\n                    break\n        if \"name\" not in roles.values() or \"designation\" not in roles.values():\n            continue\n        caption = clean(table.caption.get_text(\" \")) if table.caption else \"\"\n        body = table.find(\"tbody\") or table\n        for tr in body.find_all(\"tr\"):\n            cells = tr.find_all(\"td\")\n            if not cells:\n                continue",
+     "why": "Header-role detection: each column of a ministry who's-who table is classified by regex on its header text, so one generic parser handles heterogeneous NIC Drupal tables. This is the repo's real technique. (Parsing logic only; no data quoted.)"
+    },
+    {
+     "path": "scripts/ministry_whoswho.py",
+     "lines": "62-67",
+     "lang": "python",
+     "code": "def deob(text):\n    t = re.sub(r\"\\s*\\[\\s*at\\s*\\]\\s*\", \"@\", text or \"\", flags=re.I)\n    t = re.sub(r\"\\s*\\[\\s*dot\\s*\\]\\s*\", \".\", t, flags=re.I)\n    t = re.sub(r\"\\[\\s*in\\s*\\]\\s*$\", \".in\", t.strip(), flags=re.I)  # gov[in]\n    t = re.sub(r\"\\[|\\]\", \"\", t)\n    return t.strip(\" .,;\")",
+     "why": "De-obfuscates '[at]'/'[dot]' email masking used on government sites. This step defeats the publishers' anti-harvesting measure, which matters for the privacy assessment."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "iGOD - Integrated Government Online Directory (NIC)",
+     "kind": "official",
+     "url": "https://igod.gov.in/about_us",
+     "overlap": "The source the repo crawls. It already provides the single-point index of government websites and organisations that igod_crawl.py rebuilds."
+    },
+    {
+     "name": "National Portal of India - Directory / Who's Who",
+     "kind": "official",
+     "url": "https://www.india.gov.in/directory",
+     "overlap": "The official directory of government contacts and office-holders, overlapping data/org_contacts.csv and the top-level officials list."
+    },
+    {
+     "name": "Ministry who's-who pages (e.g. dea.gov.in/whos-who)",
+     "kind": "official",
+     "url": "https://dea.gov.in/whos-who/vinod-kumar-agrawal",
+     "overlap": "The per-ministry primary pages that ministry_whoswho.py aggregates. The repo adds aggregation only, not new information."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "PRIVACY RISK: this PUBLIC repo republishes a consolidated, de-obfuscated directory of named officials' phones and emails (and an IPS civil-list parser that extracts DOB/domicile), auto-pushed monthly, plus outreach-template generation. Aggregation is the only contribution over iGOD and the ministry sites, and it raises scraping-for-outreach and DPDP Act 2023 concerns. Recommend making it private or dropping the personal-contact tables.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "mospi-dataset-analysis",
+   "does": "A private, byte-identical twin of mospi-dataset-analysis-public: 37 of its 38 git blobs (README, notebook, all data JSON and chart HTML) have the same SHA in the public repo. The only differing file is HOW_TO_USE_WITH_AI.md. The public repo adds a CI file, .dbxignore and graphify-out/.",
+   "claims_vs_code": [
+    {
+     "claim": "'A record of accessing India's official statistics via the MoSPI data API' / MoSPI dataset analysis",
+     "evidence": "There are no .py scripts. README 'Access workflow' admits that the analysis was done through the MoSPI MCP connector inside Claude Code and is 'not (yet) a standalone script'. All 20 data/*.json and 14 charts/*.html are committed outputs with no generating code, and the notebook only re-loads those JSON files from GitHub."
+    },
+    {
+     "claim": "Title 'IMPORT EXPORT Dataset Analysis' plus policy recommendations (sector/PLI priority, CBAM flags)",
+     "evidence": "The recommendation JSONs (e.g. data/sector_and_policy_recommendations_2026-07-18.json) have no producing script. The README banner says the work moved to india-trade-data-analysis and india-trade-sector-policy-recommendations."
+    }
+   ],
+   "maturity": "data-only",
+   "maturity_note": "No code files. One Colab notebook (15 cells) that loads committed JSON. No tests. Superseded by two split successor repos per the README banner.",
+   "snippets": [
+    {
+     "path": "notebooks/mospi_live_reference.ipynb",
+     "lines": "156-173",
+     "lang": "json (ipynb cell source)",
+     "code": "    \"def fetch_latest_rbi_reserves(start_id=28590, lookback=60):\\n\",\n    \"    \\\"\\\"\\\"Walk backward from start_id looking for the latest published WSS release\\n\",\n    \"    with a parseable 'Total Reserves' row. Increase start_id over time as RBI\\n\",\n    \"    publishes new weekly releases (~+1/week since 19 Sep 1998 = Id 2; Id 28579\\n\",\n    \"    published 17 Jul 2026 was the latest confirmed release when this was written).\\\"\\\"\\\"\\n\",\n    \"    row_pattern = re.compile(\\n\",\n    \"        r\\\"Total Reserves</td>\\\\s*<td[^>]*>([\\\\d,]+)</td>\\\\s*<td[^>]*>([\\\\d,]+)</td>\\\"\\n\",\n    \"    )\\n\",\n    \"    date_pattern = re.compile(r\\\"As on\\\\s+([A-Za-z]+\\\\.?\\\\s+\\\\d{1,2},\\\\s+\\\\d{4})\\\")\\n\",\n    \"    for wss_id in range(start_id, start_id - lookback, -1):\\n\",\n    \"        url = f\\\"https://rbi.org.in/scripts/WSSView.aspx?Id={wss_id}\\\"\\n\",\n    \"        try:\\n\",\n    \"            r = requests.get(url, timeout=15)\\n\",\n    \"        except requests.RequestException:\\n\",\n    \"            continue\\n\",\n    \"        if r.status_code != 200:\\n\",\n    \"            continue\\n\",\n    \"        m_row = row_pattern.search(r.text)\\n\",",
+     "why": "The only live-data logic in the repo: walks RBI Weekly Statistical Supplement ids backwards and regex-parses the 'Total Reserves' row. Raw ipynb JSON lines are quoted verbatim, which is why each line is a quoted string. RBI DBIE publishes the same series directly. Identical blob to the public repo."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "MoSPI eSankhyiki MCP server (nso-india/esankhyiki-mcp)",
+     "kind": "official",
+     "url": "https://glama.ai/mcp/servers/nso-india/esankhyiki-mcp",
+     "overlap": "The official connector this repo's data was pulled through (CPI, WPI, IIP, NAS, PLFS, ASI). The repo is a snapshot of its outputs."
+    },
+    {
+     "name": "NITI Aayog Trade Watch Quarterly",
+     "kind": "official",
+     "url": "https://www.niti.gov.in/sites/default/files/2025-07/Trade-Watch-Quarterly.pdf",
+     "overlap": "Quarterly official trade-balance, sector and partner analysis. The README itself says it is 'inspired by' this and cross-checks against it."
+    },
+    {
+     "name": "TRADESTAT (DGCI&S / Dept of Commerce EIDB)",
+     "kind": "official",
+     "url": "https://tradestat.commerce.gov.in/",
+     "overlap": "The source of the HSN trade tables. The notebook's fetch_tradestat_by_hs_code just posts the same public form."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "No code contribution, and the content is a frozen snapshot of official series. The private repo is a 97% duplicate of -public, so archive or delete it.",
+   "change_since_aug": "New repo (not in the Aug survey). Now known to be a duplicate of -public and superseded by the two split repos."
+  },
+  {
+   "repo": "mospi-dataset-analysis-public",
+   "does": "Committed JSON snapshots (CPI/WPI state trends, RBI reserves and USD/INR, TRADESTAT HSN trade, PLI coverage, country trade deficits) plus 14 Plotly/HTML charts and a markdown 'bulletin' README. The one Colab notebook reloads the JSON from GitHub and has three live helpers (RBI WSS reserves scrape, Frankfurter USD/INR, TRADESTAT form POST) and demo plots.",
+   "claims_vs_code": [
+    {
+     "claim": "'A record of accessing India's official statistics via the MoSPI data API' / MoSPI dataset analysis",
+     "evidence": "There are no .py scripts. README 'Access workflow' admits that the analysis was done through the MoSPI MCP connector inside Claude Code and is 'not (yet) a standalone script'. All 20 data/*.json and 14 charts/*.html are committed outputs with no generating code, and the notebook only re-loads those JSON files from GitHub."
+    },
+    {
+     "claim": "Title 'IMPORT EXPORT Dataset Analysis' plus policy recommendations (sector/PLI priority, CBAM flags)",
+     "evidence": "The recommendation JSONs (e.g. data/sector_and_policy_recommendations_2026-07-18.json) have no producing script. The README banner says the work moved to india-trade-data-analysis and india-trade-sector-policy-recommendations."
+    }
+   ],
+   "maturity": "data-only",
+   "maturity_note": "0 code files, 1 notebook. CI is only a gitleaks gate. 39 commits, last push 2026-10-12. Superseded by india-trade-data-analysis and india-trade-sector-policy-recommendations.",
+   "snippets": [
+    {
+     "path": "notebooks/mospi_live_reference.ipynb",
+     "lines": "156-173",
+     "lang": "json (ipynb cell source)",
+     "code": "    \"def fetch_latest_rbi_reserves(start_id=28590, lookback=60):\\n\",\n    \"    \\\"\\\"\\\"Walk backward from start_id looking for the latest published WSS release\\n\",\n    \"    with a parseable 'Total Reserves' row. Increase start_id over time as RBI\\n\",\n    \"    publishes new weekly releases (~+1/week since 19 Sep 1998 = Id 2; Id 28579\\n\",\n    \"    published 17 Jul 2026 was the latest confirmed release when this was written).\\\"\\\"\\\"\\n\",\n    \"    row_pattern = re.compile(\\n\",\n    \"        r\\\"Total Reserves</td>\\\\s*<td[^>]*>([\\\\d,]+)</td>\\\\s*<td[^>]*>([\\\\d,]+)</td>\\\"\\n\",\n    \"    )\\n\",\n    \"    date_pattern = re.compile(r\\\"As on\\\\s+([A-Za-z]+\\\\.?\\\\s+\\\\d{1,2},\\\\s+\\\\d{4})\\\")\\n\",\n    \"    for wss_id in range(start_id, start_id - lookback, -1):\\n\",\n    \"        url = f\\\"https://rbi.org.in/scripts/WSSView.aspx?Id={wss_id}\\\"\\n\",\n    \"        try:\\n\",\n    \"            r = requests.get(url, timeout=15)\\n\",\n    \"        except requests.RequestException:\\n\",\n    \"            continue\\n\",\n    \"        if r.status_code != 200:\\n\",\n    \"            continue\\n\",\n    \"        m_row = row_pattern.search(r.text)\\n\",",
+     "why": "The only live-data logic in the repo: walks RBI Weekly Statistical Supplement ids backwards and regex-parses the 'Total Reserves' row. Raw ipynb JSON lines are quoted verbatim, which is why each line is a quoted string. RBI DBIE publishes the same series directly."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "MoSPI eSankhyiki MCP server",
+     "kind": "official",
+     "url": "https://glama.ai/mcp/servers/nso-india/esankhyiki-mcp",
+     "overlap": "Same official datasets, accessed live through the same MCP workflow (list_datasets→get_indicators→get_metadata→get_data) that the README documents."
+    },
+    {
+     "name": "NITI Aayog Trade Watch Quarterly",
+     "kind": "official",
+     "url": "https://www.niti.gov.in/sites/default/files/2025-07/Trade-Watch-Quarterly.pdf",
+     "overlap": "Official quarterly trade-balance and sector-focus analysis covering the same ground as the HSN/partner sections."
+    },
+    {
+     "name": "TRADESTAT (DGCI&S EIDB)",
+     "kind": "official",
+     "url": "https://tradestat.commerce.gov.in/",
+     "overlap": "Source of all HSN export/import tables in data/tradestat_*.json."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "A reading-room snapshot of official statistics with no reproducible analysis code. Its value is the narrative bulletin, and that now lives in the split successor repos.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "kalki_flooding",
+   "does": "collector.py manages IUDX client credentials and per-resource tokens for ~74 SECURE iudx:EnvFlood sensors (Pune, Chennai, Kalyan-Dombivli), archiving latest and temporal readings to DuckDB with an access log and first-grant backfill. Since provider access is still pending, the actual analyses use other data: IMD 0.25° gridded daily rainfall city cells (IMD intensity-category counts per city-year, via an annual imdlib refresh), a GHCN-D/GSOD Pune station splice, Bengaluru traffic-police waterlogging events × accident blackspots, and a classification of where sensors are placed from catalogue metadata.",
+   "claims_vs_code": [
+    {
+     "claim": "README: 'This collector turns the 74-sensor iudx:EnvFlood fleet into a durable time-series archive (flood.duckdb)'",
+     "evidence": "analysis/deployment_patterns.py:4 says 'No observation history exists yet (access PENDING)'. No flood.duckdb is committed, and the only sensor-based analysis uses catalogue placement metadata, not readings."
+    },
+    {
+     "claim": "README describes only the IUDX collector",
+     "evidence": "Most of the code (analysis/*.py, annual_refresh.py) is an IMD rainfall-trend and Bengaluru waterlogging study that the README never mentions. The repo name/README do not match the substantive content."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "~1.1k LOC. No tests. CI is a gitleaks gate only. Real public data (IMD grid, GHCN/GSOD, Bengaluru event feed) with a careful DATA_CAVEATS.md. The IUDX archive itself is empty pending access grants.",
+   "snippets": [
+    {
+     "path": "analysis/city_rain_metrics.py",
+     "lines": "54-71",
+     "lang": "python",
+     "code": "            y, m = int(r[\"date\"][:4]), int(r[\"date\"][5:7])\n            mm = float(r[\"rain_mm\"])\n            a = acc[(r[\"city\"], y)]\n            a[\"annual\"] += mm\n            a[\"days\"] += 1\n            if 6 <= m <= 9:\n                a[\"jjas\"] += mm\n            if 10 <= m <= 12:\n                a[\"ond\"] += mm\n            if mm >= 2.5:\n                a[\"rainy\"] += 1\n            if mm >= 64.5:\n                a[\"heavy\"] += 1\n            if mm >= 115.6:\n                a[\"very_heavy\"] += 1\n            if mm >= 204.5:\n                a[\"extremely_heavy\"] += 1\n            a[\"max1d\"] = max(a[\"max1d\"], mm)",
+     "why": "Per-city-year aggregation using IMD's official daily-intensity thresholds (2.5/64.5/115.6/204.5 mm) on Pai et al. (2014) 0.25° grid cells. This is a standard climatology; imdlib provides the data access."
+    },
+    {
+     "path": "collector.py",
+     "lines": "211-228",
+     "lang": "python",
+     "code": "def backfill_days(con, resource_id, now):\n    \"\"\"Dynamic first-grant backfill depth: cover the whole approval wait.\n\n    Anchored to the sensor's earliest access_log entry (the first time this\n    collector ever tried it), clamped to [MIN_BACKFILL_DAYS, MAX_BACKFILL_DAYS].\n    \"\"\"\n    first_try = con.execute(\n        \"SELECT min(run_ts) FROM access_log WHERE resource_id=?\", [resource_id]\n    ).fetchone()[0]\n    if first_try is None:\n        return MIN_BACKFILL_DAYS\n    if first_try.tzinfo is None:\n        # duckdb stores our aware-UTC inserts as LOCAL-naive (verified: the\n        # 03:21 UTC run reads back as 08:51 IST) — reattach the local zone,\n        # not UTC, or every wait is undercounted by the UTC offset\n        first_try = first_try.replace(tzinfo=datetime.now().astimezone().tzinfo)\n    waited = math.ceil((now - first_try).total_seconds() / 86400)\n    return max(MIN_BACKFILL_DAYS, min(waited, MAX_BACKFILL_DAYS))",
+     "why": "The collector's distinctive logic: a backfill window sized to how long the provider took to approve access, clamped 7-30 days. This archiving of live-only IUDX snapshots is the novel part."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "CWC Flood Forecasting portals (ffs.india-water.gov.in, C-FLOOD)",
+     "kind": "official",
+     "url": "https://cwc.gov.in/sites/default/files/sopapril2025.pdf",
+     "overlap": "Official river-level monitoring and forecasts at ~340 stations, covering the flood-monitoring use case at basin scale (not urban sensors)."
+    },
+    {
+     "name": "IUDX flood monitoring and prediction use case",
+     "kind": "official",
+     "url": "https://iudx.org.in/wp-content/uploads/2021/12/03-Flood-Monitoring-and-Prediction.pdf",
+     "overlap": "IUDX's own flood-sensor early-warning use case over the same EnvFlood resources collector.py targets."
+    },
+    {
+     "name": "imdlib",
+     "kind": "library",
+     "url": "https://imdlib.readthedocs.io/en/latest/",
+     "overlap": "Python library that downloads and handles IMD gridded rainfall. annual_refresh.py vendors and uses it, and city_rain_metrics.py adds only threshold counts on top."
+    },
+    {
+     "name": "Pai et al. 2014 IMD4 0.25° gridded rainfall (MAUSAM 65(1):1-18, doi:10.54302/mausam.v65i1.851)",
+     "kind": "dataset",
+     "url": "https://mausamjournal.imd.gov.in/index.php/MAUSAM/article/view/851",
+     "overlap": "The underlying dataset. The repo's Pune-cell 'station-assignment artifact' finding is a documented consequence of station-weighted gridding."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Flood monitoring and IMD rainfall trends are well served officially. The only open bit is a historical archive of IUDX's live-only urban sensor snapshots, and that holds no data yet. The Bengaluru waterlogging × blackspot join is a small original analysis.",
+   "change_since_aug": "Aug verdict 'crowded, personal aggregation layer' confirmed, with a sharper point: the aggregation layer has no observations yet (access pending), and the substantive code is an IMD-rainfall study the README doesn't describe."
+  },
+  {
+   "repo": "CBSE_paper_patterns",
+   "does": "Parses ~2k CBSE Class-XII board papers (pdftotext with page-level reprint dedupe, macOS Vision OCR for scans) into a 30.7k-question table with regex-parsed marks. Questions are classified by: (1) mining 2-4-word n-grams in ≥4-mark questions that recur across ≥3 distinct exam years, split into content topics vs generic stem formulas, giving a marks-weighted 'repetition index'; (2) Bloom level via command-verb regex lexicons with highest-level-wins, compared to CBSE's declared typology %; (3) TF-IDF cosine ≥0.80 near-duplicate detection across years; (4) all-MiniLM-L6-v2 embedding assignment of questions to syllabus units (cosine floor 0.28), validated against keyword gold sets (54-78% accurate, reported honestly).",
+   "claims_vs_code": [
+    {
+     "claim": "GitHub description: 'papers not redistributed'",
+     "evidence": "Contradicted by README 'The full corpus is included' and by the tree: corpus/markdown (2,238 files), markdown_class_X (1,195), markdown_sqp_archive (2,946), markdown_ncert_xii (257). That is the full text of CBSE- and NCERT-copyright material, a copyright exposure."
+    },
+    {
+     "claim": "Repetition index = share of high-mark marks on 'a phrase that recurs in ≥3 of the 5 exam years'",
+     "evidence": "scripts/final_report.py:72-75 counts only the top 25 recurring content phrases per subject (topics[:25]), so the index is a top-25-capped share. scripts/topics2.py:132-136 (the README's step-2 script) computes a question-count share over the top 20 instead."
+    },
+    {
+     "claim": "'python3 scripts/build_bank.py ... reproducing it'",
+     "evidence": "17 hard-coded ~/Downloads/... paths (e.g. topics2.py:20, final_report.py:14, methods2.py:19), so the scripts do not run from a clone."
+    }
+   ],
+   "maturity": "substantive",
+   "maturity_note": "~1.9k LOC. No unit tests, but with gold-set validation and sensitivity write-ups (analysis/unit_mapping_sensitivity.md). CI is a gitleaks gate only. Real corpus. 14 commits, last push 2026-10-12.",
+   "snippets": [
+    {
+     "path": "scripts/final_report.py",
+     "lines": "63-80",
+     "lang": "python",
+     "code": "        for g in cands:\n            rec = dict(subject=subj, phrase=g, years=len(yrs[g]), year_list=sorted(yrs[g]),\n                       papers=len(pap[g]), marks=mk[g], example=ex[g])\n            if is_formula(g):\n                if any(g in u or u in g for u in used_f): continue\n                used_f.append(g); formulas.append(rec)\n            else:\n                if any(g in u or u in g for u in used_t): continue\n                used_t.append(g); topics.append(rec)\n        top_t = topics[:25]\n        tset = {t[\"phrase\"] for t in top_t}\n        hit_marks = sum(q[\"marks\"] for q in high\n                        if tset & set(ngrams(q[\"question\"])))\n        hi_marks = sum(q[\"marks\"] for q in high)\n        subjects[subj] = dict(\n            years=yrs_all, papers=len({q[\"paper_file\"] for q in qs}),\n            questions=len(qs), high_q=len(high), high_marks=hi_marks,\n            repetition_index=round(hit_marks / hi_marks, 3) if hi_marks else None,",
+     "why": "The headline method: recurring n-grams are split into content topics vs generic question formulas, and the repetition index is the share of high-mark marks hit by the top-25 content topics. This is a lexical, year-deduplicated recurrence measure that no coaching 'trend analysis' publishes."
+    },
+    {
+     "path": "scripts/methods2.py",
+     "lines": "62-74",
+     "lang": "python",
+     "code": "BLOOM = {\n \"remember_understand\": r\"\\b(state|define|name|list|write|mention|identify|recall|label|\"\n                        r\"what is|who|when|expand|full form|choose|fill in|match|arrange|\"\n                        r\"explain|describe|discuss|outline|summarise|summarize|illustrate|\"\n                        r\"give an account|briefly)\\b\",\n \"apply\":               r\"\\b(calculate|compute|find|solve|determine|derive|prepare|pass |\"\n                        r\"draw|construct|estimate|apply|show that|prove|obtain|use the|\"\n                        r\"complete the|journal ?is|record)\\b\",\n \"analyse_evaluate_create\": r\"\\b(analyse|analyze|examine|evaluate|assess|justify|compare|\"\n                        r\"contrast|differentiate|distinguish|critically|interpret|infer|\"\n                        r\"suggest|comment|do you agree|give reasons|support your|argue|\"\n                        r\"validate|elaborate|why do|to what extent)\\b\",\n}",
+     "why": "Bloom classification by command-verb regex lexicon (Anderson & Krathwohl 2001 levels collapsed to three). Note that 'explain/describe/discuss' map to remember_understand. This is far simpler than the SVM/BERT classifiers in the Bloom-classification literature."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Publisher PYQ books with 'chapter-wise trend analysis' (e.g. PW, McGraw Hill ExamEssentials)",
+     "kind": "commercial",
+     "url": "https://www.mheducation.co.in/examessentials-cbse-class-10-science-previous-10-years-solved-papers-9789364443814-india",
+     "overlap": "Advertise topic weightage and trend analysis of past papers, but give no published method or recurrence statistics. This repo's quantified version is the gap."
+    },
+    {
+     "name": "Kumar, Gulwani & Singh 2025, 'Automated Analysis of Learning Outcomes and Exam Questions Based on Bloom's Taxonomy', arXiv:2511.10903",
+     "kind": "paper",
+     "url": "https://arxiv.org/abs/2511.10903",
+     "overlap": "Classifies exam questions into six Bloom levels with SVM (94% acc.), BERT and LLMs, which is much stronger than methods2.py's verb-regex bloom_of()."
+    },
+    {
+     "name": "sentence-transformers / Sentence-BERT (Reimers & Gurevych 2019, EMNLP, arXiv:1908.10084)",
+     "kind": "library",
+     "url": "https://arxiv.org/abs/1908.10084",
+     "overlap": "The embedding method embed_units.py uses (all-MiniLM-L6-v2) for question→syllabus-unit assignment."
+    }
+   ],
+   "verdict": "open",
+   "verdict_note": "No published quantitative, year-deduplicated recurrence study of CBSE papers was found, so the real contribution is the parsed 30.7k-question corpus plus the honest repetition index. The Bloom and unit classifiers are basic, and the redistributed corpus is a copyright risk.",
+   "change_since_aug": "Aug 'open: no structured quantitative frequency analysis found' is confirmed and now backed by code, with two caveats: the index is top-25-phrase-capped, and the description's 'papers not redistributed' is false."
+  },
+  {
+   "repo": "jal_jeevan_lottery",
+   "does": "Docs only: 13 strategy markdown files (~33k words) proposing a three-tier 'Jal Jeevan Lottery', plus receipt-based (Taiwan), deposit-return (Norway) and alcohol-revenue variants to fund and gamify the Jal Jeevan Mission. There is no code, model or data pipeline. Judged here as a policy document.",
+   "claims_vs_code": [
+    {
+     "claim": "README: JJM 'Current Coverage ~5.7 crores (as of 2024)', 'Gap ~10.6 crores'",
+     "evidence": "Official figures put tap connections at 15.0 crore (77.65%) by July 2024 and ~15.5 crore (80%) by March 2025 (Lok Sabha replies/PIB). The stated gap is overstated roughly 2.5-3x."
+    },
+    {
+     "claim": "README: India 'Annual Lottery Revenue ₹500-600 crores' across 10 states",
+     "evidence": "Kerala alone sold ~₹41,138 crore of tickets Apr-2021→Dec-2024 (RTI, Onmanorama 2025), i.e. >₹10,000 crore/yr. The market-size premise is off by more than an order of magnitude."
+    },
+    {
+     "claim": "GLOBAL_LOTTERY_RESEARCH.md:153 'Kerala ... 50-100 million tickets/year = 2.5-5M tons paper'",
+     "evidence": "Arithmetic error: 100M tickets at a few grams each is a few hundred tonnes, not millions of tonnes."
+    },
+    {
+     "claim": "Proposes a centrally-run JJM lottery; PROJECT_COMPLETION_SUMMARY 'Regulatory path 85%' 'Ready for Phase 1 Launch'",
+     "evidence": "The Lotteries (Regulation) Act 1998 s.4 allows only a State Government to organise a lottery, with draws inside the state and at most one draw a week per lottery. The weekly/bi-weekly multi-state national design conflicts with it, and no legal analysis document addresses this."
+    },
+    {
+     "claim": "NORWAY_RECYCLING_LOTTERY_RESEARCH framing of a deposit-return lottery",
+     "evidence": "The real Pantelotteriet (since 2008) is run by Norsk Pantelotteri AS (Red Cross + Olav Thon Group) via reverse-vending 'donate' buttons. The precedent is real, but it is a charity lottery, not a state revenue instrument."
+    }
+   ],
+   "maturity": "docs-only",
+   "maturity_note": "No code. 11 commits. Numbers are unsourced or wrong (see claims). The status labels ('Complete', 'Ready for Phase 1 Launch') are self-assessed.",
+   "snippets": [],
+   "prior_art": [
+    {
+     "name": "JJM dashboard (ejalshakti.gov.in/jjmreport) and PIB JJM progress releases",
+     "kind": "official",
+     "url": "https://static.pib.gov.in/WriteReadData/specificdocs/documents/2025/feb/doc202521494901.pdf",
+     "overlap": "The official coverage tracker. It contradicts the README's coverage baseline."
+    },
+    {
+     "name": "Kerala State Lotteries",
+     "kind": "official",
+     "url": "https://www.onmanorama.com/news/kerala/2025/03/07/kerala-lottery-sales-revenue-and-profits.html",
+     "overlap": "The existing model of a state lottery funding welfare, at far larger scale than the repo assumes."
+    },
+    {
+     "name": "Norway Pantelotteriet (Norsk Pantelotteri AS)",
+     "kind": "official",
+     "url": "https://en.wikipedia.org/wiki/Gambling_in_Norway",
+     "overlap": "The live precedent for the deposit-return lottery variant."
+    },
+    {
+     "name": "Lotteries (Regulation) Act, 1998",
+     "kind": "official",
+     "url": "https://www.indiacode.nic.in/bitstream/123456789/1994/1/a199817.pdf",
+     "overlap": "The binding legal constraint (state-run only) that the proposal does not engage with."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "Policy proposal, not software. The idea of linking lotteries to public-goods campaigns has live precedents (Kerala, Norway, Taiwan receipt lottery). The repo's baseline numbers are materially wrong, and the legal path (state-only lotteries) is not addressed.",
+   "change_since_aug": "Aug 'adjacent: no independent tracker for selection/allocation analysis' is overturned on substance. There is no tracker or analysis code at all; it is a gamification and lottery-funding proposal, and its JJM baseline is ~3x off the official figure."
+  },
+  {
+   "repo": "jai_kisan_jai_javan",
+   "does": "Docs only: ~20k words of strategy markdown plus a cabinet presentation (md/html/pdf/pptx) proposing that the Indian armed forces switch ready-to-cook rations from private vendors to 'FCI mills', with a cost model (₹71→₹27/unit), storage scenarios and a protein-MRE plan. There is no code or data. Judged as a policy document.",
+   "claims_vs_code": [
+    {
+     "claim": "README 'Repository Structure' lists ~30 files under ANALYSIS/, IMPLEMENTATION/, FCI_PARTNERSHIP/, PRODUCTS/, FINANCIAL/ (incl. 5year_cost_model.csv), RESEARCH/, GOVERNANCE/, REFERENCES/, CASE_STUDIES/, STAKEHOLDER_BRIEF/",
+     "evidence": "None exist. The tree has only 11 top-level .md files plus the presentation formats (git ls-tree). Cited items such as 'roi_analysis.md (773% return)', 'validation_studies.md (Soldier acceptance trials)' and 'vendor_failure_2023.md' have no backing document."
+    },
+    {
+     "claim": "62% unit-cost cut (₹70→₹27), ₹250 Cr stable procurement, yet only '₹4.5 Cr/year savings'",
+     "evidence": "Internally inconsistent. A 62% cut on ₹250 Cr of spend would save ~₹150 Cr/yr, while ₹4.5 Cr implies ~₹7 Cr of spend. FINANCIAL_MODEL.md:122 models only 750k units in Y1."
+    },
+    {
+     "claim": "'20 distributed FCI mills' producing RTC meals",
+     "evidence": "FCI is a procurement and storage agency. Defence ready-to-eat ration technology comes from DRDO's DFRL (Mysuru). The real FCI-Army link is a 2026 MoU for bulk custom-milled rice via NAFED, not processed meals."
+    },
+    {
+     "claim": "STRATEGY.md:33 'Vendor consolidation: 70% sourced from 4 companies (ITC, MTR, Britannia, Everest)'; README cites a 'Britannia delay incident'",
+     "evidence": "Unsourced claims about named companies, with no supporting document in the repo."
+    },
+    {
+     "claim": "CHANGELOG.md:140 cites github.com/government-strategy/jai_kisan_jai_javan",
+     "evidence": "Not this repo's org (herrrickshaw). It looks like an AI-generated placeholder."
+    }
+   ],
+   "maturity": "docs-only",
+   "maturity_note": "No code. 8 commits. A financial 'model' in prose only. Numbers are unsourced and internally inconsistent.",
+   "snippets": [],
+   "prior_art": [
+    {
+     "name": "DRDO Defence Food Research Laboratory (DFRL) MRE/retort ration technology",
+     "kind": "official",
+     "url": "https://www.drdo.gov.in/sites/default/files/inline-files/Writeup_MRE_Ration_Technology-converted.pdf",
+     "overlap": "The existing government R&D source of armed-forces ready-to-eat and ready-to-cook rations that the proposal ignores."
+    },
+    {
+     "name": "Army-FCI 'Bharat Rice' MoU (2026)",
+     "kind": "official",
+     "url": "https://theprint.in/defence/bharat-rice-for-troops-army-taps-fci-warehouses-to-boost-military-logistics-after-operation-sindoor/3069952/",
+     "overlap": "A real FCI-to-Army supply arrangement (1.25 LMT custom-milled rice, FY2026-27). It is the actual version of the 'FCI sourcing' idea."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "Policy pitch with no code. FCI→Army foodgrain supply already exists (2026 MoU) and DFRL owns ration technology. The financial claims are self-contradictory and the README advertises ~30 documents that do not exist.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "india-election-analysis",
+   "does": "Python scripts that build Excel workbooks. The election-data analysis computes electors per constituency and a population-per-seat index. The coalition game theory computes exact Banzhaf indices, minimal winning coalitions and a 20k-draw Monte Carlo of seat permutations, with a seat-total sweep (534-1000) of Gallagher disproportionality. Vote-share modelling on TCPD Lok Dhaba covers a win/lose classifier, a PyMC hierarchical model with state partial pooling, and a 'Dirichlet Swing Matrix' model, all evaluated chronologically against a no-change baseline. There is also a women's-reservation seat-placement optimiser.",
+   "claims_vs_code": [
+    {
+     "claim": "vote-share-modeling implements 'Dirichlet-Swing Matrix Model (Mitra 2026, PLOS ONE)'",
+     "evidence": "Citation could not be verified: no Mitra 2026 PLOS ONE swing-matrix paper was found (the nearest is Mitra & Dey, arXiv:2312.15179 / AAMAS 2024, a Synthetic Dirichlet Likelihood survey model). Also, 12_dirichlet_swing_model.py:113-122 predicts every constituency in an origin bloc as the same Dirichlet mean and ignores its prior shares beyond argmax, so it is not a voter-transition matrix applied to prior vote shares."
+    },
+    {
+     "claim": "README 'Requirements to re-run: pip install pandas openpyxl numpy'",
+     "evidence": "11_hierarchical_mrp_model.py imports pymc and arviz, and 12_dirichlet_swing_model.py imports scipy."
+    },
+    {
+     "claim": "Repo structure: three projects",
+     "evidence": "47 of 99 .py files sit in from-working-files/ and 41 of those are byte-identical duplicates of top-level scripts (git blob SHAs); 6 are older variants. The README also ends with an unrelated op-ed on 50% women's reservation."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "~9.4k LOC (about half duplicated), no tests, no CI, archived. Uses real TCPD/ECI data. It reports a genuine negative result (no model beats naive persistence).",
+   "snippets": [
+    {
+     "path": "coalition-game-theory/scripts/02_bloc_level_game_theory.py",
+     "lines": "64-80",
+     "lang": "python",
+     "code": "# ---- Exact Banzhaf Power Index over these players ----\n# Banzhaf: for each player i, count subsets S (not containing i) such that S is losing\n# but S+{i} is winning. i.e. i is \"critical\" / \"swing\" in that subset.\nbanzhaf_counts = {p: 0 for p in players}\nfor r in range(0, n):\n    for combo in combinations(range(n), r):\n        w = sum(weights[i] for i in combo)\n        if w >= QUOTA:\n            continue  # already winning without any additional player\n        for i in range(n):\n            if i in combo:\n                continue\n            if w + weights[i] >= QUOTA:\n                banzhaf_counts[players[i]] += 1\n\ntotal_swings = sum(banzhaf_counts.values())\nbanzhaf_index = {p: banzhaf_counts[p]/total_swings for p in players}",
+     "why": "Exact Banzhaf power index by enumerating all losing coalitions that a player turns into winning ones (Banzhaf 1965). This is a textbook computation, standard in cooperative game theory."
+    },
+    {
+     "path": "vote-share-modeling/scripts/12_dirichlet_swing_model.py",
+     "lines": "113-122",
+     "lang": "python",
+     "code": "def predict_with_swing_matrix(prior_df, transition_matrix_alpha, blocs=BLOCS):\n    prior_shares = prior_df[blocs].values\n    origin_idx = np.argmax(prior_shares, axis=1)\n    preds = np.zeros_like(prior_shares)\n    for k in range(len(blocs)):\n        alpha_k = transition_matrix_alpha[k]\n        dirichlet_mean = alpha_k / alpha_k.sum()\n        mask = origin_idx == k\n        preds[mask] = dirichlet_mean\n    return preds",
+     "why": "The 'swing matrix' prediction step. Each constituency gets its origin bloc's Dirichlet mean regardless of its own prior shares. That shows the model is a bloc-level average rather than a transition matrix applied to prior vote shares, which explains why it can't beat the no-change baseline."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "TCPD Indian Elections Data (Lok Dhaba)",
+     "kind": "dataset",
+     "url": "https://lokdhaba.ashoka.edu.in",
+     "overlap": "The source data for vote-share-modeling (constituency results 1962-). TCPD also publishes its own descriptive analyses."
+    },
+    {
+     "name": "Mitra & Dey, 'Evaluating District-based Election Surveys with Synthetic Dirichlet Likelihood', arXiv:2312.15179 (AAMAS 2024)",
+     "kind": "paper",
+     "url": "https://arxiv.org/abs/2312.15179v1",
+     "overlap": "Dirichlet-based probabilistic model of Indian state elections, the nearest verifiable match to the cited 'Mitra 2026' DSMM."
+    },
+    {
+     "name": "Cerina & Duch 2021 (PLOS ONE), MrP projections of the Indian vote",
+     "kind": "paper",
+     "url": "https://handle.uba.uva.nl/personal/pure/en/publications/polling-india-via-regression-and-poststratification-of-nonprobability-online-samples(7e22bf33-7994-437a-bf8c-f923d9a4d597).html",
+     "overlap": "The MrP work 11_hierarchical_mrp_model.py names as its inspiration. The script lacks the survey microdata and post-stratification step."
+    },
+    {
+     "name": "Banzhaf 1965, 'Weighted Voting Doesn't Work: A Mathematical Analysis', Rutgers Law Review 19:317-343",
+     "kind": "paper",
+     "url": "https://orbi.uliege.be/handle/2268/95537",
+     "overlap": "The power index implemented in 02_bloc_level_game_theory.py / 08_build_banzhaf_sheet.py."
+    }
+   ],
+   "verdict": "prior-art",
+   "verdict_note": "Banzhaf/MWC analysis of Lok Sabha coalitions and swing models are established methods. The contribution is a clean chronological backtest showing that none beat persistence, but the headline DSMM citation is unverified and the implementation is simplified.",
+   "change_since_aug": "New repo (not in the Aug survey). Private and archived."
+  }
+ ]
+}

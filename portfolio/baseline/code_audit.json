@@ -1,0 +1,6514 @@
+[
+ {
+  "repo": "Ai_for_exploration",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 6,
+  "files": 14,
+  "counts": {
+   "code": 1,
+   "data": 7,
+   "doc": 3,
+   "html": 0,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 1332,
+   "data": 320763,
+   "doc": 10479,
+   "html": 0,
+   "nb": 0,
+   "other": 638
+  },
+  "loc": {
+   "Shell": 14
+  },
+  "total_loc": 14,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 1829,
+  "top_files": [
+   [
+    14,
+    "scripts/bhukosh_watcher.sh"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "THIN (<150 LOC)"
+ },
+ {
+  "repo": "repo-data-dedup",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 26,
+  "files": 111,
+  "counts": {
+   "code": 9,
+   "data": 79,
+   "doc": 6,
+   "html": 0,
+   "nb": 1,
+   "other": 16
+  },
+  "bytes": {
+   "code": 36375,
+   "data": 882629,
+   "doc": 30786,
+   "html": 0,
+   "nb": 3171,
+   "other": 3414725
+  },
+  "loc": {
+   "Shell": 342,
+   "Python": 221
+  },
+  "total_loc": 594,
+  "nb_cells": 4,
+  "defs": 3,
+  "stubs": 1,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 4126,
+  "top_files": [
+   [
+    117,
+    "scripts/distribute_data_access_docs.py"
+   ],
+   [
+    104,
+    "scripts/audit_lfs.py"
+   ],
+   [
+    99,
+    "scripts/cloud_backup.sh"
+   ],
+   [
+    50,
+    "scripts/delete_archive_twins.sh"
+   ],
+   [
+    49,
+    "scripts/restore_drill.sh"
+   ],
+   [
+    46,
+    "scripts/disk_guard_daily.sh"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "SCRIPTS (few functions)"
+ },
+ {
+  "repo": "cache_memory_cleaner",
+  "vis": "pub",
+  "desc": "macOS cache/storage cleanup tool, distilled from a real disk-recovery session",
+  "pushed": "2026-10-12",
+  "commits": 10,
+  "files": 16,
+  "counts": {
+   "code": 1,
+   "data": 7,
+   "doc": 2,
+   "html": 0,
+   "nb": 0,
+   "other": 6
+  },
+  "bytes": {
+   "code": 29104,
+   "data": 73905,
+   "doc": 12521,
+   "html": 0,
+   "nb": 0,
+   "other": 5491
+  },
+  "loc": {
+   "Shell": 392
+  },
+  "total_loc": 392,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 9269,
+  "top_files": [
+   [
+    392,
+    "cache_memory_cleaner.sh"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "SCRIPTS (few functions)"
+ },
+ {
+  "repo": "bin",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 5,
+  "files": 14,
+  "counts": {
+   "code": 2,
+   "data": 6,
+   "doc": 3,
+   "html": 0,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 2913,
+   "data": 13941,
+   "doc": 6441,
+   "html": 0,
+   "nb": 0,
+   "other": 842
+  },
+  "loc": {
+   "Shell": 66
+  },
+  "total_loc": 66,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 201,
+  "top_files": [
+   [
+    41,
+    "align_cloud_backups.sh"
+   ],
+   [
+    25,
+    "backup_downloads.sh"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "THIN (<150 LOC)"
+ },
+ {
+  "repo": "cricket-data-analysis",
+  "vis": "pub",
+  "desc": "Cricket data collection/analysis script, extracted from stray copies in global-stock-screener and global-market-data (declutter)",
+  "pushed": "2026-10-12",
+  "commits": 5,
+  "files": 4,
+  "counts": {
+   "code": 1,
+   "data": 0,
+   "doc": 2,
+   "html": 0,
+   "nb": 0,
+   "other": 1
+  },
+  "bytes": {
+   "code": 14517,
+   "data": 0,
+   "doc": 3826,
+   "html": 0,
+   "nb": 0,
+   "other": 585
+  },
+  "loc": {
+   "R": 182
+  },
+  "total_loc": 182,
+  "nb_cells": 0,
+  "defs": 7,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 536,
+  "top_files": [
+   [
+    182,
+    "fetch_and_analyze_cricket_data.R"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "price_prediction_backtest",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-23",
+  "commits": 11,
+  "files": 48,
+  "counts": {
+   "code": 8,
+   "data": 28,
+   "doc": 9,
+   "html": 0,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 24070,
+   "data": 11153864,
+   "doc": 36380,
+   "html": 0,
+   "nb": 0,
+   "other": 2741
+  },
+  "loc": {
+   "Python": 467
+  },
+  "total_loc": 467,
+  "nb_cells": 0,
+  "defs": 32,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 1769,
+  "top_files": [
+   [
+    139,
+    "price_prediction/replay.py"
+   ],
+   [
+    81,
+    "price_prediction/evaluate.py"
+   ],
+   [
+    77,
+    "price_prediction/lstm_model.py"
+   ],
+   [
+    52,
+    "price_prediction/markov_regime.py"
+   ],
+   [
+    40,
+    "price_prediction/kalman_trend.py"
+   ],
+   [
+    40,
+    "price_prediction/__main__.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "bms-battery-management",
+  "vis": "pub",
+  "desc": "Electric Vehicle Battery Management System \u2014 cell models, SOC/SOH estimators, thermal/power-limit modules (extracted from ocaml-stock-screener contamination)",
+  "pushed": "2026-10-12",
+  "commits": 12,
+  "files": 43,
+  "counts": {
+   "code": 37,
+   "data": 0,
+   "doc": 3,
+   "html": 0,
+   "nb": 2,
+   "other": 1
+  },
+  "bytes": {
+   "code": 385673,
+   "data": 0,
+   "doc": 6423,
+   "html": 0,
+   "nb": 21095,
+   "other": 585
+  },
+  "loc": {
+   "Shell": 137,
+   "Python": 8002
+  },
+  "total_loc": 8340,
+  "nb_cells": 24,
+  "defs": 373,
+  "stubs": 1,
+  "test_files": 1,
+  "ci": true,
+  "readme_bytes": 2968,
+  "top_files": [
+   [
+    689,
+    "tests/test_bms.py"
+   ],
+   [
+    682,
+    "bms/simulation.py"
+   ],
+   [
+    670,
+    "from-global-market-research-platform/bms/simulation.py"
+   ],
+   [
+    402,
+    "from-global-market-research-platform/bms/chemistries.py"
+   ],
+   [
+    402,
+    "bms/chemistries.py"
+   ],
+   [
+    349,
+    "bms/datasets/synthetic.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "india-trade-export-analysis",
+  "vis": "pub",
+  "desc": "India import/export trade analysis 2020-2026 (RBI reserves, fiscal, high-opportunity exports)",
+  "pushed": "2026-10-23",
+  "commits": 3,
+  "files": 28,
+  "counts": {
+   "code": 6,
+   "data": 5,
+   "doc": 15,
+   "html": 0,
+   "nb": 1,
+   "other": 1
+  },
+  "bytes": {
+   "code": 45341,
+   "data": 2308787,
+   "doc": 226926,
+   "html": 0,
+   "nb": 3013,
+   "other": 35
+  },
+  "loc": {
+   "Python": 886
+  },
+  "total_loc": 917,
+  "nb_cells": 4,
+  "defs": 27,
+  "stubs": 1,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 1710,
+  "top_files": [
+   [
+    244,
+    "import_export_comparison.py"
+   ],
+   [
+    194,
+    "export_extended_analysis.py"
+   ],
+   [
+    150,
+    "markitdown-preprocessor.py"
+   ],
+   [
+    119,
+    "export_analysis.py"
+   ],
+   [
+    103,
+    "export_insights.py"
+   ],
+   [
+    76,
+    "export_opportunities.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "research-toolkit",
+  "vis": "pub",
+  "desc": "Methodology + reference implementation for triaging large unsorted document collections into a proper research library (discovery, resumable bulk processing, archive extraction, metadata enrichment).",
+  "pushed": "2026-10-12",
+  "commits": 6,
+  "files": 36,
+  "counts": {
+   "code": 31,
+   "data": 0,
+   "doc": 4,
+   "html": 0,
+   "nb": 0,
+   "other": 1
+  },
+  "bytes": {
+   "code": 205493,
+   "data": 0,
+   "doc": 22431,
+   "html": 0,
+   "nb": 0,
+   "other": 1084
+  },
+  "loc": {
+   "Python": 3702,
+   "Shell": 135
+  },
+  "total_loc": 3837,
+  "nb_cells": 0,
+  "defs": 133,
+  "stubs": 3,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 11996,
+  "top_files": [
+   [
+    528,
+    "pdf_to_markdown.py"
+   ],
+   [
+    376,
+    "insights/build_insights.py"
+   ],
+   [
+    298,
+    "sweep_all_folders.py"
+   ],
+   [
+    241,
+    "zotero_dropbox_import.py"
+   ],
+   [
+    217,
+    "remediate_failed.py"
+   ],
+   [
+    201,
+    "process_archives.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "lignocellulosic-ethanol-opensource",
+  "vis": "pub",
+  "desc": "Open-source conceptual sizing tools for a 2G cellulosic fuel-ethanol biorefinery (pretreatment, enzymatic hydrolysis, C5+C6 co-fermentation, distillation, dehydration)",
+  "pushed": "2026-10-12",
+  "commits": 5,
+  "files": 25,
+  "counts": {
+   "code": 17,
+   "data": 0,
+   "doc": 5,
+   "html": 0,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 62163,
+   "data": 0,
+   "doc": 27203,
+   "html": 0,
+   "nb": 0,
+   "other": 1876
+  },
+  "loc": {
+   "Python": 1000
+  },
+  "total_loc": 1000,
+  "nb_cells": 0,
+  "defs": 71,
+  "stubs": 0,
+  "test_files": 7,
+  "ci": false,
+  "readme_bytes": 5846,
+  "top_files": [
+   [
+    131,
+    "lignocellulosic_ethanol/dehydration.py"
+   ],
+   [
+    130,
+    "streamlit_app.py"
+   ],
+   [
+    103,
+    "lignocellulosic_ethanol/distillation.py"
+   ],
+   [
+    85,
+    "lignocellulosic_ethanol/properties.py"
+   ],
+   [
+    78,
+    "lignocellulosic_ethanol/enzymatic_hydrolysis.py"
+   ],
+   [
+    75,
+    "examples/full_chain_worked_example.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "cbg-design-opensource",
+  "vis": "pub",
+  "desc": "Open-source conceptual sizing tools for a Compressed Biogas (CBG) plant under India's SATAT scheme (feedstock, anaerobic digestion, upgrading, compression/storage, digestate)",
+  "pushed": "2026-10-12",
+  "commits": 5,
+  "files": 23,
+  "counts": {
+   "code": 15,
+   "data": 0,
+   "doc": 5,
+   "html": 0,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 52198,
+   "data": 0,
+   "doc": 30005,
+   "html": 0,
+   "nb": 0,
+   "other": 1857
+  },
+  "loc": {
+   "Python": 846
+  },
+  "total_loc": 846,
+  "nb_cells": 0,
+  "defs": 60,
+  "stubs": 0,
+  "test_files": 6,
+  "ci": false,
+  "readme_bytes": 5484,
+  "top_files": [
+   [
+    117,
+    "cbg_design/anaerobic_digestion.py"
+   ],
+   [
+    111,
+    "streamlit_app.py"
+   ],
+   [
+    96,
+    "cbg_design/feedstock.py"
+   ],
+   [
+    93,
+    "cbg_design/compression_storage.py"
+   ],
+   [
+    79,
+    "cbg_design/upgrading.py"
+   ],
+   [
+    75,
+    "examples/full_chain_worked_example.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "digital-twin-for-ipa",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 157,
+  "files": 406,
+  "counts": {
+   "code": 72,
+   "data": 263,
+   "doc": 55,
+   "html": 11,
+   "nb": 1,
+   "other": 4
+  },
+  "bytes": {
+   "code": 976696,
+   "data": 36955973,
+   "doc": 1389980,
+   "html": 13822644,
+   "nb": 5820,
+   "other": 804556
+  },
+  "loc": {
+   "Python": 15241,
+   "Shell": 9
+  },
+  "total_loc": 15293,
+  "nb_cells": 8,
+  "defs": 297,
+  "stubs": 9,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 73912,
+  "top_files": [
+   [
+    860,
+    "scripts/build_layer40_association_event_registry.py"
+   ],
+   [
+    812,
+    "scripts/collect_state_news.py"
+   ],
+   [
+    760,
+    "scripts/build_reportage.py"
+   ],
+   [
+    532,
+    "scripts/build_layer33_policy_finance.py"
+   ],
+   [
+    500,
+    "scripts/build_layer31_ipa_sources.py"
+   ],
+   [
+    438,
+    "scripts/build_layer43_state_sector_convergence.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "prenatal-care-toolkit",
+  "vis": "pub",
+  "desc": "Defensive prenatal-imaging toolkit: PHI de-identification, sex-ratio-at-birth analytics, PCPNDT compliance auditing, and sex-neutral fetal biometry. No fetal-sex detector by design.",
+  "pushed": "2026-10-12",
+  "commits": 8,
+  "files": 42,
+  "counts": {
+   "code": 28,
+   "data": 0,
+   "doc": 5,
+   "html": 0,
+   "nb": 1,
+   "other": 8
+  },
+  "bytes": {
+   "code": 142813,
+   "data": 0,
+   "doc": 25246,
+   "html": 0,
+   "nb": 3191,
+   "other": 7516
+  },
+  "loc": {
+   "Python": 3088
+  },
+  "total_loc": 3119,
+  "nb_cells": 4,
+  "defs": 167,
+  "stubs": 4,
+  "test_files": 1,
+  "ci": true,
+  "readme_bytes": 14272,
+  "top_files": [
+   [
+    442,
+    "pctk/cli.py"
+   ],
+   [
+    237,
+    "tests/test_smoke.py"
+   ],
+   [
+    189,
+    "pctk/deid/dicom_scrub.py"
+   ],
+   [
+    177,
+    "pctk/compliance/ingest.py"
+   ],
+   [
+    175,
+    "pctk/planes/torch_cnn.py"
+   ],
+   [
+    168,
+    "pctk/srb/adapters.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "research-design-system",
+  "vis": "pub",
+  "desc": "Token contract, four themes and one component set for research reports, bulletins and dashboards \u2014 consolidated from ~42 repos and two Blogger properties",
+  "pushed": "2026-10-12",
+  "commits": 7,
+  "files": 33,
+  "counts": {
+   "code": 6,
+   "data": 3,
+   "doc": 7,
+   "html": 13,
+   "nb": 0,
+   "other": 4
+  },
+  "bytes": {
+   "code": 53559,
+   "data": 46661,
+   "doc": 24251,
+   "html": 47984,
+   "nb": 0,
+   "other": 169256
+  },
+  "loc": {
+   "Python": 863
+  },
+  "total_loc": 863,
+  "nb_cells": 0,
+  "defs": 19,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 4411,
+  "top_files": [
+   [
+    194,
+    "blog-build/build_post.py"
+   ],
+   [
+    193,
+    "blog-build/build_rs_post.py"
+   ],
+   [
+    192,
+    "blog-build/build_pq_post.py"
+   ],
+   [
+    171,
+    "blog-build/build_matrix_post.py"
+   ],
+   [
+    85,
+    "blog-build/insert_5ai.py"
+   ],
+   [
+    28,
+    "blogger-theme/validate.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "indian-wine-market-blog",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 5,
+  "files": 22,
+  "counts": {
+   "code": 9,
+   "data": 0,
+   "doc": 4,
+   "html": 4,
+   "nb": 0,
+   "other": 5
+  },
+  "bytes": {
+   "code": 117346,
+   "data": 0,
+   "doc": 8093,
+   "html": 61912,
+   "nb": 0,
+   "other": 493
+  },
+  "loc": {
+   "Python": 2526
+  },
+  "total_loc": 2526,
+  "nb_cells": 0,
+  "defs": 96,
+  "stubs": 6,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 4671,
+  "top_files": [
+   [
+    501,
+    "tools/blogger_api.py"
+   ],
+   [
+    490,
+    "consistency-check/fix.py"
+   ],
+   [
+    468,
+    "tools/snapshot.py"
+   ],
+   [
+    389,
+    "tools/svg_chart_lint.py"
+   ],
+   [
+    199,
+    "tools/crosslink_analysis.py"
+   ],
+   [
+    192,
+    "consistency-check/checks.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "ev-battery-management-sim",
+  "vis": "pub",
+  "desc": "EV battery-management simulation \u2014 cell models, NASA battery-life notebook, Kaggle validation scripts",
+  "pushed": "2026-10-12",
+  "commits": 58,
+  "files": 31,
+  "counts": {
+   "code": 23,
+   "data": 1,
+   "doc": 3,
+   "html": 0,
+   "nb": 2,
+   "other": 2
+  },
+  "bytes": {
+   "code": 239829,
+   "data": 720507,
+   "doc": 5588,
+   "html": 0,
+   "nb": 20982,
+   "other": 1068
+  },
+  "loc": {
+   "Shell": 167,
+   "Python": 4745
+  },
+  "total_loc": 5113,
+  "nb_cells": 24,
+  "defs": 268,
+  "stubs": 1,
+  "test_files": 1,
+  "ci": true,
+  "readme_bytes": 420,
+  "top_files": [
+   [
+    689,
+    "tests/test_bms.py"
+   ],
+   [
+    684,
+    "bms/simulation.py"
+   ],
+   [
+    402,
+    "bms/chemistries.py"
+   ],
+   [
+    349,
+    "bms/datasets/synthetic.py"
+   ],
+   [
+    322,
+    "bms/supervisor.py"
+   ],
+   [
+    305,
+    "bms/vehicles.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "colab-experiments",
+  "vis": "pub",
+  "desc": "Standalone Google Colab / ML experiments (e.g. DeOldify image colorization)",
+  "pushed": "2026-10-12",
+  "commits": 6,
+  "files": 5,
+  "counts": {
+   "code": 2,
+   "data": 0,
+   "doc": 2,
+   "html": 0,
+   "nb": 1,
+   "other": 0
+  },
+  "bytes": {
+   "code": 3951,
+   "data": 0,
+   "doc": 3726,
+   "html": 0,
+   "nb": 2795,
+   "other": 0
+  },
+  "loc": {
+   "Python": 72
+  },
+  "total_loc": 103,
+  "nb_cells": 4,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 404,
+  "top_files": [
+   [
+    36,
+    "from-global-market-data/deoldify.py"
+   ],
+   [
+    36,
+    "deoldify.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "THIN (<150 LOC)"
+ },
+ {
+  "repo": "iem-tracker",
+  "vis": "priv",
+  "desc": "IEM Tracker: links India's IEM Part A filings to Part B and to company registry status",
+  "pushed": "2026-10-12",
+  "commits": 5,
+  "files": 24,
+  "counts": {
+   "code": 17,
+   "data": 0,
+   "doc": 5,
+   "html": 0,
+   "nb": 0,
+   "other": 2
+  },
+  "bytes": {
+   "code": 138297,
+   "data": 0,
+   "doc": 21431,
+   "html": 0,
+   "nb": 0,
+   "other": 5393
+  },
+  "loc": {
+   "Python": 2045
+  },
+  "total_loc": 2045,
+  "nb_cells": 0,
+  "defs": 86,
+  "stubs": 1,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 4297,
+  "top_files": [
+   [
+    289,
+    "parse_partA_coords.py"
+   ],
+   [
+    287,
+    "iem_verify.py"
+   ],
+   [
+    170,
+    "build_iem_db.py"
+   ],
+   [
+    158,
+    "compile_iem_ab.py"
+   ],
+   [
+    138,
+    "make_article_update.py"
+   ],
+   [
+    137,
+    "parse_partB_new.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "saf-monitoring-system",
+  "vis": "pub",
+  "desc": "Sustainable Aviation Fuel compliance monitoring \u2014 feedstock tracking, GHG/CORSIA/ReFuelEU/ASTM D7566, carbon-credit ledger. FastAPI+React.",
+  "pushed": "2026-10-12",
+  "commits": 6,
+  "files": 66,
+  "counts": {
+   "code": 57,
+   "data": 2,
+   "doc": 3,
+   "html": 2,
+   "nb": 1,
+   "other": 1
+  },
+  "bytes": {
+   "code": 97188,
+   "data": 88864,
+   "doc": 8919,
+   "html": 414,
+   "nb": 3004,
+   "other": 146
+  },
+  "loc": {
+   "Shell": 32,
+   "JS": 689,
+   "Python": 1426
+  },
+  "total_loc": 2178,
+  "nb_cells": 4,
+  "defs": 118,
+  "stubs": 1,
+  "test_files": 9,
+  "ci": false,
+  "readme_bytes": 5350,
+  "top_files": [
+   [
+    188,
+    "backend/app/seed/mock_data.py"
+   ],
+   [
+    142,
+    "frontend/src/pages/IndiaCCTS.jsx"
+   ],
+   [
+    127,
+    "backend/app/routers/compliance.py"
+   ],
+   [
+    108,
+    "backend/app/models.py"
+   ],
+   [
+    90,
+    "backend/app/reports/airline_report.py"
+   ],
+   [
+    90,
+    "backend/app/calculations/corsia.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "heart-valve-defect-detection",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 5,
+  "files": 19,
+  "counts": {
+   "code": 4,
+   "data": 0,
+   "doc": 11,
+   "html": 0,
+   "nb": 1,
+   "other": 3
+  },
+  "bytes": {
+   "code": 70671,
+   "data": 0,
+   "doc": 97741,
+   "html": 0,
+   "nb": 3352,
+   "other": 2759
+  },
+  "loc": {
+   "Python": 1496
+  },
+  "total_loc": 1527,
+  "nb_cells": 4,
+  "defs": 77,
+  "stubs": 2,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 15459,
+  "top_files": [
+   [
+    540,
+    "heart_valve_analysis.py"
+   ],
+   [
+    386,
+    "clinical_review_system.py"
+   ],
+   [
+    353,
+    "dicom_integration.py"
+   ],
+   [
+    217,
+    "DOWNLOAD_AND_ANALYZE.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "uco-ulo-tracking",
+  "vis": "pub",
+  "desc": "Chain-of-custody and compliance tracking for used cooking oil (UCO) and used lubricating oil (ULO) in India",
+  "pushed": "2026-10-20",
+  "commits": 5,
+  "files": 48,
+  "counts": {
+   "code": 39,
+   "data": 2,
+   "doc": 4,
+   "html": 2,
+   "nb": 0,
+   "other": 1
+  },
+  "bytes": {
+   "code": 81977,
+   "data": 89135,
+   "doc": 12347,
+   "html": 411,
+   "nb": 0,
+   "other": 150
+  },
+  "loc": {
+   "Shell": 32,
+   "JS": 379,
+   "Python": 1057
+  },
+  "total_loc": 1468,
+  "nb_cells": 0,
+  "defs": 94,
+  "stubs": 1,
+  "test_files": 4,
+  "ci": false,
+  "readme_bytes": 4621,
+  "top_files": [
+   [
+    164,
+    "backend/app/routers/supply.py"
+   ],
+   [
+    157,
+    "backend/app/models.py"
+   ],
+   [
+    147,
+    "backend/app/seed/mock_data.py"
+   ],
+   [
+    106,
+    "backend/app/routers/compliance.py"
+   ],
+   [
+    76,
+    "backend/app/calculations/integrity.py"
+   ],
+   [
+    74,
+    "frontend/src/pages/Compliance.jsx"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "karz",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 5,
+  "files": 18,
+  "counts": {
+   "code": 5,
+   "data": 0,
+   "doc": 10,
+   "html": 0,
+   "nb": 1,
+   "other": 2
+  },
+  "bytes": {
+   "code": 87957,
+   "data": 0,
+   "doc": 84997,
+   "html": 0,
+   "nb": 3011,
+   "other": 1237
+  },
+  "loc": {
+   "Python": 1750
+  },
+  "total_loc": 1781,
+  "nb_cells": 4,
+  "defs": 86,
+  "stubs": 4,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 12660,
+  "top_files": [
+   [
+    523,
+    "data_validator.py"
+   ],
+   [
+    368,
+    "repo_data_analyzer.py"
+   ],
+   [
+    365,
+    "backtest_weight_optimization.py"
+   ],
+   [
+    340,
+    "data_config.py"
+   ],
+   [
+    154,
+    "backtest_weight_validation.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "coal-to-urea-design-opensource",
+  "vis": "pub",
+  "desc": "Open-source conceptual sizing tools for a coal-gasification-to-urea complex (gasifier, water-gas shift, acid gas removal, air separation, ammonia synthesis, urea synthesis)",
+  "pushed": "2026-10-12",
+  "commits": 4,
+  "files": 48,
+  "counts": {
+   "code": 16,
+   "data": 23,
+   "doc": 5,
+   "html": 0,
+   "nb": 0,
+   "other": 4
+  },
+  "bytes": {
+   "code": 72977,
+   "data": 272755,
+   "doc": 21730,
+   "html": 0,
+   "nb": 0,
+   "other": 1268
+  },
+  "loc": {
+   "Python": 1242
+  },
+  "total_loc": 1242,
+  "nb_cells": 0,
+  "defs": 76,
+  "stubs": 0,
+  "test_files": 6,
+  "ci": true,
+  "readme_bytes": 5041,
+  "top_files": [
+   [
+    219,
+    "coal_to_urea/gasifier.py"
+   ],
+   [
+    164,
+    "streamlit_app.py"
+   ],
+   [
+    130,
+    "coal_to_urea/acid_gas_removal.py"
+   ],
+   [
+    114,
+    "coal_to_urea/ammonia_synthesis.py"
+   ],
+   [
+    107,
+    "examples/full_chain_worked_example.py"
+   ],
+   [
+    95,
+    "coal_to_urea/urea_synthesis.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "company-database",
+  "vis": "priv",
+  "desc": "Country- and sector-wise company database built from open registries",
+  "pushed": "2026-10-16",
+  "commits": 1,
+  "files": 16,
+  "counts": {
+   "code": 2,
+   "data": 10,
+   "doc": 3,
+   "html": 0,
+   "nb": 0,
+   "other": 1
+  },
+  "bytes": {
+   "code": 21178,
+   "data": 224515,
+   "doc": 5043,
+   "html": 0,
+   "nb": 0,
+   "other": 66
+  },
+  "loc": {
+   "Python": 225
+  },
+  "total_loc": 225,
+  "nb_cells": 0,
+  "defs": 12,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 3789,
+  "top_files": [
+   [
+    202,
+    "build.py"
+   ],
+   [
+    23,
+    "fetch_fi.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "amazon-product-selector",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 3,
+  "files": 18,
+  "counts": {
+   "code": 7,
+   "data": 0,
+   "doc": 6,
+   "html": 0,
+   "nb": 0,
+   "other": 5
+  },
+  "bytes": {
+   "code": 142804,
+   "data": 0,
+   "doc": 28784,
+   "html": 0,
+   "nb": 0,
+   "other": 1912
+  },
+  "loc": {
+   "Python": 2555
+  },
+  "total_loc": 2555,
+  "nb_cells": 0,
+  "defs": 195,
+  "stubs": 0,
+  "test_files": 3,
+  "ci": true,
+  "readme_bytes": 10459,
+  "top_files": [
+   [
+    602,
+    "amazon_selector/competition.py"
+   ],
+   [
+    578,
+    "amazon_selector/trends.py"
+   ],
+   [
+    473,
+    "tests/test_shortlist.py"
+   ],
+   [
+    461,
+    "amazon_selector/shortlist.py"
+   ],
+   [
+    227,
+    "tests/test_trends.py"
+   ],
+   [
+    214,
+    "tests/test_competition.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "focus-sector-investor-map",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 10,
+  "files": 31,
+  "counts": {
+   "code": 5,
+   "data": 20,
+   "doc": 2,
+   "html": 0,
+   "nb": 1,
+   "other": 3
+  },
+  "bytes": {
+   "code": 29864,
+   "data": 3316369,
+   "doc": 7904,
+   "html": 0,
+   "nb": 3292,
+   "other": 588
+  },
+  "loc": {
+   "Python": 527
+  },
+  "total_loc": 558,
+  "nb_cells": 4,
+  "defs": 9,
+  "stubs": 2,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 4619,
+  "top_files": [
+   [
+    172,
+    "scripts/enrich_electronics_semiconductors_unswept.py"
+   ],
+   [
+    146,
+    "scripts/enrich_medical_devices_unswept.py"
+   ],
+   [
+    76,
+    "scripts/build_screen.py"
+   ],
+   [
+    69,
+    "scripts/build_global_catalog.py"
+   ],
+   [
+    64,
+    "scripts/enrich_profitability.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "lng-design-opensource",
+  "vis": "pub",
+  "desc": "Open-source, literature-grounded conceptual sizing tools for LNG process trains (precool cycle, compressor, amine absorber, MCHE pinch check) with an interactive Streamlit app",
+  "pushed": "2026-10-12",
+  "commits": 25,
+  "files": 148,
+  "counts": {
+   "code": 73,
+   "data": 62,
+   "doc": 7,
+   "html": 0,
+   "nb": 0,
+   "other": 6
+  },
+  "bytes": {
+   "code": 520071,
+   "data": 951968,
+   "doc": 99439,
+   "html": 0,
+   "nb": 0,
+   "other": 2845
+  },
+  "loc": {
+   "Python": 8901
+  },
+  "total_loc": 8901,
+  "nb_cells": 0,
+  "defs": 503,
+  "stubs": 1,
+  "test_files": 31,
+  "ci": true,
+  "readme_bytes": 16054,
+  "top_files": [
+   [
+    1420,
+    "streamlit_app.py"
+   ],
+   [
+    412,
+    "lng_design/fractionation.py"
+   ],
+   [
+    383,
+    "lng_design/regas_terminal.py"
+   ],
+   [
+    352,
+    "lng_design/mche_tube_design.py"
+   ],
+   [
+    317,
+    "lng_design/lpg_terminal.py"
+   ],
+   [
+    314,
+    "lng_design/tank_bog.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "cell-guardian",
+  "vis": "pub",
+  "desc": "BMS EKF SOC/SOH, 8 chemistries, Kaggle validation",
+  "pushed": "2026-10-12",
+  "commits": 54,
+  "files": 26,
+  "counts": {
+   "code": 22,
+   "data": 0,
+   "doc": 2,
+   "html": 0,
+   "nb": 1,
+   "other": 1
+  },
+  "bytes": {
+   "code": 237855,
+   "data": 0,
+   "doc": 3487,
+   "html": 0,
+   "nb": 18163,
+   "other": 483
+  },
+  "loc": {
+   "Shell": 137,
+   "Python": 4745
+  },
+  "total_loc": 5052,
+  "nb_cells": 20,
+  "defs": 268,
+  "stubs": 1,
+  "test_files": 1,
+  "ci": false,
+  "readme_bytes": 211,
+  "top_files": [
+   [
+    689,
+    "tests/test_bms.py"
+   ],
+   [
+    684,
+    "bms/simulation.py"
+   ],
+   [
+    402,
+    "bms/chemistries.py"
+   ],
+   [
+    349,
+    "bms/datasets/synthetic.py"
+   ],
+   [
+    322,
+    "bms/supervisor.py"
+   ],
+   [
+    305,
+    "bms/vehicles.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "piotroski-liquidity-research",
+  "vis": "pub",
+  "desc": "Point-in-time research: the Piotroski F-score premium tracks illiquidity, not size. Capacity ~$250k. Research/education only.",
+  "pushed": "2026-10-23",
+  "commits": 12,
+  "files": 47,
+  "counts": {
+   "code": 14,
+   "data": 24,
+   "doc": 5,
+   "html": 0,
+   "nb": 1,
+   "other": 3
+  },
+  "bytes": {
+   "code": 132959,
+   "data": 1831913,
+   "doc": 66610,
+   "html": 0,
+   "nb": 3113,
+   "other": 2765
+  },
+  "loc": {
+   "Python": 2088
+  },
+  "total_loc": 2119,
+  "nb_cells": 4,
+  "defs": 47,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 10575,
+  "top_files": [
+   [
+    274,
+    "roace_by_liquidity.py"
+   ],
+   [
+    271,
+    "piotroski_plus.py"
+   ],
+   [
+    246,
+    "sweep_piotroski_plus_us.py"
+   ],
+   [
+    202,
+    "sweep_piotroski_plus.py"
+   ],
+   [
+    190,
+    "daily_breakout_combo_us.py"
+   ],
+   [
+    187,
+    "backtest_liquidity_forward.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "india-omc-fuel-fleet-model",
+  "vis": "pub",
+  "desc": "India OMC retail fuel profitability, ethanol E20/E25/E30 blend scenarios, and fuel-based active-fleet estimates (PPAC + live Vahan data)",
+  "pushed": "2026-10-12",
+  "commits": 83,
+  "files": 254,
+  "counts": {
+   "code": 35,
+   "data": 143,
+   "doc": 69,
+   "html": 3,
+   "nb": 0,
+   "other": 4
+  },
+  "bytes": {
+   "code": 447908,
+   "data": 5134098,
+   "doc": 3409641,
+   "html": 81316,
+   "nb": 0,
+   "other": 1818
+  },
+  "loc": {
+   "Python": 4247,
+   "JS": 1687
+  },
+  "total_loc": 5934,
+  "nb_cells": 0,
+  "defs": 90,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 25040,
+  "top_files": [
+   [
+    376,
+    "build_energy_doc.js"
+   ],
+   [
+    371,
+    "build_slides.js"
+   ],
+   [
+    342,
+    "textile_data/research/create_presentation.py"
+   ],
+   [
+    265,
+    "energy_blend_comparison.py"
+   ],
+   [
+    245,
+    "omc_model.py"
+   ],
+   [
+    221,
+    "build_isobutanol_pitch.js"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "kalki_flooding",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 19,
+  "files": 45,
+  "counts": {
+   "code": 8,
+   "data": 21,
+   "doc": 3,
+   "html": 0,
+   "nb": 0,
+   "other": 13
+  },
+  "bytes": {
+   "code": 56528,
+   "data": 15138437,
+   "doc": 8698,
+   "html": 0,
+   "nb": 0,
+   "other": 2094531
+  },
+  "loc": {
+   "Python": 1140
+  },
+  "total_loc": 1140,
+  "nb_cells": 0,
+  "defs": 45,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 2864,
+  "top_files": [
+   [
+    270,
+    "collector.py"
+   ],
+   [
+    181,
+    "annual_refresh.py"
+   ],
+   [
+    144,
+    "analysis/deployment_patterns.py"
+   ],
+   [
+    140,
+    "analysis/bengaluru_flood_road.py"
+   ],
+   [
+    130,
+    "analysis/city_rain_metrics.py"
+   ],
+   [
+    124,
+    "request_access.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "stock-portfolio-evaluator",
+  "vis": "pub",
+  "desc": "Stock portfolio analysis tool using the Newsvendor Model for inventory optimization applied to stock holdings",
+  "pushed": "2026-10-23",
+  "commits": 10,
+  "files": 31,
+  "counts": {
+   "code": 20,
+   "data": 0,
+   "doc": 5,
+   "html": 0,
+   "nb": 1,
+   "other": 5
+  },
+  "bytes": {
+   "code": 103567,
+   "data": 0,
+   "doc": 13836,
+   "html": 0,
+   "nb": 2936,
+   "other": 5040
+  },
+  "loc": {
+   "Python": 2111,
+   "Shell": 32
+  },
+  "total_loc": 2174,
+  "nb_cells": 4,
+  "defs": 159,
+  "stubs": 0,
+  "test_files": 2,
+  "ci": false,
+  "readme_bytes": 2407,
+  "top_files": [
+   [
+    381,
+    "from-global-market-research-platform/stock-portfolio-evaluator/stock_evaluator/ingest.py"
+   ],
+   [
+    278,
+    "from-global-market-research-platform/stock-portfolio-evaluator/tests/test_evaluator.py"
+   ],
+   [
+    221,
+    "stock_evaluator/models.py"
+   ],
+   [
+    207,
+    "stock_evaluator/evaluator.py"
+   ],
+   [
+    150,
+    "from-global-market-research-platform/stock-portfolio-evaluator/stock_evaluator/models.py"
+   ],
+   [
+    125,
+    "from-global-market-research-platform/stock-portfolio-evaluator/stock_evaluator/evaluator.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "agri-commodity-tracker",
+  "vis": "pub",
+  "desc": "Daily India APMC mandi commodity prices (Agmarknet/data.gov.in) + World Bank agriculture panel \u2014 fully open sources",
+  "pushed": "2026-10-17",
+  "commits": 61,
+  "files": 37,
+  "counts": {
+   "code": 6,
+   "data": 8,
+   "doc": 17,
+   "html": 0,
+   "nb": 1,
+   "other": 5
+  },
+  "bytes": {
+   "code": 22609,
+   "data": 66069069,
+   "doc": 144489,
+   "html": 0,
+   "nb": 3337,
+   "other": 1469
+  },
+  "loc": {
+   "Python": 450,
+   "Shell": 20
+  },
+  "total_loc": 501,
+  "nb_cells": 4,
+  "defs": 31,
+  "stubs": 0,
+  "test_files": 2,
+  "ci": true,
+  "readme_bytes": 4063,
+  "top_files": [
+   [
+    157,
+    "collectors/mandi_prices.py"
+   ],
+   [
+    116,
+    "collectors/fci_locations.py"
+   ],
+   [
+    104,
+    "tests/test_mandi_prices.py"
+   ],
+   [
+    70,
+    "collectors/worldbank_agri.py"
+   ],
+   [
+    20,
+    "scripts/sync_data.sh"
+   ],
+   [
+    3,
+    "tests/conftest.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "repo-traffic-analytics",
+  "vis": "priv",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 65,
+  "files": 135,
+  "counts": {
+   "code": 4,
+   "data": 119,
+   "doc": 6,
+   "html": 0,
+   "nb": 0,
+   "other": 6
+  },
+  "bytes": {
+   "code": 58981,
+   "data": 1742520,
+   "doc": 46739,
+   "html": 0,
+   "nb": 0,
+   "other": 32746
+  },
+  "loc": {
+   "Python": 1207
+  },
+  "total_loc": 1207,
+  "nb_cells": 0,
+  "defs": 66,
+  "stubs": 1,
+  "test_files": 2,
+  "ci": true,
+  "readme_bytes": 11379,
+  "top_files": [
+   [
+    595,
+    "scripts/snapshot.py"
+   ],
+   [
+    367,
+    "tests/test_snapshot.py"
+   ],
+   [
+    242,
+    "scripts/portfolio_review.py"
+   ],
+   [
+    3,
+    "tests/conftest.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "biomass-to-syngas-opensource",
+  "vis": "pub",
+  "desc": "Open-source conceptual sizing tools for biomass gasification to syngas (feedstock characterization, gasifier, gas cleanup, syngas quality screening)",
+  "pushed": "2026-10-12",
+  "commits": 5,
+  "files": 40,
+  "counts": {
+   "code": 12,
+   "data": 19,
+   "doc": 5,
+   "html": 0,
+   "nb": 0,
+   "other": 4
+  },
+  "bytes": {
+   "code": 38958,
+   "data": 168361,
+   "doc": 20890,
+   "html": 0,
+   "nb": 0,
+   "other": 1257
+  },
+  "loc": {
+   "Python": 661
+  },
+  "total_loc": 661,
+  "nb_cells": 0,
+  "defs": 44,
+  "stubs": 0,
+  "test_files": 4,
+  "ci": true,
+  "readme_bytes": 4183,
+  "top_files": [
+   [
+    152,
+    "biomass_to_syngas/gasifier.py"
+   ],
+   [
+    108,
+    "streamlit_app.py"
+   ],
+   [
+    73,
+    "biomass_to_syngas/syngas_quality.py"
+   ],
+   [
+    71,
+    "biomass_to_syngas/biomass_feedstock.py"
+   ],
+   [
+    66,
+    "examples/full_chain_worked_example.py"
+   ],
+   [
+    55,
+    "biomass_to_syngas/gas_cleanup.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "hydrogen-electrolyser-control",
+  "vis": "pub",
+  "desc": "Production-ready control system for PEM/AEM/Alkaline hydrogen electrolysers",
+  "pushed": "2026-10-23",
+  "commits": 5,
+  "files": 13,
+  "counts": {
+   "code": 4,
+   "data": 0,
+   "doc": 7,
+   "html": 0,
+   "nb": 1,
+   "other": 1
+  },
+  "bytes": {
+   "code": 76565,
+   "data": 0,
+   "doc": 61508,
+   "html": 0,
+   "nb": 3107,
+   "other": 526
+  },
+  "loc": {
+   "Python": 1745
+  },
+  "total_loc": 1776,
+  "nb_cells": 4,
+  "defs": 132,
+  "stubs": 1,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 7411,
+  "top_files": [
+   [
+    568,
+    "electrolyser_control_system.py"
+   ],
+   [
+    443,
+    "electrolyser_web_api.py"
+   ],
+   [
+    393,
+    "electrolyser_examples.py"
+   ],
+   [
+    341,
+    "electrolyser_advanced_control.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "india-trade-tracker",
+  "vis": "pub",
+  "desc": "India merchandise trade tracker \u2014 DGFT EIDB chapter-wise exports/imports (Selenium) + World Bank trade panel; free Volza alternative",
+  "pushed": "2026-10-17",
+  "commits": 17,
+  "files": 26,
+  "counts": {
+   "code": 6,
+   "data": 4,
+   "doc": 9,
+   "html": 0,
+   "nb": 1,
+   "other": 6
+  },
+  "bytes": {
+   "code": 21303,
+   "data": 1478498,
+   "doc": 446539,
+   "html": 0,
+   "nb": 3283,
+   "other": 52760
+  },
+  "loc": {
+   "Python": 417,
+   "Shell": 16
+  },
+  "total_loc": 464,
+  "nb_cells": 4,
+  "defs": 41,
+  "stubs": 1,
+  "test_files": 3,
+  "ci": true,
+  "readme_bytes": 2504,
+  "top_files": [
+   [
+    140,
+    "collectors/eidb_trade.py"
+   ],
+   [
+    111,
+    "tests/test_worldbank_trade.py"
+   ],
+   [
+    91,
+    "tests/test_eidb_trade.py"
+   ],
+   [
+    72,
+    "collectors/worldbank_trade.py"
+   ],
+   [
+    16,
+    "scripts/sync_data.sh"
+   ],
+   [
+    3,
+    "tests/conftest.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "CBSE_paper_patterns",
+  "vis": "pub",
+  "desc": "Structural and topic-recurrence analysis of 1,955 CBSE Class-12 question papers (2022-2026). Do the boards keep re-testing the same topics? Code + findings; papers not redistributed.",
+  "pushed": "2026-10-12",
+  "commits": 14,
+  "files": 6807,
+  "counts": {
+   "code": 21,
+   "data": 24,
+   "doc": 6758,
+   "html": 0,
+   "nb": 0,
+   "other": 4
+  },
+  "bytes": {
+   "code": 107232,
+   "data": 36412916,
+   "doc": 160859317,
+   "html": 0,
+   "nb": 0,
+   "other": 4612
+  },
+  "loc": {
+   "Python": 1883
+  },
+  "total_loc": 1883,
+  "nb_cells": 0,
+  "defs": 76,
+  "stubs": 1,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 7744,
+  "top_files": [
+   [
+    214,
+    "scripts/build_bank.py"
+   ],
+   [
+    161,
+    "scripts/parse_generic.py"
+   ],
+   [
+    151,
+    "scripts/methods2.py"
+   ],
+   [
+    134,
+    "scripts/topics2.py"
+   ],
+   [
+    127,
+    "scripts/topics.py"
+   ],
+   [
+    115,
+    "scripts/pipeline_langgraph.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "job-search",
+  "vis": "priv",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 4,
+  "files": 18,
+  "counts": {
+   "code": 2,
+   "data": 10,
+   "doc": 4,
+   "html": 0,
+   "nb": 0,
+   "other": 2
+  },
+  "bytes": {
+   "code": 18580,
+   "data": 453531,
+   "doc": 937815,
+   "html": 0,
+   "nb": 0,
+   "other": 38
+  },
+  "loc": {
+   "Python": 312
+  },
+  "total_loc": 312,
+  "nb_cells": 0,
+  "defs": 12,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 208,
+  "top_files": [
+   [
+    235,
+    "job_search.py"
+   ],
+   [
+    77,
+    "iimjobs.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "data-source-mining",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 4,
+  "files": 11,
+  "counts": {
+   "code": 1,
+   "data": 5,
+   "doc": 2,
+   "html": 0,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 5151,
+   "data": 820386,
+   "doc": 3466,
+   "html": 0,
+   "nb": 0,
+   "other": 862
+  },
+  "loc": {
+   "Python": 117
+  },
+  "total_loc": 117,
+  "nb_cells": 0,
+  "defs": 4,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 216,
+  "top_files": [
+   [
+    117,
+    "mine_underused_sources.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "THIN (<150 LOC)"
+ },
+ {
+  "repo": "refinery-design-opensource",
+  "vis": "pub",
+  "desc": "Open-source conceptual sizing tools for an oil refinery: crude assays and crude types, crude/vacuum distillation, FCC reactor-regenerator, hydrotreating, delayed coking, Nelson complexity (literature-only; real published assays)",
+  "pushed": "2026-10-12",
+  "commits": 9,
+  "files": 95,
+  "counts": {
+   "code": 71,
+   "data": 10,
+   "doc": 10,
+   "html": 0,
+   "nb": 0,
+   "other": 4
+  },
+  "bytes": {
+   "code": 425498,
+   "data": 522933,
+   "doc": 119199,
+   "html": 0,
+   "nb": 0,
+   "other": 2410
+  },
+  "loc": {
+   "Python": 6378
+  },
+  "total_loc": 6378,
+  "nb_cells": 0,
+  "defs": 535,
+  "stubs": 1,
+  "test_files": 21,
+  "ci": true,
+  "readme_bytes": 15775,
+  "top_files": [
+   [
+    425,
+    "streamlit_app.py"
+   ],
+   [
+    422,
+    "refinery_design/fcc.py"
+   ],
+   [
+    332,
+    "scripts/build_companies_data.py"
+   ],
+   [
+    269,
+    "refinery_design/assay.py"
+   ],
+   [
+    212,
+    "scripts/build_ppac_2526_data.py"
+   ],
+   [
+    204,
+    "refinery_design/dual_feed_cracker.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "data_validator",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 3,
+  "files": 177,
+  "counts": {
+   "code": 114,
+   "data": 3,
+   "doc": 47,
+   "html": 0,
+   "nb": 1,
+   "other": 12
+  },
+  "bytes": {
+   "code": 594471,
+   "data": 134178,
+   "doc": 463346,
+   "html": 0,
+   "nb": 3571,
+   "other": 34593
+  },
+  "loc": {
+   "Python": 11310,
+   "Shell": 321
+  },
+  "total_loc": 11662,
+  "nb_cells": 4,
+  "defs": 706,
+  "stubs": 52,
+  "test_files": 22,
+  "ci": true,
+  "readme_bytes": 3331,
+  "top_files": [
+   [
+    523,
+    "data_validator.py"
+   ],
+   [
+    420,
+    ".vcrud_bin/db_handler.py"
+   ],
+   [
+    410,
+    "phased_expansion_screener_11d.py"
+   ],
+   [
+    398,
+    "global_20country_universe_screener.py"
+   ],
+   [
+    368,
+    "repo_data_analyzer.py"
+   ],
+   [
+    365,
+    "backtest_weight_optimization.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "europe-stock-screener",
+  "vis": "pub",
+  "desc": "Darvas/Buffett + Piotroski stock screener scoped to the European equity universe (17 exchanges, 966 stocks). Research/education only.",
+  "pushed": "2026-10-12",
+  "commits": 7,
+  "files": 12,
+  "counts": {
+   "code": 6,
+   "data": 1,
+   "doc": 3,
+   "html": 0,
+   "nb": 1,
+   "other": 1
+  },
+  "bytes": {
+   "code": 36087,
+   "data": 52887,
+   "doc": 7905,
+   "html": 0,
+   "nb": 2872,
+   "other": 75
+  },
+  "loc": {
+   "Python": 778
+  },
+  "total_loc": 809,
+  "nb_cells": 4,
+  "defs": 20,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 4461,
+  "top_files": [
+   [
+    365,
+    "screener/scanner.py"
+   ],
+   [
+    182,
+    "screener/technicals.py"
+   ],
+   [
+    111,
+    "screener/fetch.py"
+   ],
+   [
+    78,
+    "run_scan.py"
+   ],
+   [
+    42,
+    "combine_reports.py"
+   ],
+   [
+    0,
+    "screener/__init__.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "claude-provenance",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 4,
+  "files": 17,
+  "counts": {
+   "code": 1,
+   "data": 9,
+   "doc": 4,
+   "html": 0,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 16116,
+   "data": 189603,
+   "doc": 17864,
+   "html": 0,
+   "nb": 0,
+   "other": 842
+  },
+  "loc": {
+   "Python": 369
+  },
+  "total_loc": 369,
+  "nb_cells": 0,
+  "defs": 11,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 2968,
+  "top_files": [
+   [
+    369,
+    "provenance_log.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "ship2shore_rag",
+  "vis": "pub",
+  "desc": "RAG system for maritime/ocean-freight shipping literature \u2014 Postgres/pgvector + local embeddings + optional Claude generation",
+  "pushed": "2026-10-12",
+  "commits": 53,
+  "files": 97,
+  "counts": {
+   "code": 65,
+   "data": 0,
+   "doc": 17,
+   "html": 1,
+   "nb": 0,
+   "other": 14
+  },
+  "bytes": {
+   "code": 253477,
+   "data": 0,
+   "doc": 153007,
+   "html": 7468,
+   "nb": 0,
+   "other": 7503222
+  },
+  "loc": {
+   "Python": 5270,
+   "SQL": 252
+  },
+  "total_loc": 5522,
+  "nb_cells": 0,
+  "defs": 399,
+  "stubs": 3,
+  "test_files": 23,
+  "ci": true,
+  "readme_bytes": 30308,
+  "top_files": [
+   [
+    607,
+    "ops/store.py"
+   ],
+   [
+    523,
+    "ops_cli.py"
+   ],
+   [
+    390,
+    "ingest/sources.py"
+   ],
+   [
+    325,
+    "api.py"
+   ],
+   [
+    232,
+    "cli.py"
+   ],
+   [
+    166,
+    "retrieval/sqlite_store.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "manga2anime",
+  "vis": "priv",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 5,
+  "files": 19,
+  "counts": {
+   "code": 2,
+   "data": 4,
+   "doc": 2,
+   "html": 0,
+   "nb": 0,
+   "other": 11
+  },
+  "bytes": {
+   "code": 14103,
+   "data": 6263,
+   "doc": 6155,
+   "html": 0,
+   "nb": 0,
+   "other": 3652085
+  },
+  "loc": {
+   "Python": 272
+  },
+  "total_loc": 272,
+  "nb_cells": 0,
+  "defs": 19,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 2940,
+  "top_files": [
+   [
+    263,
+    "original/render_lantern_oracle.py"
+   ],
+   [
+    9,
+    "original/svd_run.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "stock-screener-ddd",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 5,
+  "files": 58,
+  "counts": {
+   "code": 50,
+   "data": 0,
+   "doc": 5,
+   "html": 0,
+   "nb": 1,
+   "other": 2
+  },
+  "bytes": {
+   "code": 55841,
+   "data": 0,
+   "doc": 39974,
+   "html": 0,
+   "nb": 2998,
+   "other": 1311
+  },
+  "loc": {
+   "Python": 1368
+  },
+  "total_loc": 1399,
+  "nb_cells": 4,
+  "defs": 187,
+  "stubs": 16,
+  "test_files": 12,
+  "ci": false,
+  "readme_bytes": 7386,
+  "top_files": [
+   [
+    281,
+    "tests/integration/test_stock_analysis_integration.py"
+   ],
+   [
+    165,
+    "tests/unit/market_data/test_models.py"
+   ],
+   [
+    154,
+    "src/stock_analysis/domain/models.py"
+   ],
+   [
+    147,
+    "src/market_data/domain/models.py"
+   ],
+   [
+    146,
+    "src/shared/domain/events.py"
+   ],
+   [
+    126,
+    "src/stock_analysis/application/screening_service.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "prompt-efficiency-tracker",
+  "vis": "priv",
+  "desc": "Real outcome/attribution tracking for Claude Code usage + prompt-regression testing (promptfoo pilots)",
+  "pushed": "2026-10-12",
+  "commits": 3,
+  "files": 22,
+  "counts": {
+   "code": 3,
+   "data": 10,
+   "doc": 4,
+   "html": 0,
+   "nb": 0,
+   "other": 5
+  },
+  "bytes": {
+   "code": 15767,
+   "data": 125162,
+   "doc": 18975,
+   "html": 0,
+   "nb": 0,
+   "other": 9401
+  },
+  "loc": {
+   "Python": 351
+  },
+  "total_loc": 351,
+  "nb_cells": 0,
+  "defs": 16,
+  "stubs": 3,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 6028,
+  "top_files": [
+   [
+    207,
+    "hooks/claude-code-usage-hook.py"
+   ],
+   [
+    111,
+    "scripts/heartbeat_check.py"
+   ],
+   [
+    33,
+    "promptfoo/market-pipeline/provider.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "global-ticker-universe",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 37,
+  "files": 38,
+  "counts": {
+   "code": 7,
+   "data": 24,
+   "doc": 3,
+   "html": 0,
+   "nb": 1,
+   "other": 3
+  },
+  "bytes": {
+   "code": 149050,
+   "data": 11227421,
+   "doc": 11174,
+   "html": 0,
+   "nb": 2865,
+   "other": 1365
+  },
+  "loc": {
+   "Python": 2445
+  },
+  "total_loc": 2476,
+  "nb_cells": 4,
+  "defs": 100,
+  "stubs": 3,
+  "test_files": 3,
+  "ci": true,
+  "readme_bytes": 7892,
+  "top_files": [
+   [
+    934,
+    "daily_scan_excel.py"
+   ],
+   [
+    826,
+    "universe_builder.py"
+   ],
+   [
+    548,
+    "global_scanner.py"
+   ],
+   [
+    64,
+    "global_tickers.py"
+   ],
+   [
+    43,
+    "tests/test_global_tickers.py"
+   ],
+   [
+    27,
+    "tests/test_universe_builder.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "financial-analysis-toolkit-public",
+  "vis": "pub",
+  "desc": "Public snapshot: from-scratch financial modeling toolkit (comps/precedents/DCF/LBO/merger models, SEC EDGAR reader, sector-tuning, Excel formula engine) validated against real company data",
+  "pushed": "2026-10-12",
+  "commits": 49,
+  "files": 409,
+  "counts": {
+   "code": 176,
+   "data": 174,
+   "doc": 54,
+   "html": 0,
+   "nb": 0,
+   "other": 5
+  },
+  "bytes": {
+   "code": 1528283,
+   "data": 1794693,
+   "doc": 892785,
+   "html": 0,
+   "nb": 0,
+   "other": 3323
+  },
+  "loc": {
+   "Python": 19788
+  },
+  "total_loc": 19788,
+  "nb_cells": 0,
+  "defs": 1579,
+  "stubs": 3,
+  "test_files": 79,
+  "ci": true,
+  "readme_bytes": 77909,
+  "top_files": [
+   [
+    1321,
+    "finmodel/cli.py"
+   ],
+   [
+    848,
+    "finmodel/xlcalc.py"
+   ],
+   [
+    644,
+    "tests/test_cli.py"
+   ],
+   [
+    491,
+    "finmodel/charts.py"
+   ],
+   [
+    427,
+    "finmodel/india_incentive_workbook.py"
+   ],
+   [
+    400,
+    "finmodel/sectors.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "reg-intel",
+  "vis": "pub",
+  "desc": "Auditable regulatory-obligation extraction for Indian banks/insurers (step 1: RBI Master Directions)",
+  "pushed": "2026-10-13",
+  "commits": 7,
+  "files": 16,
+  "counts": {
+   "code": 7,
+   "data": 4,
+   "doc": 3,
+   "html": 0,
+   "nb": 0,
+   "other": 2
+  },
+  "bytes": {
+   "code": 28023,
+   "data": 44532,
+   "doc": 5939,
+   "html": 0,
+   "nb": 0,
+   "other": 333
+  },
+  "loc": {
+   "Python": 502
+  },
+  "total_loc": 502,
+  "nb_cells": 0,
+  "defs": 40,
+  "stubs": 0,
+  "test_files": 1,
+  "ci": false,
+  "readme_bytes": 927,
+  "top_files": [
+   [
+    187,
+    "reg_intel/extract.py"
+   ],
+   [
+    78,
+    "tests/test_core.py"
+   ],
+   [
+    77,
+    "reg_intel/score.py"
+   ],
+   [
+    59,
+    "reg_intel/fetch_rbi.py"
+   ],
+   [
+    51,
+    "reg_intel/store.py"
+   ],
+   [
+    50,
+    "reg_intel/cli.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "market-brief-base",
+  "vis": "priv",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 9,
+  "files": 18,
+  "counts": {
+   "code": 2,
+   "data": 7,
+   "doc": 3,
+   "html": 0,
+   "nb": 0,
+   "other": 6
+  },
+  "bytes": {
+   "code": 19485,
+   "data": 57172,
+   "doc": 8009,
+   "html": 0,
+   "nb": 0,
+   "other": 4918
+  },
+  "loc": {
+   "Python": 334,
+   "Shell": 8
+  },
+  "total_loc": 342,
+  "nb_cells": 0,
+  "defs": 10,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 4559,
+  "top_files": [
+   [
+    334,
+    "brief.py"
+   ],
+   [
+    8,
+    "run.sh"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "event-driven-stock-analysis",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 6,
+  "files": 157,
+  "counts": {
+   "code": 89,
+   "data": 14,
+   "doc": 22,
+   "html": 2,
+   "nb": 1,
+   "other": 29
+  },
+  "bytes": {
+   "code": 480704,
+   "data": 3871,
+   "doc": 324393,
+   "html": 2064,
+   "nb": 3109,
+   "other": 89212
+  },
+  "loc": {
+   "Shell": 423,
+   "JS": 67,
+   "TS": 2333,
+   "Python": 7316,
+   "CQL": 112,
+   "SQL": 776
+  },
+  "total_loc": 11058,
+  "nb_cells": 4,
+  "defs": 497,
+  "stubs": 4,
+  "test_files": 13,
+  "ci": true,
+  "readme_bytes": 15052,
+  "top_files": [
+   [
+    776,
+    "backend/db/schema.sql"
+   ],
+   [
+    742,
+    "backend/db/load_historical_data.py"
+   ],
+   [
+    723,
+    "backend/cassandra/cassandra_client.py"
+   ],
+   [
+    506,
+    "backend/tests/conftest.py"
+   ],
+   [
+    472,
+    "backend/tests/test_data_samples.py"
+   ],
+   [
+    373,
+    "backend/tests/data_quality_test_consistency.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "india-election-analysis",
+  "vis": "priv",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 20,
+  "files": 197,
+  "counts": {
+   "code": 99,
+   "data": 64,
+   "doc": 27,
+   "html": 4,
+   "nb": 1,
+   "other": 2
+  },
+  "bytes": {
+   "code": 517085,
+   "data": 11808886,
+   "doc": 144743,
+   "html": 188816,
+   "nb": 2984,
+   "other": 942
+  },
+  "loc": {
+   "Python": 9371
+  },
+  "total_loc": 9402,
+  "nb_cells": 4,
+  "defs": 55,
+  "stubs": 1,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 5569,
+  "top_files": [
+   [
+    215,
+    "scripts/delimitation-optimization/06_monte_carlo_with_women.py"
+   ],
+   [
+    194,
+    "scripts/delimitation-optimization/04_coalition_sensitivity.py"
+   ],
+   [
+    178,
+    "scripts/delimitation-optimization/05_lok_sabha_placement.py"
+   ],
+   [
+    171,
+    "from-working-files/india-election-analysis-clean/vote-share-modeling/scripts/12_dirichlet_swing_model.py"
+   ],
+   [
+    160,
+    "vote-share-modeling/scripts/12_dirichlet_swing_model.py"
+   ],
+   [
+    156,
+    "from-working-files/india-election-analysis-clean/coalition-game-theory/scripts/04_monte_carlo_simulation.py"
+   ]
+  ],
+  "archived": true,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "ltm-warehouse-tests",
+  "vis": "pub",
+  "desc": "Postgres test harness verifying the LTM warehouse backfill scripts (Yahoo/NSE/SerpApi tiers, exchange-suffix edge cases)",
+  "pushed": "2026-10-12",
+  "commits": 4,
+  "files": 16,
+  "counts": {
+   "code": 10,
+   "data": 0,
+   "doc": 3,
+   "html": 0,
+   "nb": 1,
+   "other": 2
+  },
+  "bytes": {
+   "code": 45004,
+   "data": 0,
+   "doc": 6283,
+   "html": 0,
+   "nb": 3106,
+   "other": 839
+  },
+  "loc": {
+   "Shell": 33,
+   "Python": 797,
+   "SQL": 24
+  },
+  "total_loc": 885,
+  "nb_cells": 4,
+  "defs": 33,
+  "stubs": 0,
+  "test_files": 5,
+  "ci": true,
+  "readme_bytes": 2827,
+  "top_files": [
+   [
+    236,
+    "scripts/backfill_missing_history.py"
+   ],
+   [
+    119,
+    "tests/test_backfill_logic.py"
+   ],
+   [
+    119,
+    "scripts/find_thin_history_tickers.py"
+   ],
+   [
+    96,
+    "scripts/build_stock_exchange_list.py"
+   ],
+   [
+    85,
+    "tests/test_nse_tier.py"
+   ],
+   [
+    59,
+    "scripts/exchange_map.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "Merlin",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 25,
+  "files": 74,
+  "counts": {
+   "code": 20,
+   "data": 6,
+   "doc": 19,
+   "html": 0,
+   "nb": 1,
+   "other": 28
+  },
+  "bytes": {
+   "code": 266954,
+   "data": 30652,
+   "doc": 211660,
+   "html": 0,
+   "nb": 2857,
+   "other": 124819
+  },
+  "loc": {
+   "Python": 4986,
+   "Shell": 89
+  },
+  "total_loc": 5106,
+  "nb_cells": 4,
+  "defs": 193,
+  "stubs": 5,
+  "test_files": 2,
+  "ci": false,
+  "readme_bytes": 3147,
+  "top_files": [
+   [
+    628,
+    "alternative_screens_analysis.py"
+   ],
+   [
+    408,
+    "forward_5year_stock_picks.py"
+   ],
+   [
+    369,
+    "options_portfolio_backtest.py"
+   ],
+   [
+    309,
+    "five_year_backtest.py"
+   ],
+   [
+    308,
+    "screener_runner.py"
+   ],
+   [
+    290,
+    "currency_adjusted_backtest.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "patient-history-tracking",
+  "vis": "pub",
+  "desc": "ICU dashboard analogue: live vitals, ABHA-style health ID linkage, insurance-connect, prescription tracking, and discharge summaries -- built on VitalDB's open dataset",
+  "pushed": "2026-10-12",
+  "commits": 27,
+  "files": 65,
+  "counts": {
+   "code": 26,
+   "data": 23,
+   "doc": 4,
+   "html": 3,
+   "nb": 0,
+   "other": 9
+  },
+  "bytes": {
+   "code": 90757,
+   "data": 419009,
+   "doc": 48626,
+   "html": 10783,
+   "nb": 0,
+   "other": 41926
+  },
+  "loc": {
+   "JS": 844,
+   "Python": 1258
+  },
+  "total_loc": 2102,
+  "nb_cells": 0,
+  "defs": 86,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 44030,
+  "top_files": [
+   [
+    437,
+    "backend/app/main.py"
+   ],
+   [
+    266,
+    "backend/app/db.py"
+   ],
+   [
+    122,
+    "backend/app/discharge_summary.py"
+   ],
+   [
+    113,
+    "frontend/src/PrescriptionOCR.jsx"
+   ],
+   [
+    113,
+    "frontend/src/LabOCR.jsx"
+   ],
+   [
+    91,
+    "backend/app/vitals_source.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "transmission-client",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 4,
+  "files": 29,
+  "counts": {
+   "code": 5,
+   "data": 9,
+   "doc": 8,
+   "html": 2,
+   "nb": 0,
+   "other": 5
+  },
+  "bytes": {
+   "code": 14925,
+   "data": 133975,
+   "doc": 5966,
+   "html": 2706,
+   "nb": 0,
+   "other": 1647
+  },
+  "loc": {
+   "Python": 271,
+   "JS": 88
+  },
+  "total_loc": 359,
+  "nb_cells": 0,
+  "defs": 33,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 2041,
+  "top_files": [
+   [
+    113,
+    "transmission_client/rpc.py"
+   ],
+   [
+    107,
+    "transmission_client/cli.py"
+   ],
+   [
+    88,
+    "transmission_client/static/app.js"
+   ],
+   [
+    49,
+    "transmission_client/web.py"
+   ],
+   [
+    2,
+    "transmission_client/__init__.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "data-library-toolkit",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 2,
+  "files": 13,
+  "counts": {
+   "code": 8,
+   "data": 0,
+   "doc": 3,
+   "html": 0,
+   "nb": 0,
+   "other": 2
+  },
+  "bytes": {
+   "code": 50223,
+   "data": 0,
+   "doc": 9159,
+   "html": 0,
+   "nb": 0,
+   "other": 1240
+  },
+  "loc": {
+   "Python": 955
+  },
+  "total_loc": 955,
+  "nb_cells": 0,
+  "defs": 42,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 5372,
+  "top_files": [
+   [
+    384,
+    "dlt/convert.py"
+   ],
+   [
+    185,
+    "dlt/discover.py"
+   ],
+   [
+    135,
+    "dlt/zotero_index.py"
+   ],
+   [
+    72,
+    "dlt/analyze.py"
+   ],
+   [
+    68,
+    "dlt/catalog.py"
+   ],
+   [
+    67,
+    "dlt/cli.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "claude-lmstudio-router",
+  "vis": "pub",
+  "desc": "Claude API + local LM Studio router \u2014 one-shot CLI (router.py) and a Claude Code local-model proxy (claude_code_proxy.py)",
+  "pushed": "2026-10-12",
+  "commits": 3,
+  "files": 9,
+  "counts": {
+   "code": 3,
+   "data": 0,
+   "doc": 3,
+   "html": 0,
+   "nb": 1,
+   "other": 2
+  },
+  "bytes": {
+   "code": 38271,
+   "data": 0,
+   "doc": 14972,
+   "html": 0,
+   "nb": 2906,
+   "other": 1323
+  },
+  "loc": {
+   "Python": 714,
+   "Shell": 15
+  },
+  "total_loc": 760,
+  "nb_cells": 4,
+  "defs": 22,
+  "stubs": 2,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 8529,
+  "top_files": [
+   [
+    504,
+    "claude_code_proxy.py"
+   ],
+   [
+    210,
+    "router.py"
+   ],
+   [
+    15,
+    "run_local_claude_code.sh"
+   ]
+  ],
+  "archived": true,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "market_screener_rag",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 19,
+  "files": 36,
+  "counts": {
+   "code": 2,
+   "data": 15,
+   "doc": 8,
+   "html": 0,
+   "nb": 0,
+   "other": 11
+  },
+  "bytes": {
+   "code": 16373,
+   "data": 2946070,
+   "doc": 53593,
+   "html": 0,
+   "nb": 0,
+   "other": 859620
+  },
+  "loc": {
+   "Python": 250
+  },
+  "total_loc": 250,
+  "nb_cells": 0,
+  "defs": 11,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 11993,
+  "top_files": [
+   [
+    174,
+    "screener_rag.py"
+   ],
+   [
+    76,
+    "edge_matrix.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "global-stock-screener",
+  "vis": "priv",
+  "desc": "20-market stock screener with cached OHLCV, 11 strategies, liquidity tiers, cash-conversion-cycle, multi-source data & token-free daily mailer. Educational only.",
+  "pushed": "2026-10-12",
+  "commits": 104,
+  "files": 462,
+  "counts": {
+   "code": 243,
+   "data": 125,
+   "doc": 70,
+   "html": 2,
+   "nb": 7,
+   "other": 15
+  },
+  "bytes": {
+   "code": 1704042,
+   "data": 207598334,
+   "doc": 600387,
+   "html": 71081,
+   "nb": 28882,
+   "other": 65114
+  },
+  "loc": {
+   "Python": 33193,
+   "Shell": 386,
+   "R": 1344
+  },
+  "total_loc": 35093,
+  "nb_cells": 38,
+  "defs": 1563,
+  "stubs": 125,
+  "test_files": 44,
+  "ci": true,
+  "readme_bytes": 6659,
+  "top_files": [
+   [
+    1014,
+    "sg_stock_daily_report.py"
+   ],
+   [
+    709,
+    "sentiment_pipeline.py"
+   ],
+   [
+    701,
+    "us_stock_daily_report.R"
+   ],
+   [
+    675,
+    "build_email.py"
+   ],
+   [
+    647,
+    "etl_pipeline.py"
+   ],
+   [
+    643,
+    "stock_daily_report.R"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "eu-ets-compliance-platform",
+  "vis": "pub",
+  "desc": "Modular EU ETS/CBAM/carbon-credit/trading compliance platform with multi-tenancy and an India CCTS market module (illustrative prototype)",
+  "pushed": "2026-10-12",
+  "commits": 26,
+  "files": 96,
+  "counts": {
+   "code": 43,
+   "data": 38,
+   "doc": 6,
+   "html": 2,
+   "nb": 0,
+   "other": 7
+  },
+  "bytes": {
+   "code": 347390,
+   "data": 932953,
+   "doc": 1771471,
+   "html": 613,
+   "nb": 0,
+   "other": 36677
+  },
+  "loc": {
+   "JS": 2297,
+   "Python": 3689
+  },
+  "total_loc": 5986,
+  "nb_cells": 0,
+  "defs": 195,
+  "stubs": 1,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 4482,
+  "top_files": [
+   [
+    1649,
+    "backend/app/seed/seed_data.py"
+   ],
+   [
+    690,
+    "frontend/src/pages/IndiaCcts.jsx"
+   ],
+   [
+    610,
+    "backend/app/models.py"
+   ],
+   [
+    401,
+    "backend/app/schemas.py"
+   ],
+   [
+    271,
+    "backend/app/modules/cbam/router.py"
+   ],
+   [
+    238,
+    "frontend/src/pages/Cbam.jsx"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "agentic-insurance-agent",
+  "vis": "pub",
+  "desc": "Agentic insurance workflow: open-source BPMN/DMN orchestration (Operaton) + GenAI document AI, triage agent, guardrails, evals",
+  "pushed": "2026-10-16",
+  "commits": 5,
+  "files": 139,
+  "counts": {
+   "code": 83,
+   "data": 8,
+   "doc": 23,
+   "html": 0,
+   "nb": 0,
+   "other": 25
+  },
+  "bytes": {
+   "code": 280685,
+   "data": 19506,
+   "doc": 54217,
+   "html": 0,
+   "nb": 0,
+   "other": 83112
+  },
+  "loc": {
+   "Python": 4589
+  },
+  "total_loc": 4589,
+  "nb_cells": 0,
+  "defs": 396,
+  "stubs": 3,
+  "test_files": 20,
+  "ci": true,
+  "readme_bytes": 5740,
+  "top_files": [
+   [
+    321,
+    "tools/build_models.py"
+   ],
+   [
+    264,
+    "workers/handlers.py"
+   ],
+   [
+    199,
+    "ai/providers.py"
+   ],
+   [
+    172,
+    "video/make_video.py"
+   ],
+   [
+    134,
+    "insurance/customers/resolve.py"
+   ],
+   [
+    131,
+    "video/make_video2.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "claude-stock-tools",
+  "vis": "pub",
+  "desc": "Curated stock toolkit \u2014 daily reports, market screeners, Colab notebooks, strategy reference & data enrichment",
+  "pushed": "2026-10-12",
+  "commits": 7,
+  "files": 28,
+  "counts": {
+   "code": 14,
+   "data": 0,
+   "doc": 9,
+   "html": 0,
+   "nb": 4,
+   "other": 1
+  },
+  "bytes": {
+   "code": 487285,
+   "data": 0,
+   "doc": 49467,
+   "html": 0,
+   "nb": 209594,
+   "other": 129
+  },
+  "loc": {
+   "Python": 8650
+  },
+  "total_loc": 10538,
+  "nb_cells": 45,
+  "defs": 291,
+  "stubs": 49,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 20500,
+  "top_files": [
+   [
+    1337,
+    "03_colab_notebooks/us_stocks_colab_script.py"
+   ],
+   [
+    1011,
+    "01_daily_reports/india_daily_report.py"
+   ],
+   [
+    982,
+    "01_daily_reports/us_daily_report.py"
+   ],
+   [
+    787,
+    "01_daily_reports/singapore_daily_report.py"
+   ],
+   [
+    655,
+    "02_market_screeners/us_market_screener_v1.py"
+   ],
+   [
+    583,
+    "02_market_screeners/us_market_scan.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [
+   "python",
+   "screener",
+   "stock-analysis"
+  ],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "vehicle_fuel_mileage",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 29,
+  "files": 39,
+  "counts": {
+   "code": 8,
+   "data": 5,
+   "doc": 21,
+   "html": 0,
+   "nb": 0,
+   "other": 5
+  },
+  "bytes": {
+   "code": 124170,
+   "data": 67568,
+   "doc": 1579064,
+   "html": 0,
+   "nb": 0,
+   "other": 2993
+  },
+  "loc": {
+   "Python": 1199,
+   "JS": 364
+  },
+  "total_loc": 1563,
+  "nb_cells": 0,
+  "defs": 56,
+  "stubs": 0,
+  "test_files": 3,
+  "ci": true,
+  "readme_bytes": 9681,
+  "top_files": [
+   [
+    671,
+    "scripts/build_model.py"
+   ],
+   [
+    364,
+    "scripts/build_report.js"
+   ],
+   [
+    192,
+    "scripts/analyze_fe_declarations.py"
+   ],
+   [
+    97,
+    "tests/test_analyze_fe_declarations.py"
+   ],
+   [
+    89,
+    "scripts/extract_fe_pdf.py"
+   ],
+   [
+    76,
+    "tests/test_build_model.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "global-market-scanners",
+  "vis": "pub",
+  "desc": "Standalone full-universe equity scanners (Darvas + Piotroski + Coffee Can) across 5 markets \u2014 US, Europe, India, Japan, Korea \u2014 plus the derived industry/peer parquet dataset",
+  "pushed": "2026-10-12",
+  "commits": 93,
+  "files": 285,
+  "counts": {
+   "code": 80,
+   "data": 141,
+   "doc": 50,
+   "html": 0,
+   "nb": 1,
+   "other": 13
+  },
+  "bytes": {
+   "code": 921577,
+   "data": 3816590,
+   "doc": 274663,
+   "html": 0,
+   "nb": 8272,
+   "other": 336426
+  },
+  "loc": {
+   "Python": 15062,
+   "Shell": 75,
+   "JS": 582
+  },
+  "total_loc": 15782,
+  "nb_cells": 5,
+  "defs": 764,
+  "stubs": 52,
+  "test_files": 1,
+  "ci": true,
+  "readme_bytes": 11456,
+  "top_files": [
+   [
+    939,
+    "tests/test_core.py"
+   ],
+   [
+    780,
+    "full_us_market_scan.py"
+   ],
+   [
+    669,
+    "nse_data_fetcher.py"
+   ],
+   [
+    621,
+    "full_indian_market_scan.py"
+   ],
+   [
+    512,
+    "full_japan_market_scan.py"
+   ],
+   [
+    489,
+    "full_korea_market_scan.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [
+   "bse",
+   "equity-research",
+   "nasdaq",
+   "nse",
+   "stock-screener"
+  ],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "financial-analysis-toolkit",
+  "vis": "priv",
+  "desc": "Financial modelling engines distilled from CFI Excel templates: 3-statement, DCF, bottom-up projection, ratios, template extractor and source catalog",
+  "pushed": "2026-10-12",
+  "commits": 60,
+  "files": 412,
+  "counts": {
+   "code": 176,
+   "data": 176,
+   "doc": 56,
+   "html": 0,
+   "nb": 0,
+   "other": 4
+  },
+  "bytes": {
+   "code": 1531679,
+   "data": 2132414,
+   "doc": 1049451,
+   "html": 0,
+   "nb": 0,
+   "other": 2738
+  },
+  "loc": {
+   "Python": 19843
+  },
+  "total_loc": 19843,
+  "nb_cells": 0,
+  "defs": 1582,
+  "stubs": 3,
+  "test_files": 79,
+  "ci": true,
+  "readme_bytes": 78389,
+  "top_files": [
+   [
+    1325,
+    "finmodel/cli.py"
+   ],
+   [
+    848,
+    "finmodel/xlcalc.py"
+   ],
+   [
+    644,
+    "tests/test_cli.py"
+   ],
+   [
+    491,
+    "finmodel/charts.py"
+   ],
+   [
+    427,
+    "finmodel/india_incentive_workbook.py"
+   ],
+   [
+    400,
+    "finmodel/sectors.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "BazaarTalks",
+  "vis": "pub",
+  "desc": "Multi-market quant research platform \u2014 DuckDB warehouse, Cassandra store, ticker dashboard",
+  "pushed": "2026-10-23",
+  "commits": 104,
+  "files": 305,
+  "counts": {
+   "code": 87,
+   "data": 151,
+   "doc": 51,
+   "html": 0,
+   "nb": 2,
+   "other": 14
+  },
+  "bytes": {
+   "code": 980912,
+   "data": 4032042,
+   "doc": 283550,
+   "html": 0,
+   "nb": 12807,
+   "other": 336807
+  },
+  "loc": {
+   "Python": 16200,
+   "Shell": 75,
+   "JS": 582
+  },
+  "total_loc": 16951,
+  "nb_cells": 9,
+  "defs": 809,
+  "stubs": 55,
+  "test_files": 1,
+  "ci": true,
+  "readme_bytes": 12890,
+  "top_files": [
+   [
+    939,
+    "tests/test_core.py"
+   ],
+   [
+    780,
+    "full_us_market_scan.py"
+   ],
+   [
+    669,
+    "nse_data_fetcher.py"
+   ],
+   [
+    633,
+    "full_indian_market_scan.py"
+   ],
+   [
+    512,
+    "full_japan_market_scan.py"
+   ],
+   [
+    489,
+    "full_korea_market_scan.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "lng-cost",
+  "vis": "pub",
+  "desc": "Parametric LNG value-chain cost estimator: liquefaction, shipping, regas, delivered USD/MMBtu",
+  "pushed": "2026-10-23",
+  "commits": 2,
+  "files": 11,
+  "counts": {
+   "code": 5,
+   "data": 0,
+   "doc": 2,
+   "html": 0,
+   "nb": 0,
+   "other": 4
+  },
+  "bytes": {
+   "code": 22138,
+   "data": 0,
+   "doc": 4975,
+   "html": 0,
+   "nb": 0,
+   "other": 1959
+  },
+  "loc": {
+   "Python": 444
+  },
+  "total_loc": 444,
+  "nb_cells": 0,
+  "defs": 35,
+  "stubs": 0,
+  "test_files": 1,
+  "ci": true,
+  "readme_bytes": 3503,
+  "top_files": [
+   [
+    180,
+    "src/lng_cost/model.py"
+   ],
+   [
+    95,
+    "src/lng_cost/cli.py"
+   ],
+   [
+    83,
+    "src/lng_cost/capex.py"
+   ],
+   [
+    64,
+    "tests/test_model.py"
+   ],
+   [
+    22,
+    "src/lng_cost/__init__.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "discom-debt-and-revenue-models",
+  "vis": "pub",
+  "desc": "Revenue & cost-recovery models \u2014 DISCOM debt-reduction scenario calculator + Dirichlet subscription seasonality",
+  "pushed": "2026-10-23",
+  "commits": 7,
+  "files": 6,
+  "counts": {
+   "code": 3,
+   "data": 0,
+   "doc": 2,
+   "html": 0,
+   "nb": 1,
+   "other": 0
+  },
+  "bytes": {
+   "code": 17741,
+   "data": 0,
+   "doc": 5294,
+   "html": 0,
+   "nb": 2846,
+   "other": 0
+  },
+  "loc": {
+   "Python": 266
+  },
+  "total_loc": 297,
+  "nb_cells": 4,
+  "defs": 7,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 1869,
+  "top_files": [
+   [
+    170,
+    "discom_debt_calculator.py"
+   ],
+   [
+    53,
+    "from-global-market-data/random_numbers_using_dirichlet.py"
+   ],
+   [
+    43,
+    "random_numbers_using_dirichlet.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "india-ec-subsector-analysis",
+  "vis": "pub",
+  "desc": "State-wise Environmental Clearance analysis by EIA sub-sector \u2014 full PARIVESH 2.0 register (113,970 proposals, 36 states, 22 sub-sectors)",
+  "pushed": "2026-10-12",
+  "commits": 12,
+  "files": 30,
+  "counts": {
+   "code": 4,
+   "data": 17,
+   "doc": 2,
+   "html": 3,
+   "nb": 1,
+   "other": 3
+  },
+  "bytes": {
+   "code": 36118,
+   "data": 436119,
+   "doc": 13577,
+   "html": 76630,
+   "nb": 3140,
+   "other": 83
+  },
+  "loc": {
+   "Python": 544
+  },
+  "total_loc": 575,
+  "nb_cells": 4,
+  "defs": 16,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 10141,
+  "top_files": [
+   [
+    148,
+    "scripts/refresh_other_clearances.py"
+   ],
+   [
+    146,
+    "scripts/build_other_clearances.py"
+   ],
+   [
+    140,
+    "scripts/build_page.py"
+   ],
+   [
+    110,
+    "scripts/refresh_ec.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "gazette-translated-indexed",
+  "vis": "pub",
+  "desc": "Citation index pipeline for Indian gazette notifications \u2014 extraction, cross-reference matching, and a compendium view, piloted on CBIC customs notifications.",
+  "pushed": "2026-10-12",
+  "commits": 55,
+  "files": 495,
+  "counts": {
+   "code": 172,
+   "data": 219,
+   "doc": 99,
+   "html": 0,
+   "nb": 2,
+   "other": 3
+  },
+  "bytes": {
+   "code": 1398682,
+   "data": 1806187,
+   "doc": 2270629,
+   "html": 0,
+   "nb": 13828,
+   "other": 1272
+  },
+  "loc": {
+   "Python": 6401,
+   "SQL": 8960
+  },
+  "total_loc": 15491,
+  "nb_cells": 8,
+  "defs": 396,
+  "stubs": 2,
+  "test_files": 52,
+  "ci": true,
+  "readme_bytes": 15392,
+  "top_files": [
+   [
+    1087,
+    "db/seed_personnel.sql"
+   ],
+   [
+    562,
+    "db/seed_posts.sql"
+   ],
+   [
+    430,
+    "db/seed_ports_shipping.sql"
+   ],
+   [
+    355,
+    "ingest/egazette_search.py"
+   ],
+   [
+    341,
+    "db/seed_finance_other.sql"
+   ],
+   [
+    336,
+    "render/translate.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "market-correlation-matrices",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-23",
+  "commits": 6,
+  "files": 35,
+  "counts": {
+   "code": 1,
+   "data": 28,
+   "doc": 2,
+   "html": 0,
+   "nb": 1,
+   "other": 3
+  },
+  "bytes": {
+   "code": 4022,
+   "data": 137945742,
+   "doc": 5882,
+   "html": 0,
+   "nb": 2977,
+   "other": 877
+  },
+  "loc": {
+   "Python": 80
+  },
+  "total_loc": 111,
+  "nb_cells": 4,
+  "defs": 2,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 2587,
+  "top_files": [
+   [
+    80,
+    "compute_correlations.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "THIN (<150 LOC)"
+ },
+ {
+  "repo": "llm-extract-citation-fix",
+  "vis": "pub",
+  "desc": "extract_structured() citation-grounding fix for array-typed fields, found via a promptfoo pilot",
+  "pushed": "2026-10-23",
+  "commits": 4,
+  "files": 4,
+  "counts": {
+   "code": 1,
+   "data": 0,
+   "doc": 2,
+   "html": 0,
+   "nb": 0,
+   "other": 1
+  },
+  "bytes": {
+   "code": 10781,
+   "data": 0,
+   "doc": 5672,
+   "html": 0,
+   "nb": 0,
+   "other": 14
+  },
+  "loc": {
+   "Python": 215
+  },
+  "total_loc": 215,
+  "nb_cells": 0,
+  "defs": 6,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 2295,
+  "top_files": [
+   [
+    215,
+    "llm_extract.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "memory-map-optimizer",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 12,
+  "files": 18,
+  "counts": {
+   "code": 2,
+   "data": 7,
+   "doc": 4,
+   "html": 2,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 48135,
+   "data": 184370,
+   "doc": 8918,
+   "html": 24006,
+   "nb": 0,
+   "other": 863
+  },
+  "loc": {
+   "Python": 817
+  },
+  "total_loc": 817,
+  "nb_cells": 0,
+  "defs": 44,
+  "stubs": 2,
+  "test_files": 1,
+  "ci": true,
+  "readme_bytes": 5184,
+  "top_files": [
+   [
+    576,
+    "memory_map_optimizer.py"
+   ],
+   [
+    241,
+    "test_memory_map_optimizer.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "ppac-ready-reckoner-data",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 2,
+  "files": 106,
+  "counts": {
+   "code": 1,
+   "data": 101,
+   "doc": 3,
+   "html": 0,
+   "nb": 0,
+   "other": 1
+  },
+  "bytes": {
+   "code": 4665,
+   "data": 217554,
+   "doc": 3826,
+   "html": 0,
+   "nb": 0,
+   "other": 56
+  },
+  "loc": {
+   "Python": 89
+  },
+  "total_loc": 89,
+  "nb_cells": 0,
+  "defs": 5,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 222,
+  "top_files": [
+   [
+    89,
+    "extract_rr.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "THIN (<150 LOC)"
+ },
+ {
+  "repo": "global-market-data",
+  "vis": "pub",
+  "desc": "Multi-market OHLCV + fundamentals warehouse: 8 markets, PIT panels, bhavcopy store, ETL audits",
+  "pushed": "2026-10-12",
+  "commits": 25,
+  "files": 348,
+  "counts": {
+   "code": 131,
+   "data": 155,
+   "doc": 45,
+   "html": 0,
+   "nb": 1,
+   "other": 16
+  },
+  "bytes": {
+   "code": 1742292,
+   "data": 1080669237,
+   "doc": 380867,
+   "html": 0,
+   "nb": 6696,
+   "other": 62400
+  },
+  "loc": {
+   "Python": 32738,
+   "Shell": 340,
+   "R": 1344
+  },
+  "total_loc": 34461,
+  "nb_cells": 10,
+  "defs": 1197,
+  "stubs": 150,
+  "test_files": 13,
+  "ci": true,
+  "readme_bytes": 5021,
+  "top_files": [
+   [
+    1574,
+    "us_stocks_colab.py"
+   ],
+   [
+    1400,
+    "walk_forward_backtest.py"
+   ],
+   [
+    1139,
+    "us_stock_daily_report.py"
+   ],
+   [
+    1071,
+    "backtest_screeners.py"
+   ],
+   [
+    1069,
+    "stock_daily_report_improved.py"
+   ],
+   [
+    1014,
+    "sg_stock_daily_report.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "ethanol-design-opensource",
+  "vis": "pub",
+  "desc": "Open-source conceptual sizing tools for a molasses/cane-juice fuel-ethanol distillery (feedstock, fermentation, distillation, molecular-sieve dehydration, stillage)",
+  "pushed": "2026-10-12",
+  "commits": 6,
+  "files": 28,
+  "counts": {
+   "code": 20,
+   "data": 0,
+   "doc": 5,
+   "html": 0,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 71456,
+   "data": 0,
+   "doc": 30544,
+   "html": 0,
+   "nb": 0,
+   "other": 1855
+  },
+  "loc": {
+   "Python": 1128
+  },
+  "total_loc": 1128,
+  "nb_cells": 0,
+  "defs": 77,
+  "stubs": 0,
+  "test_files": 8,
+  "ci": false,
+  "readme_bytes": 6367,
+  "top_files": [
+   [
+    175,
+    "streamlit_app.py"
+   ],
+   [
+    130,
+    "ethanol_design/dehydration.py"
+   ],
+   [
+    98,
+    "ethanol_design/distillation.py"
+   ],
+   [
+    82,
+    "ethanol_design/fermentation.py"
+   ],
+   [
+    81,
+    "ethanol_design/properties.py"
+   ],
+   [
+    69,
+    "ethanol_design/feedstock.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "global-market-research-platform",
+  "vis": "priv",
+  "desc": "Multi-market investment research platform: FastAPI+React screener, 5-market daily scans, portfolio P&L, put-call parity engine",
+  "pushed": "2026-10-22",
+  "commits": 336,
+  "files": 547,
+  "counts": {
+   "code": 222,
+   "data": 40,
+   "doc": 217,
+   "html": 14,
+   "nb": 8,
+   "other": 46
+  },
+  "bytes": {
+   "code": 2642085,
+   "data": 53318751,
+   "doc": 3052070,
+   "html": 124540,
+   "nb": 284826,
+   "other": 112091
+  },
+  "loc": {
+   "Python": 46116,
+   "Shell": 2160,
+   "R": 481,
+   "JS": 3926,
+   "CQL": 73
+  },
+  "total_loc": 55675,
+  "nb_cells": 71,
+  "defs": 1767,
+  "stubs": 57,
+  "test_files": 4,
+  "ci": true,
+  "readme_bytes": 3966,
+  "top_files": [
+   [
+    963,
+    "portfolio_analysis.py"
+   ],
+   [
+    921,
+    "screener_extended_filters.py"
+   ],
+   [
+    689,
+    "tests/test_bms.py"
+   ],
+   [
+    669,
+    "stock-screener/daily_mailer_universal_integrated.py"
+   ],
+   [
+    669,
+    "daily_mailer_universal_integrated.py"
+   ],
+   [
+    639,
+    "nse_bse_benchmark.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "colab",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 4,
+  "files": 6,
+  "counts": {
+   "code": 0,
+   "data": 1,
+   "doc": 2,
+   "html": 0,
+   "nb": 1,
+   "other": 2
+  },
+  "bytes": {
+   "code": 0,
+   "data": 135,
+   "doc": 3303,
+   "html": 0,
+   "nb": 3403,
+   "other": 818
+  },
+  "loc": {},
+  "total_loc": 37,
+  "nb_cells": 3,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 203,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "THIN (<150 LOC)"
+ },
+ {
+  "repo": "colab-market-fundamentals",
+  "vis": "pub",
+  "desc": "Colab notebook that collects dated multi-market fundamentals via yfinance (curl_cffi anti-block) with 3-min parquet checkpointing + zip download/upload. Research/education only.",
+  "pushed": "2026-10-12",
+  "commits": 6,
+  "files": 6,
+  "counts": {
+   "code": 0,
+   "data": 1,
+   "doc": 2,
+   "html": 0,
+   "nb": 2,
+   "other": 1
+  },
+  "bytes": {
+   "code": 0,
+   "data": 344925,
+   "doc": 3977,
+   "html": 0,
+   "nb": 12164,
+   "other": 797
+  },
+  "loc": {},
+  "total_loc": 168,
+  "nb_cells": 9,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 598,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "SCRIPTS (few functions)"
+ },
+ {
+  "repo": "mospi-dataset-analysis",
+  "vis": "priv",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 36,
+  "files": 38,
+  "counts": {
+   "code": 0,
+   "data": 20,
+   "doc": 2,
+   "html": 15,
+   "nb": 1,
+   "other": 0
+  },
+  "bytes": {
+   "code": 0,
+   "data": 376563,
+   "doc": 38215,
+   "html": 505225,
+   "nb": 23096,
+   "other": 0
+  },
+  "loc": {},
+  "total_loc": 252,
+  "nb_cells": 15,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 35004,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "SCRIPTS (few functions)"
+ },
+ {
+  "repo": "mospi-dataset-analysis-public",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 39,
+  "files": 46,
+  "counts": {
+   "code": 0,
+   "data": 25,
+   "doc": 2,
+   "html": 15,
+   "nb": 1,
+   "other": 3
+  },
+  "bytes": {
+   "code": 0,
+   "data": 426939,
+   "doc": 38250,
+   "html": 505225,
+   "nb": 23096,
+   "other": 1359
+  },
+  "loc": {},
+  "total_loc": 252,
+  "nb_cells": 15,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 35004,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "SCRIPTS (few functions)"
+ },
+ {
+  "repo": "india-govt-yellow-pages",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 21,
+  "files": 101,
+  "counts": {
+   "code": 26,
+   "data": 49,
+   "doc": 22,
+   "html": 1,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 165485,
+   "data": 14335318,
+   "doc": 3095095,
+   "html": 1531188,
+   "nb": 0,
+   "other": 913
+  },
+  "loc": {
+   "Shell": 22,
+   "Python": 3496
+  },
+  "total_loc": 3518,
+  "nb_cells": 0,
+  "defs": 242,
+  "stubs": 43,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 4546,
+  "top_files": [
+   [
+    354,
+    "src/infrastructure/repositories_impl.py"
+   ],
+   [
+    341,
+    "scripts/policy_contact_matcher.py"
+   ],
+   [
+    288,
+    "scripts/ministry_whoswho.py"
+   ],
+   [
+    261,
+    "src/workflows/refresh_workflow.py"
+   ],
+   [
+    226,
+    "scripts/generate_outreach_materials.py"
+   ],
+   [
+    224,
+    "scripts/ips_civil_list.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "india-trade-data-analysis",
+  "vis": "pub",
+  "desc": "Descriptive analysis of India's trade, currency, and macro data (MoSPI/RBI/TRADESTAT) \u2014 the data half of a two-repo split.",
+  "pushed": "2026-10-12",
+  "commits": 18,
+  "files": 44,
+  "counts": {
+   "code": 0,
+   "data": 23,
+   "doc": 3,
+   "html": 12,
+   "nb": 2,
+   "other": 4
+  },
+  "bytes": {
+   "code": 0,
+   "data": 252164,
+   "doc": 46702,
+   "html": 360540,
+   "nb": 33544,
+   "other": 1372
+  },
+  "loc": {},
+  "total_loc": 365,
+  "nb_cells": 21,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 35265,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "SCRIPTS (few functions)"
+ },
+ {
+  "repo": "blog-consistency-check",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 5,
+  "files": 93,
+  "counts": {
+   "code": 6,
+   "data": 14,
+   "doc": 8,
+   "html": 60,
+   "nb": 0,
+   "other": 5
+  },
+  "bytes": {
+   "code": 48839,
+   "data": 325971,
+   "doc": 18799,
+   "html": 3390568,
+   "nb": 0,
+   "other": 140530
+  },
+  "loc": {
+   "Python": 995,
+   "JS": 10
+  },
+  "total_loc": 1005,
+  "nb_cells": 0,
+  "defs": 46,
+  "stubs": 2,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 3879,
+  "top_files": [
+   [
+    415,
+    "fix.py"
+   ],
+   [
+    239,
+    "audit.py"
+   ],
+   [
+    161,
+    "checks.py"
+   ],
+   [
+    100,
+    "add_revision_line.py"
+   ],
+   [
+    80,
+    "add_index_link.py"
+   ],
+   [
+    10,
+    "out/_syntax.js"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "lok-rajya-sabha-qa",
+  "vis": "pub",
+  "desc": "Parliament Questions ledger: 18th Lok Sabha + Rajya Sabha PQs ranked by party, ministry, state, topic, plus knowledge-graph analysis",
+  "pushed": "2026-10-12",
+  "commits": 9,
+  "files": 155,
+  "counts": {
+   "code": 10,
+   "data": 96,
+   "doc": 44,
+   "html": 2,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 117276,
+   "data": 117047790,
+   "doc": 84547,
+   "html": 339486,
+   "nb": 0,
+   "other": 4037456
+  },
+  "loc": {
+   "Python": 2172
+  },
+  "total_loc": 2172,
+  "nb_cells": 0,
+  "defs": 61,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 22541,
+  "top_files": [
+   [
+    438,
+    "scripts/build_db.py"
+   ],
+   [
+    411,
+    "scripts/build.py"
+   ],
+   [
+    285,
+    "scripts/build_graph.py"
+   ],
+   [
+    249,
+    "scripts/compare_wp_json_schemes.py"
+   ],
+   [
+    203,
+    "scripts/compare_parivesh.py"
+   ],
+   [
+    176,
+    "scripts/ministry_registry.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "us-stock-picks",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 5,
+  "files": 33,
+  "counts": {
+   "code": 6,
+   "data": 19,
+   "doc": 3,
+   "html": 2,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 37162,
+   "data": 723394,
+   "doc": 7321,
+   "html": 44418,
+   "nb": 0,
+   "other": 858
+  },
+  "loc": {
+   "Python": 882
+  },
+  "total_loc": 882,
+  "nb_cells": 0,
+  "defs": 28,
+  "stubs": 2,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 4112,
+  "top_files": [
+   [
+    438,
+    "us_stock_picks/engine.py"
+   ],
+   [
+    275,
+    "us_stock_picks/report.py"
+   ],
+   [
+    127,
+    "us_stock_picks/__main__.py"
+   ],
+   [
+    34,
+    "us_stock_picks/config.py"
+   ],
+   [
+    4,
+    "us_stock_picks/__init__.py"
+   ],
+   [
+    4,
+    "run_us_picks.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "stock-screener-platform",
+  "vis": "pub",
+  "desc": "Multi-market investment research platform: FastAPI+React screening, portfolio P&L, backtesting (India/US/Europe/Japan/Korea). Cleaned successor to the archived ocaml-stock-screener.",
+  "pushed": "2026-10-12",
+  "commits": 252,
+  "files": 620,
+  "counts": {
+   "code": 249,
+   "data": 179,
+   "doc": 111,
+   "html": 43,
+   "nb": 9,
+   "other": 29
+  },
+  "bytes": {
+   "code": 2937332,
+   "data": 51786956,
+   "doc": 13592646,
+   "html": 11262928,
+   "nb": 461948,
+   "other": 155105
+  },
+  "loc": {
+   "Python": 47688,
+   "Shell": 1596,
+   "R": 2073,
+   "JS": 3731,
+   "CQL": 73
+  },
+  "total_loc": 59019,
+  "nb_cells": 89,
+  "defs": 1927,
+  "stubs": 187,
+  "test_files": 2,
+  "ci": true,
+  "readme_bytes": 4481,
+  "top_files": [
+   [
+    1337,
+    "Downloads/code/python_files/us_stocks_colab.py"
+   ],
+   [
+    1079,
+    "Downloads/code/python_files/walk_forward_backtest.py"
+   ],
+   [
+    1011,
+    "Downloads/code/python_files/stock_daily_report_improved.py"
+   ],
+   [
+    982,
+    "Downloads/code/python_files/us_stock_daily_report.py"
+   ],
+   [
+    922,
+    "Downloads/code/python_files/backtest_screeners.py"
+   ],
+   [
+    921,
+    "screener_extended_filters.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "masaladeutsch",
+  "vis": "pub",
+  "desc": "Entry page for masaladeutsch.blogspot.com \u2014 India's trade, energy and industrial policy, checked against the data",
+  "pushed": "2026-10-12",
+  "commits": 109,
+  "files": 20,
+  "counts": {
+   "code": 1,
+   "data": 4,
+   "doc": 5,
+   "html": 4,
+   "nb": 0,
+   "other": 6
+  },
+  "bytes": {
+   "code": 19311,
+   "data": 16705978,
+   "doc": 86725,
+   "html": 1812406,
+   "nb": 0,
+   "other": 524905
+  },
+  "loc": {
+   "JS": 340
+  },
+  "total_loc": 340,
+  "nb_cells": 0,
+  "defs": 2,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 564,
+  "top_files": [
+   [
+    340,
+    "accordion.js"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "SCRIPTS (few functions)"
+ },
+ {
+  "repo": "india-trade-sector-policy-recommendations",
+  "vis": "pub",
+  "desc": "Sector and policy recommendations for India's trade strategy \u2014 the prescriptive half of a two-repo split.",
+  "pushed": "2026-10-12",
+  "commits": 124,
+  "files": 325,
+  "counts": {
+   "code": 12,
+   "data": 128,
+   "doc": 120,
+   "html": 36,
+   "nb": 0,
+   "other": 29
+  },
+  "bytes": {
+   "code": 183788,
+   "data": 45149929,
+   "doc": 9994382,
+   "html": 848779,
+   "nb": 0,
+   "other": 4005630
+  },
+  "loc": {
+   "Python": 2885,
+   "Shell": 58
+  },
+  "total_loc": 2943,
+  "nb_cells": 0,
+  "defs": 96,
+  "stubs": 3,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 90168,
+  "top_files": [
+   [
+    497,
+    "scripts/cci_index.py"
+   ],
+   [
+    455,
+    "scripts/report_synthesizer.py"
+   ],
+   [
+    332,
+    "scripts/pib_company_scan.py"
+   ],
+   [
+    332,
+    "scripts/build_quarterly_report.py"
+   ],
+   [
+    249,
+    "scripts/pib_index.py"
+   ],
+   [
+    227,
+    "scripts/sebi_index.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "blogger_writeups_code",
+  "vis": "priv",
+  "desc": "Version history and design log for masaladeutsch.blogspot.com",
+  "pushed": "2026-10-23",
+  "commits": 1594,
+  "files": 5438,
+  "counts": {
+   "code": 70,
+   "data": 1064,
+   "doc": 1604,
+   "html": 2354,
+   "nb": 0,
+   "other": 346
+  },
+  "bytes": {
+   "code": 733382,
+   "data": 70516299,
+   "doc": 21276805,
+   "html": 102370899,
+   "nb": 0,
+   "other": 3678461
+  },
+  "loc": {
+   "Python": 12586,
+   "Shell": 123,
+   "JS": 45
+  },
+  "total_loc": 12754,
+  "nb_cells": 0,
+  "defs": 489,
+  "stubs": 14,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 3528,
+  "top_files": [
+   [
+    1171,
+    "tools/iem_records.py"
+   ],
+   [
+    640,
+    "tools/build_index_page.py"
+   ],
+   [
+    452,
+    "tools/multi_model_factcheck.py"
+   ],
+   [
+    441,
+    "tools/ga_report.py"
+   ],
+   [
+    434,
+    "tools/snapshot.py"
+   ],
+   [
+    416,
+    "tools/blogger_api.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "delivery-playbook",
+  "vis": "pub",
+  "desc": "SDLC/Agile/DevOps field guide + CS theory, DDD & TOGAF for products \u2014 source for the live claude.ai playbook",
+  "pushed": "2026-10-12",
+  "commits": 5,
+  "files": 9,
+  "counts": {
+   "code": 0,
+   "data": 4,
+   "doc": 2,
+   "html": 1,
+   "nb": 0,
+   "other": 2
+  },
+  "bytes": {
+   "code": 0,
+   "data": 4272,
+   "doc": 5334,
+   "html": 62536,
+   "nb": 0,
+   "other": 938
+  },
+  "loc": {},
+  "total_loc": 0,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 2036,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "NO CODE (data/html only)"
+ },
+ {
+  "repo": "india-commodity-trade-deficit",
+  "vis": "pub",
+  "desc": "India's commodity-driven trade deficit: TRADESTAT 8-yr chapter data + 4-digit bare-metal imports (gold/silver/copper), rupee impact, and the metal-recycling counterforce",
+  "pushed": "2026-10-12",
+  "commits": 6,
+  "files": 12,
+  "counts": {
+   "code": 0,
+   "data": 7,
+   "doc": 2,
+   "html": 1,
+   "nb": 0,
+   "other": 2
+  },
+  "bytes": {
+   "code": 0,
+   "data": 142015,
+   "doc": 8664,
+   "html": 12480,
+   "nb": 0,
+   "other": 844
+  },
+  "loc": {},
+  "total_loc": 0,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 5247,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "NO CODE (data/html only)"
+ },
+ {
+  "repo": "india-quality-regulation",
+  "vis": "pub",
+  "desc": "How India regulates quality: BIS and ~36 other statutory regulators, accreditation boards and voluntary marks, mapped with primary sources.",
+  "pushed": "2026-10-12",
+  "commits": 18,
+  "files": 132,
+  "counts": {
+   "code": 6,
+   "data": 1,
+   "doc": 92,
+   "html": 29,
+   "nb": 0,
+   "other": 4
+  },
+  "bytes": {
+   "code": 54912,
+   "data": 102,
+   "doc": 31178911,
+   "html": 3585288,
+   "nb": 0,
+   "other": 8586
+  },
+  "loc": {
+   "Python": 996
+  },
+  "total_loc": 996,
+  "nb_cells": 0,
+  "defs": 44,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 15868,
+  "top_files": [
+   [
+    273,
+    "scripts/extract_pdf_text.py"
+   ],
+   [
+    229,
+    "scripts/verify_compendium.py"
+   ],
+   [
+    193,
+    "scripts/build_compendium.py"
+   ],
+   [
+    150,
+    "scripts/verify_pdf_extraction.py"
+   ],
+   [
+    110,
+    "scripts/generate_coverage.py"
+   ],
+   [
+    41,
+    "scripts/check_source_refs.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "toll-plaza-highways",
+  "vis": "pub",
+  "desc": "India toll-plaza visualization + toll-to-retail-outlet distance analysis along highways",
+  "pushed": "2026-10-12",
+  "commits": 13,
+  "files": 23,
+  "counts": {
+   "code": 3,
+   "data": 2,
+   "doc": 6,
+   "html": 10,
+   "nb": 1,
+   "other": 1
+  },
+  "bytes": {
+   "code": 45449,
+   "data": 19346,
+   "doc": 37824,
+   "html": 772400,
+   "nb": 2857,
+   "other": 35
+  },
+  "loc": {
+   "Python": 962
+  },
+  "total_loc": 993,
+  "nb_cells": 4,
+  "defs": 23,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 2469,
+  "top_files": [
+   [
+    481,
+    "toll_plaza_dashboard.py"
+   ],
+   [
+    322,
+    "toll_plaza_visualization.py"
+   ],
+   [
+    159,
+    "update_toll_visualization.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "apeda-exporter-directory",
+  "vis": "priv",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 2,
+  "files": 7,
+  "counts": {
+   "code": 2,
+   "data": 1,
+   "doc": 2,
+   "html": 1,
+   "nb": 0,
+   "other": 1
+  },
+  "bytes": {
+   "code": 4972,
+   "data": 524291,
+   "doc": 5294,
+   "html": 11692,
+   "nb": 0,
+   "other": 56
+  },
+  "loc": {
+   "Python": 135
+  },
+  "total_loc": 135,
+  "nb_cells": 0,
+  "defs": 8,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 2073,
+  "top_files": [
+   [
+    83,
+    "app.py"
+   ],
+   [
+    52,
+    "export_south_india.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "THIN (<150 LOC)"
+ },
+ {
+  "repo": "lit_review",
+  "vis": "priv",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 57,
+  "files": 48,
+  "counts": {
+   "code": 3,
+   "data": 1,
+   "doc": 42,
+   "html": 1,
+   "nb": 0,
+   "other": 1
+  },
+  "bytes": {
+   "code": 22873,
+   "data": 87806,
+   "doc": 680940,
+   "html": 57078,
+   "nb": 0,
+   "other": 101
+  },
+  "loc": {
+   "Python": 425
+  },
+  "total_loc": 425,
+  "nb_cells": 0,
+  "defs": 10,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 2960,
+  "top_files": [
+   [
+    216,
+    "tools/build_lit_graph.py"
+   ],
+   [
+    108,
+    "tools/graphify_merge_direct.py"
+   ],
+   [
+    101,
+    "tools/diagnose.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "FCI-warehouse-MSPvsMSV",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 86,
+  "files": 203,
+  "counts": {
+   "code": 7,
+   "data": 124,
+   "doc": 54,
+   "html": 6,
+   "nb": 1,
+   "other": 11
+  },
+  "bytes": {
+   "code": 40625,
+   "data": 3497712,
+   "doc": 1170634,
+   "html": 147756,
+   "nb": 6646,
+   "other": 1696933
+  },
+  "loc": {
+   "Python": 547
+  },
+  "total_loc": 608,
+  "nb_cells": 6,
+  "defs": 9,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 4405,
+  "top_files": [
+   [
+    182,
+    "data/build_trade_parity.py"
+   ],
+   [
+    154,
+    "data/holding_economics.py"
+   ],
+   [
+    52,
+    "data/biodiesel_blending_scenarios.py"
+   ],
+   [
+    45,
+    "data/rbo_savings_scenarios.py"
+   ],
+   [
+    42,
+    "data/consolidated_savings_by_crop.py"
+   ],
+   [
+    41,
+    "data/omss_processing_model.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "fuel-retail-outlets",
+  "vis": "pub",
+  "desc": "India fuel/petrol retail outlet data, extractors (SSRI/BPCL/CashAtPOS), maps & gap-analysis \u2014 LFS-free rebuild",
+  "pushed": "2026-10-16",
+  "commits": 5,
+  "files": 74,
+  "counts": {
+   "code": 32,
+   "data": 12,
+   "doc": 23,
+   "html": 4,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 426443,
+   "data": 9791904,
+   "doc": 150576,
+   "html": 13233533,
+   "nb": 0,
+   "other": 283
+  },
+  "loc": {
+   "JS": 740,
+   "Shell": 148,
+   "Python": 7986
+  },
+  "total_loc": 8874,
+  "nb_cells": 0,
+  "defs": 315,
+  "stubs": 7,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 3009,
+  "top_files": [
+   [
+    484,
+    "api-data-integration/extract_all_ssri_pumps.py"
+   ],
+   [
+    466,
+    "api-data-integration/create_toll_retail_distance_map.py"
+   ],
+   [
+    407,
+    "api-data-integration/dijkstra_filtered_service_outlets.py"
+   ],
+   [
+    378,
+    "api-data-integration/extract_cashatpos_from_pdf.py"
+   ],
+   [
+    375,
+    "api-data-integration/ssri_systematic_extractor.py"
+   ],
+   [
+    370,
+    "api-data-integration/dijkstra_toll_retail_shortest_path.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "cng-cgd-retail-outlet-mapping",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 9,
+  "files": 28,
+  "counts": {
+   "code": 8,
+   "data": 7,
+   "doc": 6,
+   "html": 4,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 41270,
+   "data": 12544310,
+   "doc": 49380,
+   "html": 10539788,
+   "nb": 0,
+   "other": 758
+  },
+  "loc": {
+   "Python": 873
+  },
+  "total_loc": 873,
+  "nb_cells": 0,
+  "defs": 42,
+  "stubs": 0,
+  "test_files": 2,
+  "ci": true,
+  "readme_bytes": 5287,
+  "top_files": [
+   [
+    237,
+    "scripts/join_final.py"
+   ],
+   [
+    217,
+    "tests/test_pipeline.py"
+   ],
+   [
+    111,
+    "scripts/join_outlets.py"
+   ],
+   [
+    98,
+    "scripts/build_html.py"
+   ],
+   [
+    88,
+    "scripts/normalize.py"
+   ],
+   [
+    62,
+    "scripts/crawl_ssri.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "jai_kisan_jai_javan",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 8,
+  "files": 16,
+  "counts": {
+   "code": 0,
+   "data": 0,
+   "doc": 13,
+   "html": 1,
+   "nb": 0,
+   "other": 2
+  },
+  "bytes": {
+   "code": 0,
+   "data": 0,
+   "doc": 192261,
+   "html": 26262,
+   "nb": 0,
+   "other": 2129
+  },
+  "loc": {},
+  "total_loc": 0,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 10830,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "NO CODE (data/html only)"
+ },
+ {
+  "repo": "chemical_import_substitution",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 2,
+  "files": 7,
+  "counts": {
+   "code": 1,
+   "data": 1,
+   "doc": 2,
+   "html": 2,
+   "nb": 0,
+   "other": 1
+  },
+  "bytes": {
+   "code": 9044,
+   "data": 540073,
+   "doc": 3467,
+   "html": 378086,
+   "nb": 0,
+   "other": 56
+  },
+  "loc": {
+   "Python": 163
+  },
+  "total_loc": 163,
+  "nb_cells": 0,
+  "defs": 5,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 226,
+  "top_files": [
+   [
+    163,
+    "scripts/hsn8_signal_analysis.py"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "mlflow",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 4,
+  "files": 6,
+  "counts": {
+   "code": 0,
+   "data": 1,
+   "doc": 2,
+   "html": 0,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 0,
+   "data": 135,
+   "doc": 3290,
+   "html": 0,
+   "nb": 0,
+   "other": 1155
+  },
+  "loc": {},
+  "total_loc": 0,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 204,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "NO CODE (data/html only)"
+ },
+ {
+  "repo": "market-pipeline",
+  "vis": "priv",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 377,
+  "files": 1081,
+  "counts": {
+   "code": 500,
+   "data": 324,
+   "doc": 205,
+   "html": 24,
+   "nb": 2,
+   "other": 26
+  },
+  "bytes": {
+   "code": 51109254,
+   "data": 742282761,
+   "doc": 7959369,
+   "html": 387798,
+   "nb": 9411,
+   "other": 1391676
+  },
+  "loc": {
+   "Python": 76411,
+   "Shell": 1218,
+   "CQL": 301899,
+   "R": 1526,
+   "SQL": 322
+  },
+  "total_loc": 381432,
+  "nb_cells": 13,
+  "defs": 2645,
+  "stubs": 246,
+  "test_files": 8,
+  "ci": false,
+  "readme_bytes": 213,
+  "top_files": [
+   [
+    27289,
+    "from-global-market-research-platform/market-pipeline/code/python_files/reports/cassandra_load_complete_2026-07-29_040737.cql"
+   ],
+   [
+    27262,
+    "from-global-market-research-platform/market-pipeline/code/python_files/reports/load_cached_symbols_cassandra_2026-07-29_035840.cql"
+   ],
+   [
+    20540,
+    "from-global-market-research-platform/market-pipeline/reports_local/FUNDAMENTALS_TOPUP.cql"
+   ],
+   [
+    19805,
+    "from-global-market-research-platform/market-pipeline/reports_local/FUNDAMENTALS_IMPUTE.cql"
+   ],
+   [
+    19035,
+    "from-global-market-research-platform/market-pipeline/reports_local/FUNDAMENTALS_PG_BRIDGE.cql"
+   ],
+   [
+    15551,
+    "from-global-market-research-platform/market-pipeline/reports_local/FUNDAMENTALS_GLOBAL_GAP_FILL.cql"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "Bazartalks_Py2Cplus",
+  "vis": "pub",
+  "desc": "C++ reimplementation of BazaarTalks (storage/streaming/quant-core/backtest/serving), Python retained as a data-acquisition + ML-training sidecar",
+  "pushed": "2026-10-12",
+  "commits": 48,
+  "files": 356,
+  "counts": {
+   "code": 139,
+   "data": 155,
+   "doc": 51,
+   "html": 1,
+   "nb": 0,
+   "other": 10
+  },
+  "bytes": {
+   "code": 628633,
+   "data": 3495629,
+   "doc": 133533,
+   "html": 14405,
+   "nb": 0,
+   "other": 37818
+  },
+  "loc": {
+   "C++": 9494,
+   "Python": 231,
+   "Shell": 74
+  },
+  "total_loc": 9799,
+  "nb_cells": 0,
+  "defs": 19,
+  "stubs": 0,
+  "test_files": 46,
+  "ci": true,
+  "readme_bytes": 3090,
+  "top_files": [
+   [
+    368,
+    "libs/quant_core/ml_signal_engine/tests/predict_ridge_tests.cpp"
+   ],
+   [
+    291,
+    "services/serve_api/src/main.cpp"
+   ],
+   [
+    273,
+    "libs/storage/databento_client/src/databento_client.cpp"
+   ],
+   [
+    236,
+    "libs/stats/src/technical_indicators.cpp"
+   ],
+   [
+    224,
+    "services/pipeline_cli/src/main.cpp"
+   ],
+   [
+    202,
+    "libs/quant_core/ml_signal_engine/src/ml_signal_engine.cpp"
+   ]
+  ],
+  "archived": false,
+  "topics": [],
+  "verdict": "REAL CODE"
+ },
+ {
+  "repo": "india-forex-analysis",
+  "vis": "pub",
+  "desc": "Strategic analysis of India's external account and fiscal situation (2020-2027)",
+  "pushed": "2026-10-23",
+  "commits": 4,
+  "files": 12,
+  "counts": {
+   "code": 0,
+   "data": 0,
+   "doc": 12,
+   "html": 0,
+   "nb": 0,
+   "other": 0
+  },
+  "bytes": {
+   "code": 0,
+   "data": 0,
+   "doc": 80336,
+   "html": 0,
+   "nb": 0,
+   "other": 0
+  },
+  "loc": {},
+  "total_loc": 0,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 9190,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "README/DOCS-ONLY"
+ },
+ {
+  "repo": "lfs_archive_work",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 4,
+  "files": 9,
+  "counts": {
+   "code": 0,
+   "data": 1,
+   "doc": 4,
+   "html": 0,
+   "nb": 0,
+   "other": 4
+  },
+  "bytes": {
+   "code": 0,
+   "data": 382,
+   "doc": 1223510,
+   "html": 0,
+   "nb": 0,
+   "other": 1706
+  },
+  "loc": {},
+  "total_loc": 0,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 214,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "NO CODE (data/html only)"
+ },
+ {
+  "repo": "k8s",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 4,
+  "files": 6,
+  "counts": {
+   "code": 0,
+   "data": 1,
+   "doc": 2,
+   "html": 0,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 0,
+   "data": 261,
+   "doc": 3272,
+   "html": 0,
+   "nb": 0,
+   "other": 2308
+  },
+  "loc": {},
+  "total_loc": 0,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 201,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "NO CODE (data/html only)"
+ },
+ {
+  "repo": "working-files",
+  "vis": "priv",
+  "desc": "",
+  "pushed": "2026-09-01",
+  "commits": 6,
+  "files": 3,
+  "counts": {
+   "code": 0,
+   "data": 0,
+   "doc": 2,
+   "html": 0,
+   "nb": 0,
+   "other": 1
+  },
+  "bytes": {
+   "code": 0,
+   "data": 0,
+   "doc": 3752,
+   "html": 0,
+   "nb": 0,
+   "other": 259
+  },
+  "loc": {},
+  "total_loc": 0,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 2373,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "README/DOCS-ONLY"
+ },
+ {
+  "repo": ".github",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 2,
+  "files": 4,
+  "counts": {
+   "code": 0,
+   "data": 0,
+   "doc": 3,
+   "html": 0,
+   "nb": 0,
+   "other": 1
+  },
+  "bytes": {
+   "code": 0,
+   "data": 0,
+   "doc": 5475,
+   "html": 0,
+   "nb": 0,
+   "other": 1073
+  },
+  "loc": {},
+  "total_loc": 0,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 860,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "README/DOCS-ONLY"
+ },
+ {
+  "repo": "ai-tools-tracker",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 4,
+  "files": 13,
+  "counts": {
+   "code": 0,
+   "data": 6,
+   "doc": 4,
+   "html": 0,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 0,
+   "data": 95163,
+   "doc": 25158,
+   "html": 0,
+   "nb": 0,
+   "other": 1223
+  },
+  "loc": {},
+  "total_loc": 0,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 6990,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "NO CODE (data/html only)"
+ },
+ {
+  "repo": "interpreter_toolkit",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 1,
+  "files": 2,
+  "counts": {
+   "code": 0,
+   "data": 0,
+   "doc": 2,
+   "html": 0,
+   "nb": 0,
+   "other": 0
+  },
+  "bytes": {
+   "code": 0,
+   "data": 0,
+   "doc": 3368,
+   "html": 0,
+   "nb": 0,
+   "other": 0
+  },
+  "loc": {},
+  "total_loc": 0,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 217,
+  "top_files": [],
+  "archived": true,
+  "topics": [],
+  "verdict": "README/DOCS-ONLY"
+ },
+ {
+  "repo": "personal-profile",
+  "vis": "priv",
+  "desc": "Personal LinkedIn/photo-setup content, extracted from stock-screener-platform which had it committed publicly (declutter)",
+  "pushed": "2026-10-12",
+  "commits": 4,
+  "files": 6,
+  "counts": {
+   "code": 0,
+   "data": 0,
+   "doc": 6,
+   "html": 0,
+   "nb": 0,
+   "other": 0
+  },
+  "bytes": {
+   "code": 0,
+   "data": 0,
+   "doc": 37701,
+   "html": 0,
+   "nb": 0,
+   "other": 0
+  },
+  "loc": {},
+  "total_loc": 0,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": false,
+  "readme_bytes": 214,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "README/DOCS-ONLY"
+ },
+ {
+  "repo": "jal_jeevan_lottery",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 11,
+  "files": 31,
+  "counts": {
+   "code": 0,
+   "data": 15,
+   "doc": 13,
+   "html": 0,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 0,
+   "data": 699552,
+   "doc": 238303,
+   "html": 0,
+   "nb": 0,
+   "other": 1355
+  },
+  "loc": {},
+  "total_loc": 0,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 12757,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "NO CODE (data/html only)"
+ },
+ {
+  "repo": "market-data-artifacts",
+  "vis": "pub",
+  "desc": "Private LFS backup: generated stock-market data (EDGAR/fundamentals/warehouse caches + 19-market OHLC seed) \u2014 sourced from global-market-scanners, not global-market-data",
+  "pushed": "2026-10-12",
+  "commits": 4,
+  "files": 36,
+  "counts": {
+   "code": 0,
+   "data": 30,
+   "doc": 3,
+   "html": 0,
+   "nb": 0,
+   "other": 3
+  },
+  "bytes": {
+   "code": 0,
+   "data": 3945,
+   "doc": 5845,
+   "html": 0,
+   "nb": 0,
+   "other": 949
+  },
+  "loc": {},
+  "total_loc": 0,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 1160,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "NO CODE (data/html only)"
+ },
+ {
+  "repo": "cloud-map",
+  "vis": "pub",
+  "desc": "",
+  "pushed": "2026-10-12",
+  "commits": 3,
+  "files": 7,
+  "counts": {
+   "code": 0,
+   "data": 0,
+   "doc": 5,
+   "html": 0,
+   "nb": 0,
+   "other": 2
+  },
+  "bytes": {
+   "code": 0,
+   "data": 0,
+   "doc": 27576,
+   "html": 0,
+   "nb": 0,
+   "other": 821
+  },
+  "loc": {},
+  "total_loc": 0,
+  "nb_cells": 0,
+  "defs": 0,
+  "stubs": 0,
+  "test_files": 0,
+  "ci": true,
+  "readme_bytes": 207,
+  "top_files": [],
+  "archived": false,
+  "topics": [],
+  "verdict": "README/DOCS-ONLY"
+ }
+]

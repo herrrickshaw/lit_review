@@ -1,0 +1,1131 @@
+{
+ "cluster": "C_energy_process_fuels",
+ "cluster_summary": "Two families sit in this cluster. The seven *-design-opensource repos plus lng-cost are real, mostly tested Python implementing textbook methods (Kremser, FUG/Molokanov, Buswell, Moe WGS equilibrium, lumped FCC kinetics, pinch/MITA, six-tenths capex) over CoolProp; prior art is crowded (BioSTEAM already reproduces the NREL/Humbird 2G and sugarcane trains, IDAES/DWSIM/Cantera cover gasification and LNG), so their value is open, India-calibrated teaching/screening chains - and several headline 'validations' are calibrations (ethanol 21.75 L/t back-solved, CBG biodegradability back-solved, coal-to-urea coal feed 'iterated to land near' Talcher). The genuinely open ground judged from code is the outlet-to-CGD-entity linkage (cng-cgd-retail-outlet-mapping, tested, real PNGRB+SSRI data), the self-hosted SAF/CORSIA compliance ledger (saf-monitoring-system, but with ILUC=0 for crop pathways and a wrong D7566 Annex A8), and a UCO/ULO fraud-check layer over RUCO/CPCB EPR. The biggest README-vs-code gaps: hydrogen-electrolyser-control is a state-machine demo with no hardware I/O, no tests, constant H2 production and validation reports with no generating script ('production-ready' is false); toll-plaza-highways runs on random coordinates and random revenue and does not implement the toll-to-outlet linkage the Aug survey called open, while fuel-retail-outlets' version of that linkage uses fabricated per-state toll coordinates; india-omc-fuel-fleet-model's 'live Vahan data' is a hardcoded snapshot.",
+ "literature": [
+  {
+   "cite": "Humbird, D., Davis, R., Tao, L., et al. (2011). Process Design and Economics for Biochemical Conversion of Lignocellulosic Biomass to Ethanol: Dilute-Acid Pretreatment and Enzymatic Hydrolysis of Corn Stover. NREL/TP-5100-47764.",
+   "url": "https://www.nrel.gov/docs/fy11osti/47764.pdf",
+   "used_by": [
+    "lignocellulosic-ethanol-opensource",
+    "ethanol-design-opensource"
+   ],
+   "how": "Not implemented or cited; lignocellulosic_ethanol/* uses fixed literature-midpoint yields instead of the NREL reactor conversions."
+  },
+  {
+   "cite": "Bell, I.H., Wronski, J., Quoilin, S., Lemort, V. (2014). Pure and Pseudo-pure Fluid Thermophysical Property Evaluation and the Open-Source Thermophysical Property Library CoolProp. Ind. Eng. Chem. Res. 53(6):2498-2508. doi:10.1021/ie4033999",
+   "url": "https://coolprop.org/citation.html",
+   "used_by": [
+    "lng-design-opensource",
+    "refinery-design-opensource",
+    "ethanol-design-opensource",
+    "lignocellulosic-ethanol-opensource",
+    "cbg-design-opensource",
+    "coal-to-urea-design-opensource"
+   ],
+   "how": "Imported as CoolProp HEOS/AbstractState in each *_design/properties.py and lng_design/end_flash.py."
+  },
+  {
+   "cite": "Cortes-Pena, Y., Kumar, D., Singh, V., Guest, J.S. (2020). BioSTEAM: A Fast and Flexible Platform for the Design, Simulation, and Techno-Economic Analysis of Biorefineries under Uncertainty. ACS Sustain. Chem. Eng. doi:10.1021/acssuschemeng.9b07040",
+   "url": "https://cabbi.bio/publications/biosteam-a-fast-and-flexible-platform-for-the-design-simulation-and-techno-economic-analysis-of-biorefineries-under-uncertainty/",
+   "used_by": [
+    "ethanol-design-opensource",
+    "lignocellulosic-ethanol-opensource",
+    "cbg-design-opensource"
+   ],
+   "how": "Not used; cited in lignocellulosic README as closest prior art - it already implements both ethanol trains rigorously."
+  },
+  {
+   "cite": "Lee, A., Ghouse, J.H., Eslick, J.C., et al. (2021). The IDAES process modeling framework and model library - Flexibility for process simulation and optimization. J. Adv. Manuf. Process. 3(3):e10095. doi:10.1002/amp2.10095",
+   "url": "https://escholarship.org/uc/item/602146tv",
+   "used_by": [
+    "lng-design-opensource",
+    "coal-to-urea-design-opensource",
+    "biomass-to-syngas-opensource"
+   ],
+   "how": "Not used; named in READMEs as the rigorous open alternative."
+  },
+  {
+   "cite": "Batstone, D.J., Keller, J., Angelidaki, I., et al. (2002). The IWA Anaerobic Digestion Model No 1 (ADM1). Water Sci. Technol. 45(10):65-73. doi:10.2166/wst.2002.0292",
+   "url": "https://orbit.dtu.dk/en/publications/the-iwa-anaerobic-digestion-model-no-1-adm1/",
+   "used_by": [
+    "cbg-design-opensource"
+   ],
+   "how": "Not implemented; cbg_design uses Buswell stoichiometry x a back-solved biodegradability factor."
+  },
+  {
+   "cite": "Higman, C., van der Burgt, M. (2008). Gasification, 2nd ed. Gulf Professional Publishing/Elsevier. ISBN 978-0-7506-8528-3",
+   "url": "https://shop.elsevier.com/books/gasification/higman/9780750685283",
+   "used_by": [
+    "coal-to-urea-design-opensource",
+    "biomass-to-syngas-opensource"
+   ],
+   "how": "coal_to_urea/gasifier.py and biomass_to_syngas/gasifier.py implement its elemental-balance + WGS-equilibrium quench (without the energy balance)."
+  },
+  {
+   "cite": "Weekman, V.W., Nace, D.M. (1970). Kinetics of catalytic cracking selectivity in fixed, moving, and fluid bed reactors. AIChE J. 16:397-404",
+   "url": "https://www.mechanics-industry.org/articles/meca/ref/2015/04/mi140146/mi140146.html",
+   "used_by": [
+    "refinery-design-opensource"
+   ],
+   "how": "refinery_design/fcc.py:211-241 extends the lumped scheme to 4 lumps with calibrated (not fitted) constants."
+  },
+  {
+   "cite": "ICAO. CORSIA Default Life Cycle Emissions Values for CORSIA Eligible Fuels (ICAO document 06), as reproduced in ISCC CORSIA 205 Life Cycle Emissions v2.0 (2023)",
+   "url": "https://www.iscc-system.org/wp-content/uploads/2023/12/ISCC_CORSIA_205_Life_Cycle_Emissions_2.0.pdf",
+   "used_by": [
+    "saf-monitoring-system"
+   ],
+   "how": "Core LCA column transcribed in backend/app/calculations/corsia.py:44-86 (spot-checked correct); ILUC column not implemented (defaults 0)."
+  }
+ ],
+ "repos": [
+  {
+   "repo": "refinery-design-opensource",
+   "does": "A tested Python package that cuts real (ExxonMobil public) crude assays by TBP curve, runs the VGO through a 4-lump FCC riser ODE (solve_ivp, LSODA) coupled to an iterated regenerator heat balance, sizes hydrotreater/coker by textbook correlations, computes Nelson complexity, and layers India-specific PPAC/CHT GRM, petchem break-even (six-tenths capex) and company data on top.",
+   "claims_vs_code": [
+    {
+     "claim": "README Quick start: 'pytest -q  # 263 tests'",
+     "evidence": "tests/ contains 212 `def test` functions across 21 files with 8 parametrize decorators; 263 is plausible only after parametrize expansion - not checkable without running, but not obviously wrong."
+    },
+    {
+     "claim": "FCC kinetics described as literature-grounded (Weekman-Nace / Lee et al. family)",
+     "evidence": "Disclosed in code: refinery_design/fcc.py:140-153 rate constants (k_gasoline=0.14243 ...) are 'calibrated to typical published yield ranges, not fitted to plant data', and _feed_factors (fcc.py:193-204) uses illustrative linear Watson-K multipliers. The README's crude-by-crude FCC table (conversion 79/69/51%, regenerator 682/756/867 C) is therefore a calibrated-heuristic output, not a validated prediction - the repo itself says so."
+    }
+   ],
+   "maturity": "substantive",
+   "maturity_note": "6.4k LOC, 535 defs, 21 test files, GitHub Actions pytest matrix (3.10-3.12); 9 commits, last push 2026-10-12; real public assays + PPAC/CHT data; FCC constants calibrated not fitted.",
+   "snippets": [
+    {
+     "path": "refinery_design/fcc.py",
+     "lines": "225-241",
+     "lang": "python",
+     "code": "    def rhs(t, y):\n        y1, y2, y3, y4 = y\n        phi = math.exp(-kin.decay_alpha_1_s * t) * cat_to_oil\n        r_feed = (k1 + k2 + k3) * y1 * y1 * phi\n        return [-r_feed,\n                k1 * y1 * y1 * phi - (k4 + k5) * y2 * phi,\n                k2 * y1 * y1 * phi + k4 * y2 * phi,\n                k3 * y1 * y1 * phi + k5 * y2 * phi]\n\n    t_eval = np.linspace(0.0, residence_s, n_points)\n    sol = solve_ivp(rhs, (0.0, residence_s), [1.0, 0.0, 0.0, 0.0], t_eval=t_eval,\n                    method=\"LSODA\", rtol=1e-8, atol=1e-10)\n    y = sol.y\n    return {\"t\": sol.t, \"unconverted\": y[0], \"gasoline\": y[1], \"gas\": y[2], \"coke_cat\": y[3]}\n\n\n# --------------------------------------------------------------------",
+     "why": "The 4-lump (feed->gasoline/gas/coke, gasoline->gas/coke) riser ODE with second-order feed cracking and exponential catalyst decay - the Weekman-Nace/Lee et al. lump-kinetics structure integrated with scipy LSODA."
+    },
+    {
+     "path": "refinery_design/complexity.py",
+     "lines": "28-39",
+     "lang": "python",
+     "code": "def nelson_complexity(cdu_capacity: float, units: dict[str, float], factors: str = \"1998\") -> float:\n    \"\"\"Nelson complexity index.  ``units`` maps unit name -> feed capacity in the\n    same units as ``cdu_capacity`` (the ``cdu`` entry itself is implied).\"\"\"\n    table = NELSON_FACTORS[factors]\n    total = table[\"cdu\"]\n    for name, cap in units.items():\n        if name == \"cdu\":\n            continue\n        if name not in table:\n            raise KeyError(f\"unknown unit {name!r}; known: {', '.join(table)}\")\n        total += table[name] * cap / cdu_capacity\n    return total",
+     "why": "Nelson complexity index as capacity-weighted cost factors relative to CDU; factor tables (complexity.py:13-25) are taken from Wikipedia's two vintages, so the index is approximate (~10%) as the module docstring admits."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "DWSIM",
+     "kind": "tool",
+     "url": "https://github.com/DanWBR/dwsim",
+     "overlap": "DWSIM ships petroleum characterization (assay/TBP pseudo-components) and rigorous column models, a superset of assay.py/distillation.py; it has no FCC heat-balance-coupled lump-kinetic unit or India GRM layer."
+    },
+    {
+     "name": "CoolProp (Bell, Wronski, Quoilin & Lemort 2014, Ind. Eng. Chem. Res. 53(6):2498-2508, doi:10.1021/ie4033999)",
+     "kind": "library",
+     "url": "https://coolprop.org",
+     "overlap": "properties.py imports CoolProp for steam (IAPWS-95) and ideal-gas Cp; the repo is a consumer, not a competitor."
+    },
+    {
+     "name": "Weekman & Nace 1970, 'Kinetics of catalytic cracking selectivity in fixed, moving, and fluid bed reactors', AIChE J. 16:397-404",
+     "kind": "paper",
+     "url": "https://aiche.org/conferences/aiche-annual-meeting/2017/proceeding/paper/582am-kinetics-resid-fluid-catalytic-cracking-using-fixed-fluidized-bed-reactor",
+     "overlap": "Origin of the lumped FCC kinetics that fcc.py:211-241 extends to 4 lumps; the repo re-uses the structure but not fitted constants. (URL is a citing page; bibliographic details verified via reference lists.)"
+    },
+    {
+     "name": "Gary, Handwerk & Kaiser, 'Petroleum Refining: Technology and Economics', 5th ed., CRC Press 2007 (ISBN 9780849370380)",
+     "kind": "paper",
+     "url": "https://eld.bl.uk/catalog/018435722",
+     "overlap": "Source of the coker carbon-residue yield correlations and Watson-Nelson/latent-heat furnace duty that coker.py and distillation.py implement."
+    }
+   ],
+   "verdict": "prior-art",
+   "verdict_note": "Every individual method is textbook and DWSIM/commercial simulators cover more rigorously; the real contribution is the open, tested chaining of public assays -> FCC heat balance -> India PPAC/CHT GRM and petrochemical break-evens, with honest validation against Paradip.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "lng-design-opensource",
+   "does": "Large tested package (8.9k LOC, 266 test functions) of screening-level LNG sizing: CoolProp HEOS mixture flashes for end-flash/cascade loops, GPSA polytropic compressor head, Souders-Brown + Kremser amine absorber, Linnhoff-style composite-curve MITA/UA check for the MCHE, plus regas/LPG terminal, BOG, Erlang-C berth queueing, all chained in liquefaction.py/regasification.py and a Streamlit app.",
+   "claims_vs_code": [
+    {
+     "claim": "docs/EOS_SENSITIVITY.md compares HEOS vs Peng-Robinson vs SRK",
+     "evidence": "No library module calls CoolProp's 'PR' or 'SRK' backends (grep of lng_design/, tests/, examples/ finds only HEOS); the comparison table in the doc has no committed generating script, so it cannot be reproduced from the repo as-is."
+    }
+   ],
+   "maturity": "substantive",
+   "maturity_note": "31 test files, CI on push, Dockerfile, worked examples; 25 commits, last push 2026-10-12; uses specify_phase(supercritical) in regas_terminal.py, avoiding the known CoolProp HEOS mixture phase flake.",
+   "snippets": [
+    {
+     "path": "lng_design/amine_absorber.py",
+     "lines": "63-75",
+     "lang": "python",
+     "code": "    fraction_remaining = denominator / numerator  # (y_out - m x_in)/(y_in - m x_in)\n\n    if abs(A - 1.0) < 1e-9:\n        # Kremser's A -> 1 limit: N = (y_in - y_out)/(y_out - m*x_in)\n        return (y_in - y_out_target) / denominator\n\n    # Solve fraction_remaining = (A - 1) / (A**(N+1) - 1) for N\n    # => A**(N+1) = 1 + (A - 1) / fraction_remaining\n    rhs = 1.0 + (A - 1.0) / fraction_remaining\n    if rhs <= 0:\n        raise ValueError(\"Infeasible specification: no finite stage count satisfies it\")\n    N_plus_1 = math.log(rhs) / math.log(A)\n    return N_plus_1 - 1.0",
+     "why": "Kremser equation solved for N theoretical stages including the A->1 limit - the McCabe/Smith/Harriott absorber method used by GPSA."
+    },
+    {
+     "path": "lng_design/mche.py",
+     "lines": "105-122",
+     "lang": "python",
+     "code": "    for i in range(1, n_samples + 1):\n        q = total_hot_duty * i / n_samples\n        T_hot = _temperature_at_duty(hot_segments, q)\n        T_cold = _temperature_at_duty(cold_segments, q)\n        approach = T_hot - T_cold\n\n        if approach < worst_approach:\n            worst_approach, pinch_T = approach, T_hot\n\n        dQ = q - prev_q\n        mean_approach = 0.5 * (approach + prev_approach)\n        if mean_approach > 1e-6 and dQ > 0:\n            ua_slice = dQ / mean_approach\n            ua_total += ua_slice\n            interval_report.append({\n                \"Q_kW\": q, \"T_hot_K\": T_hot, \"T_cold_K\": T_cold,\n                \"local_approach_K\": approach, \"ua_slice_kW_per_K\": ua_slice,\n            })",
+     "why": "Composite-curve walk on a shared duty axis tracking the minimum internal temperature approach (pinch) and summing UA by slices - Linnhoff pinch analysis applied to an MCHE."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "DWSIM",
+     "kind": "tool",
+     "url": "https://github.com/DanWBR/dwsim",
+     "overlap": "DWSIM provides rigorous PR/SRK flowsheets with LNG exchangers and compressors; lng_design is a lighter, auditable screening layer over CoolProp rather than a simulator."
+    },
+    {
+     "name": "IDAES-PSE (Lee et al. 2021, J. Adv. Manuf. Process. 3(3):e10095, doi:10.1002/amp2.10095)",
+     "kind": "library",
+     "url": "https://idaes-pse.readthedocs.io/en/latest/",
+     "overlap": "IDAES offers equation-oriented, optimisable unit models (heat exchangers, compressors, flash) where this repo hard-codes sequential correlations; README already points to IDAES."
+    },
+    {
+     "name": "CoolProp (Bell, Wronski, Quoilin & Lemort 2014, Ind. Eng. Chem. Res. 53(6):2498-2508, doi:10.1021/ie4033999)",
+     "kind": "library",
+     "url": "https://coolprop.org",
+     "overlap": "All mixture thermodynamics (end_flash.py, cascade_loops.py, properties.py) are CoolProp HEOS calls."
+    },
+    {
+     "name": "Linnhoff & Hindmarsh 1983, 'The pinch design method for heat exchanger networks', Chem. Eng. Sci. 38:745",
+     "kind": "paper",
+     "url": "https://en.wikipedia.org/wiki/Pinch_analysis",
+     "overlap": "mche.py's MITA/composite-curve check is a direct application of this method (cited in the module docstring)."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Commercial and open simulators (DWSIM, IDAES) cover the physics; the contribution is a transparent, heavily tested, CoolProp-backed screening toolkit with cited correlations and India terminal cases - useful for teaching/screening, not new method.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "lng-cost",
+   "does": "Small dependency-free package: levelized LNG chain cost = liquefaction capex x CRF + fixed O&M + feed/(1-fuel&loss) + single-vessel round-trip shipping cost + regas levelized charge, with an optional bottom-up capex built from steel/concrete/labour/equipment quantities scaled by (capacity/5 Mtpa)^0.65 and regional multipliers.",
+   "claims_vs_code": [
+    {
+     "claim": "Shipping cost includes boil-off",
+     "evidence": "src/lng_cost/model.py:117-131 - boil-off only shrinks the delivered-MMBtu denominator; the FOB value of the boiled-off cargo is not charged, so shipping cost is understated by roughly boil_off x FOB."
+    },
+    {
+     "claim": "scale_capex 'applies the six-tenths-style rule'",
+     "evidence": "model.py:30 default exponent is 0.65, not 0.6 - a labelled choice, minor."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "444 LOC, 13 tests in tests/test_model.py, CI workflow; 2 commits (2026-10-23); all defaults explicitly 'illustrative placeholders, not sourced benchmarks'.",
+   "snippets": [
+    {
+     "path": "src/lng_cost/model.py",
+     "lines": "112-124",
+     "lang": "python",
+     "code": "    speed_nm_day = s.speed_knots * HOURS_PER_DAY\n    sea_days = 2 * s.distance_nm / speed_nm_day\n    days = sea_days + s.port_days_per_round_trip\n    cargo_t = s.vessel_capacity_m3 / M3_LNG_PER_TONNE\n    laden_days = s.distance_nm / speed_nm_day\n    boil_off = min(0.5, s.boil_off_pct_per_day / 100 * laden_days)\n    delivered_t = cargo_t * (1 - boil_off)\n    delivered_mmbtu = delivered_t * MMBTU_PER_TONNE\n    cost = (\n        days * s.charter_rate_per_day\n        + sea_days * s.bunker_burn_t_per_day * s.bunker_price_per_t\n        + s.canal_fees_per_round_trip\n    )",
+     "why": "Round-trip voyage economics: sea days from distance/speed, laden-leg boil-off, charter + bunker cost per delivered MMBtu - the standard LNG shipping tariff build-up."
+    },
+    {
+     "path": "src/lng_cost/capex.py",
+     "lines": "79-92",
+     "lang": "python",
+     "code": "    s = (b.capacity_mtpa / q.reference_mtpa) ** q.scale_exponent\n\n    steel = q.steel_t * s * p.steel_usd_per_t * r.material_factor\n    concrete_unit = p.cement_t_per_m3 * p.cement_usd_per_t + p.concrete_other_usd_per_m3\n    cement = q.concrete_m3 * s * p.cement_t_per_m3 * p.cement_usd_per_t * r.material_factor\n    concrete_other = q.concrete_m3 * s * p.concrete_other_usd_per_m3 * r.material_factor\n    labour = q.labour_hours * s / r.productivity * r.labour_rate\n    equipment = q.equipment_usd * s * p.equipment_index * r.equipment_factor\n\n    direct = steel + cement + concrete_other + labour + equipment\n    indirects = direct * f.indirects\n    owners = (direct + indirects) * f.owners\n    contingency = (direct + indirects + owners) * f.contingency\n    total = direct + indirects + owners + contingency",
+     "why": "Bottom-up capex: physical quantities scaled by a capacity exponent, priced, then indirects/owner's/contingency stacked as factors (a Class-5 factored estimate)."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Songhurst, 'LNG Plant Cost Escalation', OIES Working Paper NG 83 (2014)",
+     "kind": "paper",
+     "url": "https://ora.ox.ac.uk/objects/uuid:40de2a7f-7454-4d7d-977b-972112fb0f9a",
+     "overlap": "Provides the empirical USD/tpa liquefaction cost framework and data the placeholder capex_per_tpa=900 should be calibrated against."
+    },
+    {
+     "name": "Songhurst, 'LNG Plant Cost Reduction 2014-18', OIES NG 137 (2018)",
+     "kind": "paper",
+     "url": "https://www.oxfordenergy.org/wpcms/wp-content/uploads/2018/10/LNG-Plant-Cost-Reduction-2014–18-NG137.pdf",
+     "overlap": "Breaks liquefaction capex into components similar to capex.py's steel/labour/equipment split, with real project data."
+    },
+    {
+     "name": "Wood Mackenzie, 'LNG: breaking down the surge in US LNG capital costs'",
+     "kind": "commercial",
+     "url": "https://www.woodmac.com/es/reports/lng-breaking-down-the-surge-in-us-lng-capital-costs-and-impact-of-tariffs-150390523/",
+     "overlap": "Commercial cost-benchmark service of the kind the README says it cannot bundle; does what capex.py approximates with placeholders."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Levelized LNG chain cost is standard consultancy/OIES arithmetic; the repo adds an open, tested calculator but no sourced data.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "ethanol-design-opensource",
+   "does": "Sizes a molasses/cane-juice or grain distillery: TFS feedstock routes, Gay-Lussac stoichiometry x fermentation efficiency, Fenske-Underwood-Gilliland (Molokanov fit) ethanol-water column with alpha from CoolProp HEOS bubble points, 3A mol-sieve beds, CPCB spent-wash balance and DDGS mass balance.",
+   "claims_vs_code": [
+    {
+     "claim": "Worked example 'reproduces the publicly quoted 21.75 L of ethanol per tonne of cane figure exactly' and is 'validated against real, independently published figures'",
+     "evidence": "Circular: ethanol_design/fermentation.py:12-21,37 sets DEFAULT_FERMENTATION_EFFICIENCY=0.9257, which the docstring says was backed out from those same B-heavy/C-heavy/juice L-per-tonne figures; 0.0725 x 0.50 x 0.5114 x 0.9257 / 0.789 = 21.75 L/t by construction. It is a calibration/consistency check, not a validation."
+    },
+    {
+     "claim": "FUG shortcut gives column stages/reflux for ethanol-water",
+     "evidence": "distillation.py:68-79 takes Rmin from a feed-point pinch with a single geometric-mean alpha; ethanol-water is strongly non-ideal with a tangent pinch near the azeotrope, so Rmin is likely understated - a method-validity caveat the docstring does not flag."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "1.1k LOC, 8 test files (42 tests), no CI; 6 commits, last push 2026-10-12; feedstock defaults sourced from press/blog pages (sugarprocesstech.com, upsciq.com), not primary data.",
+   "snippets": [
+    {
+     "path": "ethanol_design/distillation.py",
+     "lines": "75-92",
+     "lang": "python",
+     "code": "    y_eq_at_feed = alpha_avg * x_feed_mole / (1 + (alpha_avg - 1) * x_feed_mole)\n    if y_eq_at_feed <= x_feed_mole:\n        raise ValueError(\"equilibrium curve does not lie above the feed composition -- \"\n                          \"check that x_feed is below the azeotrope/relative volatility > 1\")\n    return (x_distillate_mole - y_eq_at_feed) / (y_eq_at_feed - x_feed_mole)\n\n\ndef gilliland_stages(n_min: float, r_min: float, r_actual: float) -> float:\n    \"\"\"Molokanov et al. (1972) analytical fit to the Gilliland correlation:\n    X = (R-Rmin)/(R+1), Y = 1 - exp[(1+54.4X)/(11+117.2X) * (X-1)/sqrt(X)],\n    Y = (N-Nmin)/(N+1) solved for N.\"\"\"\n    if r_actual <= r_min:\n        raise ValueError(\"actual reflux ratio must exceed the minimum reflux ratio\")\n    X = (r_actual - r_min) / (r_actual + 1)\n    if X <= 0:\n        return n_min\n    Y = 1 - math.exp(((1 + 54.4 * X) / (11 + 117.2 * X)) * ((X - 1) / math.sqrt(X)))\n    return (n_min + Y) / (1 - Y)",
+     "why": "Rmin from the McCabe-Thiele feed pinch and Gilliland stages via the Molokanov analytical fit - the classic FUG shortcut."
+    },
+    {
+     "path": "ethanol_design/fermentation.py",
+     "lines": "59-66",
+     "lang": "python",
+     "code": "    if not 0 < fermentation_efficiency <= 1.0:\n        raise ValueError(\"fermentation_efficiency must be in (0, 1]\")\n    sugar = feedstock.fermentable_sugar_kg_s()\n    ethanol_kg_s = sugar * THEORETICAL_ETHANOL_YIELD_KG_PER_KG_SUGAR * fermentation_efficiency\n    co2_kg_s = sugar * THEORETICAL_CO2_YIELD_KG_PER_KG_SUGAR * fermentation_efficiency\n    ethanol_l_s = ethanol_kg_s / ETHANOL_DENSITY_KG_L\n\n    total_wash_kg_s = feedstock.mass_flow_kg_s + wash_water_kg_s - sugar * fermentation_efficiency - co2_kg_s",
+     "why": "Ethanol = sugar x 0.5114 (Gay-Lussac) x efficiency; the efficiency default is the back-solved 0.9257 that makes the 21.75 L/t 'validation' circular."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "BioSTEAM (Cortes-Pena, Kumar, Singh & Guest 2020, ACS Sustain. Chem. Eng., doi:10.1021/acssuschemeng.9b07040)",
+     "kind": "library",
+     "url": "https://github.com/BioSTEAMDevelopmentGroup/biosteam",
+     "overlap": "BioSTEAM and its Bioindustrial-Park include a sugarcane/molasses-to-ethanol biorefinery with rigorous VLE distillation, mol-sieves and TEA - a superset of this repo."
+    },
+    {
+     "name": "DWSIM",
+     "kind": "tool",
+     "url": "https://github.com/DanWBR/dwsim",
+     "overlap": "DWSIM rigorous columns with NRTL/UNIQUAC handle the ethanol-water azeotrope properly instead of a constant-alpha FUG."
+    },
+    {
+     "name": "NITI Aayog & MoPNG, 'Roadmap for Ethanol Blending in India 2020-25' (2021)",
+     "kind": "official",
+     "url": "https://niti.gov.in/sites/default/files/2023-02/EthanolBlendingInIndia_compressed.pdf",
+     "overlap": "Official source for India feedstock routes and ethanol-per-tonne figures the repo instead takes from secondary web pages."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "BioSTEAM already models this biorefinery rigorously; the repo's value is an India-calibrated, readable teaching chain, and its headline 'validation' is a calibration.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "lignocellulosic-ethanol-opensource",
+   "does": "Fixed-fraction 2G chain: residue composition -> dilute-acid xylan->xylose (MW ratio x recovery 0.75) -> cellulose->glucose (x 0.75) -> co-fermentation (x 0.90 glucose, x 0.85 xylose) -> FUG distillation -> mol-sieve, run at IOCL Panipat scale.",
+   "claims_vs_code": [
+    {
+     "claim": "'Validated against TWO real, operating 2G plants'",
+     "evidence": "Model output 264.1 L/t vs Panipat design 234.9 L/t is a 12% overshoot; the 'closer' Clariant comparison is wheat straw with a different pretreatment (README says so). No parameter is fitted to either; this is a sanity check, not validation."
+    },
+    {
+     "claim": "Pretreatment / hydrolysis / fermentation are modelled",
+     "evidence": "Hardcoded literature-range midpoints presented as model outputs: pretreatment.py:40 DEFAULT_XYLOSE_RECOVERY_FRACTION=0.75 ('approximate midpoint of the cited range'), enzymatic_hydrolysis.py:54 cellulose conversion 0.75, cofermentation.py:52-53 0.90/0.85. No severity factor, enzyme loading, solids loading or kinetics - yields are pure multiplication."
+    },
+    {
+     "claim": "NREL design basis",
+     "evidence": "No file cites or implements Humbird et al. 2011 (NREL/TP-5100-47764), the standard dilute-acid/enzymatic/co-fermentation design report; only the corn-stover composition is attributed to 'NREL-standard-protocol' analyses (feedstock.py:16-18)."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "1.0k LOC, 7 test files (38 tests), no CI; 5 commits, last push 2026-10-12; all conversion parameters are literature midpoints.",
+   "snippets": [
+    {
+     "path": "lignocellulosic_ethanol/pretreatment.py",
+     "lines": "53-63",
+     "lang": "python",
+     "code": "def pretreat(feedstock: LignocellulosicFeedstock,\n            xylose_recovery_fraction: float = DEFAULT_XYLOSE_RECOVERY_FRACTION) -> PretreatmentResult:\n    if not 0 < xylose_recovery_fraction <= 1.0:\n        raise ValueError(\"xylose_recovery_fraction must be in (0, 1]\")\n\n    hemicellulose_kg_s = feedstock.hemicellulose_kg_s()\n    xylose_kg_s = hemicellulose_kg_s * XYLAN_TO_XYLOSE_MW_RATIO * xylose_recovery_fraction\n    # Mass of hemicellulose that did NOT convert to recovered xylose (lost to degradation\n    # products -- furfural etc. -- or left unreacted in the solid), on the ORIGINAL\n    # (pre-hydrolysis) polymer mass basis, not the xylose-monomer basis.\n    unrecovered_hemicellulose_kg_s = hemicellulose_kg_s * (1 - xylose_recovery_fraction)",
+     "why": "The whole pretreatment model: hemicellulose x 150.13/132.12 x a fixed recovery fraction - stoichiometry with a literature-midpoint yield, no severity/kinetics (contrast Humbird et al. 2011 reactor-by-reactor conversions)."
+    },
+    {
+     "path": "lignocellulosic_ethanol/cofermentation.py",
+     "lines": "45-53",
+     "lang": "python",
+     "code": "MW_XYLOSE = 150.13\nMW_ETHANOL = 46.068\nETHANOL_DENSITY_KG_L = 0.789\n\nTHEORETICAL_ETHANOL_YIELD_FROM_GLUCOSE_KG_PER_KG = 2 * MW_ETHANOL / MW_GLUCOSE\nTHEORETICAL_ETHANOL_YIELD_FROM_XYLOSE_KG_PER_KG = (5.0 / 3.0) * MW_ETHANOL / MW_XYLOSE\n\nDEFAULT_GLUCOSE_FERMENTATION_EFFICIENCY = 0.90\nDEFAULT_XYLOSE_FERMENTATION_EFFICIENCY = 0.85",
+     "why": "Derives identical 0.5114 kg/kg theoretical yields for glucose and xylose and hardcodes 90%/85% fermentation efficiencies."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Humbird et al. 2011, 'Process Design and Economics for Biochemical Conversion of Lignocellulosic Biomass to Ethanol', NREL/TP-5100-47764",
+     "kind": "paper",
+     "url": "https://www.nrel.gov/docs/fy11osti/47764.pdf",
+     "overlap": "Same process train (dilute-acid pretreatment, enzymatic saccharification, Z. mobilis co-fermentation) with full mass/energy balance and TEA; this repo implements a much thinner fixed-yield version and does not cite it."
+    },
+    {
+     "name": "BioSTEAM (Cortes-Pena, Kumar, Singh & Guest 2020, ACS Sustain. Chem. Eng., doi:10.1021/acssuschemeng.9b07040)",
+     "kind": "library",
+     "url": "https://github.com/BioSTEAMDevelopmentGroup/biosteam",
+     "overlap": "BioSTEAM's Bioindustrial-Park corn-stover biorefinery reproduces the NREL 2011 design in open Python, including uncertainty analysis - the direct open-source equivalent (README acknowledges it)."
+    },
+    {
+     "name": "DWSIM",
+     "kind": "tool",
+     "url": "https://github.com/DanWBR/dwsim",
+     "overlap": "General simulator for the distillation/dehydration back end."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "BioSTEAM already reproduces the NREL design openly; the repo's distinct bit is applying fixed literature yields to Indian rice straw at Panipat scale.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "cbg-design-opensource",
+   "does": "CBG plant screening: Buswell theoretical CH4 from elemental VS composition x per-substrate biodegradability factor, HRT digester volume, upgrading by technology-range specific power, GPSA polytropic multistage compression to 250 bar with CoolProp Z, digestate VS mass balance.",
+   "claims_vs_code": [
+    {
+     "claim": "Buswell 'with a per-substrate calibrated biodegradability factor' yields digestion predictions",
+     "evidence": "anaerobic_digestion.py:26-36 - biodegradability (0.533 straw, 0.273 press mud, 0.292 dung) was back-solved from the same published Nm3/t yields in feedstock.py, so the module reproduces those yields by construction; the Barsana comparison (only ~100% dung matches 10 TPD) is the only out-of-sample test and it fails for mixed feeds."
+    },
+    {
+     "claim": "Framed as SATAT-scheme design",
+     "evidence": "README/code assume SATAT pricing context; no file covers the GOBARdhan (2026) pricing regime - policy framing may be stale, no code impact."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "846 LOC, 6 test files (30 tests), no CI; 5 commits, last push 2026-10-12; steady-state stoichiometry only, no kinetics/ADM1.",
+   "snippets": [
+    {
+     "path": "cbg_design/anaerobic_digestion.py",
+     "lines": "63-77",
+     "lang": "python",
+     "code": "def buswell_theoretical_yield(elemental_composition: dict) -> dict:\n    \"\"\"Moles of CH4 and CO2 per kg of VS, from the Buswell equation applied\n    to 1 kg of substrate at the given mass-fraction elemental composition\n    (a, b, c, d are moles-per-kg, not an integer molecular formula --\n    Buswell's balance is linear, so this is exact for any composition).\"\"\"\n    a = elemental_composition[\"C\"] * 1000.0 / _AW[\"C\"]\n    b = elemental_composition[\"H\"] * 1000.0 / _AW[\"H\"]\n    c = elemental_composition[\"O\"] * 1000.0 / _AW[\"O\"]\n    d = elemental_composition[\"N\"] * 1000.0 / _AW[\"N\"]\n    mol_ch4_per_kg = (4 * a + b - 2 * c - 3 * d) / 8.0\n    mol_co2_per_kg = (4 * a - b + 2 * c + 3 * d) / 8.0\n    if mol_ch4_per_kg <= 0:\n        raise ValueError(\"Buswell balance gives non-positive theoretical methane yield -- \"\n                          \"check the elemental composition (too oxidized to produce methane)\")\n    return {\"mol_ch4_per_kg_vs\": mol_ch4_per_kg, \"mol_co2_per_kg_vs\": mol_co2_per_kg}",
+     "why": "Buswell-Mueller stoichiometry applied per kg VS from elemental mass fractions: CH4 = (4a+b-2c-3d)/8, CO2 = (4a-b+2c+3d)/8."
+    },
+    {
+     "path": "cbg_design/anaerobic_digestion.py",
+     "lines": "89-99",
+     "lang": "python",
+     "code": "    buswell = buswell_theoretical_yield(feedstock.elemental_composition)\n    mol_ch4_theo = buswell[\"mol_ch4_per_kg_vs\"]\n    mol_co2_theo = buswell[\"mol_co2_per_kg_vs\"]\n    theo_ch4_nm3_per_tonne_vs = mol_ch4_theo * MOLAR_VOLUME_NM3_PER_KMOL  # kmol/tonne VS == mol/kg VS numerically\n    practical_ch4_nm3_per_tonne_vs = theo_ch4_nm3_per_tonne_vs * biodegradability_fraction\n\n    ch4_frac = mol_ch4_theo / (mol_ch4_theo + mol_co2_theo)  # Buswell's own CH4:CO2 split, unaffected by biodegradability\n\n    vs_flow_tonne_s = feedstock.mass_flow_kg_s * feedstock.vs_mass_frac / 1000.0\n    ch4_flow_nm3_s = practical_ch4_nm3_per_tonne_vs * vs_flow_tonne_s\n    biogas_flow_nm3_s = ch4_flow_nm3_s / ch4_frac",
+     "why": "Practical yield = Buswell ceiling x calibrated biodegradability; biogas CH4 fraction kept at Buswell's ratio."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Batstone et al. 2002, 'The IWA Anaerobic Digestion Model No 1 (ADM1)', Water Sci. Technol. 45(10):65-73, doi:10.2166/wst.2002.0292",
+     "kind": "paper",
+     "url": "https://orbit.dtu.dk/en/publications/the-iwa-anaerobic-digestion-model-no-1-adm1/",
+     "overlap": "Dynamic kinetic AD model (hydrolysis, acidogenesis, methanogenesis) that replaces the repo's single biodegradability fudge factor."
+    },
+    {
+     "name": "WaterTAP ADM1 flowsheet",
+     "kind": "library",
+     "url": "https://watertap.readthedocs.io/en/stable/technical_reference/flowsheets/ADM1.html",
+     "overlap": "Open-source (IDAES-based) ADM1 digester implementation - a mechanistic open equivalent of anaerobic_digestion.py."
+    },
+    {
+     "name": "QSDsan (Li et al. 2022, Environ. Sci.: Water Res. Technol. 8:2289-2303, doi:10.1039/D2EW00455K)",
+     "kind": "library",
+     "url": "https://qsdsan.readthedocs.io/",
+     "overlap": "Open Python platform (BioSTEAM family) for resource-recovery system design/TEA/LCA covering digestion-based systems."
+    },
+    {
+     "name": "Buswell & Mueller 1952, 'Mechanism of methane fermentation', Ind. Eng. Chem. 44:550-552",
+     "kind": "paper",
+     "url": "https://link.springer.com/doi/10.1007/978-1-4757-0301-6_15",
+     "overlap": "The stoichiometry implemented verbatim in buswell_theoretical_yield (URL is a citing reference list)."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Mechanistic open AD models exist; the repo's contribution is an India-feedstock (paddy straw/press mud/dung) screening chain with honest reporting of the Barsana mismatch.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "biomass-to-syngas-opensource",
+   "does": "Channiwala-Parikh HHV, then an O2/steam-blown gasifier modelled as elemental balance + water-gas-shift equilibrium (Moe 1962 K) solved with brentq for CO at a user-supplied temperature, a fixed tar yield per gasifier type, mass-balance cleanup and H2:CO/LHV use screening.",
+   "claims_vs_code": [
+    {
+     "claim": "gasify_biomass docstring: 'pass tar_yield_g_per_Nm3 directly to override'",
+     "evidence": "biomass_to_syngas/gasifier.py:78-86 - the function has no tar_yield_g_per_Nm3 parameter; the tar yield is always TYPICAL_TAR_YIELD_G_NM3[gasifier_type] (gasifier.py:165)."
+    },
+    {
+     "claim": "Gasifier temperature/composition and cold-gas efficiency are computed",
+     "evidence": "No energy balance: gasifier_T_K is an input independent of the O2 ratio (gasifier.py:78-86,130), CH4 and tar are excluded from the equilibrium, sulfur is ignored; cold-gas efficiency is reported without checking the heat balance closes. Tar yields are hardcoded literature midpoints (gasifier.py:54-58)."
+    },
+    {
+     "claim": "Air-blown gasifiers (the common small-scale Indian case, e.g. Ankur downdraft in VENDOR_REFERENCE.md)",
+     "evidence": "Not modelled: docstring gasifier.py:96-99 assumes pure O2 feed."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "661 LOC, 4 test files (18 tests), CI on push; 5 commits, last push 2026-10-12.",
+   "snippets": [
+    {
+     "path": "biomass_to_syngas/gasifier.py",
+     "lines": "130-146",
+     "lang": "python",
+     "code": "    K = _wgs_equilibrium_K(gasifier_T_K)\n    A = 2.0 * n_C + n_H2eq - n_O_total\n\n    def residual(n_CO: float) -> float:\n        n_H2 = A - n_CO\n        n_CO2 = n_C - n_CO\n        n_H2O = n_H2eq - n_H2\n        return (n_CO2 * n_H2) - K * n_CO * n_H2O\n\n    lo = max(1e-9, A - n_H2eq)\n    hi = min(n_C, A) - 1e-9\n    if hi <= lo:\n        raise ValueError(\n            \"No physically valid syngas composition for this O2/steam/biomass \"\n            \"ratio combination at the given temperature - try a different ratio.\"\n        )\n    n_CO = brentq(residual, lo, hi)",
+     "why": "WGS-equilibrium closure: element balances leave one unknown (n_CO), solved so that n_CO2*n_H2 = K(T)*n_CO*n_H2O with K from Moe's ln K = 4577.8/T - 4.33."
+    },
+    {
+     "path": "biomass_to_syngas/gasifier.py",
+     "lines": "157-166",
+     "lang": "python",
+     "code": "    hhv_syngas_kW = n_CO * _HHV_KJ_MOL[\"CO\"] + n_H2 * _HHV_KJ_MOL[\"H2\"]\n    hhv_biomass_kW = biomass_mass_flow_kg_s * biomass.hhv_MJ_kg() * 1000.0\n    cold_gas_efficiency = hhv_syngas_kW / hhv_biomass_kW if hhv_biomass_kW > 0 else 0.0\n\n    mw_mix = sum(composition[k] * _species_mw(k) for k in composition)\n    syngas_mass_flow = total_mol * mw_mix / 1000.0\n\n    Nm3_s = total_mol * 0.022414\n    tar_yield_g_nm3 = TYPICAL_TAR_YIELD_G_NM3[gasifier_type]\n    tar_mass_flow_kg_s = Nm3_s * tar_yield_g_nm3 / 1000.0",
+     "why": "Cold-gas efficiency from H2+CO HHV over feed HHV, and tar as a fixed g/Nm3 by gasifier type - shows that tar is an input, not a prediction."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Cantera (Goodwin et al., v3.1.0, doi:10.5281/zenodo.14455267)",
+     "kind": "library",
+     "url": "https://cantera.org",
+     "overlap": "Cantera's Gibbs-minimisation equilibrate() gives full multi-species (incl. CH4) gasifier equilibrium at specified T,P or adiabatic conditions - a more complete version of the single-reaction WGS closure."
+    },
+    {
+     "name": "Gasific: A Python Tool for Biomass Gasification Process (Oladokun et al. 2022)",
+     "kind": "tool",
+     "url": "https://research.tue.nl/en/publications/gasific-a-python-tool-for-biomass-gasification-process/",
+     "overlap": "Python stoichiometric-equilibrium gasification module predicting product gas from ultimate analysis - same method class."
+    },
+    {
+     "name": "Milne, Evans & Abatzoglou 1998, 'Biomass Gasifier Tars: Their Nature, Formation, and Conversion', NREL/TP-570-25357",
+     "kind": "paper",
+     "url": "https://www.nrel.gov/docs/fy99osti/25357.pdf",
+     "overlap": "Source of the tar-yield ranges hardcoded in TYPICAL_TAR_YIELD_G_NM3."
+    },
+    {
+     "name": "Channiwala & Parikh 2002, 'A unified correlation for estimating HHV of solid, liquid and gaseous fuels', Fuel 81(8):1051-1063, doi:10.1016/S0016-2361(01)00131-4",
+     "kind": "paper",
+     "url": "https://krishi.icar.gov.in/ohs-2.3.1/index.php/record/view/126839",
+     "overlap": "Implemented in biomass_feedstock.py for HHV."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Equilibrium gasification models (Cantera, Gasific, Aspen/DWSIM studies) are common; the repo adds an India rice-straw framing but lacks the energy balance that makes such models predictive.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "coal-to-urea-design-opensource",
+   "does": "Chains a coal gasifier (elemental balance + Moe WGS quench), staged shift, AGR split + Kremser column, ASU specific power, an ammonia recycle-loop balance at fixed per-pass conversion with purge, and an illustrative linear urea per-pass conversion fit into an end-to-end coal->urea mass balance.",
+   "claims_vs_code": [
+    {
+     "claim": "'Validated against a real public project ... lands within 14% of Talcher Fertilizers Limited's 1.27 mtpa urea capacity'",
+     "evidence": "examples/full_chain_worked_example.py:34 `COAL_MASS_FLOW_KG_S = 145.0   # iterated to land near the real benchmark` - the input was tuned to hit the benchmark, so the 14% is a tuning residual, not validation."
+    },
+    {
+     "claim": "Urea synthesis modelled (Frejacques 1948 cited)",
+     "evidence": "coal_to_urea/urea_synthesis.py:47-59 is an 'illustrative, simplified' linear fit 0.171 + 0.118*N/C - 0.15*H2O/C, explicitly 'NOT a reproduction of Frejacques' - a hardcoded literature-range trend presented as the conversion model."
+    },
+    {
+     "claim": "Ammonia synthesis",
+     "evidence": "ammonia_synthesis.py:50-89 is a recycle mass balance around a fixed 19% per-pass conversion; no equilibrium or kinetics (disclosed in docstring)."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "1.2k LOC, 6 test files (37 tests), CI on push; 4 commits, last push 2026-10-12.",
+   "snippets": [
+    {
+     "path": "coal_to_urea/ammonia_synthesis.py",
+     "lines": "70-79",
+     "lang": "python",
+     "code": "    F = h2_feed_mol_s + n2_feed_mol_s\n    X = single_pass_conversion\n    p = purge_fraction\n\n    denom = 1.0 - (1.0 - p) * (1.0 - X)\n    R = F * (1.0 - p) * (1.0 - X) / denom\n    reactor_inlet = F + R\n    nh3_produced = 0.5 * X * reactor_inlet\n    purge_loss = p * (1.0 - X) * reactor_inlet\n    overall_conversion = (2.0 * nh3_produced) / F",
+     "why": "Steady-state recycle-with-purge algebra: R = F(1-p)(1-X)/[1-(1-p)(1-X)], overall conversion set by purge as much as per-pass X (standard Fogler recycle treatment)."
+    },
+    {
+     "path": "coal_to_urea/urea_synthesis.py",
+     "lines": "47-59",
+     "lang": "python",
+     "code": "def co2_conversion_per_pass(nh3_to_co2_molar_ratio: float, h2o_to_co2_molar_ratio: float = 0.0) -> float:\n    \"\"\"Illustrative, simplified fit to commonly reported urea per-pass\n    CO2 conversion trends (see module docstring) - NOT a reproduction\n    of Frejacques (1948) or any licensor's proprietary correlation.\n\n    Roughly: ~50% at N/C=2.8, ~58% at N/C=3.5, ~70% at N/C=4.5 (low\n    water feed), reduced by feed water content.\n    \"\"\"\n    if nh3_to_co2_molar_ratio <= 2.0:\n        raise ValueError(\"nh3_to_co2_molar_ratio must exceed 2.0 (stoichiometric minimum for urea synthesis)\")\n    base = 0.171 + 0.118 * nh3_to_co2_molar_ratio\n    water_penalty = 0.15 * h2o_to_co2_molar_ratio\n    return min(max(base - water_penalty, 0.05), 0.85)",
+     "why": "The urea 'model' is an illustrative linear fit of per-pass CO2 conversion to N/C and H2O/C ratios, clipped to 5-85%."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "IDAES-PSE (Lee et al. 2021, J. Adv. Manuf. Process. 3(3):e10095, doi:10.1002/amp2.10095)",
+     "kind": "library",
+     "url": "https://idaes-pse.readthedocs.io/en/latest/",
+     "overlap": "IDAES was built by the US DOE for fossil energy systems (gasification, ASU, power) with equation-oriented unit models and optimisation; a rigorous open alternative for most of this train."
+    },
+    {
+     "name": "DWSIM",
+     "kind": "tool",
+     "url": "https://github.com/DanWBR/dwsim",
+     "overlap": "Can model the shift/AGR/ammonia loop with real equilibrium reactors."
+    },
+    {
+     "name": "Higman & van der Burgt, 'Gasification', 2nd ed., Gulf Professional Publishing/Elsevier 2008 (ISBN 978-0-7506-8528-3)",
+     "kind": "paper",
+     "url": "https://shop.elsevier.com/books/gasification/higman/9780750685283",
+     "overlap": "Source of the gasifier mass-balance + WGS-quench method in gasifier.py."
+    }
+   ],
+   "verdict": "prior-art",
+   "verdict_note": "Methods are textbook and covered by IDAES/DWSIM/Aspen studies; README's 'no open-source coal-to-urea project' is plausible, so the contribution is an open India high-ash-coal end-to-end screening chain - but its benchmark match is tuned.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "hydrogen-electrolyser-control",
+   "does": "In-memory Python simulation of an electrolyser 'control system': setters with range checks, a PID that adjusts a voltage setpoint toward a target (no plant model), constant H2/O2/water production rates accumulated per hour while in NORMAL mode, efficiency linear in load, threading scheduler, CSV/JSON logging and a Flask REST API.",
+   "claims_vs_code": [
+    {
+     "claim": "Repo description / README footer: 'Production-ready control system' / 'Status: Production Ready'",
+     "evidence": "No hardware I/O anywhere (no Modbus/OPC-UA/serial/CAN); InverterController (electrolyser_control_system.py:139-198) only stores values and logs. VALIDATION_SCOPE_CLARIFICATION.md itself says 'All validation ... using synthetic ... power profiles, not actual hardware' and estimates '6-12 weeks before production ready'. The aspirational verdict from Aug holds."
+    },
+    {
+     "claim": "COMPLETE_PROJECT_SUMMARY.md: '5,000+ lines of tested code'",
+     "evidence": "4 Python files totalling 2,286 lines (1,745 LOC); zero test files; no CI."
+    },
+    {
+     "claim": "REAL_DATA_VALIDATION_REPORT.md: solar, wind, hybrid PV+wind and grid-frequency 24h scenarios 'All synthetic tests passed'",
+     "evidence": "No .py file generates solar/wind/grid profiles (grep 'solar|wind' over *.py matches only an 'Anti-windup' comment); the reported results have no generating script."
+    },
+    {
+     "claim": "Production tracking: H2/O2 rates",
+     "evidence": "update_state (electrolyser_control_system.py:325-342) adds a constant specs.hydrogen_production_rate per hour regardless of current - no Faraday's law; efficiency (406-414) rises linearly with load, opposite to real electrolyser behaviour where voltage efficiency falls at high current density."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "1.7k LOC, no tests, no CI, Colab notebook only byte-compiles files; 5 commits, last push 2026-10-23; all behaviour simulated with hardcoded nameplate specs.",
+   "snippets": [
+    {
+     "path": "electrolyser_control_system.py",
+     "lines": "325-342",
+     "lang": "python",
+     "code": "    def update_state(self, dt: float = 1.0):\n        \"\"\"Update electrolyser state\"\"\"\n        if self.current_mode == OperatingMode.IDLE:\n            return\n\n        if self.start_time:\n            self.run_time = time.time() - self.start_time\n\n        # Update energy production based on current operation\n        if self.current_mode == OperatingMode.NORMAL and self.current_power > 0:\n            # Production rate: mol/s → Nm³/hour conversion\n            time_fraction = dt / 3600.0  # Convert dt from seconds to hours\n\n            self.hydrogen_produced += self.specs.hydrogen_production_rate * time_fraction\n            self.oxygen_produced += self.specs.oxygen_production_rate * time_fraction\n            self.water_consumed += self.specs.water_consumption_rate * time_fraction\n\n            logger.debug(f\"H2: {self.hydrogen_produced:.2f} Nm³, O2: {self.oxygen_produced:.2f} Nm³\")",
+     "why": "H2/O2/water accumulate at fixed nameplate rates per elapsed hour, independent of current - no electrochemistry (Faraday) underlies the 'production tracking'."
+    },
+    {
+     "path": "electrolyser_control_system.py",
+     "lines": "406-414",
+     "lang": "python",
+     "code": "    def calculate_efficiency(self) -> float:\n        \"\"\"Calculate PEM efficiency\"\"\"\n        if self.current_power == 0:\n            return 0.0\n\n        # Efficiency based on load (typically 60-75%)\n        load_factor = self.current_power / self.specs.nominal_power\n        efficiency = self.specs.min_efficiency + (self.specs.max_efficiency - self.specs.min_efficiency) * load_factor\n        return min(efficiency, self.specs.max_efficiency)",
+     "why": "PEM efficiency modelled as a linear ramp from 60% to 75% with load - physically inverted vs real polarisation behaviour."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "AlphaPEM (Gass et al., arXiv:2407.12373)",
+     "kind": "tool",
+     "url": "https://arxiv.org/pdf/2407.12373",
+     "overlap": "Open dynamic 1D physics-based PEM (fuel-cell) model in Python with validated electrochemistry - the physics layer this repo lacks (fuel cell, not electrolyser)."
+    },
+    {
+     "name": "OPEM - Open Source PEM Cell Simulation Tool",
+     "kind": "library",
+     "url": "https://pypi.org/project/opem/",
+     "overlap": "Python static/dynamic PEM cell models (Amphlett, Larminie-Dicks) with polarisation curves; shows how current-dependent voltage/efficiency should be computed."
+    },
+    {
+     "name": "NREL H2A Hydrogen Production Analysis model",
+     "kind": "tool",
+     "url": "https://Www.Nrel.gov/docs/fy09osti/46267.pdf",
+     "overlap": "Standard DOE/NREL techno-economic model for electrolytic H2 production - covers production/cost tracking the repo approximates with constants."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "Neither a physics model nor a hardware controller - a REST/state-machine demo with hardcoded specs; no real contribution beyond scaffolding.",
+   "change_since_aug": "Confirmed and sharpened: Aug called 'production-ready' aspirational; code shows no hardware I/O, no tests, no electrochemistry, and validation reports without generating scripts."
+  },
+  {
+   "repo": "saf-monitoring-system",
+   "does": "FastAPI+SQLite+React app with seeded mock data (random.Random(42)) for SAF feedstock deliveries, batches, certificates and airline offtakes; computes RED-style GHG intensity vs 94 g/MJ, CORSIA L_CEF = core + ILUC - credits vs 89 g/MJ with a 10% eligibility floor and a tCO2e credit ledger, ReFuelEU mandate lookup, ASTM D7566 blend-limit conformance, and an India CCTS what-if.",
+   "claims_vs_code": [
+    {
+     "claim": "corsia.py docstring: ILUC tables 'not reproduced here since this system's default feedstocks are all waste/residue/by-product'",
+     "evidence": "backend/app/calculations/corsia.py:44-86 includes crop pathways (soybean 40.4, rapeseed 47.4, palm 37.4/60.0, corn grain ETJ 65.7, miscanthus, switchgrass, sugarcane, molasses 27.0) whose ILUC is non-zero; feedstock corsia_iluc_value defaults to 0.0 (models.py:33, schemas/feedstock.py:14). E.g. corn-grain ETJ would report 26% reduction and 'eligible' with ILUC=0, while the ICAO/ISCC total (65.7+34.9=100.6 global) exceeds the 89 baseline and fails."
+    },
+    {
+     "claim": "astm_pathways.py: ASTM D7566 annexes 'as of the D7566-23 revision'",
+     "evidence": "astm_pathways.py:22-25 lists Annex A8 as 'HFS-SIP' at 10%; D7566-23a Annex A8 is ATJ-SKA (Swedish Biofuels) at 50%. 'Co-processed HEFA/FT' at 5% is a D1655 provision, not a D7566 annex."
+    },
+    {
+     "claim": "CORSIA default core values (8th ed.)",
+     "evidence": "Spot-checked against ISCC CORSIA 205 v2.0 (reproduces ICAO tables): FT ag residues 7.7, forestry 8.3, MSW 5.2, HEFA tallow 22.5, UCO 13.9, PFAD 20.7, corn oil 17.2, soy 40.4, rapeseed 47.4, palm 37.4/60.0, carinata 34.4, camelina 42.0, jatropha 46.9/46.8, ATJ isobutanol 29.3/23.8/24.0/55.8/43.4/27.0, ETJ 24.1/65.7/39.7/24.6/40.0/24.9/42.4/29.4, SIP 32.8/32.4 all match as CORE values (molasses 27.0 correctly treated as core, not ILUC). Newer rows (beef_tallow 29.7, poultry 33.7, lard 27.8, mixed fats 28.6, coconuts 26.9, POME 18.1) could not be verified - icao.int blocked."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "2.2k LOC (Python+JSX), 9 test files incl. router smoke tests, no CI; 6 commits, last push 2026-10-12; all operational data is seeded mock data.",
+   "snippets": [
+    {
+     "path": "backend/app/calculations/corsia.py",
+     "lines": "98-113",
+     "lang": "python",
+     "code": "def reduction_pct(lcef_value: float, baseline: float = CORSIA_BASELINE_GCO2_PER_MJ) -> float:\n    if baseline <= 0:\n        return 0.0\n    return round((1 - lcef_value / baseline) * 100, 2)\n\n\ndef is_corsia_eligible(ghg_reduction_pct: float) -> bool:\n    return ghg_reduction_pct >= CORSIA_MIN_REDUCTION_PCT\n\n\ndef tco2e_saved(volume_liters: float, lcef_value: float, baseline: float = CORSIA_BASELINE_GCO2_PER_MJ) -> float:\n    \"\"\"tCO2e emissions reduction credited for a given airline delivery, using the\n    CORSIA baseline (89 gCO2e/MJ) -- not the RED III fossil comparator.\"\"\"\n    mj = volume_liters * SAF_ENERGY_DENSITY_MJ_PER_L\n    saved_g = mj * (baseline - lcef_value)\n    return round(saved_g / 1_000_000, 3)",
+     "why": "Reduction vs the 89 gCO2e/MJ CORSIA baseline, the 10% eligibility floor and tCO2e = MJ x (89 - L_CEF), applied to an L_CEF (corsia.py:93-95) whose ILUC term defaults to 0 for every pathway."
+    },
+    {
+     "path": "backend/app/calculations/astm_pathways.py",
+     "lines": "20-26",
+     "lang": "python",
+     "code": "    {\"code\": \"HC-HEFA-SPK\", \"annex\": \"Annex A7\", \"max_blend_pct\": 10.0,\n     \"description\": \"Hydrocarbon-HEFA SPK (algae-derived)\"},\n    {\"code\": \"HFS-SIP\", \"annex\": \"Annex A8\", \"max_blend_pct\": 10.0,\n     \"description\": \"Hydroprocessed Fermented Sugars to Synthesized Iso-Paraffins\"},\n    {\"code\": \"Co-processed HEFA/FT\", \"annex\": \"Annex A2/A1 co-processing\", \"max_blend_pct\": 5.0,\n     \"description\": \"Co-processing of hydrotreated esters/FT feed in a conventional refinery\"},\n]",
+     "why": "The ASTM pathway table where Annex A8 is mislabelled HFS-SIP/10% (actual: ATJ-SKA/50%) and D1655 co-processing is listed as a D7566 annex."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "ICAO, 'CORSIA Default Life Cycle Emissions Values for CORSIA Eligible Fuels' (ICAO document 06)",
+     "kind": "official",
+     "url": "https://www.icao.int/sites/default/files/environmental-protection/CORSIA/Documents/CORSIA%20Eligible%20Fuels/ICAO-document-06-Default-Life-Cycle-Emissions-June-2025.pdf",
+     "overlap": "The authoritative table corsia.py transcribes; includes the ILUC column the code drops."
+    },
+    {
+     "name": "ISCC CORSIA 205 Life Cycle Emissions v2.0 (ICAO-approved SCS)",
+     "kind": "official",
+     "url": "https://www.iscc-system.org/wp-content/uploads/2023/12/ISCC_CORSIA_205_Life_Cycle_Emissions_2.0.pdf",
+     "overlap": "Certification scheme that operationalises the same core/ILUC/LSf calculation and chain-of-custody this app mocks up."
+    },
+    {
+     "name": "IATA, 'Lifecycle Analysis (LCA) and SAF Sustainability'",
+     "kind": "official",
+     "url": "https://www.iata.org/en/iata-repository/publications/economic-reports/lifecycle-analysis-lca-and-saf-sustainability",
+     "overlap": "Industry guidance on the CORSIA/RED LCA comparators the app encodes."
+    }
+   ],
+   "verdict": "open",
+   "verdict_note": "No self-hosted open SAF compliance ledger found; the real contribution is wiring CORSIA/RED/ReFuelEU/ASTM rules into one data model - but crop-pathway ILUC and the ASTM annex table must be fixed before any compliance use.",
+   "change_since_aug": "Aug 'open' verdict confirmed for the niche, but code review adds two correctness defects (ILUC=0 for crop pathways; wrong D7566 Annex A8) and shows it runs only on mock data."
+  },
+  {
+   "repo": "uco-ulo-tracking",
+   "does": "FastAPI+React chain-of-custody app on seeded mock data: UCO/ULO collections -> lots -> batches -> dispatch with rule-based integrity flags (fresh-oil TPC floor, generator over-capacity vs declared purchases, duplicate manifests, mass balance, yield ranges, CA-1 radius/container rules), used-oil EPR obligation/certificate arithmetic (QEPR = Qp x CF x Wp), and a SHA-256 hash-chained custody ledger.",
+   "claims_vs_code": [],
+   "maturity": "working-prototype",
+   "maturity_note": "1.5k LOC, 22 tests (calculations + router smoke), no CI; 5 commits, last push 2026-10-20; mock data with planted anomalies; thresholds editable and flagged VERIFY/PLACEHOLDER as README says.",
+   "snippets": [
+    {
+     "path": "backend/app/calculations/integrity.py",
+     "lines": "35-47",
+     "lang": "python",
+     "code": "    gens = {col.generator_id: col.generator for col in collections}\n    for (gid, y, m), litres in monthly.items():\n        g = gens[gid]\n        cap = g.monthly_purchase_litres * c.MAX_RECOVERABLE_FRACTION[g.material]\n        if litres > cap:\n            add(\"generator_over_capacity\", f\"{g.name} {y}-{m:02d}\",\n                f\"{litres:.0f} L collected vs plausible max {cap:.0f} L from declared purchases\")\n\n    for lot in lots:\n        received = sum(litres_to_kg(lot.material, col.quantity_litres) for col in lot.collections)\n        processed = sum(b.input_kg for b in lot.batches)\n        if not lot_balance(received, processed)[\"balanced\"]:\n            add(\"mass_balance\", f\"lot {lot.lot_code}\", f\"processed {processed:.0f} kg > received {received:.0f} kg\")",
+     "why": "Generator over-capacity check (monthly collected litres vs declared purchases x recoverable fraction) and lot mass balance - the core anti-fraud heuristics."
+    },
+    {
+     "path": "backend/app/calculations/ledger.py",
+     "lines": "27-38",
+     "lang": "python",
+     "code": "def _hash(prev: str, kind: str, ref_id: int, payload: str) -> str:\n    return hashlib.sha256(f\"{prev}|{kind}|{ref_id}|{payload}\".encode()).hexdigest()\n\n\ndef append(db: Session, kind: str, row) -> LedgerEntry:\n    last = db.query(LedgerEntry).order_by(LedgerEntry.id.desc()).first()\n    prev = last.hash if last else GENESIS\n    payload = json.dumps(snapshot(row), sort_keys=True, default=str)\n    entry = LedgerEntry(kind=kind, ref_id=row.id, payload=payload, prev_hash=prev, hash=_hash(prev, kind, row.id, payload))\n    db.add(entry)\n    db.commit()\n    return entry",
+     "why": "Hash chain: each entry commits to prev hash + kind + id + JSON snapshot, making edits/deletes after logging detectable (tamper-evident, single node)."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "FSSAI RUCO (Repurpose Used Cooking Oil) portal",
+     "kind": "official",
+     "url": "https://fssai.gov.in/ruco/file/RUCO - FBO User Manual.pdf",
+     "overlap": "Official FBO -> authorised aggregator -> biodiesel-maker disposal workflow that the UCO side of this app models."
+    },
+    {
+     "name": "CPCB EPR portal for used oil (HOWM Second Amendment Rules 2023)",
+     "kind": "official",
+     "url": "https://corpseed.com/news/epr-portal-for-used-oil-management",
+     "overlap": "Official registration and EPR-certificate system for producers/recyclers whose obligation and certificate rules epr.py re-implements."
+    },
+    {
+     "name": "ISCC EU/CORSIA chain-of-custody certification",
+     "kind": "commercial",
+     "url": "https://www.iscc-system.org/wp-content/uploads/2023/12/ISCC_CORSIA_205_Life_Cycle_Emissions_2.0.pdf",
+     "overlap": "Certification schemes with mass-balance chain of custody for UCO feedstock - the compliance regime UCO fraud checks serve."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "Official portals (RUCO, CPCB EPR) own the registries; the repo's distinct bit is cross-checking them with fraud heuristics and a tamper-evident ledger in one open tool.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "eu-ets-compliance-platform",
+   "does": "Multi-tenant FastAPI (JWT) + React prototype on seeded illustrative data: EU ETS holding accounts and surrender, THETIS-MRV-style shipping workflow, CBAM import declarations using default-value tables with mark-up, credit registry modelled on CADT, a stage/verify/commit verification flow, a simple order book, and an India CCTS reference module.",
+   "claims_vs_code": [
+    {
+     "claim": "trading/router.py place_order: 'Simple price-time-priority matching'",
+     "evidence": "backend/app/modules/trading/router.py:103-117 sorts resting orders by created_at only and skips non-crossing ones; it does not prefer the best price, so it is time-priority with a limit check, not price-time priority."
+    },
+    {
+     "claim": "Platform 'covering EU ETS, CBAM, ...' (README is explicit it is illustrative)",
+     "evidence": "No tests and no CI for 3.7k Python LOC; JWT secret falls back to 'dev-only-insecure-secret-change-me' (auth/security.py:8) - consistent with the README's prototype disclaimer."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "6k LOC (Python+JSX), 0 tests, no CI; 26 commits, last push 2026-10-12; 1,649-line seed_data.py of illustrative data.",
+   "snippets": [
+    {
+     "path": "backend/app/modules/trading/router.py",
+     "lines": "103-117",
+     "lang": "python",
+     "code": "    resting_orders = (\n        db.query(models.Order)\n        .filter_by(instrument_id=req.instrument_id, side=opposite, status=models.OrderStatus.OPEN)\n        .order_by(models.Order.created_at.asc())\n        .all()\n    )\n    for resting in resting_orders:\n        if remaining <= 0:\n            break\n        if not price_ok(resting):\n            continue\n        fill_qty = min(remaining, resting.quantity)\n        fill_price = resting.limit_price_eur  # resting order sets the price\n        buy_order_id = order.id if side == models.OrderSide.BUY else resting.id\n        sell_order_id = resting.id if side == models.OrderSide.BUY else order.id",
+     "why": "Order matching loop: resting orders in time order only, price used just as a crossing filter, fill at the resting price."
+    },
+    {
+     "path": "backend/app/modules/cbam/router.py",
+     "lines": "64-81",
+     "lang": "python",
+     "code": "        dv = (\n            db.query(models.CbamDefaultValue)\n            .filter_by(cn_code=req.cn_code, country=req.country_of_origin)\n            .order_by(models.CbamDefaultValue.valid_from.desc())\n            .first()\n        )\n        if dv is None:\n            dv = (\n                db.query(models.CbamDefaultValue)\n                .filter_by(cn_code=req.cn_code, country=\"default\")\n                .order_by(models.CbamDefaultValue.valid_from.desc())\n                .first()\n            )\n        if dv is None:\n            raise HTTPException(404, f\"No CBAM default value found for CN code {req.cn_code}\")\n        factor_direct = dv.direct_emissions_factor * (1 + dv.markup_pct / 100)\n        factor_indirect = dv.indirect_emissions_factor * (1 + dv.markup_pct / 100)\n        direct_t = round(req.quantity_t * factor_direct, 3)",
+     "why": "CBAM default-value fallback: country-specific then 'default' factor, escalated by the default-value mark-up, times declared tonnes."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "EU Union Registry (European Commission)",
+     "kind": "official",
+     "url": "https://www.epa.ie/our-services/licensing/climate-change/eu-emissions-trading-system-/union-registry/",
+     "overlap": "The real system of operator holding accounts, allocation and surrender that ets_core mimics."
+    },
+    {
+     "name": "Climate Action Data Trust (CAD Trust) / Chia CADT",
+     "kind": "tool",
+     "url": "https://www.chia.net/climate-products/",
+     "overlap": "Open-source carbon-credit metadata layer whose program/project/issuance/unit model and staged writes the credits module copies."
+    },
+    {
+     "name": "EMSA THETIS-MRV",
+     "kind": "official",
+     "url": "https://emsa.europa.eu/tags/download/7624/5034/23.html",
+     "overlap": "Official shipping MRV workflow (monitoring plan -> emission report -> verifier -> DoC) modelled by shipping_mrv."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Official registries plus many commercial carbon-accounting SaaS cover each module; this is an integrated teaching prototype, not new ground.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "india-omc-fuel-fleet-model",
+   "does": "A grab-bag of stand-alone scripts: omc_model.py turns PPAC MMT consumption into litres x assumed Rs/L OMC margin and adds 'extra throughput' from assumed E20/E25/E30 mileage drops; plus energy-blend, price-parity, CBG/DME/isobutanol pitch models, Vahan registration tables (hardcoded), textile/upstream/refining trade analyses, and JS deck/doc builders.",
+   "claims_vs_code": [
+    {
+     "claim": "Description: 'fuel-based active-fleet estimates (PPAC + live Vahan data)'",
+     "evidence": "vahan/analyze_vahan_fuel.py:1-8,22-48 - Vahan figures are a hardcoded RAW table 'Captured 2026-07-24'; no file fetches Vahan data."
+    },
+    {
+     "claim": "Headline OMC income and E20/E25/E30 'extra pump income' results",
+     "evidence": "omc_model.py:43-54 - OMC margin (Rs 3.5/2.5 per L) and mileage drops (4/5.5/7%) are hardcoded central estimates; outputs are linear in them (omc_model.py:104-113). README labels them illustrative, but they are presented as headline numbers."
+    },
+    {
+     "claim": "Repo name/description = OMC fuel/fleet model",
+     "evidence": "Large unrelated content (textile_data/, upstream/, policy/forex_essentials_pli_case.py, pitch decks); no tests (CI runs only gitleaks)."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "5.9k LOC across ~35 scripts, 0 tests, CI = gitleaks only; 83 commits, last push 2026-10-12; inputs are PPAC transcriptions plus assumed levers.",
+   "snippets": [
+    {
+     "path": "omc_model.py",
+     "lines": "101-113",
+     "lang": "python",
+     "code": "m_now = BLEND[CURRENT_BLEND][\"mileage_drop\"]\nL0 = ms_bnL_base * (1 - m_now)      # E0-equivalent petrol volume (fixed distance)\n\ndef scenario(tag):\n    b = BLEND[tag]\n    m = b[\"mileage_drop\"]\n    blend_vol = L0 / (1 - m)                     # blended petrol dispensed for same distance\n    ethanol_vol = blend_vol * b[\"pct\"]           # ethanol content\n    petrol_vol = blend_vol * (1 - b[\"pct\"])      # pure MS content (petrol actually sold)\n    extra_vs_e0 = blend_vol - L0                 # extra throughput vs no-ethanol baseline\n    extra_income = extra_vs_e0 * 1e9 * OMC_MARGIN_MS / CR     # ₹ cr additional OMC pump income\n    # ethanol vs displaced-petrol cost gap (import-substitution / cost view)\n    ethanol_cost_gap = ethanol_vol * 1e9 * (ETHANOL_PROCURE - PETROL_REFINERY) / CR",
+     "why": "The core 'volume dividend' mechanism: fixed E0-equivalent distance, blended litres = L0/(1 - mileage_drop), extra litres x assumed OMC margin."
+    },
+    {
+     "path": "vahan/analyze_vahan_fuel.py",
+     "lines": "1-8",
+     "lang": "python",
+     "code": "#!/usr/bin/env python3\n\"\"\"Fuel-wise vehicle registration analysis — Vahan dashboard, Calendar Year 2025.\n\nSource: Vahan4 dashboard (vahan.parivahan.gov.in), Y-Axis=Fuel × X-Axis=Vehicle\nCategory, All States (36/36), Actual Value, Calendar Year 2025. Captured\n2026-07-24. Columns are Vahan vehicle-category codes; last value is the row TOTAL.\n\nWrites:",
+     "why": "Shows the 'live Vahan data' is a hand-captured CY2025 dashboard snapshot embedded in the script."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "PPAC Ready Reckoner / Snapshot of India's Oil & Gas data",
+     "kind": "official",
+     "url": "https://ppac.gov.in/uploads/rep_studies/1710505208_Snapshot-of-India%27s-Oil-and-Gas%20Data-February-2024.pdf",
+     "overlap": "Source of all consumption, outlet and price inputs; publishes the base metrics but no blend-scenario margin model."
+    },
+    {
+     "name": "NITI Aayog & MoPNG, 'Roadmap for Ethanol Blending in India 2020-25'",
+     "kind": "official",
+     "url": "https://niti.gov.in/sites/default/files/2023-02/EthanolBlendingInIndia_compressed.pdf",
+     "overlap": "Official E20 roadmap reporting up to 6% fuel-economy decline and suggesting compensatory pricing - the same mileage-drop/parity argument price_parity_scenarios.py quantifies."
+    },
+    {
+     "name": "Vahan dashboard (MoRTH/NIC)",
+     "kind": "official",
+     "url": "https://ckandev.indiadataportal.com/dataset/vehicle-registrations/resource/c9d109c7-8190-4a67-8166-0be1487db419",
+     "overlap": "Official fuel-wise registration data (republished on India Data Portal) that vahan/ hand-copies."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "The E20 'volume dividend' to OMCs/exchequer is a niche framing not packaged elsewhere, but it is a few lines of arithmetic on assumed margins; the repo is analysis scripts, not a model.",
+   "change_since_aug": "Not individually covered in Aug (Aug's 'no free tool combines outlet gaps with OMC profitability' applied to the outlet group); code shows the OMC profitability piece is assumption-driven arithmetic and the 'live Vahan' claim is false."
+  },
+  {
+   "repo": "vehicle_fuel_mileage",
+   "does": "build_model.py generates an 11-sheet formula-driven Excel cost-per-km/TCO/fiscal model for E20 petrol, diesel, CNG and EV with 21 PASS/FAIL consistency checks; extract_fe_pdf.py parses the SIAM BS-VI fuel-efficiency declaration PDF and analyze_fe_declarations.py summarises 303 models by fuel/weight band and pairs same-nameplate petrol/CNG variants; a Node script builds the Word report.",
+   "claims_vs_code": [
+    {
+     "claim": "'+40% mean distance per unit' petrol->CNG uplift",
+     "evidence": "scripts/analyze_fe_declarations.py:126-137 compares km/kg to km/L directly; per-unit, not energy- or cost-equivalent (README does say 'km/kg vs kmpl'). Fine as stated, misleading if read as efficiency."
+    },
+    {
+     "claim": "E20 mileage penalty",
+     "evidence": "Hardcoded 2/4/6% band (analyze_fe_declarations.py:25) applied to declared FE; not measured from the SIAM data."
+    },
+    {
+     "claim": "Checks sheet count",
+     "evidence": "build_model.py:654-674 defines 21 checks, but the generated README text at build_model.py:701 still says '13 automated consistency checks' - internal inconsistency."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "1.6k LOC, 3 test files, tests.yml + quality-gates CI; 29 commits, last push 2026-10-12; real SIAM declaration data plus hand-entered July-2026 prices.",
+   "snippets": [
+    {
+     "path": "scripts/analyze_fe_declarations.py",
+     "lines": "126-142",
+     "lang": "python",
+     "code": "    pairs = []\n    for key in sorted(set(petrol_by_key) & set(cng_by_key)):\n        p = st.mean(x[\"declared_fe\"] for x in petrol_by_key[key])\n        c = st.mean(x[\"declared_fe\"] for x in cng_by_key[key])\n        name = min((x[\"model_variant\"] for x in cng_by_key[key]), key=len)\n        pairs.append({\n            \"model_key\": key,\n            \"example\": name,\n            \"petrol_kmpl\": round(p, 2),\n            \"cng_km_per_kg\": round(c, 2),\n            \"distance_uplift_pct\": round((c / p - 1) * 100, 1),\n        })\n    pairs.sort(key=lambda d: -d[\"distance_uplift_pct\"])\n    with OUT_PAIRS.open(\"w\", newline=\"\") as f:\n        w = csv.DictWriter(f, fieldnames=list(pairs[0].keys()))\n        w.writeheader(); w.writerows(pairs)\n    mean_uplift = round(st.mean(p[\"distance_uplift_pct\"] for p in pairs), 1)",
+     "why": "Same-nameplate petrol vs CNG pairing from the SIAM declarations, computing per-unit distance uplift."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "CEEW, 'Cost of Ownership for Road Transport Sector for Different Vehicle Segments, Fuels and Powertrains'",
+     "kind": "paper",
+     "url": "https://www.ceew.in/publications/cost-of-ownership-for-road-transport-sector-for-different-vehicle-segments-fuels-and-powertrains",
+     "overlap": "India TCO comparison across petrol/diesel/CNG/EV by segment and state - the same question as the Excel TCO sheets."
+    },
+    {
+     "name": "WRI India, 'Electric car adoption in India: personal and commercial e-car viability'",
+     "kind": "paper",
+     "url": "https://wri-india.org/blogs/electric-car-adoption-india-understanding-personal-and-commercial-e-car-viability",
+     "overlap": "TCO-per-km model for Indian personal cars across powertrains."
+    },
+    {
+     "name": "ICCT, 'Near-term incentives for electrifying ride-hailing vehicles in India' (2021)",
+     "kind": "paper",
+     "url": "https://theicct.org/?p=6007",
+     "overlap": "5-year TCO of BEV vs petrol/diesel/CNG four-wheelers in three Indian cities (ride-hailing duty)."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Indian TCO comparisons exist (CEEW, WRI, ICCT); the distinct bits are the fiscal/exchequer sheet and the parsed SIAM declaration dataset.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "fuel-retail-outlets",
+   "does": "Collection of extractors (paginated SSRI public pump API crawler, BPCL locator, CashAtPOS PDF parser), multi-source integration, PPAC tallies, Leaflet maps and a gap-analysis heatmap, plus toll-to-outlet 'distance' and 'Dijkstra' scripts.",
+   "claims_vs_code": [
+    {
+     "claim": "Toll<->retail-outlet distance / shortest-path analysis (create_toll_retail_distance_map.py, dijkstra_toll_retail_shortest_path.py)",
+     "evidence": "Toll coordinates are fabricated: api-data-integration/create_toll_retail_distance_map.py:99-118 and dijkstra_toll_retail_shortest_path.py:235-255 place every plaza at a hardcoded state centroid plus np.random jitter re-seeded with hash(state) before each draw, so all plazas in a state collapse to one point (and Python's salted str hash makes it differ between runs); unknown states go to (23, 79). Distances computed from these points are meaningless."
+    },
+    {
+     "claim": "'Dijkstra' shortest path between tolls and outlets",
+     "evidence": "dijkstra_toll_retail_shortest_path.py:276-321 builds a complete bipartite graph with straight-line haversine edges over a 1,000-pump sample; no road network, so Dijkstra reduces to nearest-by-crow-flies."
+    },
+    {
+     "claim": "Run the extractors from the README",
+     "evidence": "Scripts hardcode /Users/umashankar/... input paths (e.g. create_toll_retail_distance_map.py:94, dijkstra_toll_retail_shortest_path.py:230,272) - not runnable elsewhere; CI quality workflow runs with python: 'false' (linting disabled)."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "8.0k Python LOC across ~30 scripts, 7 stubs, 0 tests; 5 commits (LFS-free rebuild), last push 2026-10-16; SSRI crawl data is real, toll linkage is synthetic.",
+   "snippets": [
+    {
+     "path": "api-data-integration/create_toll_retail_distance_map.py",
+     "lines": "109-118",
+     "lang": "python",
+     "code": "            for idx, row in toll_df.iterrows():\n                state = str(row.get('state', '')).strip()\n                if state in state_coords:\n                    lat, lng = state_coords[state]\n                    # Add variation for visualization\n                    np.random.seed(hash(state) % 2**32)\n                    lat += np.random.uniform(-0.3, 0.3)\n                    lng += np.random.uniform(-0.3, 0.3)\n                else:\n                    lat, lng = 23.0, 79.0",
+     "why": "Toll plaza 'geocoding': state centroid + random offset re-seeded per state - every plaza in a state gets the same fake coordinate."
+    },
+    {
+     "path": "api-data-integration/crawl_ssri.py",
+     "lines": "18-29",
+     "lang": "python",
+     "code": "def fetch(page, retries=5):\n    for a in range(retries):\n        try:\n            r = sess.get(BASE, params={\"limit\": LIMIT, \"page\": page}, timeout=40)\n            if r.status_code == 200:\n                return page, r.json().get(\"results\", [])\n            if r.status_code == 404:      # past the end\n                return page, []\n            time.sleep(2 * (a + 1))\n        except Exception:\n            time.sleep(2 * (a + 1))\n    return page, None",
+     "why": "The genuinely useful part: retrying paginated crawl of the public SSRI petrol-pump API."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "toll-plazas-india (GitHub scraper of NHAI TIS, refreshed monthly)",
+     "kind": "dataset",
+     "url": "https://github.com/ajitccdc/toll-plazas-india",
+     "overlap": "Real toll-plaza coordinates, fees and traffic from NHAI's Toll Information System - exactly the input the fake centroid+jitter replaces."
+    },
+    {
+     "name": "Dataful NHAI toll plaza list (with lat/long)",
+     "kind": "dataset",
+     "url": "https://dataful.in/datasets/21597/",
+     "overlap": "Another public source of geocoded toll plazas."
+    },
+    {
+     "name": "OpenStreetMap amenity=fuel",
+     "kind": "dataset",
+     "url": "https://wiki.openstreetmap.org/Ko:Tag:amenity=fuel",
+     "overlap": "Open fuel-station layer (sparse in India, ~12% coverage in an Andhra audit) that the SSRI crawl substantially exceeds."
+    },
+    {
+     "name": "PPAC Ready Reckoner retail-outlet statistics",
+     "kind": "official",
+     "url": "https://ppac.gov.in/uploads/rep_studies/1710505208_Snapshot-of-India%27s-Oil-and-Gas%20Data-February-2024.pdf",
+     "overlap": "Official outlet counts by OMC/state used for the SSRI-vs-PPAC tally."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "The SSRI crawl + dedup is a useful open outlet dataset; the toll-linkage analysis built on it is invalid until real TIS coordinates and a road network are used.",
+   "change_since_aug": "Aug rated outlet locators 'open (no free tool combines outlet gaps with OMC profitability)'; code shows no profitability linkage here and the toll-distance analysis uses fabricated toll coordinates."
+  },
+  {
+   "repo": "cng-cgd-retail-outlet-mapping",
+   "does": "Pipeline that parses PNGRB's GA-list PDF with pdfplumber, normalises ~60 district spelling/vintage variants, crawls the public SSRI pump API, content-dedups 105k records to 82.6k, assigns each outlet to a district by STRtree point-in-polygon (5 km nearest fallback) and joins the authorised CGD entity, then builds a self-contained Leaflet map.",
+   "claims_vs_code": [],
+   "maturity": "substantive",
+   "maturity_note": "873 LOC, 17 pipeline tests, tests + quality CI; 9 commits, last push 2026-10-12; real PNGRB + SSRI data snapshot (22 Jul 2026) committed gzipped.",
+   "snippets": [
+    {
+     "path": "scripts/join_outlets.py",
+     "lines": "55-72",
+     "lang": "python",
+     "code": "    pt = Point(p[\"lon\"], p[\"lat\"])\n    idxs = tree.query(pt)\n    hit = None\n    for i in idxs:\n        i = int(i)\n        if prepared[i] is None:\n            prepared[i] = prep(geoms[i])\n        if prepared[i].covers(pt):\n            hit = i\n            break\n    if hit is None:\n        # nearest district within ~5km (coastal jitter)\n        best, bestd = None, 0.05\n        for i in map(int, tree.query(pt.buffer(0.05))):\n            d = geoms[i].distance(pt)\n            if d < bestd:\n                best, bestd = i, d\n        hit = best",
+     "why": "Spatial join: STRtree candidates, prepared-geometry covers() test, then nearest district within 0.05 deg for coastal jitter - the core outlet->district->CGD linkage."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "PNGRB authorised CGD GA list / map",
+     "kind": "official",
+     "url": "https://eparlib.nic.in/bitstream/123456789/953525/1/AU3467.pdf",
+     "overlap": "Official GA authorisations (295 GAs after round 11 per Rajya Sabha answer) - the source this repo parses; PNGRB does not link GAs to individual fuel outlets."
+    },
+    {
+     "name": "OpenStreetMap amenity=fuel",
+     "kind": "dataset",
+     "url": "https://wiki.openstreetmap.org/Ko:Tag:amenity=fuel",
+     "overlap": "Alternative open outlet layer, far less complete for India than the SSRI crawl."
+    },
+    {
+     "name": "PPAC Ready Reckoner (CNG stations / retail outlets)",
+     "kind": "official",
+     "url": "https://ppac.gov.in/uploads/rep_studies/1710505208_Snapshot-of-India%27s-Oil-and-Gas%20Data-February-2024.pdf",
+     "overlap": "Aggregate CNG station and outlet counts, no outlet-level CGD assignment."
+    }
+   ],
+   "verdict": "open",
+   "verdict_note": "No public dataset maps every Indian fuel outlet to its authorised CGD entity; this is a real, tested data contribution (with caveat that authorisation is not pipeline reach, as README states).",
+   "change_since_aug": "Aug grouped it under 'fuel/CNG outlet locators - open'; confirmed by code, and it is the most solid repo of the outlet group."
+  },
+  {
+   "repo": "toll-plaza-highways",
+   "does": "Parses NHAI toll-plaza PDFs into a CSV, then builds Folium maps/heatmaps and a Plotly dashboard; coordinates are state centroids plus random jitter and toll collections/vehicle counts are np.random synthetic data.",
+   "claims_vs_code": [
+    {
+     "claim": "'Toll-plaza visualisation and toll <-> fuel-retail-outlet distance analysis along Indian highways'",
+     "evidence": "No file in this repo computes toll-outlet distances (README admits 'no committed script does this join automatically yet'); the only implementation lives in fuel-retail-outlets and uses fabricated toll coordinates."
+    },
+    {
+     "claim": "Toll plaza maps",
+     "evidence": "toll_plaza_visualization.py:366-398 skips geocoding ('using sample coordinates instead') and assigns state centroid + np.random.uniform(-0.5,0.5); geocode_plazas (115-163) exists but is never called in main()."
+    },
+    {
+     "claim": "Dashboard/heatmap of toll collections",
+     "evidence": "Random data: toll_plaza_dashboard.py:492-520 create_sample_payment_data draws amounts np.random.uniform(20,100) lakh and vehicle counts uniform(500,2000); toll_plaza_visualization.py:244-260 likewise. The prior-session finding is confirmed."
+    },
+    {
+     "claim": "Self-contained runnable scripts",
+     "evidence": "Hardcoded /Users/umashankar/Downloads/... paths for PDFs, CSV and outputs (toll_plaza_dashboard.py:527-541, toll_plaza_visualization.py:351-414)."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "962 LOC, 23 defs, 0 tests, no CI; 13 commits, last push 2026-10-12; plaza names are real, coordinates and revenues are random.",
+   "snippets": [
+    {
+     "path": "toll_plaza_dashboard.py",
+     "lines": "499-515",
+     "lang": "python",
+     "code": "    for month in range(12):\n        for day in range(1, 29):\n            current_date = base_date + timedelta(days=30*month + day-1)\n\n            for idx, row in valid_plazas.sample(n=min(100, len(valid_plazas))).iterrows():\n                plaza_name = row['plaza_name']\n                # Generate realistic amount\n                base_amount = np.random.uniform(20, 100)  # ₹ lakhs\n                daily_variation = np.random.uniform(0.7, 1.3)\n                amount = base_amount * daily_variation\n\n                records.append({\n                    'plaza_name': plaza_name,\n                    'date': current_date.strftime('%Y-%m-%d'),\n                    'amount': amount,\n                    'vehicle_count': int(np.random.uniform(500, 2000))\n                })",
+     "why": "Synthetic toll collections: uniform-random amounts and vehicle counts for 100 random plazas per day - the data behind the dashboard."
+    },
+    {
+     "path": "toll_plaza_visualization.py",
+     "lines": "388-398",
+     "lang": "python",
+     "code": "    lats = []\n    lons = []\n    for idx, row in viz.plazas_df.iterrows():\n        state = row.get('state', 'Unknown')\n        if state in state_coords:\n            lat, lon = state_coords[state]\n            # Add some randomness\n            lat += np.random.uniform(-0.5, 0.5)\n            lon += np.random.uniform(-0.5, 0.5)\n            lats.append(lat)\n            lons.append(lon)",
+     "why": "Plaza coordinates = state centroid + uniform random offset, used instead of the never-called geocoder."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "toll-plazas-india (GitHub scraper of NHAI Toll Information System)",
+     "kind": "dataset",
+     "url": "https://github.com/ajitccdc/toll-plazas-india",
+     "overlap": "468 plazas with real coordinates, rates, concessionaire, revenue and traffic fields, refreshed monthly - supersedes this repo's random coordinates and revenues."
+    },
+    {
+     "name": "Dataful NHAI toll plaza list",
+     "kind": "dataset",
+     "url": "https://dataful.in/datasets/21597/",
+     "overlap": "Geocoded NHAI plaza list by state/RO/PIU."
+    },
+    {
+     "name": "NETC/NPCI Plaza Master",
+     "kind": "official",
+     "url": "https://www.netc.org.in/PDF/netc/Plaza-Master-July-2025.pdf",
+     "overlap": "Monthly official FASTag plaza list with plaza codes and geo-codes."
+    }
+   ],
+   "verdict": "n/a",
+   "verdict_note": "No real analysis is implemented; real geocoded toll datasets with revenue already exist, so the 'open' toll-to-outlet linkage remains unbuilt rather than claimed by this repo.",
+   "change_since_aug": "Overturned: Aug listed this as 'Open - no equivalent links toll plazas to retail-outlet distance'; the code does not implement that linkage at all, uses random coordinates and random revenue, and real geocoded toll datasets exist."
+  },
+  {
+   "repo": "ppac-ready-reckoner-data",
+   "does": "One 89-line pdfplumber script that extracts every gridded table from a PPAC Ready Reckoner PDF into per-table CSVs named from 'Table X.Y: caption' headings, plus an index.csv with quality flags; the repo mostly holds ~100 extracted CSVs.",
+   "claims_vs_code": [],
+   "maturity": "data-only",
+   "maturity_note": "89 LOC, no tests, no CI, README is a header only; 2 commits, last push 2026-10-12; value is in the extracted CSVs.",
+   "snippets": [
+    {
+     "path": "extract_rr.py",
+     "lines": "80-94",
+     "lang": "python",
+     "code": "            for ti, t in enumerate(tables):\n                if ti < len(caps):\n                    no, cap = caps[ti]\n                    base = f\"Table_{no}_{slug(cap)}\"\n                elif caps:                       # more tables than captions: attach to last caption\n                    no, cap = caps[-1]\n                    base = f\"Table_{no}_{slug(cap)}_part{ti}\"\n                else:                            # continuation of a table from a previous page\n                    no, cap, base = \"\", \"(continuation / no caption on page)\", f\"p{pi:03d}_cont{ti}\"\n                name = base\n                k = used_names.get(base, 0)\n                if k:\n                    name = f\"{base}__{k+1}\"\n                used_names[base] = k + 1\n",
+     "why": "Caption-to-table assignment: nth table on a page gets the nth caption, extras become _partN, captionless pages become continuations - the whole extraction heuristic."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "PPAC Ready Reckoner / Snapshot of India's Oil & Gas data",
+     "kind": "official",
+     "url": "https://ppac.gov.in/uploads/rep_studies/1710505208_Snapshot-of-India%27s-Oil-and-Gas%20Data-February-2024.pdf",
+     "overlap": "Source PDFs; PPAC also publishes many of the same series as Excel on ppac.gov.in."
+    }
+   ],
+   "verdict": "n/a",
+   "verdict_note": "A data-extraction utility for the user's other repos; no survey question.",
+   "change_since_aug": "New repo (not in the Aug survey)."
+  },
+  {
+   "repo": "discom-debt-and-revenue-models",
+   "does": "discom_debt_calculator.py projects DISCOM debt over a horizon under five lever scenarios (tariff hike, AT&C reduction, collection gain, subsidy realisation) using closing = opening - (collected revenue + subsidy - energy x ACS) + interest, with a consumer bill view; two copies of a Colab Dirichlet random-split script.",
+   "claims_vs_code": [
+    {
+     "claim": "Core economics: billed_units = energy x (1 - AT&C loss) then revenue_collected = billed x collection efficiency",
+     "evidence": "discom_debt_calculator.py:116-118 - AT&C loss already includes collection inefficiency (AT&C = 1 - billing eff x collection eff), so applying both double-counts collection losses; also 'ARR' (average revenue realised) is used as a per-billed-unit tariff."
+    },
+    {
+     "claim": "README: 'Dirichlet-distribution simulation for allocating subscription revenue across off-peak months (probabilistic seasonality)'",
+     "evidence": "random_numbers_using_dirichlet.py is a Colab export that draws rng.dirichlet weights, plots stacked bars and multiplies by an arange matrix (lines 42-65); no revenue model, inputs or seasonality data. Duplicated in from-global-market-data/."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "266 LOC, 7 defs, no tests, no CI; 7 commits, last push 2026-10-23; all inputs illustrative defaults.",
+   "snippets": [
+    {
+     "path": "discom_debt_calculator.py",
+     "lines": "116-123",
+     "lang": "python",
+     "code": "        billed_units   = energy * (1 - loss / 100.0)\n        rev_billed     = billed_units * arr / 10.0\n        rev_collected  = rev_billed * coll / 100.0\n        cost_supply    = energy * acs / 10.0\n        subsidy_recv   = inp.subsidy_cr * subq / 100.0\n        op_gap         = rev_collected + subsidy_recv - cost_supply   # +ve pays debt\n        interest       = debt * inp.interest_rate_pct / 100.0\n        debt           = debt - op_gap + interest",
+     "why": "Annual DISCOM P&L and debt roll-forward; note AT&C loss and collection efficiency are both applied (double count)."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "PFC, 'Report on Performance of Power Utilities' (annual)",
+     "kind": "official",
+     "url": "https://powerline.net.in/2025/06/02/pfc-releases-latest-report-on-the-performance-of-state-power-utilities-for-2023-24/",
+     "overlap": "Publishes the AT&C, ACS-ARR gap and debt metrics per utility that the calculator takes as inputs."
+    },
+    {
+     "name": "Ministry of Power / PFC Integrated Rating and Ranking of DISCOMs",
+     "kind": "official",
+     "url": "https://solarquarter.com/2025/02/25/ministry-of-power-13th-annual-integrated-rating-and-ranking-evaluates-indias-power-distribution-utilities-performance",
+     "overlap": "Annual official scoring of DISCOM finances and operations."
+    },
+    {
+     "name": "NITI Aayog India Climate & Energy Dashboard (ICED)",
+     "kind": "official",
+     "url": "https://www.mercomindia.com/discoms-atc-losses-decline-17-fy22-tough-reforms",
+     "overlap": "Aug survey's comparator: publishes base metrics, not scenarios. (Dashboard itself not reached in search; URL is coverage of the same metrics.)"
+    }
+   ],
+   "verdict": "open",
+   "verdict_note": "A public scenario calculator over the official metrics is still a gap, but this one is a 170-line toy with a definitional double count and no calibration to any real DISCOM.",
+   "change_since_aug": "Aug said 'Open - scenario modeling on top of the metric is the gap'; still true as ground, but code shows the calculator is illustrative-only with an AT&C/collection double count, and the Dirichlet 'revenue model' is a Colab scratch file."
+  }
+ ]
+}

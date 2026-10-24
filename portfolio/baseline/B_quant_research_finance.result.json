@@ -1,0 +1,837 @@
+{
+ "cluster": "B_quant_research_finance",
+ "cluster_summary": "Judged from code, the only repos with substantive, tested engineering are financial-analysis-toolkit(-public) - real, spreadsheet-reconciled 3-statement/DCF/LBO/merger engines with ~670 pytest tests (the two repos are ~99% identical: 408 shared paths, 6 differing files, all about CFI auth/scraping) - and the small ltm-warehouse-tests harness; the toolkit's open ground is tested Python parity with Excel deal models, which FinanceToolkit and formulas/pycel only partly cover. piotroski-liquidity-research has real Piotroski, Amihud and Corwin-Schultz code, but its headline size x liquidity double-sort script (and two other analysis files) are docstring-only, its gross edges are hardcoded into the cost model, and the thesis is published prior art (Piotroski 2000 already locates the edge in low-turnover firms). The largest README-vs-code gaps are event-driven-stock-analysis (45 NotImplementedError stubs behind a 'production-ready' claim), market_screener_rag (all backtest/DSR figures are string literals; no momentum or backtest code), karz ('exhaustive' validation samples 20 symbols; Kaggle discovery is a hardcoded list; 'F1-optimised' weights are constants), and stock-portfolio-evaluator (the 'newsvendor model' never computes a critical-fractile quantile). price_prediction_backtest does contain Markov, Kalman and LSTM/GRU code (~470 LOC), but the 'regime-gated' replay uses an EMA rule rather than the Markov model, and the LSTM/GRU scoring is misaligned by one day.",
+ "literature": [
+  {
+   "cite": "Piotroski, J. D. (2000). Value Investing: The Use of Historical Financial Statement Information to Separate Winners from Losers. Journal of Accounting Research 38 (Supplement), 1-41. doi:10.2307/2672906",
+   "url": "https://doi.org/10.2307/2672906",
+   "used_by": [
+    "piotroski-liquidity-research",
+    "claude-stock-tools",
+    "financial-analysis-toolkit",
+    "financial-analysis-toolkit-public",
+    "colab-market-fundamentals"
+   ],
+   "how": "piotroski_plus.py:218-242 and sweep_piotroski_plus_us.py:134-163 (canonical 9 tests); india_market_scan.py:325-355; finmodel/scores.py:55-67; colab collects its inputs only."
+  },
+  {
+   "cite": "Amihud, Y. (2002). Illiquidity and stock returns: cross-section and time-series effects. Journal of Financial Markets 5(1), 31-56. doi:10.1016/S1386-4181(01)00024-6",
+   "url": "https://doi.org/10.1016/S1386-4181(01)00024-6",
+   "used_by": [
+    "piotroski-liquidity-research"
+   ],
+   "how": "cost_vs_edge.py:123-138 (mean |return|/dollar volume, scaled per $1M) used as linear market impact."
+  },
+  {
+   "cite": "Corwin, S. A. & Schultz, P. (2012). A Simple Way to Estimate Bid-Ask Spreads from Daily High and Low Prices. Journal of Finance 67(2), 719-760. doi:10.1111/j.1540-6261.2012.01729.x",
+   "url": "https://doi.org/10.1111/j.1540-6261.2012.01729.x",
+   "used_by": [
+    "piotroski-liquidity-research"
+   ],
+   "how": "cost_vs_edge.py:80-120 two-day high-low estimator in DuckDB SQL, negatives floored at 0 (no overnight-return adjustment)."
+  },
+  {
+   "cite": "Fang, V. W., Noe, T. H. & Tice, S. (2009). Stock market liquidity and firm value. Journal of Financial Economics 94(1), 150-169. doi:10.1016/j.jfineco.2008.08.007",
+   "url": "https://ideas.repec.org/a/eee/jfinec/v94y2009i1p150-169.html",
+   "used_by": [
+    "piotroski-liquidity-research"
+   ],
+   "how": "Cited for 'liquid firms are better businesses'; roace_by_liquidity.py computes ROCE by liquidity tier (no regression replication)."
+  },
+  {
+   "cite": "Krauss, C., Krueger, T. & Beerstecher, D. (2015). The Piotroski F-Score: A Fundamental Value Strategy Revisited from an Investor's Perspective. IWQW Discussion Paper 13/2015, FAU Erlangen-Nuernberg.",
+   "url": "https://www.iwf.rw.fau.de/files/2016/03/13-2015.pdf",
+   "used_by": [
+    "piotroski-liquidity-research"
+   ],
+   "how": "Quoted verbatim in cost_vs_edge.py:10-13 (quote verified against the PDF abstract); motivates the capacity analysis."
+  },
+  {
+   "cite": "Hamilton, J. D. (1989). A New Approach to the Economic Analysis of Nonstationary Time Series and the Business Cycle. Econometrica 57(2), 357-384. JSTOR 1912559",
+   "url": "https://www.jstor.org/stable/1912559",
+   "used_by": [
+    "price_prediction_backtest"
+   ],
+   "how": "Not implemented: markov_regime.py uses a visible, rule-labelled state chain rather than a Markov-switching model."
+  },
+  {
+   "cite": "Bailey, D. H. & Lopez de Prado, M. (2014). The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting, and Non-Normality. Journal of Portfolio Management 40(5), 94-107. doi:10.3905/jpm.2014.40.5.094",
+   "url": "https://papers.ssrn.com/abstract=2460551",
+   "used_by": [
+    "market_screener_rag",
+    "karz"
+   ],
+   "how": "Not implemented in this cluster; market_screener_rag only quotes DSR values computed elsewhere (screener_rag.py:72-95)."
+  },
+  {
+   "cite": "Hochreiter, S. & Schmidhuber, J. (1997). Long Short-Term Memory. Neural Computation 9(8), 1735-1780. doi:10.1162/neco.1997.9.8.1735",
+   "url": "https://doi.org/10.1162/neco.1997.9.8.1735",
+   "used_by": [
+    "price_prediction_backtest"
+   ],
+   "how": "lstm_model.py:30-39 via torch.nn.LSTM/GRU (1 layer, 32 hidden)."
+  }
+ ],
+ "repos": [
+  {
+   "repo": "piotroski-liquidity-research",
+   "does": "Computes a canonical 9-test Piotroski F-score (+ a separate 3-test ROCE block with tunable weight presets) from yfinance statements or a SEC-EDGAR parquet gated on real `filed` dates, runs annual top-N rebalance sweeps with 252-day forward returns in DuckDB, and estimates trading cost/capacity from a Corwin-Schultz high-low spread plus Amihud ILLIQ impact. Data panels are not in the repo; every script reads hardcoded /Users/umashankar/repos/... parquet paths.",
+   "claims_vs_code": [
+    {
+     "claim": "README table names `size_vs_liquidity_us.py` as 'the headline — double-sorts liquidity within size' (the Small/Large x Illiquid/Liquid premium table).",
+     "evidence": "size_vs_liquidity_us.py is 49 lines, all docstring (closing \"\"\" at line 49), zero executable code and zero functions. No file in the repo performs the size x liquidity double sort, so the headline table (n=2,703 per cell) has no generating script. The docstring itself carries a different, older table (n=818-819 per cell, line 18-22)."
+    },
+    {
+     "claim": "`combo_by_tier_us.py` and `verify_f_band_us.py` are listed as analyses (darvas x piotroski by tier; reconciliation of the 'US Piotroski is inverted' claim).",
+     "evidence": "Both files are docstring-only (49 and 51 lines, 0 functions, docstring closes on the last line)."
+    },
+    {
+     "claim": "Capacity ~$250,000 and the net-premium-by-capital table are computed by cost_vs_edge.py from data.",
+     "evidence": "Costs are computed (corwin_schultz/amihud, cost_vs_edge.py:80-138) but the gross edges they are netted against are hardcoded literals in a GROSS dict (cost_vs_edge.py:164-166), not read from the sweep CSV that the script loads at line 147."
+    },
+    {
+     "claim": "'Survivorship: delisted names retained... dropping them is how backtests invent alpha.'",
+     "evidence": "sweep_piotroski_plus_us.py:110-128 drops any stock whose forward 252-day window contains a one-day move outside [-50%, +100%] (`coalesce(f.ca_ahead,0)=0`). This split filter uses future information and also removes genuine >50% single-day crashes, which bears directly on the 'downside avoidance' mechanism the README highlights."
+    },
+    {
+     "claim": "cost_vs_edge.py docstring: Amihud impact is 'Already implemented in liquidity.py'.",
+     "evidence": "No liquidity.py exists in the repo (it lives in the separate market-pipeline repo)."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "12 runnable scripts with real methods but 3 of 14 .py files are docstring-only; no tests; CI is gitleaks + citation check only; scripts depend on unshipped parquet panels at absolute local paths; single squashed commit visible (2026-10-12).",
+   "snippets": [
+    {
+     "path": "piotroski_plus.py",
+     "lines": "218-234",
+     "lang": "python",
+     "code": "    # ── PROFITABILITY (4) ───────────────────────────────────────────────────\n    T(\"1_roa_positive\", roa0 > 0 if roa0 is not None else None)\n    T(\"2_cfo_positive\", cfo0 > 0 if cfo0 is not None else None)\n    T(\"3_roa_improving\", roa0 > roa1 if None not in (roa0, roa1) else None)\n    T(\"4_accruals_cfo_gt_roa\",\n      (cfo0 / ta0) > roa0 if None not in (cfo0, ta0, roa0) and ta0 else None)\n\n    # ── LEVERAGE / LIQUIDITY / SOURCE OF FUNDS (3) ──────────────────────────\n    l0 = _at(ltd, y0) / ta0 if _at(ltd, y0) is not None and ta0 else None\n    l1 = _at(ltd, y1) / ta1 if _at(ltd, y1) is not None and ta1 else None\n    T(\"5_leverage_falling\", l0 < l1 if None not in (l0, l1) else None)\n    cr0 = _at(ca, y0) / _at(cl, y0) if _at(ca, y0) is not None and _at(cl, y0) else None\n    cr1 = _at(ca, y1) / _at(cl, y1) if _at(ca, y1) is not None and _at(cl, y1) else None\n    T(\"6_current_ratio_rising\", cr0 > cr1 if None not in (cr0, cr1) else None)\n    s0, s1 = _at(sh, y0), _at(sh, y1)\n    # tiny share-count drift is rounding/ESOP noise, not an equity raise\n    T(\"7_no_dilution\", s0 <= s1 * 1.01 if None not in (s0, s1) and s1 else None)",
+     "why": "The nine binary tests of Piotroski (2000) exactly as published (ROA, CFO, dROA, accruals, dLeverage, dCurrent ratio, no issuance, dGross margin, dAsset turnover), with missing inputs skipped rather than scored 0 - a faithful re-implementation, not a new score."
+    },
+    {
+     "path": "cost_vs_edge.py",
+     "lines": "101-117",
+     "lang": "python",
+     "code": "    g AS (\n      SELECT Symbol,\n             pow(ln(High/Low), 2) + pow(ln(h2/l2), 2) AS beta,\n             pow(ln(greatest(High,h2) / least(Low,l2)), 2) AS gamma\n      FROM b WHERE h2 IS NOT NULL AND l2 IS NOT NULL AND l2 > 0\n    ),\n    a AS (\n      SELECT Symbol,\n             (sqrt(2*beta) - sqrt(beta)) / (3 - 2*sqrt(2))\n               - sqrt(gamma / (3 - 2*sqrt(2))) AS alpha\n      FROM g WHERE beta > 0 AND gamma > 0\n    ),\n    s AS (\n      SELECT Symbol,\n             greatest(2 * (exp(alpha) - 1) / (1 + exp(alpha)), 0) AS spread\n      FROM a WHERE alpha IS NOT NULL AND alpha > -10 AND alpha < 10\n    )",
+     "why": "Corwin & Schultz (2012) two-day high-low spread estimator in SQL (beta, gamma, alpha, S=2(e^a-1)/(1+e^a), negatives floored to 0) - matches the published formula; paired with Amihud (2002) |r|/dollar-volume at lines 123-138."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Piotroski (2000), Journal of Accounting Research 38 Suppl.",
+     "kind": "paper",
+     "url": "https://doi.org/10.2307/2672906",
+     "overlap": "Original F-score; already reports the benefit concentrating in small, low-share-turnover, no-analyst-following firms - the 'illiquidity' framing is in the source paper, as size_vs_liquidity_us.py's own docstring concedes."
+    },
+    {
+     "name": "Krauss, Krueger & Beerstecher (2015), 'The Piotroski F-Score: A Fundamental Value Strategy Revisited from an Investor's Perspective', IWQW Discussion Paper 13/2015, FAU Erlangen-Nuernberg",
+     "kind": "paper",
+     "url": "https://www.iwf.rw.fau.de/files/2016/03/13-2015.pdf",
+     "overlap": "Finds liquidity constraints and trading costs render the F-score strategies 'virtually unprofitable' in the low-liquidity universe - the same cost-vs-edge question cost_vs_edge.py answers (and cites verbatim)."
+    },
+    {
+     "name": "Turtle & Wang, F-score and information uncertainty (US 1973-2014), summarized by AAII",
+     "kind": "paper",
+     "url": "https://www.aaii.com/journal/article/piotroski-f-score-works-well-with-more-than-low-value-stocks",
+     "overlap": "High-minus-low F-score spread largest among stocks with greatest information uncertainty (incl. illiquidity) - same conditioning result."
+    },
+    {
+     "name": "Piotroski's F-Score in the Chinese A-Share market (UCT thesis, 2016)",
+     "kind": "paper",
+     "url": "https://open.uct.ac.za/handle/11427/24520",
+     "overlap": "Reports F-score benefits concentrated in the low-liquidity, low-analyst-coverage subsample - the thesis replicated in another market."
+    },
+    {
+     "name": "bidask (R package, Ardia-Guidotti-Kroencke) / Corwin-Schultz implementations",
+     "kind": "library",
+     "url": "https://eguidotti.r-universe.dev/bidask/bidask.pdf",
+     "overlap": "Packaged high-low spread estimators (incl. Corwin-Schultz) that cost_vs_edge.py hand-rolls in DuckDB SQL."
+    }
+   ],
+   "verdict": "prior-art",
+   "verdict_note": "The thesis is published (Piotroski 2000 itself, plus later liquidity-conditioning studies); the repo's real contribution is the defect log and PIT EDGAR-filed-date gating, but the headline double-sort is not reproducible from the code shipped.",
+   "change_since_aug": "Aug verdict 'prior-art, multi-market PIT replication is the contribution' is confirmed on the thesis but weakened on the replication: the headline size x liquidity script is an empty docstring, and only US/India scripts exist (no multi-market replication)."
+  },
+  {
+   "repo": "price_prediction_backtest",
+   "does": "Walk-forward next-day-return evaluation of four models per symbol - a 3-state (bear/chop/bull) first-order Markov chain with Laplace-smoothed transition counts, a numpy local-linear-trend Kalman filter, and 1-layer PyTorch LSTM/GRU nets on 5 features - against naive baselines, plus a separate replay.py that labels 55-day Darvas-style breakout/breakdown signals with an EMA100 trend regime and a vol-percentile regime and reports date-clustered t-stats.",
+   "claims_vs_code": [
+    {
+     "claim": "Markov/Kalman/LSTM all exist (brief question).",
+     "evidence": "All three exist and are real (markov_regime.py 64 lines, kalman_trend.py 49, lstm_model.py 92 incl. GRU via the same SeqNet class). The Markov model is a discrete-state chain over hand-labelled states (label_states, markov_regime.py:17-31), not a Hamilton-style hidden Markov / regime-switching model; no HMM or EM estimation anywhere."
+    },
+    {
+     "claim": "'Regime-gated Darvas replay' - replay.py docstring: signals labelled with the 'Markov state of the equal-weight market index'.",
+     "evidence": "replay.py never imports MarkovRegimeModel (comment line 29: 'regime labels are computed inline'). The trend regime is a deterministic rule on a trimmed-mean top-20 turnover basket: index vs EMA100 plus 5-day EMA slope (replay.py:94-107). It is a rule-based regime label, not Markov, and the index is not equal-weight over the universe."
+    },
+    {
+     "claim": "Kalman docstring: 'Process/observation variances are set from the series' own variance with a signal-to-noise ratio q'.",
+     "evidence": "Variances are fixed constants q_level=1e-5, q_slope=1e-7, r_obs=1e-3 (kalman_trend.py:20-22); no estimation from the series and no MLE."
+    },
+    {
+     "claim": "'Every prediction at day t uses data through day t only and is scored against the realised return of day t+1' (evaluate.py:6-7).",
+     "evidence": "LSTM/GRU windows are feat[i-lookback:i] with target ret[i] (lstm_model.py:44-46), and predict() indexes the output at feat_df.index[lookback:], i.e. a forecast of day t made with data through t-1; evaluate.py:86 then scores it against ret.shift(-1) (day t+1). The sequence nets are evaluated one day off the horizon they were trained for (and ignore day-t features), which likely depresses their reported dir. accuracy (0.509/0.510)."
+    },
+    {
+     "claim": "README: 'Per-symbol rows in reports/'.",
+     "evidence": "__main__.py defines an unused REPORT_DIR pointing to python_files/reports (line 15-16) but writes to ../reports; the README headline table cannot be traced to a committed generating run log (results are data files, not inspected)."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "~470 LOC, clean and runnable, honest negative headline result; no tests; CI only secrets/citation gates; requires unshipped ~/repos/global-stock-screener LTM parquet panels.",
+   "snippets": [
+    {
+     "path": "price_prediction/markov_regime.py",
+     "lines": "41-58",
+     "lang": "python",
+     "code": "    def fit(self, states: pd.Series, log_ret: pd.Series) -> \"MarkovRegimeModel\":\n        s = states[states >= 0]\n        counts = np.full((self.n, self.n), self.laplace)\n        prev, nxt = s.values[:-1], s.values[1:]\n        for a, b in zip(prev, nxt):\n            counts[a, b] += 1\n        self.T = counts / counts.sum(axis=1, keepdims=True)\n        # expected next-day return conditional on today's state\n        aligned = log_ret.shift(-1).reindex(states.index)\n        for k in range(self.n):\n            vals = aligned[states == k].dropna()\n            self.state_ret[k] = vals.mean() if len(vals) else 0.0\n        return self\n\n    def predict_return(self, current_state: int) -> float:\n        \"\"\"E[next-day return] = sum_k P(next=k | now) * E[ret | state k].\"\"\"\n        if current_state < 0:\n            return 0.0",
+     "why": "The whole 'Markov' model: Laplace-smoothed transition counts over pre-labelled states and E[next return] = T[state] . mean-return-per-state - a visible-state Markov chain, much simpler than Hamilton (1989) regime switching or statsmodels MarkovRegression."
+    },
+    {
+     "path": "price_prediction/kalman_trend.py",
+     "lines": "33-43",
+     "lang": "python",
+     "code": "        for t in range(n):\n            # predict\n            x = self.F @ x\n            P = self.F @ P @ self.F.T + self.Q\n            # update\n            innov = (y[t] - self.H @ x).item()\n            S = (self.H @ P @ self.H.T + self.R).item()\n            K = (P @ self.H.T) / S\n            x = x + (K * innov).ravel()\n            P = (np.eye(2) - K @ self.H) @ P\n            out[t] = [x[0], x[1], innov]",
+     "why": "Textbook local-linear-trend Kalman predict/update on log price with fixed Q/R; equivalent to statsmodels UnobservedComponents('lltrend') without parameter estimation."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "statsmodels MarkovRegression (tsa.regime_switching)",
+     "kind": "library",
+     "url": "https://www.statsmodels.org/v0.14.4/generated/statsmodels.tsa.regime_switching.markov_regression.MarkovRegression.html",
+     "overlap": "Estimates k-regime Markov-switching regressions by maximum likelihood (Hamilton filter) - a strict superset of markov_regime.py's labelled-state transition counts."
+    },
+    {
+     "name": "statsmodels UnobservedComponents (local linear trend)",
+     "kind": "library",
+     "url": "https://www.statsmodels.org/v0.14.4/generated/statsmodels.tsa.statespace.structural.UnobservedComponents.html",
+     "overlap": "Same local-linear-trend state space as kalman_trend.py, with MLE-estimated variances instead of hardcoded ones."
+    },
+    {
+     "name": "Hamilton (1989), Econometrica 57(2):357-384",
+     "kind": "paper",
+     "url": "https://www.jstor.org/stable/1912559",
+     "overlap": "Canonical Markov regime-switching model the repo's 'Markov regime chain' name evokes but does not implement."
+    },
+    {
+     "name": "vectorbt",
+     "kind": "library",
+     "url": "https://pypi.org/project/vectorbt/",
+     "overlap": "Vectorised signal backtesting across many symbols/parameters, covering replay.py's breakout-signal forward-return evaluation."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Model families are standard library material; the useful contribution is the honest walk-forward negative result and date-clustered t-stats in replay.py, not the models.",
+   "change_since_aug": "Aug survey lumped it under 'backtest engines: crowded' - confirmed. New finding: the 'regime-gated' replay uses an EMA rule, not the Markov model, and the LSTM/GRU scoring is misaligned by one day."
+  },
+  {
+   "repo": "market_screener_rag",
+   "does": "A 205-line CLI that prints per-market strategy text from a bundled winning_strategies.json and hardcoded Python string tables, filters a bundled valuation_clusters.csv snapshot with fixed thresholds on a precomputed valuation_z and ROE, and answers free-text questions by TF-IDF cosine over ~8 generated text blobs (returns the single best blob). edge_matrix.py draws a heatmap from a hardcoded dict.",
+   "claims_vs_code": [
+    {
+     "claim": "'backtested, multiple-testing-survived winning strategies', t-stats and Deflated-Sharpe values per market.",
+     "evidence": "No backtest, t-stat or Deflated Sharpe computation exists in the repo; every figure is a string literal (screener_rag.py:71-78 earnings rows, 92-95 DSR values, 146-161 PLAYBOOK; edge_matrix.py:26-48 MATRIX). The numbers come from another repo and cannot be regenerated here."
+    },
+    {
+     "claim": "'Numbers come from the backtests / the data - never invented' and figures 'trace to a point-in-time backtest'.",
+     "evidence": "Traceability is asserted, not implemented: no file references a source run, commit or CSV for any figure; valuation_z/verdict columns arrive precomputed in data/valuation_clusters.csv with no clustering code in the repo."
+    },
+    {
+     "claim": "India screen: 'momentum overlay applies live'; Europe winning metric is 12-month momentum.",
+     "evidence": "No momentum is computed anywhere. IN screen is valuation_z<-0.8 and roe>0.15 only (screener_rag.py:112); EU and JP fall into the else-branch that just sorts by valuation_z (lines 123-125), i.e. the EU screen applies value, the opposite of its stated winning factor."
+    },
+    {
+     "claim": "'RAG'.",
+     "evidence": "Retrieval is TF-IDF over 8 self-generated documents and returns the top document verbatim (screener_rag.py:131-143); there is no generation step and no corpus beyond the tool's own output strings."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "2 scripts (~250 LOC) over bundled CSV snapshots; no tests; CI = secrets/citation gates; extensive Markdown docs carry the substance; last commit 2026-10-12.",
+   "snippets": [
+    {
+     "path": "screener_rag.py",
+     "lines": "111-125",
+     "lang": "python",
+     "code": "    if market == \"IN\":                       # long-only: cheap-vs-peers ∩ high ROE\n        longs = cl[(cl.valuation_z < -0.8) & (cl.roe > 0.15)].sort_values(\"valuation_z\").head(n)\n        out += [f\"**LONG (cheap-for-quality, {len(longs)} names)** — momentum overlay applies live:\",\n                \"\", longs[cols].to_markdown(index=False), \"\", \"*No short book — shorting fails in India (−1.0%/6M).*\"]\n    elif market == \"KR\":                     # full long/short\n        longs = cl[(cl.valuation_z < -0.8) & (cl.roe > 0.10)].sort_values(\"valuation_z\").head(n)\n        shorts = cl[(cl.valuation_z > 1.0) & (cl.roe < 0.05)].sort_values(\"valuation_z\", ascending=False).head(n)\n        out += [f\"**LONG cheap∩hi-ROE ({len(longs)}):**\", \"\", longs[cols].to_markdown(index=False), \"\",\n                f\"**SHORT expensive∩lo-ROE ({len(shorts)}):**\", \"\", shorts[cols].to_markdown(index=False)]\n    elif market == \"US\":                     # short-horizon cheap-vs-market\n        longs = cl[cl.valuation_z < -0.8].sort_values(\"valuation_z\").head(n)\n        out += [f\"**LONG cheap-vs-market ({len(longs)}, hold ≤3M):**\", \"\", longs[cols].to_markdown(index=False)]\n    else:                                    # EU momentum / others\n        longs = cl.sort_values(\"valuation_z\").head(n)\n        out += [f\"**Screen ({len(longs)}):**\", \"\", longs[cols].to_markdown(index=False)]",
+     "why": "The entire 'winning screen': fixed thresholds on a precomputed valuation_z and ROE; EU/JP get only a valuation sort, so the stated momentum strategies are not applied."
+    },
+    {
+     "path": "screener_rag.py",
+     "lines": "68-78",
+     "lang": "python",
+     "code": "def earnings(_m=None) -> str:\n    L = [\"# Historical earnings of the winning strategies (gross, PIT-backtested)\", \"\",\n         \"| market | strategy | earnings | significance |\", \"|---|---|---|---|\"]\n    rows = {\n     \"IN\": (\"long-only trend + sector-relative value\", \"+5.3%/6M value (≈+10.9%/yr); trend IR 2.34\", \"t 2.5 · DSR 0.994 ✅\"),\n     \"US\": (\"short-horizon value reversion (≤3M)\", \"+1.72%/3M (≈+6.9%/yr)\", \"t 2.32 ✅ (fades by 6M)\"),\n     \"KR\": (\"long/short cheap∩hi-ROE vs expensive∩lo-ROE\", \"+4.83%/6M (≈+9.9%/yr) — STRONGEST\", \"t 4.17 · DSR 0.99 ✅\"),\n     \"EU\": (\"12M momentum (bull)\", \"IR 1.39 (bull regime)\", \"DSR 0.985 ✅ · value underpowered\"),\n     \"JP\": (\"value-reversion (long cheap-vs-market)\", \"+6.6%/6M (t 4.84) — deep EDINET data flips the verdict\", \"powered ✅\"),\n     \"CN\": (\"value tested & fails\", \"cheap−rich ≈ 0% (t 0.04) over 109 formations — powered null\", \"value edge absent ✅ tested\"),\n    }",
+     "why": "Backtest 'earnings' and significance are hardcoded strings, not computed - the knowledge base is a curated summary, comparable to a Quantpedia strategy page."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Quantpedia",
+     "kind": "commercial",
+     "url": "https://quantpedia.com/how-it-works/faq/",
+     "overlap": "Curated database of factor strategies with published backtest statistics per strategy/market - the same role winning_strategies.json plays, at far larger scale."
+    },
+    {
+     "name": "Asness, Moskowitz & Pedersen (2013), 'Value and Momentum Everywhere', Journal of Finance 68(3):929-985, doi:10.1111/jofi.12021",
+     "kind": "paper",
+     "url": "https://doi.org/10.1111/jofi.12021",
+     "overlap": "Documents value and momentum premia across markets - the repo's 'momentum survives almost everywhere, value where powered' headline restates this cross-market result."
+    },
+    {
+     "name": "Bailey & Lopez de Prado (2014), 'The Deflated Sharpe Ratio', Journal of Portfolio Management 40(5):94-107, doi:10.3905/jpm.2014.40.5.094",
+     "kind": "paper",
+     "url": "https://papers.ssrn.com/abstract=2460551",
+     "overlap": "The multiple-testing correction the README cites as its acceptance bar; not implemented in this repo."
+    },
+    {
+     "name": "Screener.in",
+     "kind": "commercial",
+     "url": "https://www.screener.in/",
+     "overlap": "Free India fundamentals screener with user-defined PE/ROE queries - overlaps the IN threshold screen."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "As code it is a static lookup plus a threshold filter; any value is in the cross-market research write-ups, whose numbers are not reproducible from this repo.",
+   "change_since_aug": "Aug survey grouped it under multi-market screeners 'crowded' - confirmed, and the 'RAG over backtested strategies' framing is overstated: no backtest or generation code ships."
+  },
+  {
+   "repo": "claude-stock-tools",
+   "does": "Per-market scripts (IN/US/EU/JP/KR/SG) that bulk-download ~3 months of yfinance OHLC, classify each stock with a Darvas box (confirm=3, current bar excluded), compute a 9-point Piotroski F from yfinance annual statements and a 5-6 test Coffee Can filter for F>=7, then export 'triple hits' to Excel. The same compute_darvas_box is copy-pasted into 9 files.",
+   "claims_vs_code": [
+    {
+     "claim": "'All OHLC data is 1-year daily history. A 200-day moving average filter is applied where data permits.'",
+     "evidence": "Market scans download period='3mo' (e.g. india_market_scan.py:476, japan_market_scan.py:515); japan/europe compute rolling(200) only if len>=200 (japan_market_scan.py:530), which a ~63-bar series never satisfies, so the 200-DMA column is always None."
+    },
+    {
+     "claim": "Coffee Can has 6 criteria incl. 'Free cash flow positive in most recent year'; a Triple Hit needs 'all 6 criteria PASS'.",
+     "evidence": "india_market_scan.py implements only C1-C5 (lines 369-396; no FCF test), so India 'qualifies' on 5/5. JP/EU do implement C6."
+    },
+    {
+     "claim": "Piotroski scored 'using publicly reported financials' on 9 objective criteria.",
+     "evidence": "Missing data silently changes scores: missing share count scores F7 as a pass (`else 1`, india_market_scan.py:347) while missing long-term debt is coerced to 0 (lines 336-337); F4 compares OCF/assets to ROA rather than to NI directly - equivalent only when the same asset base is used."
+    },
+    {
+     "claim": "Coffee Can ROCE 'Avg across last 3-5 reported years' and revenue CAGR '>10%' per Mukherjea.",
+     "evidence": "Uses whatever yfinance returns (typically 4 annual columns) - the published method requires a decade of 10% growth and 15% ROCE each year; the code averages ROCE (india_market_scan.py:379-382)."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "~11k LOC of largely duplicated single-file scripts; no tests, no CI; network-dependent (yfinance, NSE/BSE endpoints); 49 'stubs' are bare except-pass handlers; last commit 2026-10-12.",
+   "snippets": [
+    {
+     "path": "02_market_screeners/india_market_scan.py",
+     "lines": "227-242",
+     "lang": "python",
+     "code": "    current = all_closes[-1]\n    highs   = all_highs[:-1]\n    lows    = all_lows[:-1]\n    n       = len(highs)\n\n    box_top_idx = None\n    box_top     = None\n    for i in range(n - confirm - 1, -1, -1):\n        candidate = highs[i]\n        if candidate == 0:\n            continue\n        window = highs[i + 1: i + 1 + confirm]\n        if len(window) == confirm and all(h < candidate for h in window):\n            box_top_idx = i\n            box_top     = candidate\n            break",
+     "why": "Darvas box top: most recent high not exceeded for `confirm` bars, with the current bar excluded from formation - the standard Darvas (1960) rule as found in many TradingView scripts."
+    },
+    {
+     "path": "02_market_screeners/india_market_scan.py",
+     "lines": "331-347",
+     "lang": "python",
+     "code": "    f1 = 1 if (roa0 and roa0 > 0) else 0\n    f2 = 1 if (ocf0 and ocf0 > 0) else 0\n    f3 = 1 if (roa0 and roa1 and roa0 > roa1) else 0\n    f4 = 1 if (ocf0 and a0 and roa0 and (ocf0 / a0) > roa0) else 0\n\n    ltd0 = _row(bal, \"Long Term Debt\", col=0) or 0\n    ltd1 = _row(bal, \"Long Term Debt\", col=1) or 0\n    f5 = 1 if (a0 and a1 and (ltd0/a0) < (ltd1/a1)) else 0\n\n    ca0 = _row(bal, \"Current Assets\", \"Total Current Assets\", col=0)\n    cl0 = _row(bal, \"Current Liabilities\", \"Total Current Liabilities\", col=0)\n    ca1 = _row(bal, \"Current Assets\", \"Total Current Assets\", col=1)\n    cl1 = _row(bal, \"Current Liabilities\", \"Total Current Liabilities\", col=1)\n    f6 = 1 if (ca0 and cl0 and ca1 and cl1 and (ca0/cl0) > (ca1/cl1)) else 0\n\n    sh0 = _row(bal, \"Share Issued\", col=0);  sh1 = _row(bal, \"Share Issued\", col=1)\n    f7 = (1 if sh0 <= sh1 else 0) if (sh0 and sh1) else 1",
+     "why": "Piotroski F1-F7 from yfinance rows; note the asymmetric missing-data handling (missing LTD -> 0, missing shares -> pass)."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "TradingView open-source Darvas Box scripts (e.g. 'Auto Darvas Boxes')",
+     "kind": "tool",
+     "url": "https://cn.tradingview.com/script/kYuCIxXq-Auto-Darvas-Boxes",
+     "overlap": "Same box-top/box-bottom breakout logic, with alerts."
+    },
+    {
+     "name": "Screener.in",
+     "kind": "commercial",
+     "url": "https://www.screener.in/",
+     "overlap": "India-wide Piotroski/ROCE/sales-growth screens without code; covers the India fundamental stage."
+    },
+    {
+     "name": "Mukherjea, Coffee Can Investing (book summary, Edelweiss MF)",
+     "kind": "official",
+     "url": "https://www.edelweissmf.com/investor-insights/book-summaries/coffee-can-investing-by-saurav-mukherjea",
+     "overlap": "Defines the Coffee Can filter (10%/yr revenue growth and 15% ROCE over a decade) that the code approximates with 4 years of data."
+    },
+    {
+     "name": "Piotroski (2000)",
+     "kind": "paper",
+     "url": "https://doi.org/10.2307/2672906",
+     "overlap": "Original F-score definition re-implemented in every scan file."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "A stitched Darvas+Piotroski+Coffee Can pipeline over yfinance; each stage is commodity, the combination is a personal screen rather than new ground.",
+   "change_since_aug": "Aug 'multi-market screeners: crowded' confirmed; newly found that the 1-year/200-DMA and 6-criterion Coffee Can claims do not hold in the India/JP code."
+  },
+  {
+   "repo": "event-driven-stock-analysis",
+   "does": "A FastAPI + React/TypeScript + K8s scaffold whose working parts are an OHLCV loader (yfinance -> PostgreSQL), Cassandra/Postgres clients and schemas, and a 63-line in-process pub/sub EventBus; every portfolio, risk, rebalancing, alert and reporting service method raises NotImplementedError.",
+   "claims_vs_code": [
+    {
+     "claim": "'production-ready architecture ... with real-time risk management and automated rebalancing'.",
+     "evidence": "31 NotImplementedError stubs across services/ (risk_calculator.py 6, alert_engine.py 9, reporting.py 8, rebalancing_engine.py 5, portfolio_analyzer.py 3) plus 14 in routers/; e.g. calculate_volatility/VaR/beta/Sharpe all raise (risk_calculator.py:24-129)."
+    },
+    {
+     "claim": "Portfolio targets: 10-11% CAGR, Sharpe >0.70, max DD -22%, '3.0-3.6X Sharpe improvement', '$100K-$150K annual savings'.",
+     "evidence": "No backtest, optimisation or cost model in the code produces these numbers; the rebalancing cost estimator is a stub (rebalancing_engine.py:113-131)."
+    },
+    {
+     "claim": "13 test files test risk metrics and portfolio calculations.",
+     "evidence": "tests/unit_test_risk_metrics.py defines its own RiskMetricsCalculator class inside the test file and tests that, not the service; the services under test would raise NotImplementedError."
+    },
+    {
+     "claim": "Loader feature list: 'Currency normalization (INR, USD, EUR, JPY, KRW, GBP, BRL, CNY)'.",
+     "evidence": "load_historical_data.py only records a currency code per market (lines 66-131, 363); no FX conversion is performed."
+    }
+   ],
+   "maturity": "thin",
+   "maturity_note": "11k LOC but the analytical core is stubs; real code = loader, DB clients, schema, event bus, UI shells; CI workflow exists; heavy TOGAF/phase docs; last commit 2026-10-12.",
+   "snippets": [
+    {
+     "path": "backend/events/event_bus.py",
+     "lines": "36-55",
+     "lang": "python",
+     "code": "    def __init__(self, max_history: int = 100):\n        self._subscribers: Dict[str, List[Callable]] = {}\n        self._history: Deque[MarketEvent] = deque(maxlen=max_history)\n\n    def subscribe(self, event_type: str, callback: Callable) -> None:\n        self._subscribers.setdefault(event_type, []).append(callback)\n\n    def unsubscribe(self, event_type: str, callback: Callable) -> None:\n        subscribers = self._subscribers.get(event_type, [])\n        if callback in subscribers:\n            subscribers.remove(callback)\n\n    async def publish(self, event: MarketEvent) -> None:\n        self._history.append(event)\n        callbacks = self._subscribers.get(event.type, []) + self._subscribers.get(\"*\", [])\n        for callback in callbacks:\n            result = callback(event)\n            if inspect.isawaitable(result):\n                await result\n",
+     "why": "The namesake 'event-driven' core: an in-process dict-of-callbacks pub/sub with a bounded history - no broker, no persistence."
+    },
+    {
+     "path": "backend/services/risk_calculator.py",
+     "lines": "24-40",
+     "lang": "python",
+     "code": "    def calculate_volatility(self, portfolio_id: int) -> VolatilityResponse:\n        \"\"\"\n        Calculate portfolio volatility (standard deviation).\n\n        Args:\n            portfolio_id: Portfolio identifier\n\n        Returns:\n            VolatilityResponse with volatility metrics\n        \"\"\"\n        # TODO: Implement volatility calculation\n        # - Fetch historical returns for all holdings\n        # - Calculate portfolio returns using weights\n        # - Compute annualized volatility (std dev * sqrt(252))\n        # - Calculate daily volatility\n        # - Return VolatilityResponse\n        raise NotImplementedError(\"Volatility calculation not implemented\")",
+     "why": "Representative of every analytics service: a docstring, a TODO plan and NotImplementedError."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Ghostfolio",
+     "kind": "tool",
+     "url": "https://github.com/ghostfolio/ghostfolio",
+     "overlap": "Working open-source multi-account portfolio tracker with time-weighted returns and risk analysis - what this repo's stubs describe."
+    },
+    {
+     "name": "PyPortfolioOpt",
+     "kind": "library",
+     "url": "https://pyportfolioopt.readthedocs.io/",
+     "overlap": "Mean-variance, Black-Litterman and HRP allocation that the rebalancing engine would need."
+    },
+    {
+     "name": "OpenBB Platform",
+     "kind": "tool",
+     "url": "https://pypi.org/project/openbb/",
+     "overlap": "Open-source multi-provider market data + REST API layer covering the loader/API surface."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "An architecture document with scaffolding; mature open-source portfolio trackers already do what the stubs promise.",
+   "change_since_aug": "Not individually covered in Aug (inside 'and 9 more'). New: README 'production-ready' is contradicted by 45 NotImplementedError stubs."
+  },
+  {
+   "repo": "stock-portfolio-evaluator",
+   "does": "Root package: parses INDmoney/CSV holdings and scores BUY/HOLD/SELL from a points rule using unrealised return, a hardcoded sector-constant '3-month gain potential', and a 'newsvendor' cost term. A second, different package vendored under from-global-market-research-platform/ fits mean/sd of log returns and derives stop-loss/target bands as anchor*exp(mu_h +/- k*sigma_h), with 24 unit tests.",
+   "claims_vs_code": [
+    {
+     "claim": "'Newsvendor Model for inventory optimization' with a 76% critical ratio for optimal decision-making.",
+     "evidence": "Root models.py computes CR=Cu/(Cu+Co) but never uses it as a quantile of any distribution: optimal_fraction = CR + expected_price_change clipped to [0,1] (models.py:87); the price_volatility argument is unused. The vendored version uses Cu and Co as sigma multipliers (vendored models.py:89-90); CF is only reported. Neither solves the newsvendor problem (F^-1(CR))."
+    },
+    {
+     "claim": "'3-Month Gain Potential estimation using momentum and sector analysis'.",
+     "evidence": "estimate_3month_gain_potential returns 0.03 + fixed sector constants + a boost that is contrarian (losers +8%, winners -5%) (models.py:144-168); no price data is used."
+    },
+    {
+     "claim": "'See DOCUMENTATION.md'; 'MIT License - see LICENSE file'.",
+     "evidence": "Neither DOCUMENTATION.md nor LICENSE exists in the repo."
+    },
+    {
+     "claim": "Single tool.",
+     "evidence": "Two divergent copies of stock_evaluator/ (all 6 modules differ); tests at root target the root package (6 tests), the richer 24-test suite only covers the vendored copy."
+    }
+   ],
+   "maturity": "working-prototype",
+   "maturity_note": "Two parallel packages, 30 unit tests total on synthetic data, no CI; heuristic not model-based scoring in the installable root package.",
+   "snippets": [
+    {
+     "path": "stock_evaluator/models.py",
+     "lines": "76-88",
+     "lang": "python",
+     "code": "        period_fraction = holding_period_months / 12\n        period_holding_cost = self.holding_cost_rate * period_fraction\n        holding_cost_per_share = stock_price * period_holding_cost\n        shortage_cost_per_share = stock_price * self.shortage_cost_rate * period_fraction\n\n        total_cost = (current_quantity * holding_cost_per_share) + \\\n                    (current_quantity * shortage_cost_per_share)\n\n        underage_cost = current_quantity * shortage_cost_per_share\n        overage_cost = current_quantity * holding_cost_per_share\n\n        optimal_fraction = max(0, min(1, self.critical_ratio() + expected_price_change))\n        optimal_quantity = int(current_quantity * optimal_fraction)",
+     "why": "The root 'newsvendor': linear cost terms and optimal_fraction = critical_ratio + expected change - not the critical-fractile quantile of Arrow-Harris-Marschak (1951)."
+    },
+    {
+     "path": "from-global-market-research-platform/stock-portfolio-evaluator/stock_evaluator/models.py",
+     "lines": "85-93",
+     "lang": "python",
+     "code": "        h = horizon_days or self.horizon_days\n        mu_h = self.mu_ * h\n        sigma_h = self.sigma_ * (h ** 0.5)\n\n        target_return = mu_h + self.cu * sigma_h\n        stop_return = mu_h - self.co * sigma_h\n\n        target_price = anchor_price * float(np.exp(target_return))\n        stop_loss_price = anchor_price * float(np.exp(stop_return))",
+     "why": "Vendored variant: volatility band around an anchor price with Cu, Co as sigma multiples - closer to an ATR/sigma stop-target rule than to inventory theory."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Newsvendor model (Arrow, Harris & Marschak 1951 formalisation; critical fractile)",
+     "kind": "paper",
+     "url": "https://en.wikipedia.org/wiki/Newsvendor_model",
+     "overlap": "Defines the optimal quantity as the demand quantile at Cu/(Cu+Co); the repo borrows the ratio but not the quantile solution."
+    },
+    {
+     "name": "Ghostfolio",
+     "kind": "tool",
+     "url": "https://github.com/ghostfolio/ghostfolio",
+     "overlap": "Holdings import and P&L tracking that the ingest/portfolio modules provide."
+    },
+    {
+     "name": "PyPortfolioOpt",
+     "kind": "library",
+     "url": "https://pyportfolioopt.readthedocs.io/",
+     "overlap": "Principled position sizing/allocation, versus the repo's points heuristic."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "The newsvendor-for-holdings framing is unusual, but the code does not implement the newsvendor solution, so there is no methodological contribution yet.",
+   "change_since_aug": "Not covered in Aug (new to the sweep). Newsvendor claim overturned by the code."
+  },
+  {
+   "repo": "market-correlation-matrices",
+   "does": "One 80-line script that, per market, pulls the last 252 trading days from a local DuckDB OHLCV warehouse, keeps the top 3,000 symbols by traded value with >=200 returns, computes pairwise-complete Pearson correlation of daily log returns, and writes a float16 dense .npz, a |r|>=0.6 pairs parquet and a summary JSON.",
+   "claims_vs_code": [
+    {
+     "claim": "Artifacts are '~24x smaller' (README).",
+     "evidence": "Script docstring says '~50x smaller' (compute_correlations.py:19); the two claims disagree and neither is measured in code."
+    },
+    {
+     "claim": "data/<MARKET>/ contains the script's outputs.",
+     "evidence": "Tracked files also include nse_/japan_/korea_/europe_correlation_matrix.parquet, which compute_correlations.py does not produce (legacy artifacts)."
+    },
+    {
+     "claim": "Correlations of 'daily log returns' from the warehouse.",
+     "evidence": "Uses raw Close (no split/corporate-action adjustment, compute_correlations.py:44-53); unadjusted splits inject spurious extreme returns. README caveats ETFs but not splits."
+    }
+   ],
+   "maturity": "data-only",
+   "maturity_note": "Thin script (80 LOC) + ~138 MB of committed matrices; no tests; needs the local warehouse.duckdb to rebuild.",
+   "snippets": [
+    {
+     "path": "compute_correlations.py",
+     "lines": "47-57",
+     "lang": "python",
+     "code": "    # liquidity cap\n    top = (df.groupby(\"Symbol\")[\"tv\"].sum().sort_values(ascending=False)\n             .head(N_MAX).index)\n    px = (df[df[\"Symbol\"].isin(top)]\n          .pivot_table(index=\"Date\", columns=\"Symbol\", values=\"Close\", aggfunc=\"last\")\n          .sort_index())\n    rets = np.log(px).diff()\n    rets = rets.loc[:, rets.notna().sum() >= MIN_OBS]\n    corr = rets.corr(min_periods=MIN_OBS)          # pairwise-complete Pearson\n    syms = corr.columns.to_numpy()\n    m = corr.to_numpy(dtype=np.float32)",
+     "why": "The whole method: liquidity cap, pivot, log-return diff, pandas pairwise-complete corr with min_periods - standard pandas usage; the starting point of Mantegna-style correlation networks, which are not built here."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "Mantegna (1999), 'Hierarchical structure in financial markets', Eur. Phys. J. B 11:193-197, doi:10.1007/s100510050929",
+     "kind": "paper",
+     "url": "https://doi.org/10.1007/s100510050929",
+     "overlap": "Builds MSTs/ultrametric taxonomies from exactly this log-return correlation matrix; the repo stops at the matrix."
+    },
+    {
+     "name": "pandas DataFrame.corr / numpy",
+     "kind": "library",
+     "url": "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.corr.html",
+     "overlap": "The computation is a single library call (rets.corr(min_periods=...))."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "A data artifact repo; value is convenience (precomputed multi-market matrices), not method.",
+   "change_since_aug": "Not covered in Aug (new)."
+  },
+  {
+   "repo": "ltm-warehouse-tests",
+   "does": "Scripts that find thin-history tickers in a Postgres LTM warehouse and backfill them via a three-tier cascade (yfinance OHLCV -> NSE via jugaad_data for India -> SerpApi Google Finance close-only into a separate estimate table), with ON CONFLICT DO NOTHING inserts, plus a suffix-aware Yahoo/Google exchange resolver; tested against a throwaway seeded Postgres DB by run_tests.sh.",
+   "claims_vs_code": [
+    {
+     "claim": "Covers 'a symbol tagged under two different countries' as an edge case.",
+     "evidence": "process_row resolves symbol_id with `WHERE symbol = :s` ignoring country (backfill_missing_history.py:174-176) and the test schema has `symbol TEXT UNIQUE` (setup_test_schema.sql), so a two-country symbol cannot exist in the test DB; no test asserts this case."
+    },
+    {
+     "claim": "Tests guard changes to the scripts.",
+     "evidence": "CI (quality-gates.yml) only runs gitleaks/cite checks; tests need a local Postgres via run_tests.sh and are plain scripts with asserts, not run in CI."
+    },
+    {
+     "claim": "Exchange map resolves Google Finance codes correctly.",
+     "evidence": "US maps every bare symbol to NASDAQ (exchange_map.py:18), so NYSE-listed names get a wrong gfinance_query for the SerpApi tier."
+    }
+   ],
+   "maturity": "substantive",
+   "maturity_note": "Small but real: 5 test files over a seeded synthetic schema, dry-run default, dedup logic tested; tests not wired into CI; 4 commits.",
+   "snippets": [
+    {
+     "path": "scripts/exchange_map.py",
+     "lines": "47-58",
+     "lang": "python",
+     "code": "def resolve_ticker(symbol, mapping):\n    \"\"\"Returns (yahoo_ticker, gfinance_query) for a symbol given its\n    country's EXCHANGE_MAP entry, reusing any suffix already present in\n    the symbol instead of appending a second one on top of it.\"\"\"\n    for suffix in sorted(mapping[\"suffix_to_gfinance\"], key=len, reverse=True):\n        if suffix and symbol.endswith(suffix):\n            base = symbol[: -len(suffix)]\n            return symbol, f\"{base}:{mapping['suffix_to_gfinance'][suffix]}\"\n    # no known suffix present — apply the default\n    default_suffix = mapping[\"default_suffix\"]\n    gfinance_exchange = mapping[\"suffix_to_gfinance\"].get(default_suffix) or mapping[\"suffix_to_gfinance\"][\"\"]\n    return f\"{symbol}{default_suffix}\", f\"{symbol}:{gfinance_exchange}\"",
+     "why": "Suffix-aware ticker resolution that never double-appends (avoids '3696.HK.HK') - the concrete edge case the harness exists to protect."
+    },
+    {
+     "path": "scripts/backfill_missing_history.py",
+     "lines": "180-194",
+     "lang": "python",
+     "code": "    fact_dates = existing_dates(conn, country, symbol_id, FACT_TABLE)\n\n    hist = None\n    try:\n        hist = fetch_yahoo(row[\"yahoo_ticker\"])\n    except Exception as e:\n        note_yahoo = f\"yahoo error: {e}\"\n    else:\n        note_yahoo = None\n\n    if hist is not None:\n        added = insert_ohlcv_rows(conn, country, symbol_id, hist, fact_dates) if apply_changes else \\\n            sum(1 for idx in hist.index if (idx.date() if hasattr(idx, \"date\") else idx) not in fact_dates)\n        time.sleep(sleep_s)\n        return {\"symbol\": symbol, \"country\": country, \"source\": \"yahoo\", \"rows_added\": added, \"note\": \"\"}",
+     "why": "Tier-1 of the cascade: dedup against existing fact dates, dry-run counts vs real inserts."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "yfinance",
+     "kind": "library",
+     "url": "https://github.com/ranaroussi/yfinance",
+     "overlap": "Tier-1 data source used directly."
+    },
+    {
+     "name": "jugaad-data",
+     "kind": "library",
+     "url": "https://pypi.org/project/jugaad-data",
+     "overlap": "Tier-2 NSE history source (stock_df) used directly."
+    },
+    {
+     "name": "pandera / Great Expectations",
+     "kind": "library",
+     "url": "https://endjin.com/blog/a-look-into-pandera-and-great-expectations-for-data-validation",
+     "overlap": "General-purpose data-validation frameworks; the repo instead tests its own backfill logic against a seeded DB."
+    }
+   ],
+   "verdict": "n/a",
+   "verdict_note": "Internal infra/test harness for a private warehouse; no survey question.",
+   "change_since_aug": "Not covered in Aug (new)."
+  },
+  {
+   "repo": "colab-market-fundamentals",
+   "does": "A single Colab notebook (collect.ipynb, 5 code cells) that reads tickers.csv, fetches yfinance income/balance/cashflow lines through a curl_cffi Chrome-impersonating session with throttle/retry and 8 threads, writes per-market parquet every 3 minutes and zips it, skipping the US.",
+   "claims_vs_code": [
+    {
+     "claim": "'collects dated multi-market fundamentals' (point-in-time framing).",
+     "evidence": "The `filed` date is synthetic: fiscal-year-end + 90 days for every market (collect.ipynb cell 3, line 50); no actual filing/announcement dates are collected."
+    },
+    {
+     "claim": "'~5y of dated annual fundamentals'.",
+     "evidence": "Depth is whatever yfinance returns for annual statements (typically ~4 years); no code requests or verifies 5 years."
+    },
+    {
+     "claim": "notebooks/colab_test.ipynb 'code smoke test'.",
+     "evidence": "The repo has no .py files, so the smoke test byte-compiles nothing; it does not execute collect.ipynb."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "One notebook (~120 lines of code), no functions outside it, no tests; output parquet not in repo.",
+   "snippets": [
+    {
+     "path": "collect.ipynb",
+     "lines": "cell 3, lines 43-51 (notebook-cell-relative)",
+     "lang": "python",
+     "code": "            fy = sorted({d for s in ser.values() for d in s})\n            sym = tk.replace('.NS','').replace('.BO','').upper() if bare else tk.upper()\n            out=[]\n            for d in fy:\n                row={'ticker':sym,'fy_end':d.strftime('%Y-%m-%d')}\n                for f,s in ser.items():\n                    if d in s: row[f]=float(s[d])\n                row['filed']=(d+pd.Timedelta(days=90)).strftime('%Y-%m-%d')\n                out.append(row)",
+     "why": "Per-fiscal-year row assembly; the `filed` field is fy_end+90 days, a lag assumption rather than a point-in-time filing date (contrast SEC Financial Statement Data Sets, which carry real filing dates)."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "yfinance",
+     "kind": "library",
+     "url": "https://github.com/ranaroussi/yfinance",
+     "overlap": "The notebook is a resilient batch wrapper around yfinance Ticker.income_stmt/balance_sheet/cashflow."
+    },
+    {
+     "name": "SEC Financial Statement Data Sets (DERA)",
+     "kind": "dataset",
+     "url": "https://www.sec.gov/files/financial-statement-data-sets.pdf",
+     "overlap": "Free quarterly XBRL statement data with real filing dates for US filers (the market this notebook skips)."
+    },
+    {
+     "name": "OpenBB Platform",
+     "kind": "tool",
+     "url": "https://pypi.org/project/openbb/",
+     "overlap": "Multi-provider fundamentals access layer."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "A Colab-friendly yfinance scraper; the anti-block/checkpoint plumbing is practical but not new, and the PIT dating is an assumption.",
+   "change_since_aug": "Not covered in Aug (new)."
+  },
+  {
+   "repo": "financial-analysis-toolkit",
+   "does": "A pure-Python `finmodel` package (~13.4k LOC in finmodel/, 79 test files, ~670 test functions, pytest in CI) implementing linked 3-statement, unlevered DCF (YEARFRAC stub, XNPV/XIRR, perpetuity+multiple TV, mid-year, reverse DCF, Monte Carlo), LBO (S&U, purchase accounting, tranche amortisation/PIK/sweep, revolver circularity by iteration, XIRR), merger, comps, WACC, an Excel-formula transpiler/evaluator (xlcalc) and ~60 smaller accounting/finance modules; this private copy additionally has CFI authenticated catalog/fetch and scraped CFI description inputs.",
+   "claims_vs_code": [
+    {
+     "claim": "Engines 'reconciled to the spreadsheets cell-for-cell'.",
+     "evidence": "Real for DCF (tests/test_dcf.py asserts EV, TV, IRR to 1e-9 from the example JSON) and 3-statement; the LBO/merger workbook reconciliations are @pytest.mark.skipif when the downloaded workbook is absent (tests/test_lbo_merger.py:43,69), and the proprietary workbooks are not in the repo, so in CI those cell-for-cell checks skip."
+    },
+    {
+     "claim": "dcf.unlevered_tax_schedule is 'the correct ... tax build, with its own independent loss-carryforward chain'.",
+     "evidence": "Bug: on a loss year the carryforward is reset to that year's loss (`loss_cf = ... if e >= 0 else -e`, dcf.py:164) instead of accumulating, so consecutive losses are forgotten: EBIT [-10,-10,15] at 25% yields tax 1.25 instead of 0. The only test (test_lbo_merger.py:75-80) uses a single loss year, so it passes."
+    },
+    {
+     "claim": "README: '651 tests'.",
+     "evidence": "Counted ~673 `def test` functions across 79 files; minor drift, overstated nowhere."
+    }
+   ],
+   "maturity": "substantive",
+   "maturity_note": "Real engines with numeric reconciliation tests and pytest CI; private repo, 60 commits; some workbook-reconciliation tests skip without proprietary downloads.",
+   "snippets": [
+    {
+     "path": "finmodel/dcf.py",
+     "lines": "75-83",
+     "lang": "python",
+     "code": "    taxes = [e * inp.tax_rate for e in inp.ebit]\n    ufcf = [inp.ebit[t] - taxes[t] + inp.da[t] - capex[t] - inp.change_nwc[t] for t in range(n)]\n    ebitda_last = inp.ebit[-1] + inp.da[-1]\n    r, g = inp.discount_rate, inp.perpetual_growth\n    if r <= g:\n        raise ValueError(\"discount rate must exceed perpetual growth rate\")\n    tv_perp = ufcf[-1] * (1 + g) / (r - g)\n    tv_mult = inp.ev_ebitda_multiple * ebitda_last\n    tv = {\"average\": (tv_perp + tv_mult) / 2, \"perpetuity\": tv_perp, \"multiple\": tv_mult}[inp.terminal_method]",
+     "why": "The DCF core is real arithmetic: UFCF = EBIT - tax + D&A - capex - dNWC, Gordon-growth and EV/EBITDA terminal values, then XNPV over dated, stub-scaled flows - not a template."
+    },
+    {
+     "path": "finmodel/lbo.py",
+     "lines": "159-168",
+     "lang": "python",
+     "code": "            for tr, amt in zip(inp.tranches, tr_amounts):\n                row = tranche_rows[tr.name]; b0 = prev_bal[tr.name]\n                sched = amt / tr.amort_years if (tr.amort_years and (t + 1) <= tr.amort_years) else 0.0\n                sched = min(sched, b0)\n                pik = b0 * tr.rate * tr.pik_pct\n                sweep = row[\"sweep\"][t]  # from previous iteration\n                end = b0 - sched - sweep + pik\n                cash_int = (b0 + end) / 2 * tr.rate * (1 - tr.pik_pct)\n                row[\"begin\"][t], row[\"sched\"][t], row[\"pik\"][t], row[\"end\"][t], row[\"cash_interest\"][t] = b0, sched, pik, end, cash_int\n                tot_int += cash_int + pik",
+     "why": "LBO tranche mechanics: scheduled amortisation capped at balance, PIK accrual, cash interest on average balance - inside a fixed-point loop that resolves sweep/revolver circularity like Excel iterative calc."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "FinanceToolkit (JerBouma)",
+     "kind": "library",
+     "url": "https://github.com/JerBouma/FinanceToolkit",
+     "overlap": "Open-source, transparent-formula Python library with 150+ ratios and models (WACC, EVA, Altman Z, Beneish M); overlaps finmodel.ratios/scores/wacc, but has no 3-statement/DCF/LBO builders."
+    },
+    {
+     "name": "formulas (vinci1it2000)",
+     "kind": "library",
+     "url": "https://formulas.readthedocs.io/",
+     "overlap": "Excel formula interpreter/workbook compiler to Python - same job as finmodel/xlcalc.py."
+    },
+    {
+     "name": "pycel",
+     "kind": "library",
+     "url": "https://pypi.org/project/pycel/1.0b19/",
+     "overlap": "Translates spreadsheets into executable Python; older alternative to xlcalc."
+    },
+    {
+     "name": "Damodaran Online (NYU Stern)",
+     "kind": "official",
+     "url": "https://pages.stern.nyu.edu/~adamodar/",
+     "overlap": "Free valuation material; the toolkit's own catalog lists 59 Damodaran files alongside A Simple Model and BIWS workbooks that the LBO/merger engines are reconciled against - same calculations in spreadsheet form."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "Spreadsheet-reconciled, tested Python ports of 3-statement/DCF/LBO/merger are rare in open source (FinanceToolkit stops at ratios); the contribution is breadth plus numeric parity, not new finance.",
+   "change_since_aug": "Not covered in Aug (new). Brief question answered: DCF/LBO/3-statement are genuine computations with reconciliation tests, not templates."
+  },
+  {
+   "repo": "financial-analysis-toolkit-public",
+   "does": "Public snapshot of the same finmodel package: 408 of 409 tracked paths are shared with the private repo and all but 6 shared files are byte-identical; the differences strip CFI authentication/signed-URL fetching and scraped CFI page content (catalog.py, cli.py, paid_templates.py, README, docs/PAID_TEMPLATES.md, HOW_TO_USE_WITH_AI.md), and 4 private catalog files (catalog.json/.md, cfi_dashboard_raw.txt, paid_templates_raw.json) are absent.",
+   "claims_vs_code": [
+    {
+     "claim": "Description: 'comps/precedents/DCF/LBO/merger models, SEC EDGAR reader, sector-tuning, Excel formula engine validated against real company data'.",
+     "evidence": "Engines exist and are identical to the private repo (dcf.py, lbo.py, three_statement.py, xlcalc.py, edgar.py unchanged); 'validated' holds for the DCF/3-statement tests, while LBO/merger workbook checks skip without downloaded workbooks (tests/test_lbo_merger.py:43,69)."
+    },
+    {
+     "claim": "Same NOL-carryforward claim as private repo.",
+     "evidence": "Identical bug in finmodel/dcf.py:154-165 (consecutive losses not accumulated)."
+    }
+   ],
+   "maturity": "substantive",
+   "maturity_note": "Same code and ~670 tests as private; pytest CI plus quality-gates workflow (extra .github file); 49 commits.",
+   "snippets": [
+    {
+     "path": "finmodel/dcf.py",
+     "lines": "154-165",
+     "lang": "python",
+     "code": "def unlevered_tax_schedule(ebit: Sequence[float], tax_rate: float) -> List[float]:\n    \"\"\"The correct 'as if all-equity-financed' tax build, with its own independent loss-carryforward chain (real\n    NOLs are tracked on EBIT alone, not on EBIT-less-interest) — the real fix from this toolkit's own\n    due-diligence pass on a real project-finance model, whose otherwise-unlevered free cash flow was deducting\n    the company's actual, interest-deductible (levered) cash tax bill instead.\"\"\"\n    taxes: List[float] = []\n    loss_cf = 0.0\n    for e in ebit:\n        taxable = max(0.0, e - loss_cf)\n        taxes.append(taxable * tax_rate)\n        loss_cf = max(0.0, loss_cf - e) if e >= 0 else -e\n    return taxes",
+     "why": "Unlevered-tax diagnostic with the NOL reset bug (line 164: `else -e` replaces rather than adds to the carryforward)."
+    },
+    {
+     "path": "finmodel/three_statement.py",
+     "lines": "197-207",
+     "lang": "python",
+     "code": "            R[\"Revenue\"][i] = R[\"Revenue\"][i - 1] * (1 + A[\"revenue_growth\"][f])\n            R[\"Cost of Goods Sold\"][i] = R[\"Revenue\"][i] * A[\"cogs_pct\"][f]\n            R[\"Salaries and Benefits\"][i] = R[\"Revenue\"][i] * A[\"salaries_pct\"][f]\n            R[\"Rent and Overhead\"][i] = A[\"rent\"][f]\n        R[\"Gross Profit\"][i] = R[\"Revenue\"][i] - R[\"Cost of Goods Sold\"][i]\n        R[\"Total Expenses\"][i] = (R[\"Salaries and Benefits\"][i] + R[\"Rent and Overhead\"][i]\n                                  + R[\"Depreciation & Amortization\"][i] + R[\"Interest\"][i])\n        R[\"Earnings Before Tax\"][i] = R[\"Gross Profit\"][i] - R[\"Total Expenses\"][i]\n        if is_fc:\n            R[\"Taxes\"][i] = R[\"Earnings Before Tax\"][i] * A[\"tax_rate\"][f]\n        R[\"Net Earnings\"][i] = R[\"Earnings Before Tax\"][i] - R[\"Taxes\"][i]",
+     "why": "Forecast-year income statement driven by ratio assumptions; ties into BS/CF and a balance check at lines 241-246 - a real linked model."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "FinanceToolkit (JerBouma)",
+     "kind": "library",
+     "url": "https://github.com/JerBouma/FinanceToolkit",
+     "overlap": "Ratios/models library; no linked 3-statement or LBO engines."
+    },
+    {
+     "name": "formulas (vinci1it2000)",
+     "kind": "library",
+     "url": "https://formulas.readthedocs.io/",
+     "overlap": "Excel-formula compilation equivalent to xlcalc.py."
+    },
+    {
+     "name": "financial-analysis-toolkit (private twin)",
+     "kind": "tool",
+     "url": "https://github.com/herrrickshaw/financial-analysis-toolkit",
+     "overlap": "~99% identical; differs only in CFI-auth/scrape features (6 files, ~60 changed lines)."
+    }
+   ],
+   "verdict": "adjacent",
+   "verdict_note": "The public copy is the one that matters for the survey; same contribution as the private repo minus CFI-gated fetching.",
+   "change_since_aug": "Not covered in Aug (new). Overlap measured: 408/409 shared paths, 6 differing files."
+  },
+  {
+   "repo": "karz",
+   "does": "data_validator.py walks a hardcoded local directory, loads every parquet/CSV, applies simple checks (nulls>10%, duplicates, high<low, >10 date gaps, staleness) with score 1-0.1*errors, compares close prices for the first 20 shared symbols x 5 dates, and regex-greps up to 50 .py files for leakage patterns; data_config.py holds fixed 2015-21/2022/2023-24H1 train/val/test splits; two backtest scripts compare two hardcoded weight vectors on a precomputed score file.",
+   "claims_vs_code": [
+    {
+     "claim": "'Validates 100% of data exhaustively' / '0 cross-source discrepancies >2%'.",
+     "evidence": "Cross-source check samples the first 20 common symbols and 5 dates each (data_validator.py:361,383); leakage scan reads only the first 50 .py files (line 430). Zero discrepancies over that sample is not exhaustive."
+    },
+    {
+     "claim": "'Discovers Kaggle datasets' / cross-source verification incl. Kaggle.",
+     "evidence": "KaggleDataIntegrator.discover_relevant_datasets returns a hardcoded list of 3 datasets with invented 'records'/'last_updated' fields (data_validator.py:584-609, comment 'would be fetched from Kaggle API in production')."
+    },
+    {
+     "claim": "'F1-optimized weights (karz branch)'.",
+     "evidence": "OPTIMIZED_WEIGHTS are hardcoded constants (backtest_weight_optimization.py:54-63); no optimisation or F1 search code exists in the repo."
+    },
+    {
+     "claim": "'Production Ready' badge; 9M+ records / 40 sources / 86% quality score.",
+     "evidence": "No tests; base_path hardcoded to /Users/umashankar/Downloads/code/python_files (data_validator.py:120); stats come from a local run not reproducible here; TEST_END fixed at 2024-06-30 ('always update')."
+    },
+    {
+     "claim": "Leakage detection.",
+     "evidence": "Regex heuristics (e.g. any `.shift(-N)`) flag legitimate forward-return label construction as leakage, all at severity 'low' (lines 413-446)."
+    }
+   ],
+   "maturity": "scripts-only",
+   "maturity_note": "~1.75k LOC of heuristic checks plus 8 Markdown guides; no tests; CI = secrets/citation gates; 5 commits.",
+   "snippets": [
+    {
+     "path": "data_validator.py",
+     "lines": "356-364",
+     "lang": "python",
+     "code": "        # Check symbols that appear in multiple sources\n        common_symbols = {s: sources for s, sources in all_symbols.items() if len(sources) > 1}\n\n        print(f\"  • Checking {len(common_symbols)} symbols across sources...\")\n\n        for symbol, source_names in list(common_symbols.items())[:20]:  # Sample check\n            try:\n                dfs = []\n                for sname in source_names:",
+     "why": "The 'exhaustive' cross-source check iterates only the first 20 shared symbols - sampling, not exhaustive validation as pandera/Great Expectations suites would run."
+    },
+    {
+     "path": "data_validator.py",
+     "lines": "584-592",
+     "lang": "python",
+     "code": "        # These would be fetched from Kaggle API in production\n        datasets = [\n            {\n                \"title\": \"NSE/BSE Historical Stock Data\",\n                \"url\": \"kaggle.com/datasets/rohanrao/nifty50-stock-market-data\",\n                \"records\": 1_500_000,\n                \"last_updated\": \"2024-06-30\",\n                \"coverage\": \"India (NSE/BSE)\",\n            },",
+     "why": "Kaggle 'discovery' is a hardcoded list, not an API call."
+    }
+   ],
+   "prior_art": [
+    {
+     "name": "pandera",
+     "kind": "library",
+     "url": "https://endjin.com/blog/a-look-into-pandera-and-great-expectations-for-data-validation",
+     "overlap": "Declarative DataFrame schemas and checks (nulls, ranges, custom lambdas) - covers DataValidationRules.validate_dataframe."
+    },
+    {
+     "name": "Great Expectations (GX Core)",
+     "kind": "library",
+     "url": "https://www.datacamp.com/tutorial/great-expectations-tutorial",
+     "overlap": "Expectation suites, batch validation and data docs - covers data_validator's per-source checks and reporting."
+    },
+    {
+     "name": "Bailey & Lopez de Prado (2014), Deflated Sharpe Ratio",
+     "kind": "paper",
+     "url": "https://papers.ssrn.com/abstract=2460551",
+     "overlap": "Principled treatment of backtest overfitting that karz's fixed date split only partially addresses."
+    }
+   ],
+   "verdict": "crowded",
+   "verdict_note": "Heuristic data-quality scripts; mature validation frameworks exist and the headline stats are not reproducible from the repo.",
+   "change_since_aug": "Aug survey excluded karz for lacking a description; now covered - README claims (exhaustive, Kaggle discovery, F1-optimised, production-ready) are not backed by code."
+  }
+ ]
+}
