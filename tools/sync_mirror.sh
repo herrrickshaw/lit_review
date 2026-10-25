@@ -24,7 +24,7 @@ if [ -z "$(g status --porcelain)" ]; then echo "SYNC: no changes, nothing commit
 # 3. secret scan of the lines ADDED today in .md files (task/ excluded: it holds this pattern verbatim).
 #    Any hit -> unstage, print the hits, stop; re-run with --prose-ok only after reading every hit.
 g add -A || { echo "SYNC FAILED: git add"; exit 0; }
-HITS=$(g diff --cached -U0 -- '*.md' ':(exclude)task/**' | grep -E '^\+' | grep -v '^+++' \
+HITS=$(g diff --cached -U0 --src-prefix=a/ --dst-prefix=b/ -- '*.md' ':(exclude)task/**' | grep -E '^\+' | grep -vE '^\+\+\+ (b/|/dev/null)' \
        | grep -niE 'api[_-]?key|secret|password|passwd|token|bearer|BEGIN [A-Z ]*PRIVATE KEY|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{20,}|xox[baprs]-|AIza[0-9A-Za-z_-]{35}')
 if [ -n "$HITS" ] && [ $PROSE_OK -eq 0 ]; then
   g reset -q
