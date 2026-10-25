@@ -13,11 +13,11 @@ set -u
 die() { echo "repo_read: $*" >&2; exit 2; }
 [ $# -ge 2 ] || die "usage: tree|file|grep <repo> ... | localgrep <regex> <path> [glob] | ls <dir>"
 cmd=$1
-# A directory is resolved whole (cd + pwd -P), so a trailing ".." or a symlinked directory
-# cannot name something outside the roots; only a file keeps its basename appended.
+# Paths are resolved whole (directories via cd + pwd -P, files via realpath), so a trailing "..",
+# a symlinked directory or a symlinked file cannot name something outside the roots.
 inroots() { local r
   if [ -d "$1" ]; then r=$(cd "$1" 2>/dev/null && pwd -P) || return 1
-  else r=$(cd "$(dirname "$1")" 2>/dev/null && pwd -P) || return 1; r=$r/$(basename "$1"); fi
+  else r=$(realpath "$1" 2>/dev/null) || return 1; fi   # files too: a symlinked file must not point outside
   case $r in "$HOME"/market-pipeline/*|"$HOME"/market-pipeline|"$HOME"/masaladeutsch-archive/*|"$HOME"/masaladeutsch-archive|/Users/Shared/lit_review/*|/Users/Shared/lit_review) return 0;; esac; return 1; }
 if [ "$cmd" = localgrep ]; then
   [ $# -ge 3 ] || die "usage: localgrep <regex> <path> [glob]"
