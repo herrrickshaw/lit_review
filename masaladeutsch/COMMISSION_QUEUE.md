@@ -566,3 +566,232 @@ moved above. Read this section before picking anything from Open.)*
       Extends: `577-of-indias-plant-variety` (2026-09-17). Area no longer zero-coverage;
       manifest dedup 2026-10-09: 346 posts, 4 under Seeds & Plant Genetics, none on issuance
       volume.
+
+### 2026-10-26 batch: ministry documents published Sep–Oct 2026
+
+Found through the ministry-by-ministry document index (95,995 documents across 85 union
+ministry and department sites, `/Users/Shared/india_ministry_sites_2026-10-26/`), filtered to
+substantive documents dated September–October 2026 on the blog's beats. Each primary document
+below was downloaded and read (scanned ones by OCR); local copies are in that folder's
+`article_sources/`. Manifest dedup 2026-10-26: 420 posts, none on any of the ten; none in this
+queue or SOURCE_REGISTER.
+
+- [ ] India is ordering captive coal plants to run flat out.
+      Source: Ministry of Power, directions under Section 11 of the Electricity Act, 2003 to
+      generating companies owning captive plants, 25 Sep 2026
+      (https://powermin.gov.in/static/uploads/2026/09/1c9e465d38785fe239f2aef55220d076.pdf):
+      captive coal plants of 50 MW and above to "operate and generate power to the maximum
+      extent of their available capacity" and offer surplus through the power exchanges; plant
+      list in the annexure. Same day: Section 11 directions to the CGPL (Mundra) imported-coal
+      plant extended to 31 Dec 2026, after earlier validity to 30 Jun and 30 Sep 2026
+      (https://powermin.gov.in/static/uploads/2026/09/5eab55faac0030c9fe0950ea40c5547e.pdf).
+      Argument: two emergency must-run orders in one day, the third extension for Mundra, show
+      the ministry treating autumn 2026 as a supply squeeze, and captives are now being drafted
+      as merchant capacity.
+      Checks needed: (1) count the annexure (plants, MW) from the PDF; (2) peak demand and
+      shortage data (Grid India daily reports) for Sep–Oct 2026; (3) exchange prices before and
+      after 25 Sep (IEX/PXIL); (4) whether earlier Section 11 captive orders exist and how they
+      ended; (5) Coal Ministry October notes say plant stocks are "stable above 18 MT", so
+      reconcile shortage with stock.
+      Logged: 2026-10-26 from the ministry document index (powermin).
+      Extends: `the-ministry-of-power-published-two` (2026-09-19).
+
+- [ ] India now has two coal exchanges waiting for a licence.
+      Source: Coal Controller Organisation notices inviting stakeholder suggestions under rule
+      8(1) of the Coal Exchange Rules, 2026 (notified 4 Jun 2026; registration portal live
+      15 Jul 2026) on applications from Indian Coal Exchange Ltd (CIN U66190DL2026PLC467125,
+      incorporated 01/06/2026; notice dated 1 Oct 2026,
+      https://coal.nic.in/sites/default/files/2026-10/15-10-2026a-wn.pdf) and from MCXCEIL
+      (second notice, same listing on coal.nic.in). Context: draft Colliery Control (Amendment)
+      Rules, 2026 consultation (https://coal.nic.in/sites/default/files/2026-10/16-10-2026a-wn.pdf).
+      Argument: exchange trading would be the first price-discovery market for Indian coal,
+      replacing an allocation-and-notified-price system, and both applicants appeared within
+      weeks of the portal opening.
+      Checks needed: (1) owners and promoters of each applicant (MCA filings; MCXCEIL is
+      presumably MCX-linked, confirm); (2) what the Rules allow to be traded and by whom;
+      (3) the 30-day comment window dates; (4) don't call either a licensed exchange until
+      registration is granted.
+      Logged: 2026-10-26 from the ministry document index (coal).
+      Extends: `india-has-auctioned-141-commercial-coal` (2026-10-09).
+
+- [ ] The phone PLI's replacement pays 2.75% and wants the battery made in India.
+      Source: MeitY, Scheme Guidelines, Mobile Phone Manufacturing Scheme, Target Segment-1
+      (gazette CG-DL-E-21082026-275648, 21 Aug 2026; guidelines posted 6 Oct 2026),
+      https://www.meity.gov.in/static/uploads/2026/10/0e56b4295930f4a180b399d440ae3690.pdf
+      (scanned; read by OCR). Para 9: incentive on eligible sales up to the FY24–FY26 average
+      minus baseline at 2.75% (FY27, FY28), 2.5% (FY29, FY30), 2.25% (FY31); additional rates
+      for domestic sourcing of display module 0.30%, camera module 0.30%, enclosure 0.50%,
+      batteries incl. cells 0.20% (USB cables also listed).
+      Argument: the successor to the smartphone PLI is cheaper per rupee of sales and moves the
+      reward from assembly volume to local components, so the question is whether 0.2–0.5% is
+      enough to pull display, camera and cell making into India.
+      Checks needed: (1) re-read para 9.1(ii) rates for sales above the 9.1(i) band (OCR
+      garbled them); (2) total outlay and tenure from the gazette notification;
+      (3) compare with the old PLI's 4–6% rates and actual disbursals; (4) TradeStat imports of
+      the named sub-assemblies (display, camera module, cells).
+      Logged: 2026-10-26 from the ministry document index (meity).
+      Extends: `nine-ministries-one-list-every-company` (2026-08-30).
+
+- [ ] From June, rooftop solar needs Indian cells. Here is who makes them.
+      Source: MNRE, ALMM List-II (solar PV cells), 12th revision dated 08.10.2026,
+      https://mnre.gov.in/static/uploads/2026/10/d1f27eb73e8b4201c6fb42266f109bdc.pdf
+      (text PDF; manufacturer, plant, capacity tables); MNRE OM 283/53/2026-GRID SOLAR,
+      18 Jul 2026, https://mnre.gov.in/static/uploads/2026/10/ff10a64fa507f3e79029ecabb73c053d.pdf
+      (scanned; OCR): no blanket extension of List-II; net-metering and open-access projects
+      commissioned on or after 18 Jun 2026 must use List-II cells, with a limited window to
+      commission without them until 31 Dec 2026.
+      Argument: the domestic-cell mandate has now started for rooftop and open access, and the
+      enlisted cell capacity, not module capacity, is the number that decides whether projects
+      can be built on time.
+      Checks needed: (1) sum enlisted cell capacity (GW) and count manufacturers from the 12th
+      revision; (2) compare with module List-I capacity and annual installations; (3) how the
+      window's conditions are worded (which projects qualify); (4) earlier revisions for a
+      growth series.
+      Logged: 2026-10-26 from the ministry document index (mnre).
+      Extends: `the-solar-panel-recycling-opportunity` (2026-09-11),
+      `indias-battery-storage-boom-is` (2026-09-11).
+
+- [ ] Power lines now pay more for land than pipelines do.
+      Source: Ministry of Power, Guidelines for payment of compensation for Right of Way for
+      transmission lines, F.No. 3/4/2016-Trans-Part(4), 6 Oct 2026,
+      https://powermin.gov.in/static/uploads/2026/10/0e00977da34887886bdbb05757ec76d9.pdf
+      (scanned; OCR). Compensation based on circle rate unless market rate is higher; market
+      rate = average of three valuations, with the highest and lowest normalised to ±20% of the
+      median (worked illustration gives ₹51.67 lakh); tower-base area compensated at 200% of
+      market value (base = area inside the four legs plus 1 m on each side).
+      Argument: wires have moved to a market-rate, multi-valuer formula with a 2x tower-base
+      premium, so the comparison with the Right-of-User rules for gas pipelines is the story.
+      Checks needed: (1) corridor (line-span) compensation percentage from the full text;
+      (2) earlier versions (14.06.2024, 21.03.2025, 15.12.2025 letters) for what changed;
+      (3) PNG Pipelines (Acquisition of RoU) Act rates for the comparison; (4) whether states
+      must adopt it (it is addressed to Chief Secretaries).
+      Logged: 2026-10-26 from the ministry document index (powermin).
+      Extends: `right-of-user-what-indias-pipeline` (2026-09-05),
+      `green-energy-corridor-iii-is-15-times` (2026-10-09).
+
+- [ ] India is renaming its shrimp regulator and giving it every fish pond.
+      Source: Department of Fisheries, draft Coastal Aquaculture Authority (Amendment) Bill,
+      2026, posted for comments 29 Sep 2026,
+      https://dof.gov.in/static/uploads/2026/10/97be78526647bdf21d0f6e20d8cdf6a7.pdf: renames
+      the Coastal Aquaculture Authority Act, 2005 the "Aquaculture Authority of India Act, 2026"
+      and applies it to "all forms of aquaculture and allied activities in inland, coastal and
+      marine areas".
+      Argument: a regulator built for coastal shrimp farms would take in inland aquaculture,
+      most of India's fish farming by area, so registration, inputs and antibiotic rules written
+      for export shrimp would reach inland farms.
+      Checks needed: (1) the bill's registration, penalty and inputs clauses in full; (2) inland
+      vs coastal aquaculture production and area (Handbook of Fisheries Statistics); (3) the
+      comment deadline; (4) state fisheries acts it would overlap.
+      Logged: 2026-10-26 from the ministry document index (dof).
+      Extends: `indias-shrimp-exports-did-not-collapse` (2026-08-23).
+
+- [ ] To sell meat and milk abroad, India is fencing off FMD-free farms.
+      Source: Department of Animal Husbandry and Dairying, Guidelines for establishment of Foot
+      & Mouth Disease (FMD) Free Compartments in India, 13 Oct 2026,
+      https://www.dahd.gov.in/static/uploads/2026/10/5944939d829dc13828f756bf105513f4.pdf:
+      compartments "with vaccination", under the WOAH Terrestrial Animal Health Code; aims
+      include improving international trade of animal products; national FMD programme
+      WOAH-endorsed since 2015, mass vaccination since 2019.
+      Argument: compartmentalisation lets individual farm clusters prove disease freedom
+      without the whole country being FMD-free, which is the route into markets closed to
+      Indian dairy and meat.
+      Checks needed: (1) which markets accept FMD-free-with-vaccination compartments and for
+      which products; (2) how a compartment is certified, by whom, and the cost; (3) buffalo
+      meat and dairy export destinations (APEDA / TradeStat); (4) any compartment already
+      applied for.
+      Logged: 2026-10-26 from the ministry document index (dahd).
+      Extends: `indias-animal-protein-export-complex` (2026-08-05),
+      `the-milk-india-doesnt-drink-cheese-and` (2026-08-19),
+      `india-imports-whey-protein-its-cheese` (2026-10-22).
+
+- [ ] NITI's data-centre checklist starts with the grid, then the water.
+      Source: NITI Aayog, Data Centre Evaluation Framework to Help States Plan for Sustainable
+      Growth, Oct 2026,
+      https://www.niti.gov.in/sites/default/files/2026-10/Data-Centre-Evaluation-Framework-to-Help-States-Plan-for-Sustainable-Growth.pdf:
+      at site selection, developer, DISCOM and STU to jointly validate a "Power Readiness and
+      Ramp-up Plan" (total campus demand, sanctioned MW, year-wise energisation, substation and
+      transmission); treat large data centres as grid-interactive loads capable of demand
+      response; cites Virginia, Dublin, Amsterdam, Johor and Bangkok as cases where capacity
+      outran grid, water and land.
+      Argument: the central planning body is telling states to price grid and water capacity
+      into data-centre incentives before signing them, the opposite of the current subsidy race.
+      Checks needed: (1) the framework's water (WUE) and PUE thresholds, if any; (2) which state
+      data-centre policies already require any of this; (3) announced DC capacity by state
+      (MW); (4) keep it as a framework for states, not a mandate.
+      Logged: 2026-10-26 from the ministry document index (niti).
+      Extends: `028-unit-diesel-math-behind-indias-data` (2026-08-20).
+
+- [ ] What a kilometre of metro should cost, according to the ministry that pays for it.
+      Source: MoHUA, Report on Benchmarking for Cost Estimation of Metro Rail Projects, and
+      Appraisal Guidelines for Metro Rail Project Proposals, both 30 Sep 2026,
+      https://mohua.gov.in/static/uploads/2026/10/9973d066e44c1e52dff6fed68392e011.pdf: per
+      route-km and per-station norms, e.g. utility shifting (civil and E&M combined) up to
+      ₹6 crore per route-km, multimodal station provision ₹3 crore per station.
+      Argument: published benchmark costs give a yardstick for every sanctioned metro DPR, so
+      the piece can show which approved projects sit above or below the ministry's own norms.
+      Checks needed: (1) full benchmark table (elevated vs underground, per km); (2) price base
+      year of the benchmarks; (3) sanctioned costs and lengths of recent approvals (Cabinet
+      press releases); (4) do not compare across price years without indexing.
+      Logged: 2026-10-26 from the ministry document index (mohua).
+      Extends: `indias-reported-central-project-overrun` (2026-10-09).
+
+- [ ] Round III of coal gasification opens its bids. (Hold until results.)
+      Source: Ministry of Coal (CCT Section), Financial Incentive Scheme for Coal/Lignite
+      Gasification (₹8,500 crore), Round III, Categories II and III, notice of 13 Oct 2026
+      (https://coal.nic.in/sites/default/files/2026-10/13-10-2026a-wn.pdf): technical bids,
+      invited by notification of 13 Aug 2026, opened 14 Oct 2026 via MSTC.
+      Argument: who bids in Round III, and for which products, tests the coal-to-chemicals
+      rankings the blog published in August against real investment decisions.
+      Checks needed: (1) the 13 Aug 2026 bid notification (categories, caps); (2) Round I and II
+      awardees; (3) wait for the technical/financial evaluation results; (4) map any awardee
+      products onto the August post's import-price ranking.
+      Logged: 2026-10-26 from the ministry document index (coal).
+      Extends: `indias-coal-to-chemicals-menu-ranked-by` (2026-08-27).
+
+- **2026-10-26 (later): corrections to three entries in the 2026-10-26 batch, found while drafting.**
+  Drafts of four entries now exist as unpublished Blogger drafts (`out/new-posts-2026-10-26/`,
+  ids in `blogger_drafts.json`): captive coal, phone scheme, ALMM List-II, transmission RoW.
+  - Phone scheme: the headline rates are **5% (FY27, FY28), 4.5% (FY29, FY30), 4% (FY31)** under
+    para 9.1(ii); the 2.75%→2.25% schedule applies only to the 9.1(i) band. Domestic-sourcing
+    top-ups total 1.5% (USB cables 0.20% too) and need ≥25% localisation. Read from page 7 of 18.
+  - ALMM List-II: the mandate applies to net-metering/open-access projects commissioned on or after
+    **1 June 2026**, not 18 June (OCR misread the superscript "st"). Read from the OM's page image.
+  - CGPL (Mundra): 31 Dec 2026 is the **second** extension of the Section 11 order (30 Jun → 30 Sep
+    → 31 Dec), not the third.
+
+- **2026-10-26: four entries of the 2026-10-26 batch are PUBLISHED. Stop treating them as Open.**
+  - Captive coal must-run → `india-ordered-112-captive-coal-plants`
+  - Phone scheme → `the-phone-plis-successor-pays-up-to-5`
+  - ALMM List-II cells → `indias-approved-solar-cell-makers-can`
+  - Transmission RoW → `a-hectare-under-power-line-now-pays`
+  Still open from that batch: coal exchanges, aquaculture authority bill, FMD-free compartments,
+  NITI data-centre framework, metro cost benchmarks, coal gasification Round III (hold for results).
+
+- [ ] India's first revived urea plant has lost ₹7,954 crore to the technology it bought
+      Source: Standing Committee on Chemicals and Fertilisers, report on fertiliser logistics and
+      forced bundling, presented 6 Aug 2026, read via the PRS summary (prsindia.org, fetched
+      2026-10-29). Primary PDF on eparlib.sansad.in: fetch_source.sh returned no content today, so
+      retry, or pull it from the sansad.in committee-reports page. Supporting: RFCL's filed annual
+      accounts (MCA) for FY22–FY25; DoF plant-wise production; the 15th Report (self-sufficiency,
+      1 Dec 2025) for the 27-of-33-plants-over-25-years context.
+      Argument: the five-plant FCIL/HFCL revival the blog has followed since the Parliament-questions
+      piece is now producing checkable numbers, and the first one is a loss. RFCL, running since
+      2021, carries an estimated ₹7,954 crore revenue loss to November 2025 from recurring
+      technology failure, while DAP capacity utilisation nationally fell from 87.5% to 67.8% in
+      three years. The committee's remedy, performance guarantees and warranty obligations in
+      future technology transfers, is an admission that the revival contracts had none.
+      Checks needed: (1) 🔴 fetch the report and quote the RFCL paragraph; establish whether ₹7,954
+      crore is foregone revenue at nameplate or an accounting loss, and against which capacity;
+      (2) RFCL's own filed accounts for the loss and utilisation, never the committee's estimate
+      alone; (3) 67.8% is ten months of 2025-26, say so; (4) name the technology licensor from
+      RFCL's own disclosures, not press; (5) keep forced bundling out of this piece, since
+      `nano-urea-works-as-supplement-and-fails` already covers the FCO amendment; (6) house style:
+      cite `thirty-one-years-of-asking-parliament`, `nature-versus-nurture-indias-fertiliser`
+      (whose plant table calls RFCL "Operational" without qualification) and
+      `the-reactor-nobody-names-how-coal` as the blog's own earlier reporting, never as
+      confirmation; (7) rule 8 applies: the piece needs a "What would fix this" section.
+      Logged: 2026-10-29 from the Standing Committee logistics-report register entry
+      Extends: the fertiliser beat's plant-performance gap. Two published posts ask DoF to publish
+      plant-wise utilisation; this report is the first official answer. Posts dedup 2026-10-29:
+      `Ramagundam` in 3 posts (tables and a pipeline map); the loss figure and DAP utilisation in
+      none.

@@ -1084,3 +1084,25 @@ when it's been run; do not delete history.
       cheap form of 2603.22651's reflexive loop).
     Motivated by: 2605.29586 (9 of 14 runs flagged 95–100% of clean statements; recall
     fell from 100% to 79% on rounding alone) and 2603.22651.
+
+52. **Buy/hold band on the Piotroski gate: measure turnover and net edge of 7/6 against the single ≥7 cut.**
+    `build_mailer.py:488` and `run_existing_screeners_fixed.py:156` both use one threshold (`>= 7`) for
+    entering and for staying. Novy-Marx & Velikov (RFS 2016) show a 10%/20% buy/hold spread cuts
+    turnover 41% and costs 42% on average across 23 anomalies for a small gross give-up, and that it
+    beats both rebalancing less often and restricting the universe (Tables 5, 6). Cheapest test, no
+    new data:
+    - **(a)** In `run_existing_screeners_fixed.py`, add an `exit_score` parameter (default = entry
+      score, so nothing changes) and emit, per signal, the number of weeks a name stays qualified
+      under (7, 7), (7, 6) and (7, 5). Report one-side turnover per month beside the existing
+      1yr-vs-bench.
+    - **(b)** Charge the per-market round-trip bps already at `confusion_matrix_eval.py:33` on every
+      entry and exit under each band, and report net 1yr vs bench for US (n≈1,211) and, if the India
+      F-score panel supports it, IN.
+    - **(c)** Compare against the time hysteresis already in `filter_watchlists.py:41-45` (miss_count
+      > 5 sessions). If the score band removes the same churn, one of the two mechanisms is redundant.
+    🔴 Ordering: item 27's falsy-zero fix (`signal_tracker.py:152,181`) and its rank-IC check come
+    first. This is the rule-based form of item 27's deferred DropN hysteresis, not a replacement for it.
+    Caveat from Azevedo, Hoegner & Velikov (SSRN 4702406, seen via a secondary summary only): for
+    ML-ranked portfolios, mitigation techniques cut turnover without improving net returns. The repo's
+    screens are characteristic sorts, where the band is documented to work, but measure, do not assume.
+    Motivated by: Novy-Marx & Velikov (RFS 2016) Tables 3, 5, 6 (register 2026-10-29).

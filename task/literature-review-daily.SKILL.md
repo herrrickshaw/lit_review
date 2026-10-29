@@ -3,6 +3,19 @@ name: literature-review-daily
 description: "Mon-Sat 07:30 IST: three review tracks plus a sync. A) trading-strategy literature for market-pipeline, triaged and graded into the literature register. B) commissioning sources for the masaladeutsch blog, graded into its source register. D) papers, tools and datasets for the other herrrickshaw repos (energy/process, battery/health, trade policy, civic records, dev tooling, finance toolkits), checked against what each repo's code actually does. C) mirror the review files into the private lit_review repo and push. Read-only in every source repo apart from the named append targets; no backtests run, no blog post published; the Track C mirror is the task's only git write."
 ---
 
+## 🔴 Unattended-run contract (2026-10-29 — read first)
+The 2026-10-24 wrapper fix was not enough: from 10-25 to 10-28 runs still stalled on ad-hoc `cd …; for/grep/curl`
+commands, on `WebSearch`, and on `repo_read.sh grep` patterns containing `|`. Allowed operations, nothing else:
+- **WebSearch / WebFetch** for sources (both pre-approved).
+- **Read**, and **Write/Edit** only on the register/queue/run-log files named below.
+- **Bash, only the three wrappers in the section below** (`fetch_source.sh`, `repo_read.sh`, `sync_mirror.sh`) plus the
+  ledger line. 🔴 **Never put `|`, `;`, `&`, `>`, `<`, `$(` or a backtick in any argument, even inside quotes** — the
+  permission check treats them as a second command and the run hangs (it did on 10-27 with `'capex|CAPEX|…'`). For
+  alternatives make one `localgrep`/`grep` call per term, or use a character class (`'[Cc]apex'`).
+- **Last command:** `bash /Users/umashankar/.claude/scheduled-tasks/_shared/ledger.sh literature-review-daily <OK|DEGRADED|NOOP|FAILED> "<n graded A/B/C, tracks done, sync result>"`
+  (no `|`, backticks or quotes in the summary). DEGRADED when a track was skipped or sync failed; NOOP when nothing new was found.
+No `cd`, `date`, `curl`, `for`, `find`, `cat`, `python3`, Grep/Glob or MCP tools — today's date is in the run header.
+
 Three independent daily reviews, run in order A, B, D, then the C sync. **Track A** extends the market-pipeline literature review (trading techniques). **Track B** finds commissioning material for the masaladeutsch blog (article sources). **Track D** (added 2026-10-24) keeps the code-grounded portfolio review of the other herrrickshaw repos current. They share nothing but this file: different repos, different registers, different grading bars.
 
 This is a small, bounded, DAILY task — not a repeat of a full research sweep. You have no memory of prior runs; everything you need is in the files below.
@@ -20,8 +33,10 @@ no log. Only these operations are pre-approved, so use **only** these:
   `~/masaladeutsch-archive` and `/Users/Shared/lit_review`. **Never** run `cd`, `grep`, `cat`, `wc`, `ls`, `find`,
   `for` loops or pipes yourself: each of those waits for an approval nobody is there to give. Every "grep" in
   this file means `repo_read.sh localgrep` (local) or `repo_read.sh grep <repo>` (GitHub). Recipes:
-  - Is an arXiv ID already logged? `repo_read.sh localgrep '2610\.24289|2609\.19705' /Users/umashankar/market-pipeline/research/LITERATURE_REGISTER.md`
-    — IDs absent from the output are new.
+  - Is an arXiv ID already logged? Read `/Users/umashankar/market-pipeline/research/LITERATURE_REGISTER.md` once and
+    check every candidate ID in it (cheapest), or one call per ID:
+    `repo_read.sh localgrep '2610\.24289' /Users/umashankar/market-pipeline/research/LITERATURE_REGISTER.md` — no output means new.
+    Never join IDs with `|`.
   - Does the pipeline already do X? `repo_read.sh localgrep '<regex>' /Users/umashankar/market-pipeline/code/python_files '*.py'`; cite the file:line it prints.
   - Has the blog covered it? `repo_read.sh localgrep -i`-style matching is not supported, so use a case-class regex
     such as `'[Gg]roundwater'` against `/Users/umashankar/masaladeutsch-archive/meta/manifest.json`.
@@ -32,10 +47,18 @@ no log. Only these operations are pre-approved, so use **only** these:
   `/Users/Shared/lit_review/portfolio/{REPO_LITERATURE_REGISTER.md,REPO_ACTIONS.md}`.
   To append, Read the file then Edit (or Write the whole new day log). No `cat >>`, `printf >>` or heredocs.
 - **Web** with WebSearch and WebFetch (arXiv, Semantic Scholar and the usual government sources are allowed).
-  Never `curl`.
-- **Bash, only these two commands:**
-  - `bash /Users/Shared/lit_review/tools/repo_read.sh tree|file|grep <repo> ...` — Track D's read-only access to
-    any herrrickshaw repo (`tree <repo>`, `file <repo> <path>`, `grep <repo> <regex> [glob]`).
+  Never `curl`. When WebFetch fails on a primary document (403, robot check, empty JS page, PDF it can't
+  read, a paper you only have a DOI for, an EUR-Lex act), use the source-fetch wrapper below before marking
+  the source unavailable. It tries the document's other free routes (repository copy via OpenAlex, EU
+  Publications Office, arXiv PDF, Wayback) and never tries to get past a bot challenge.
+- **Bash, only these three commands:**
+  - `bash /Users/umashankar/bin/fetch_source.sh "<url | doi:10.x/y | celex:32023R0956 | arxiv:2605.19337>"` —
+    prints a JSON summary; if `"ok": true`, **Read** the `text_file` it names (always under
+    `/Users/Shared/source_fetch/<date>/`). Cite the `url` and `route` it reports; if it says
+    `abstract_only`, grade the source as read from its abstract only. If `"ok": false`, log the source as
+    unavailable with the `blocked_hosts` it lists. One call per document, at most ~10 per run.
+  - `bash /Users/Shared/lit_review/tools/repo_read.sh tree <repo>`, `bash /Users/Shared/lit_review/tools/repo_read.sh file <repo> <path>`
+    and `bash /Users/Shared/lit_review/tools/repo_read.sh grep <repo> <regex> [glob]` — Track D's read-only access to any herrrickshaw repo.
   - `bash /Users/Shared/lit_review/tools/sync_mirror.sh "<commit subject>"` — all of Track C.
 - Today's date and weekday are in your context; do not run `date`. Work out the ISO week from the date.
 
