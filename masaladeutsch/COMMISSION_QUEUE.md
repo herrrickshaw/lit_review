@@ -795,3 +795,53 @@ queue or SOURCE_REGISTER.
       plant-wise utilisation; this report is the first official answer. Posts dedup 2026-10-29:
       `Ramagundam` in 3 posts (tables and a pipeline map); the loss figure and DAP utilisation in
       none.
+
+- [ ] India's gas utilities logged 19 lakh piped-gas complaints last year and closed 59%. Three of
+      the ten biggest closed fewer than one in three.
+      Source: PNGRB, Annual Statistical Report 2025-26, Chapter X (Consumer Grievances and
+      Resolutions, pp. 70–76, Tables 10.1–10.6), free PDF at
+      pngrb.gov.in/pdf/e-publication/20260930_PNGRB_Statistical_Booklet.pdf, fetched in full
+      2026-10-30 (local text copy under /Users/Shared/source_fetch/2026-10-30/). Denominators for
+      a per-connection rate: Chapter II state/entity tables in the same report; monthly backing
+      series: PNGRB CGD MIS reports (data-bank page).
+      Argument: the regulator's first statistical report records 19,36,409 PNG and CNG complaints
+      in FY 2025-26 with 59.05% resolved; piped gas, 98.5% of the volume, resolves 58.6% against
+      89.8% for CNG; the monthly PNG resolution rate slid from 68.5% (Jul 2025) to 48.9%
+      (Feb 2026) while monthly complaints more than doubled; and on PNGRB's own four-band scale
+      Green Gas (20.5%), Indian Oil Adani Gas (24.7%), Mahanagar Gas (32.9%) and GAIL India
+      (34.3%) are "Critical". The regulator has published the service failure its own Ombudsman
+      post was waiting for, and the number everyone will quote (19 lakh) is probably a sum of
+      monthly backlogs rather than a count of complaints.
+      Checks needed: (1) 🔴 BLOCKING — Table 10.2 is headed "Complaints Received (including carry
+      forward)"; establish whether the 19.36 lakh total double-counts open complaints month after
+      month (reconcile against the monthly CGD MIS reports, or ask PNGRB's definition) before any
+      volume figure is printed — if it is a stock, say so and lead with the rates; (2) define
+      "resolved" from PNGRB's Consumer Protection / grievance regulations, since the chapter does
+      not; (3) compute complaints per 1,000 billed PNG connections per entity from Chapter II
+      before ranking anyone — IGL's 5.92 lakh is on the largest base; (4) the data are
+      entity-submitted; present entity rates as reported, not audited; (5) read every figure from
+      the rendered PDF tables (the text layer triplicates lines); (6) rule 8 applies: "What would
+      fix this" section — e.g. publish distinct-complaint counts and ageing buckets monthly,
+      define resolution, staff the Ombudsman the ATR post found empty.
+      Logged: 2026-10-30 from the PNGRB Annual Statistical Report 2025-26 register entry
+      Opens: consumer grievance redressal in CGD — `[Cc]omplaint` returns 0 hits in the manifest
+      (2026-10-30). Extends `pngrb-graded-its-own-homework-on-2025` (Ombudsman unstaffed, billing
+      compliance 49%) and `pngrb-wants-prepaid-smart-meters-on`; cite both as the blog's own
+      reporting, never as confirmation.
+
+- **2026-10-30 — two update notes from the same report, not new articles.**
+  - `india-has-132-compressed-biogas-plants` (published 2026-09-23 from the September 2026 ATR:
+    132 plants commissioned, 17 pipeline-connected) now has a year-end primary: PNGRB's report counts 207
+    functional CBG plants, 24 connected (11.6%), 148 (71.5%) with no connectivity planned, and of
+    328 under construction only 2 connected; reported offtake 65.7% cascade, 8.9% pipeline;
+    blending 0.998% against the 1% obligation (Chapter VII, Tables 7.4–7.8). Suggested form: a
+    dated update box; do not rewrite. Check: the ATR and the report count different things
+    ("commissioned" vs "functional"), so say which is which.
+  - Chapter IX (Unified Tariff: three zones to two from July 2025; Jan–Mar 2026 Zone 1 ₹54/MMBTU,
+    Zone 2 ₹102.86, levelised ₹83.94; CNG and PNG-D charged Zone 1 nationwide, worth
+    ₹48.86/MMBTU beyond 300 km; PNGRB's own estimate ~₹1,000 crore a year, ₹1.25–2.50/kg CNG,
+    ₹0.90–1.80/SCM PNG-D) is a possible second piece — no post covers the unified tariff
+    (`[Uu]nified` and `MMBTU` greps, 2026-10-30) — as the price side of
+    `pngrbs-own-committee-found-pipelines`. Check first whether the ₹1,000 crore is a PNGRB
+    estimate only (it is, in the report) and whether any CGD entity has passed the cut through
+    to pump prices (company announcements, not the report).

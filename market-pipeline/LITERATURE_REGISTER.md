@@ -3535,3 +3535,18 @@ Semantic Scholar still lists the same seven hub-citers (2610.24289, 2609.19705, 
 - **Chen & Velikov, "Zeroing In on the Expected Returns of Anomalies" (JFQA)** — Cambridge returned 403; seen only as a search snippet (average anomaly about 8 bps a month net of spreads and decay across 120 anomalies). Already the cost source cited in the 2026-09 entry above (:2214); not re-registered. Fetch before quoting.
 - **2604.17593** (Post-Screening Portfolio Selection) surfaced again on the Thursday search; already registered (:2690). The abs page confirms no costs and no universe stated.
 - **Frazzini, Israel & Moskowitz (2015), "Trading Costs of Asset Pricing Anomalies"** — surfaced again; proprietary execution data, about $1tn of live trades 1998–2011 in 19 markets. Classic, not fetched, not registered; Novy-Marx & Velikov's own text notes its short, large-cap, proprietary sample.
+
+## Added 2026-10-30 (daily task, Friday even-week gap query: point-in-time fundamentals database survivorship bias equity)
+
+Nothing passed triage. Semantic Scholar lists the same seven hub-citers (2610.24289, 2609.19705, 2609.04917, 2608.26990, 2607.19453, 2607.04958, 2606.08285; one `localgrep` per ID, all registered) plus two title-variant duplicates of 2606.08285 with no arXiv id. Three WebSearches (the Friday query; an arXiv-restricted as-reported/restatement variant; a survivorship/emerging-market variant). Every academic hit was already registered: 2603.19380 (:3173) and 2601.13770 (:851). The rest was vendor material, and the two vendor primaries worth reading are bot-blocked. Two fetch_source.sh calls, both failed.
+
+### Doing-right (verified today), recorded because the Friday theme is the repo's own data discipline
+
+- `localgrep 'filing_date'` over `code/python_files` returns hits in 17 files. `pe_bands.py:125-207` renames the warehouse `avail` column to `filing_date`, sorts on it and forward-fills quarterly EPS and PE on filing dates, not period ends. `smallcap_screener.py:104-117` pivots EPS on `filing_date`. `yf_intl_pit_fundamentals.py:235-264` keeps the earliest `filing_date` per `period_end` ("PIT semantics care about when ..."). `pead_sector_spillover_v3.py:97-132` replaces the yfinance date with DART's regulatory filing date for Korea when one exists within the match window. `localgrep 'availab.*lag'` returns 0 hits, which is consistent: availability is a column, not a fixed lag. Queue items 5 and 11 already cover the remaining PIT sites; nothing new to queue.
+
+### Weak / off-scope / unavailable, one line each (triaged, not deep-read)
+
+- **SSRN 7099378** (Ayan Jain, survivorship bias in Indian equities; see :81) — retried today with fetch_source.sh: `papers.ssrn.com` bot-blocked, no Wayback snapshot. Still not assessed.
+- **S&P Capital IQ Quantamental, "Point-in-Time vs Lagged Fundamentals" (2015 research note, spglobal.com PDF)** — fetch_source.sh: `spglobal.com` bot-blocked, no Wayback snapshot. Search summary only: PIT data dated by release date, non-PIT by fiscal period end with an artificial lag, with a factor-result comparison between the two. Vendor research, not read. Companion to the 2019 APAC note logged in the portfolio register on 2026-10-24; both would need a copy from another route before anything is quoted.
+- **tradevodata (dev.to) blog series** on PIT fundamentals, as-reported vs restated data, and survivorship vs lookahead bias — vendor blog, US SEC data only, no published quantification beyond the summary. WEAK, not fetched.
+- **2603.19380** (NIFTY Smallcap 250 survivorship, Ranse) and **2601.13770** (Look-Ahead-Bench, Benhenda) — resurfaced on the Friday search; already registered, not re-reviewed.
