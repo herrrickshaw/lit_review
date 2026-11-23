@@ -20,6 +20,7 @@ def fake_git(monkeypatch):
 
     def run(cmd, capture_output, text, timeout):
         assert cmd[:3] == ["git", "-C", cmd[2]] and cmd[3:] == ["remote", "get-url", "origin"]
+        assert timeout == 10 and capture_output is True and text is True
         v = remotes.get(cmd[2], "")
         if v == "ERR":
             raise subprocess.TimeoutExpired(cmd, timeout)
@@ -177,3 +178,67 @@ def test_offer_prefers_lower_priority_and_ignores_missing_graph(sandbox, fake_gi
     ns["offer"]("late-clone", "/d", str(gj), 1)
     ns["offer"]("ghost", "/d", str(tmp_path / "missing.json"), 0)
     assert ns["by_remote"]["o/r"][2] == "local" and len(ns["by_remote"]) == 1
+
+
+def test_equal_priority_keeps_first_offer(sandbox, fake_git, tmp_path):
+    setup(sandbox, [])
+    ns = sandbox("graphify_merge_direct.py")
+    gj = tmp_path / "g.json"
+    gj.write_text("{}")
+    fake_git["/d"] = "https://github.com/o/r"
+    ns["offer"]("first", "/d", str(gj), 0)
+    ns["offer"]("second", "/d", str(gj), 0)
+    assert ns["by_remote"]["o/r"][2] == "first"
+
+
+def test_shared_symbol_label_length_floor_is_four(sandbox, fake_git):
+    h = sandbox.home
+    batch = []
+    for r in ("a", "b"):
+        write_graph(h, r, [{"id": "1", "label": "abcd"}, {"id": "2", "label": "abc"}])
+        batch.append({"repo": r, "status": "ok"})
+        fake_git[str(h / r)] = f"https://github.com/o/{r}"
+    setup(sandbox, batch)
+    sandbox("graphify_merge_direct.py")
+    assert list(index(sandbox)["shared_symbols"]) == ["abcd"]
+
+
+def test_shared_index_capped_at_200_and_report_at_12(sandbox, fake_git, capsys):
+    h = sandbox.home
+    batch = []
+    for r in ("a", "b"):
+        write_graph(h, r, [{"id": f"n{i}", "label": f"symbol_{i:03d}"} for i in range(205)])
+        batch.append({"repo": r, "status": "ok"})
+        fake_git[str(h / r)] = f"https://github.com/o/{r}"
+    setup(sandbox, batch)
+    sandbox("graphify_merge_direct.py")
+    assert len(index(sandbox)["shared_symbols"]) == 200
+    assert merged(sandbox)["meta"]["shared_symbols"] == 205
+    out = capsys.readouterr().out.split("top reused symbols across repos:")[1]
+    assert len([l for l in out.splitlines() if " in 2 repos:" in l]) == 12
+
+
+def test_report_lists_four_repos_then_ellipsis(sandbox, fake_git, capsys):
+    h = sandbox.home
+    batch = []
+    for i in range(5):
+        write_graph(h, f"r{i}", [{"id": "x", "label": "five_everywhere"}] + ([{"id": "y", "label": "four_only"}] if i < 4 else []))
+        batch.append({"repo": f"r{i}", "status": "ok"})
+        fake_git[str(h / f"r{i}")] = f"https://github.com/o/r{i}"
+    setup(sandbox, batch)
+    sandbox("graphify_merge_direct.py")
+    out = capsys.readouterr().out
+    assert "five_everywhere" in out and "in 5 repos: r0, r1, r2, r3…" in out
+    assert "in 4 repos: r0, r1, r2, r3\n" in out + "\n"
+
+
+def test_edges_read_from_links_key(sandbox, fake_git):
+    h = sandbox.home
+    write_graph(h, "lk", [{"id": "a"}, {"id": "b"}], [{"source": "a", "target": "b"}], key="links")
+    write_graph(h, "ed", [{"id": "a"}, {"id": "b"}], [{"from": "a", "to": "b"}], key="edges")
+    setup(sandbox, [{"repo": "lk", "status": "ok"}, {"repo": "ed", "status": "ok"}])
+    fake_git[str(h / "lk")] = "https://github.com/o/lk"
+    fake_git[str(h / "ed")] = "https://github.com/o/ed"
+    sandbox("graphify_merge_direct.py")
+    got = {(e["repo"], e["source"], e["target"]) for e in merged(sandbox)["edges"]}
+    assert got == {("lk", "lk::a", "lk::b"), ("ed", "ed::a", "ed::b")}

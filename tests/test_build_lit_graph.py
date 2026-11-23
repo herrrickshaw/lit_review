@@ -214,3 +214,44 @@ def test_citation_on_queue_heading_line_is_wired(sandbox):
     ns = build(sandbox, queue="1. **Action** cites scan.py:12 and 2401.00001\n")
     edges = {(e["source"], e["target"], e["kind"]) for e in ns["edges"]}
     assert ("queue::1", "mp::a", "cites") in edges and ("paper::2401.00001", "queue::1", "motivates") in edges
+
+
+def test_resolve_prefers_market_pipeline_over_other_repos(sandbox):
+    code = [node("mp::x", "market-pipeline", "/m/scan.py", "L10"), node("o::y", "other", "/o/scan.py", "L20")]
+    ns = build(sandbox, code=code)
+    assert ns["resolve"]("scan.py", 30)[0]["id"] == "mp::x"
+
+
+def test_done_stamp_searched_in_first_400_body_chars(sandbox):
+    queue = "1. **Early**\n" + "x" * 100 + " **DONE** here\n2. **Late**\n" + "y" * 450 + " **DONE** too late\n"
+    ns = build(sandbox, queue=queue)
+    n = {x["id"]: x for x in ns["nodes"]}
+    assert n["queue::1"]["status"] == "done" and n["queue::2"]["status"] == "open"
+
+
+def test_queue_title_cut_at_120_chars(sandbox):
+    ns = build(sandbox, queue="1. **" + "T" * 200 + "**\n")
+    assert len([x for x in ns["nodes"] if x["id"] == "queue::1"][0]["title"]) == 120
+
+
+def test_source_title_length_floor_and_id_cut(sandbox):
+    src = "### Short\nGrade: **A**\n### EightChr\nGrade: **A**\n### SevenCh\nGrade: **A**\n" + "### " + "L" * 80 + "\nGrade: **C**\n"
+    sandbox.lit.joinpath("masaladeutsch").mkdir(exist_ok=True)
+    ns = build(sandbox)
+    (sandbox.lit / "masaladeutsch" / "SOURCE_REGISTER.md").write_text(src)
+    ns = sandbox("build_lit_graph.py")
+    ids = [x["id"] for x in ns["nodes"] if x["kind"] == "source"]
+    assert "source::EightChr" in ids and "source::SevenCh" not in ids and "source::Short" not in ids
+    long_id = [i for i in ids if i.startswith("source::LLL")][0]
+    assert len(long_id) == len("source::") + 60
+    assert [x["label"] for x in ns["nodes"] if x["id"] == long_id][0] == "L" * 70
+
+
+def test_most_cited_files_capped_at_15_in_meta_and_12_in_report(sandbox, capsys):
+    code = [node(f"c{i}", "market-pipeline", f"/m/file{i:02d}.py", "L1") for i in range(20)]
+    queue = "1. **Item**\n" + " ".join(f"file{i:02d}.py:5" for i in range(20)) + "\n"
+    ns = build(sandbox, queue=queue, register="", code=code)
+    assert len(ns["meta"]["most_cited_files"]) == 15
+    out = capsys.readouterr().out
+    tail = out.split("most-cited files (literature -> code):")[1]
+    assert len([l for l in tail.splitlines() if l.strip()]) == 12

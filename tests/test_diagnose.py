@@ -111,3 +111,58 @@ def test_orphans_and_ungraphed(sandbox, capsys):
     assert "small-repo" not in s4
     s5 = out.split("5. LOCAL REPOS THAT PRODUCED ZERO NODES")[1]
     assert "[timeout]  bad-repo" in s5 and "[missing]  gone" in s5 and "ok-repo" not in s5
+
+
+def test_thin_clone_list_capped_at_15(sandbox, capsys):
+    clones = [{"repo": f"c{i:02d}", "status": "ok", "nodes": i + 1} for i in range(20)]
+    setup(sandbox, [n("a", "r", "x()")], clones=clones)
+    sandbox("diagnose.py")
+    thin = capsys.readouterr().out.split("not real:")[1].split("2. DUPLICATED")[0]
+    assert len([l for l in thin.splitlines() if " nodes  c" in l]) == 15 and "c14" in thin and "c15" not in thin
+
+
+def test_duplicate_list_capped_at_18(sandbox, capsys):
+    nodes = [n(f"{r}::s{i}", r, f"symbol_number_{i:02d}()") for r in ("a", "b", "c") for i in range(25)]
+    setup(sandbox, nodes)
+    sandbox("diagnose.py")
+    s2 = capsys.readouterr().out.split("2. DUPLICATED SYMBOLS")[1].split("3. GOD FILES")[0]
+    assert "named functions defined in >=3 repos: 25" in s2
+    assert len([l for l in s2.splitlines() if " repos  symbol_number_" in l]) == 18
+
+
+def test_god_file_report_capped_at_14_and_repo_needs_8_files(sandbox, capsys):
+    nodes = []
+    for repo in ("r1", "r2"):                                      # 8 files each: 7 small + 1 god -> exactly the minimum
+        for i in range(7):
+            nodes.append(n(f"{repo}::s{i}", repo, f"s{i}()", sf=f"s{i}.py"))
+        nodes += [n(f"{repo}::g{i}", repo, f"g{i}()", sf="god.py") for i in range(50)]
+    nodes += [n(f"w{j}::{i}", f"w{j}", f"w{j}f{i}()", sf="god.py") for j in range(14) for i in range(50)]
+    for j in range(14):                                            # pad each w-repo to 8 files so it is eligible
+        nodes += [n(f"w{j}::p{k}", f"w{j}", f"p{k}()", sf=f"p{k}.py") for k in range(7)]
+    setup(sandbox, nodes)
+    sandbox("diagnose.py")
+    s3 = capsys.readouterr().out.split("3. GOD FILES")[1].split("4. ORPHAN")[0]
+    assert "total flagged: 16" in s3
+    assert len([l for l in s3.splitlines() if "defs (repo median" in l]) == 14
+
+
+def test_orphan_report_floor_60_and_cap_12(sandbox, capsys):
+    nodes = []
+    for i in range(14):
+        nodes += [n(f"o{i}::{k}", f"o{i}", f"f{k}()") for k in range(60)]        # exactly 60 code nodes -> eligible
+    nodes += [n(f"s::{k}", "short", f"f{k}()") for k in range(59)]
+    setup(sandbox, nodes)
+    sandbox("diagnose.py")
+    s4 = capsys.readouterr().out.split("4. ORPHAN DEFINITIONS")[1].split("5. LOCAL")[0]
+    lines = [l for l in s4.splitlines() if "unreferenced defs" in l]
+    assert len(lines) == 12 and "short" not in s4 and "100.0%" in lines[0]
+
+
+def test_shadowed_requires_ok_status_on_both_sides(sandbox, capsys):
+    batch = [{"repo": "dir/a", "status": "ok"}, {"repo": "dir/b", "status": "timeout"}, {"repo": "dir/c", "status": "ok"}]
+    clones = [{"repo": "a", "status": "ok", "nodes": 1}, {"repo": "b", "status": "ok", "nodes": 1},
+              {"repo": "c", "status": "failed", "nodes": 1}]
+    setup(sandbox, [n("x", "a", "f()")], batch=batch, clones=clones)
+    sandbox("diagnose.py")
+    s1 = capsys.readouterr().out.split("2. DUPLICATED")[0]
+    assert "repos with BOTH a local checkout and a gh-clone: 1" in s1
